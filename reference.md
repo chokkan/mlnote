@@ -18,11 +18,6 @@
     + Ian Goodfellow (著), Yoshua Bengio (著), Aaron Courville (著), 岩澤 有祐 (監修), 鈴木 雅大 (監修), 中山 浩太郎 (監修), 松尾 豊 (監修), 味曽野 雅史 (翻訳), 黒滝 紘生 (翻訳), 保住 純 (翻訳), 野中 尚輝 (翻訳), 河野 慎 (翻訳), 冨山 翔司 (翻訳), 角田 貴大 (翻訳). 2018. [深層学習](https://www.amazon.co.jp/%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92-Ian-Goodfellow/dp/4048930621). KADOKAWA.
 + 室田 一雄, 杉原 正顯. 2015. 線形代数Ⅰ. 東京大学工学教程 基礎系 数学, 丸善出版.
 
-## Python
-
-+ 岡崎 直観. 2021. [Python早見帳](https://chokkan.github.io/python/).
-+ 喜多 一, 森村 吉貴, 岡本 雅子. 2021. [プログラミング演習 Python 2021 (Version 2021/10/08)](https://repository.kulib.kyoto-u.ac.jp/dspace/bitstream/2433/265459/1/Version2021_10_08_01.pdf). 京都大学学術レポジトリ.
-
 ## 参考文献
 ```{bibliography}
 ```

@@ -51,7 +51,7 @@ print(w.grad)
 ---
 **オープンソース・プロジェクト** 🎁
 ^^^
-機械学習帳は、[クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ja)のライセンスで公開されているオープンソース・プロジェクトです。不具合報告はGitHubの[issues](https://github.com/chokkan/mlnote/issues)までお願いします。
+機械学習帳は、[クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ja)（プログラム部分以外）および[MITライセンス](https://opensource.org/licenses/MIT)（プログラム部分）で公開されているオープンソース・プロジェクトです。不具合報告はGitHubの[issues](https://github.com/chokkan/mlnote/issues)までお願いします。
 
 :::
 

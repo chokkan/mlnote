@@ -1,0 +1,6 @@
+table p { margin-bottom: 0rem; }
+.table td, .table th { padding: 0.2rem 0.75rem 0.2rem; }
+div.navbar-brand-box a.navbar-brand img { width: 6rem; }
+main.bd-content #main-content div.math { overflow-x: hidden; }
+div.sidebar p, div.margin p {overflow: hidden; }
+main.bd-content #main-content p~div.math { margin-top: 0rem; }

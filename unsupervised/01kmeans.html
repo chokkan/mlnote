@@ -1,0 +1,2402 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10. 非階層的クラスタリング &#8212; 機械学習帳</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://chokkan.github.io/mlnote/unsupervised/01kmeans.html" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="11. 階層的クラスタリング" href="02hac.html" />
+    <link rel="prev" title="9. サポートベクトルマシン" href="../classification/05svm.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="ja">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">機械学習帳</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="この本を検索..." aria-label="この本を検索..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  回帰
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/01sra.html">
+   1. 単回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/02mra.html">
+   2. 重回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/03regularization.html">
+   3. モデル選択と正則化
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/04sgd.html">
+   4. 勾配法によるパラメータ推定
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  分類
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/01binary.html">
+   5. 線形二値分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/02multi.html">
+   6. 線形多クラス分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/03nn.html">
+   7. ニューラルネットワーク (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/04nntrain.html">
+   8. ニューラルネットワーク (2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/05svm.html">
+   9. サポートベクトルマシン
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  教師無し学習
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   10. 非階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02hac.html">
+   11. 階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03pca.html">
+   12. 主成分分析 (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04pca2.html">
+   13. 主成分分析 (2)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  付録
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation.html">
+   表記
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reference.html">
+   参考文献・謝辞
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="ナビゲーションを切り替え" aria-controls="site-navigation"
+                title="ナビゲーションを切り替え" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/unsupervised/01kmeans.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="ソースファイルをダウンロード" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/chokkan/mlnote"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="ソースリポジトリ"><i
+                    class="fab fa-github"></i>リポジトリ</button></a>
+        <a class="issues-button"
+            href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Funsupervised/01kmeans.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="問題を開く"><i class="fas fa-lightbulb"></i>未解決の問題</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="全画面モード"
+        title="全画面モード"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/unsupervised/01kmeans.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="発売 Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/unsupervised/01kmeans.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="発売 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="発売 Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> 目次
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   10.1. クラスタ分析
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#k-means">
+   10.2. K-meansクラスタリング
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lloyd">
+   10.3. Lloydのアルゴリズム
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id14">
+   10.4. K-meansの目的関数の最小化
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#scikit-learn">
+   10.5. scikit-learnによる実装
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id16">
+   10.6. クラスタ数の選び方
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id17">
+   10.7. ボロノイ図
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id18">
+   10.8. K-meansの特徴
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id19">
+   10.9. 応用: 色数の削減
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id20">
+   10.10. 確認問題
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1><span class="section-number">10. </span>非階層的クラスタリング<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
+<span class="kn">import</span> <span class="nn">matplotlib.animation</span> <span class="k">as</span> <span class="nn">anim</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%83%93%E3%83%83%E3%82%B0%E3%83%95%E3%82%A1%E3%82%A4%E3%83%96_(%E5%BF%83%E7%90%86%E5%AD%A6)">ビッグ・ファイブ</a>理論によると、人間のパーソナリティは、開放性（openness to experience）、勤勉性（conscientiousness）、外向性（extraversion）、協調性（agreeableness）、神経症傾向（neuroticism）の５つ因子の組み合わせで表現できるという。この理論に基づくパーソナリティ診断の質問票が開発されている。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://openpsychometrics.org/tests/IPIP-BFFM/">Big Five Personality Test (IPIP Big-Five Factor Markers)</a> <span id="id2">[<a class="reference internal" href="../reference.html#id16">Goldberg, 1992</a>]</span></p></li>
+<li><p><a class="reference external" href="http://www.f.waseda.jp/oshio.at/research/scales/TIPI-J.pdf">TIPI日本語版</a> <span id="id3">[<a class="reference internal" href="../reference.html#id20">小塩真司 <em>et al.</em>, 2012</a>]</span></p></li>
+</ul>
+<p>以下のセルにTIPI-Jによるパーソナリティ診断を実装した（プログラムを読まずに動かしてみるとよい）。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;あなた自身にどのくらい当てはまるか、７段階で答えてください。</span>
+<span class="s2">    1: 全く違うと思う</span>
+<span class="s2">    2: おおよそ違うと思う</span>
+<span class="s2">    3: 少し違うと思う</span>
+<span class="s2">    4: どちらでもない</span>
+<span class="s2">    5: 少しそう思う</span>
+<span class="s2">    6: まあまあそう思う</span>
+<span class="s2">    7: 強くそう思う</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;活発で、外向的だと思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;他人に不満をもち、もめごとを起こしやすいと思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;しっかりしていて、自分に厳しいと思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;心配性で、うろたえやすいと思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;新しいことが好きで、変わった考えをもつと思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;ひかえめで、おとなしいと思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;人に気をつかう、やさしい人間だと思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;だらしなく、うっかりしていると思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;冷静で、気分が安定していると思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;発想力に欠けた、平凡な人間だと思う&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">tipij</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">A</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;外向性&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;協調性&#39;</span><span class="p">:</span> <span class="p">((</span><span class="mi">8</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">v</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;勤勉性&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;神経症傾向&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="mi">8</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;開放性&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="mi">9</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">A</span><span class="p">:</span>
+    <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">tipij</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>あなた自身にどのくらい当てはまるか、７段階で答えてください。
+    1: 全く違うと思う
+    2: おおよそ違うと思う
+    3: 少し違うと思う
+    4: どちらでもない
+    5: 少しそう思う
+    6: まあまあそう思う
+    7: 強くそう思う
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>活発で、外向的だと思う 5
+他人に不満をもち、もめごとを起こしやすいと思う 3
+しっかりしていて、自分に厳しいと思う 4
+心配性で、うろたえやすいと思う 5
+新しいことが好きで、変わった考えをもつと思う 6
+ひかえめで、おとなしいと思う 5
+人に気をつかう、やさしい人間だと思う 5
+だらしなく、うっかりしていると思う 5
+冷静で、気分が安定していると思う 6
+発想力に欠けた、平凡な人間だと思う 3
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;外向性&#39;: 4.0, &#39;協調性&#39;: 5.0, &#39;勤勉性&#39;: 3.5, &#39;神経症傾向&#39;: 3.5, &#39;開放性&#39;: 5.5}
+</pre></div>
+</div>
+</div>
+</div>
+<p>さて、このビッグ・ファイブの５つの因子はどのように「発見」されたのだろうか？　人間の設計図は遺伝子にあり、人間の行動を掌るのが脳であるならば、人間の脳や遺伝子を調べて、パーソナリティの形成に影響を与える要因を発見すればよいと思うかもしれない。ただ、このアプローチは難しすぎる。ビッグ・ファイブのパーソナリティ因子は遺伝的影響を受けているとの報告もあるが <span id="id4">[<a class="reference internal" href="../reference.html#id17">Lo <em>et al.</em>, 2017</a>]</span>、これはビッグ・ファイブの因子を既知のものとして、遺伝子と対応付けた研究であり、パーソナリティの因子を遺伝子から特定した訳ではない。</p>
+<p>ビッグ・ファイブの理論の因子は<a class="reference external" href="https://en.wikipedia.org/wiki/Lexical_hypothesis">語彙仮説</a>（lexical hypothesis）に基づいて求められている。<span id="id5">Goldberg [<a class="reference internal" href="../reference.html#id15">1982</a>]</span> では、その仮説を以下の文で説明している。</p>
+<blockquote>
+<div><p>人と人との日常的なやり取りにおける最も重要な個人差は、最終的に人々の言語で記号化されることになる。 (Those individual differences that are the most significant in the daily transactions of persons with each other will eventually become encoded into their language.)</p>
+</div></blockquote>
+<p>つまり、人間が使う言葉を分析することで、パーソナリティの因子を見つけることができると考えたのである。<span id="id6">Allport and Odbert [<a class="reference internal" href="../reference.html#id13">1936</a>]</span> は、<a class="reference external" href="https://en.wikipedia.org/wiki/Webster%27s_Dictionary">Webster's Dictionary</a>の第2版に収録されている単語から、人間を形容しうる17,953語を抜き出し、以下の4つの単語リストをまとめた。</p>
+<ul class="simple">
+<li><p>List I: 人間のパーソナリティを明確に表現する4,504語</p>
+<ul>
+<li><p><em>agressive</em>, <em>introverted</em>, <em>sociable</em>など</p></li>
+</ul>
+</li>
+<li><p>List II: 人間の活動や心の一時的な状態を表現する4,541語</p>
+<ul>
+<li><p><em>abashed</em>, <em>gibbering</em>, <em>rejoicing</em>, <em>frantic</em>など</p></li>
+</ul>
+</li>
+<li><p>List III: 人間の性格の評価や社会的な役割・関係を表現する5,226語</p>
+<ul>
+<li><p><em>insignificant</em>, <em>acceptable</em>, <em>worthy</em>, <em>dazzling</em>, <em>irritating</em>など</p></li>
+</ul>
+</li>
+<li><p>List IV: 人間のパーソナリティを表現するかもしれない3,682語</p>
+<ul>
+<li><p><em>pampered</em>, <em>crazed</em>, <em>malformed</em>, <em>roly-poly</em>, <em>lean</em>, <em>red-headed</em>, <em>hoarse</em>など</p></li>
+</ul>
+</li>
+</ul>
+<p>この4つの単語リストを作るだけでも大変であるが、コンピュータが誕生していない1936年頃に、作成した単語リストを分析することは困難であったに違いない。<span id="id7">Allport and Odbert [<a class="reference internal" href="../reference.html#id13">1936</a>]</span> は作成した単語のリストに134ページを割いて論文にまとめ、後続の研究に分析を託した。</p>
+<p><span id="id8">Cattell [<a class="reference internal" href="../reference.html#id14">1943</a>]</span> は <span id="id9">Allport and Odbert [<a class="reference internal" href="../reference.html#id13">1936</a>]</span> のList Iに収録されている単語を分析することにより、パーソナリティの因子を導出しようと試みた。CattellはList Iの単語（＋独自に追加した約100単語）から、意味の似ている単語や対義語をまとめ、パーソナリティを表す単語をグループ化することで、パーソナリティの因子を15個から20個くらいに絞り込んだと言われている。その後、様々な研究者が単語リストからパーソナリティの因子を見出すため、クラスタ分析（cluster analysis）や因子分析（factor analysis）を適用した。<span id="id10">Norman [<a class="reference internal" href="../reference.html#id19">1963</a>]</span> の分析により、現在のビッグ・ファイブの原型となるものが形作られたと言われている。</p>
+<p>ここで伝えたかったことは、人間のパーソナリティの因子は「こうあるべき」とか「こうであるに違いない」という仮定を置かずに、辞書や被験者を用いた実験から得られたデータを分析し、冗長なものを削ぎ落としていくことでパーソナリティの５つの因子にたどり着いたことである。このように、出力すべきラベルやスコアを与えず、データの各事例を説明する特徴的なパターンを発見することを、<strong>教師なし学習</strong>（unsupervised learning）と呼ぶ。</p>
+<div class="section" id="id11">
+<h2><span class="section-number">10.1. </span>クラスタ分析<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>前置きが長くなったが、今回のテーマは、データ中で類似する特徴を持つ事例をまとめてグループ化する<strong>クラスタ分析</strong>（cluster analysis）もしくは<strong>クラスタリング</strong>（clustering）と呼ばれる処理である。分類と似ているが、クラスタリングではカテゴリ、すなわちグループはこうあるべき、という情報が事前に与えられない。一方、分類モデルの学習では、各事例をどのカテゴリに分類すべきかを表す教師データが与えられていた。クラスタ分析では各事例をどのように分類すべきかを表すデータが与えられないので、教師なし学習の一種である。</p>
+<p>クラスタ分析には以下のような応用例がある。グループ化することで全体を把握しやすくなることから、データの要約や圧縮の目的で使われることも多い。</p>
+<ul class="simple">
+<li><p>ショッピングサイトの購買履歴から顧客をグループ分けする</p></li>
+<li><p>ウェブサイトの閲覧履歴や検索履歴に基づいて、ユーザをグループ分けする</p></li>
+<li><p>Twitterのリツイート履歴に基づいて、ユーザをグループ分けする</p></li>
+<li><p>レビューから、製品に対する意見をグループ分けする</p></li>
+<li><p>心理学のアンケート調査から人間を類型化する</p></li>
+<li><p>遺伝子の発現データから似ている遺伝子群を見つける、もしくは似ている個体群を見つける</p></li>
+</ul>
+<p>なお、<a class="reference external" href="https://www.oxfordlearnersdictionaries.com/">Oxford Learner's Dictionary</a>によると、<a class="reference external" href="https://www.oxfordlearnersdictionaries.com/definition/english/cluster_1">クラスタ（cluster）</a>の意味は「一緒に成長したり近くに出現し、同じ種類のモノのグループ」（a group of things of the same type that grow or appear close together）であり、日本語の「群れ」や「房」に近い意味である。星団（star cluster）、きのこの群生（cluster of mushrooms）などの用法の他、分散並列処理に用いるコンピュータ群もクラスタと呼ばれる。</p>
+<p><a title="SALT, CC BY 3.0 &lt;https://creativecommons.org/licenses/by/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:47tuc_salt.jpg"><a class="reference internal" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/47tuc_salt.jpg/512px-47tuc_salt.jpg"><img alt="47tuc salt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/47tuc_salt.jpg/512px-47tuc_salt.jpg" style="width: 256px;" /></a></a>
+<a title="Pseudopanax at en.wikipedia, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Cluster_of_mushrooms.jpg"><a class="reference internal" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Cluster_of_mushrooms.jpg/512px-Cluster_of_mushrooms.jpg"><img alt="Cluster of mushrooms" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Cluster_of_mushrooms.jpg/512px-Cluster_of_mushrooms.jpg" style="width: 256px;" /></a></a></p>
+</div>
+<div class="section" id="k-means">
+<h2><span class="section-number">10.2. </span>K-meansクラスタリング<a class="headerlink" href="#k-means" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="math notranslate nohighlight">\(d\)</span>次元のベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>で表された事例を<span class="math notranslate nohighlight">\(N\)</span>件集めたデータがある。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f8237641-809a-482a-a7ac-5dfb1979172f">
+<span class="eqno">(10.1)<a class="headerlink" href="#equation-f8237641-809a-482a-a7ac-5dfb1979172f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathcal{D} = \{\pmb{x}_1, \pmb{x}_2, \dots, \pmb{x}_N\} = \{\pmb{x}_i\}_{i=1}^N
+\end{align}\]</div>
+<p>このデータ中の事例を<span class="math notranslate nohighlight">\(K\)</span>個のクラスタに分割したい。なお、実際にクラスタリングを行うときは、クラスタの数<span class="math notranslate nohighlight">\(K\)</span>をどのように決定するかが重要な問題となるが、当面は<span class="math notranslate nohighlight">\(K\)</span>を事前に決定してあるものとする。</p>
+<p>ここで、<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(K\)</span>までの自然数の集合を<span class="math notranslate nohighlight">\(\mathbb{N}_K\)</span>と書くことにする。各クラスタに所属する事例を集合<span class="math notranslate nohighlight">\(C_1, C_2, \dots, C_K\)</span>で表す。<span class="math notranslate nohighlight">\(k\)</span>番目のクラスタを表す集合<span class="math notranslate nohighlight">\(C_k\)</span>は、そのクラスタに属する事例のインデックス番号を集めたものであると定義する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a9f5d71c-14e5-4e58-ba23-48828ffd61da">
+<span class="eqno">(10.2)<a class="headerlink" href="#equation-a9f5d71c-14e5-4e58-ba23-48828ffd61da" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+C_k = \{i \in \mathbb{N}_K \mid \text{事例$\pmb{x}_i$が$k$番目のクラスタに属する}\}
+\end{align}\]</div>
+<p>各事例は<span class="math notranslate nohighlight">\(C_1\)</span>から<span class="math notranslate nohighlight">\(C_K\)</span>までのいずれかのクラスタに必ず属することとする。すなわち、任意の異なる<span class="math notranslate nohighlight">\(k, k' \in \mathbb{N}_K\)</span>に対して、<span class="math notranslate nohighlight">\(C_k \cap C_{k'} = \emptyset\)</span>を満たし、かつ<span class="math notranslate nohighlight">\(\bigcup\limits_{k \in \mathbb{N}_K} C_k = \mathbb{N}_K\)</span>である。あるいは、集合族<span class="math notranslate nohighlight">\(\{C_1, C_2, \dots, C_K\}\)</span>は<span class="math notranslate nohighlight">\(\mathbb{N}_K\)</span>の分割と説明することもできる。</p>
+<p>例えば、事例数が<span class="math notranslate nohighlight">\(4\)</span>（<span class="math notranslate nohighlight">\(N=4\)</span>）のデータを<span class="math notranslate nohighlight">\(2\)</span>個のクラスタ（<span class="math notranslate nohighlight">\(K=2\)</span>）に分割するとき、<span class="math notranslate nohighlight">\(\pmb{x}_1, \pmb{x}_2, \pmb{x}_4\)</span>が<span class="math notranslate nohighlight">\(1\)</span>番目のクラスタに属し、<span class="math notranslate nohighlight">\(\pmb{x}_3\)</span>が<span class="math notranslate nohighlight">\(2\)</span>番目のクラスタに属する状況を、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9f09c755-f77c-4819-8c69-715a4b2baf01">
+<span class="eqno">(10.3)<a class="headerlink" href="#equation-9f09c755-f77c-4819-8c69-715a4b2baf01" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+C_1 = \{1, 2, 4\}, C_2 = \{3\}
+\end{align}\]</div>
+<p>として表す。</p>
+<p>さて、クラスタリングの基本的な考え方は、同じクラスタ内に属する事例間の距離が近く、異なるクラスタ間に属する事例間の距離が遠くなるように、クラスタの割り当てを決定することである。あるクラスタ割り当てが与えられたとき、<strong>K-meansクラスタリング</strong>（K平均クラスタリング）では、各クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>を中心ベクトル<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>で代表させる。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-dcfc6f4e-4b3f-459a-8dbb-1e44a670c0fa">
+<span class="eqno">(10.4)<a class="headerlink" href="#equation-dcfc6f4e-4b3f-459a-8dbb-1e44a670c0fa" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{\mu}_k = \frac{1}{|C_k|} \sum_{i \in C_k} \pmb{x}_i
+\end{align}\]</div>
+<p>そして、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>のまとまり具合を計測する尺度として、そのクラスタに属する事例ベクトルと中心ベクトルとの二乗距離の和を用いる。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-14496b00-2f1e-4b0b-a150-eb006d138b9e">
+<span class="eqno">(10.5)<a class="headerlink" href="#equation-14496b00-2f1e-4b0b-a150-eb006d138b9e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2
+\end{align}\]</div>
+<p>これは、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>に属する事例の分散の<span class="math notranslate nohighlight">\(|C_k|\)</span>倍であるから、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>内のデータのばらつきを表していると解釈できる。</p>
+<p>クラスタ内の二乗距離を全てのクラスタに対して求め、その和を取ったものは、歪み尺度（distortion measure）、クラスタ内平方和（WCSS: within-cluster sum-of-squares）、慣性（inertia）などと呼ばれる。K-meansクラスタリングは、この目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小化するようなクラスタ割り当て<span class="math notranslate nohighlight">\(C_1, C_2, \dots, C_K\)</span>を求める問題である。</p>
+<div class="important admonition">
+<p class="admonition-title">K-meansクラスタリングの目的関数</p>
+<div class="math notranslate nohighlight" id="equation-eq-kmeans-objective">
+<span class="eqno">(10.6)<a class="headerlink" href="#equation-eq-kmeans-objective" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+J = \sum_{k=1}^{K} \sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2
+\end{align}
+\]</div>
+</div>
+</div>
+<div class="section" id="lloyd">
+<h2><span class="section-number">10.3. </span>Lloydのアルゴリズム<a class="headerlink" href="#lloyd" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>この目的関数を最小化するクラスタ割り当てを求める問題はNP困難であることが知られている <span id="id12">[<a class="reference internal" href="../reference.html#id12">Mahajan <em>et al.</em>, 2012</a>]</span>。ところが、クラスタ割り当てを求める近似解法として、Lloydのアルゴリズム <span id="id13">[<a class="reference internal" href="../reference.html#id10">Lloyd, 1982</a>]</span> が用いられてきた。</p>
+<div class="important admonition">
+<p class="admonition-title">Lloydのアルゴリズム</p>
+<p>1: すべてのクラスタの中心<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>を適当に初期化する（例えばデータからランダムに点を<span class="math notranslate nohighlight">\(K\)</span>個選んでもよい）。</p>
+<p>2: すべての事例<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>に関して、最も近いクラスタ中心を求め、クラスタを<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を作成する。具体的には、事例<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>を以下の式で求まるクラスタ番号<span class="math notranslate nohighlight">\(k^*\)</span>に所属させる。</p>
+<div class="math notranslate nohighlight" id="equation-eq-kmeans-cluster-assignment">
+<span class="eqno">(10.7)<a class="headerlink" href="#equation-eq-kmeans-cluster-assignment" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+k^* = \mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\pmb{x}_i - \pmb{\mu}_k\|^2
+\end{align}
+\]</div>
+<p>3: すべてのクラスタの中心<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>を計算する。クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>の中心は次式で計算する。</p>
+<div class="math notranslate nohighlight" id="equation-eq-kmeans-center">
+<span class="eqno">(10.8)<a class="headerlink" href="#equation-eq-kmeans-center" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+\pmb{\mu}_k = \frac{1}{|C_k|} \sum_{i \in C_k} \pmb{x}_i
+\end{align}
+\]</div>
+<p>4: クラスタの割り当てが変化しなくなるまで手順2と3を繰り返す</p>
+</div>
+<p>以下のデータ（<span class="math notranslate nohighlight">\(d=2, N = 15\)</span>）を例としてK-meansアルゴリズムの動作を説明する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>このデータを<span class="math notranslate nohighlight">\(xy\)</span>平面上にプロットする。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_8_0.png" src="../_images/01kmeans_8_0.png" />
+</div>
+</div>
+<p>Lloydのアルゴリズムの実装例を以下に示す。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    
+    <span class="c1"># Prepare a random generator with the seed.</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    
+    <span class="c1"># Extract K points at random from the data as the initial centers.</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n</span><span class="p">)[:</span><span class="n">num_clusters</span><span class="p">]]</span>
+    <span class="n">y_old</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iterations</span><span class="p">):</span>
+        <span class="n">wcss</span> <span class="o">=</span> <span class="mf">0.</span>
+        
+        <span class="c1"># Find cluster assignments.</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="c1"># Compute the distance to each cluster center.</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="p">((</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Assign the id of the closest cluster.</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+            <span class="n">wcss</span> <span class="o">+=</span> <span class="n">dist</span><span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        
+        <span class="c1"># Terminate if the cluster assignement was unchanged.</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">y_old</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span>
+        
+        <span class="c1"># Compute the geometric center of each cluster.</span>
+        <span class="n">centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_clusters</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_clusters</span><span class="p">):</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span>       <span class="c1"># i such that Y[i] == c</span>
+            <span class="n">centers</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="c1"># Update the cluster assignment and continue.</span>
+        <span class="n">y_old</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>K-meansクラスタリングの実行結果を可視化する。クラスタを色分けして表示し、さらに各クラスタの中心を×印で示した。WCSSはクラスタ内平方和、すなわち目的関数の値である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visualize_kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">centers</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">num_clusters</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;seed = </span><span class="si">{</span><span class="n">seed</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;WCSS = </span><span class="si">{</span><span class="n">wcss</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="n">num_clusters</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">y_pred</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">visualize_kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_12_0.png" src="../_images/01kmeans_12_0.png" />
+</div>
+</div>
+<p>Lloydのアルゴリズムの動作を理解しやすくするため、クラスタの中心や割り当てが更新されていく様子をアニメーションで表示した。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">kmeans_iter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    
+    <span class="c1"># Prepare a random generator with the seed.</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    
+    <span class="c1"># Extract K points at random from the data as the initial centers.</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n</span><span class="p">)[:</span><span class="n">num_clusters</span><span class="p">]]</span>
+    <span class="n">y_old</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iterations</span><span class="p">):</span>
+        <span class="n">wcss</span> <span class="o">=</span> <span class="mf">0.</span>
+        
+        <span class="c1"># Find cluster assignments.</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="c1"># Compute the distance to each cluster center.</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="p">((</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Assign the id of the closest cluster.</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+            <span class="n">wcss</span> <span class="o">+=</span> <span class="n">dist</span><span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        
+        <span class="c1"># Yield the current cluster assignments to the caller.</span>
+        <span class="k">yield</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span>
+        
+        <span class="c1"># Terminate if the cluster assignement was unchanged.</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">y_old</span><span class="p">):</span>
+            <span class="k">break</span>
+        
+        <span class="c1"># Compute the geometric center of each cluster.</span>
+        <span class="n">centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_clusters</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_clusters</span><span class="p">):</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span>       <span class="c1"># i such that Y[i] == c</span>
+            <span class="n">centers</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="c1"># Update the cluster assignment and continue.</span>
+        <span class="n">y_old</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span>
+        
+<span class="k">def</span> <span class="nf">draw_kmeans_animation</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">artists</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span> <span class="ow">in</span> <span class="n">kmeans_iter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">):</span>
+        <span class="n">artist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">artist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+        <span class="n">artist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">centers</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">num_clusters</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">artist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;seed = </span><span class="si">{</span><span class="n">seed</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+        <span class="n">artist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;WCSS = </span><span class="si">{</span><span class="n">wcss</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+        <span class="n">artists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">artist</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">artists</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">artists</span> <span class="o">=</span> <span class="n">draw_kmeans_animation</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ani</span> <span class="o">=</span> <span class="n">anim</span><span class="o">.</span><span class="n">ArtistAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">artists</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">ani</span><span class="o">.</span><span class="n">to_jshtml</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<link rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<script language="javascript">
+  function isInternetExplorer() {
+    ua = navigator.userAgent;
+    /* MSIE used to detect old browsers and Trident used to newer ones*/
+    return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+  }
+
+  /* Define the Animation class */
+  function Animation(frames, img_id, slider_id, interval, loop_select_id){
+    this.img_id = img_id;
+    this.slider_id = slider_id;
+    this.loop_select_id = loop_select_id;
+    this.interval = interval;
+    this.current_frame = 0;
+    this.direction = 0;
+    this.timer = null;
+    this.frames = new Array(frames.length);
+
+    for (var i=0; i<frames.length; i++)
+    {
+     this.frames[i] = new Image();
+     this.frames[i].src = frames[i];
+    }
+    var slider = document.getElementById(this.slider_id);
+    slider.max = this.frames.length - 1;
+    if (isInternetExplorer()) {
+        // switch from oninput to onchange because IE <= 11 does not conform
+        // with W3C specification. It ignores oninput and onchange behaves
+        // like oninput. In contrast, Microsoft Edge behaves correctly.
+        slider.setAttribute('onchange', slider.getAttribute('oninput'));
+        slider.setAttribute('oninput', null);
+    }
+    this.set_frame(this.current_frame);
+  }
+
+  Animation.prototype.get_loop_state = function(){
+    var button_group = document[this.loop_select_id].state;
+    for (var i = 0; i < button_group.length; i++) {
+        var button = button_group[i];
+        if (button.checked) {
+            return button.value;
+        }
+    }
+    return undefined;
+  }
+
+  Animation.prototype.set_frame = function(frame){
+    this.current_frame = frame;
+    document.getElementById(this.img_id).src =
+            this.frames[this.current_frame].src;
+    document.getElementById(this.slider_id).value = this.current_frame;
+  }
+
+  Animation.prototype.next_frame = function()
+  {
+    this.set_frame(Math.min(this.frames.length - 1, this.current_frame + 1));
+  }
+
+  Animation.prototype.previous_frame = function()
+  {
+    this.set_frame(Math.max(0, this.current_frame - 1));
+  }
+
+  Animation.prototype.first_frame = function()
+  {
+    this.set_frame(0);
+  }
+
+  Animation.prototype.last_frame = function()
+  {
+    this.set_frame(this.frames.length - 1);
+  }
+
+  Animation.prototype.slower = function()
+  {
+    this.interval /= 0.7;
+    if(this.direction > 0){this.play_animation();}
+    else if(this.direction < 0){this.reverse_animation();}
+  }
+
+  Animation.prototype.faster = function()
+  {
+    this.interval *= 0.7;
+    if(this.direction > 0){this.play_animation();}
+    else if(this.direction < 0){this.reverse_animation();}
+  }
+
+  Animation.prototype.anim_step_forward = function()
+  {
+    this.current_frame += 1;
+    if(this.current_frame < this.frames.length){
+      this.set_frame(this.current_frame);
+    }else{
+      var loop_state = this.get_loop_state();
+      if(loop_state == "loop"){
+        this.first_frame();
+      }else if(loop_state == "reflect"){
+        this.last_frame();
+        this.reverse_animation();
+      }else{
+        this.pause_animation();
+        this.last_frame();
+      }
+    }
+  }
+
+  Animation.prototype.anim_step_reverse = function()
+  {
+    this.current_frame -= 1;
+    if(this.current_frame >= 0){
+      this.set_frame(this.current_frame);
+    }else{
+      var loop_state = this.get_loop_state();
+      if(loop_state == "loop"){
+        this.last_frame();
+      }else if(loop_state == "reflect"){
+        this.first_frame();
+        this.play_animation();
+      }else{
+        this.pause_animation();
+        this.first_frame();
+      }
+    }
+  }
+
+  Animation.prototype.pause_animation = function()
+  {
+    this.direction = 0;
+    if (this.timer){
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+
+  Animation.prototype.play_animation = function()
+  {
+    this.pause_animation();
+    this.direction = 1;
+    var t = this;
+    if (!this.timer) this.timer = setInterval(function() {
+        t.anim_step_forward();
+    }, this.interval);
+  }
+
+  Animation.prototype.reverse_animation = function()
+  {
+    this.pause_animation();
+    this.direction = -1;
+    var t = this;
+    if (!this.timer) this.timer = setInterval(function() {
+        t.anim_step_reverse();
+    }, this.interval);
+  }
+</script>
+
+<style>
+.animation {
+    display: inline-block;
+    text-align: center;
+}
+input[type=range].anim-slider {
+    width: 374px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.anim-buttons {
+    margin: 8px 0px;
+}
+.anim-buttons button {
+    padding: 0;
+    width: 36px;
+}
+.anim-state label {
+    margin-right: 8px;
+}
+.anim-state input {
+    margin: 0;
+    vertical-align: middle;
+}
+</style>
+
+<div class="animation">
+  <img id="_anim_img4c7a754bba1b4ebea3f0c090a910e55e">
+  <div class="anim-controls">
+    <input id="_anim_slider4c7a754bba1b4ebea3f0c090a910e55e" type="range" class="anim-slider"
+           name="points" min="0" max="1" step="1" value="0"
+           oninput="anim4c7a754bba1b4ebea3f0c090a910e55e.set_frame(parseInt(this.value));"></input>
+    <div class="anim-buttons">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.slower()">
+          <i class="fa fa-minus"></i></button>
+      <button title="First frame" aria-label="First frame" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.first_frame()">
+        <i class="fa fa-fast-backward"></i></button>
+      <button title="Previous frame" aria-label="Previous frame" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.previous_frame()">
+          <i class="fa fa-step-backward"></i></button>
+      <button title="Play backwards" aria-label="Play backwards" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.reverse_animation()">
+          <i class="fa fa-play fa-flip-horizontal"></i></button>
+      <button title="Pause" aria-label="Pause" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.pause_animation()">
+          <i class="fa fa-pause"></i></button>
+      <button title="Play" aria-label="Play" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.play_animation()">
+          <i class="fa fa-play"></i></button>
+      <button title="Next frame" aria-label="Next frame" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.next_frame()">
+          <i class="fa fa-step-forward"></i></button>
+      <button title="Last frame" aria-label="Last frame" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.last_frame()">
+          <i class="fa fa-fast-forward"></i></button>
+      <button title="Increase speed" aria-label="Increase speed" onclick="anim4c7a754bba1b4ebea3f0c090a910e55e.faster()">
+          <i class="fa fa-plus"></i></button>
+    </div>
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select4c7a754bba1b4ebea3f0c090a910e55e"
+          class="anim-state">
+      <input type="radio" name="state" value="once" id="_anim_radio1_4c7a754bba1b4ebea3f0c090a910e55e"
+             >
+      <label for="_anim_radio1_4c7a754bba1b4ebea3f0c090a910e55e">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_4c7a754bba1b4ebea3f0c090a910e55e"
+             checked>
+      <label for="_anim_radio2_4c7a754bba1b4ebea3f0c090a910e55e">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_4c7a754bba1b4ebea3f0c090a910e55e"
+             >
+      <label for="_anim_radio3_4c7a754bba1b4ebea3f0c090a910e55e">Reflect</label>
+    </form>
+  </div>
+</div>
+
+
+<script language="javascript">
+  /* Instantiate the Animation class. */
+  /* The IDs given should match those used in the template above. */
+  (function() {
+    var img_id = "_anim_img4c7a754bba1b4ebea3f0c090a910e55e";
+    var slider_id = "_anim_slider4c7a754bba1b4ebea3f0c090a910e55e";
+    var loop_select_id = "_anim_loop_select4c7a754bba1b4ebea3f0c090a910e55e";
+    var frames = new Array(4);
+
+  frames[0] = "data:image/png;base64,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\
+uJBHHnmEBx54gEwmw0UXXcSpp57K9OnTAbbruJLUGfgTUR3KmDFjqKys5NVXX2XVqlUMHTqUnj17\
+UlZWxpe//GVqamqYOXMme+21F3vuuSfQeCL31igqKuLJJ59k/vz5zJgxgz//+c9861vf4qc//Skv\
+v/wyXbt2Zd9992XOnDm8/vrrvPjii8yaNYsTTjiBiRMnbvZE97y8PAYPHrzdX/OkSZOYP38+n/vc\
+56irq6OkpIQLL7yQa665hpycHDKZDBMmTODaa69l6NChW33choYGamtreeCBB5pe98tf/pIDDzyQ\
+d999l8GDB2/XcSWpU4gxurnt0AaUALG8vDzuDPr37x+vu+66+O1vfzued955TeODBw+O06ZNi0ce\
+eWQ899xzm8Yfe+yxCMSXXnppm99rwYIFMS8vL957772b3efXv/51BOKCBQtafX7hwoWxqKhoi9t1\
+1133iVnq6+vj4sWLY21tbXzqqaciEJcuXRpXrVoVgZibm9u0hRCaxqZNm9bq8a666qqYl5fXYqyq\
+qioC8dlnn93u40odVXl5eQQiUBJ3gp/NbuluzmCpwxk7diwzZ85k1apVXHLJJU3jo0eP5umnn+aV\
+V17hvPPOaxofN24cu+++Oz/+8Y+3eJJ7awYOHEjXrl2prKzcbJ59990XYLP77OgS4Qa5ubn069cP\
+gN/+9rccfvjh9OzZk4aGBv7617+22Peuu+5i+vTpPProowwaNKjV440aNYr6+nrmz5/fdLXlhltW\
+DBgwgJKSku06riR1BhYsdThjx47l/PPPp66ujrKysqbxsrIyvvGNb7Bu3bqm86+gcenvnnvu4bTT\
+TuPEE0/kggsuYPDgwSxfvpyHH36YRYsW8bvf/Y5rrrmGqqoqjj/+eAYMGMDq1av52c9+Rl1dHccc\
+cwwAp556KqNGjeKII46gT58+fPDBB1xxxRUMHTp0s+d47egS4fLly3n00UcZM2YMNTU13HfffTzy\
+yCP86U9/AiAnJ4f999+/xWt69epFly5dWozfcccdTJkyhWnTpgFw9NFHc8ABB3DOOedw22230dDQ\
+wPnnn88xxxzTtCS4NceVpM7IqwjV4YwdO5bq6moGDx5M7969m8bLyspYs2YNw4YNY4899mjxmpNO\
+OomXXnqJ/Px8JkyYwPDhwznjjDMoLy/nhz/8YdPrFyxYwFlnncXw4cM57rjj+Oijj3j22WebbmMw\
+fvx4pk6dygknnMDQoUM5++yzGT58OM8++2ybngR+//33c9BBBzFq1CjeeecdZs6c2er9qrZk+fLl\
+LW68mpOTw9SpU9l9990ZPXo0n/3sZ9lnn3343e9+l3R8aacQM0uIlfcSK39JzPwz7TjKct4HSzts\
+Z7oPliRtj1j/PnHFlyCuX8oPhYQeDxHyt/4CDu+DpeacwZIkdXpxzZ0Qq4CGxi1WE9f+LO1YymIW\
+LEmS4nIg02ygARqWp5VGHYAFS5LU6YVdjgBC8xFCwai04qgDsGBJklQ0CQonALmNW+FpUPT1tFMp\
+i3mSu3aYJ7lL6ihibFwmDCF3m1/rSe5qzvtgSZK03vYUK6k1LhFKkiQlzIIlSZKUMAuWJElSwixY\
+kiRJCbNgSZIkJcyCJUmSlDALliRJUsIsWJIkSQnzRqNKTEWFNy6W1Hn5M1DN+VE52mEhhH7A4rRz\
+SNJOon+M8Z9ph1C6LFjaYSGEAPQF1qQYo5jGktc/5Rwdkd/btuP3tu2k9b0tBv4V/cu103OJUDts\
+/Q+SVP+11tjxAFjjh6wmy+9t2/F723ZS/N76/1GAJ7lLkiQlzoIlSZKUMAuWOopa4Nr1vypZfm/b\
+jt/btuP3VqnyJHdJkqSEOYMlSZKUMAuWJElSwixYkiRJCbNgSZIkJcyCpQ4lhDAwhPDLEMIHIYTq\
+EML8EMK1IYRd0s6WjUII54cQ/hFCqAkhzA4hHJJ2po4ghHBFCOHVEMKaEMLSEMLjIYRhaefqaEII\
+l4cQYgjhtrSzqPOxYKmjGU7j7+uvAfsBFwFfB65PM1Q2CiF8CbiVxkvdDwDeAp4JIfRKNVjHUAbc\
+CRwGHAPkA8+GEIpSTdWBhBAOpvHnwNtpZ1Hn5G0a1OGFEC4Bzosx7pV2lmwSQpgNvBpj/Mb6xznA\
+h8DtMcYbUw3XwYQQegJLgbIY46y082S7EEI34C/A/wG+B7wZY5ycaih1Os5gqTMoBVamHSKbrF9S\
+PRB4bsNYjLFh/ePD08rVgZWu/9Xfp8m4E3gyxvjcJ+4ptRE/7FkdWghhMPBN4NtpZ8kyuwO5wMcb\
+jX9M4zKsErJ+ZvA24MUY45yU42S9EMLpNC5pH5x2FnVuzmApK4QQblx/suqWtuEbvaYf8L/AIzHG\
+X6STXPpEdwL7A6enHSTbhRA+BfwUODPGWJN2HnVuzmApW9wC/OoT9lmw4T9CCH2BGcBLwFfbLlaH\
+tRzIAL03Gu8NfNT+cTqmEMIdwOeA0THGxWnn6QAOBHoBfwkhbBjLBUaHEL4BFMQYM2mFU+diwVJW\
+iDEuA5Ztzb7rZ65mAK8DX15/7pC2QYxxXQjhdeAo4HFoWso6CrgjxWgdQmj82/924GRgTIzxg5Qj\
+dRTTgBEbjd0H/A34keVK7cmCpQ5lfbmaCSyk8byrnhv+JRtjdOZl29wK3B9CeA14BZgMFNH4F5Z2\
+zJ3ABOAkYE0Ioc/68fIYY3V6sbJbjHEN0OI8thBCJbDC89vU3ixY6miOAQav3zZecgmb7q7NiTE+\
+tP72Ad8H+gBvAsfGGDc+8V3b7rz1v87caPzLfPJSuKQs4H2wJEmSEuZVhJIkSQmzYEmSJCXMgiVJ\
+kpQwC5YkSVLCLFiSJEkJs2BJkiQlzIIlSZKUMAuWJElSwixYkiRJCbNgSZIkJcyCJUmSlDALliRJ\
+UsIsWJIkSQmzYEmSJCXMgiVJkpQwC5YkSVLCLFiSJEkJs2BJkiQlzIIlSZKUMAuWJElSwixYkiRJ\
+CbNgSZIkJcyCJUmSlDALliRJUsIsWJIkSQmzYEmSJCXMgiVJkpQwC5YkSVLC/h8wLbqF8SK0XQAA\
+AABJRU5ErkJggg==\
+"
+  frames[1] = "data:image/png;base64,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\
+bF0VFRUbPzRTGmOsSDuP0mXB0mcpWC2dwVpiwZIU65YScntt92PZwIKlppwiFMAKoA7oscl4D+CD\
+TTeOMVbTcJtngNR/a5bUdmytQGVzuZI25Z3cRYxxPfAscPjGsRBCzob1p7a0nyRJaplnsLTR9cDt\
+IYR5wNM03KahCPhNmqEkScpEFiwBEGOcFULoBlxOw41GXwAmxhg/TDWYJEkZyIKlRjHGm4Cb0s4h\
+SVKm8xosSZKkhFmwJEmSEmbBkiRJSpgFS5IkKWEWLEmSpIRZsJQ1brnlFoqLi6mtrW0cW7NmDfn5\
++YwZM6bZtrNnzyaEwKJFixrHnn/+eU488UR69OhBx44d2WuvvTjzzDN57bXXGre5++67OeSQQygt\
+LaW4uJh999238cuiAerq6pg+fTpDhgyhsLCQrl27cvDBBzNz5sxWe90LFy5k7Nixjbn32GMPfvjD\
+H1JTU9O4za233soXv/hFdtllF3bZZRfGjRvH008/vdXjbnyPNl0++KD5zf1vvvlmBgwYQMeOHTn4\
+4IM/9biS1B5YsJQ1xo4dy5o1a5g3b17j2Jw5c+jZsydz585l3bp1jeNlZWX069ePPffcE4D77ruP\
+Qw45hOrqau644w5eeeUV/vu//5vS0lIuvvhiAB555BFOOukkjj/+eJ5++mmeffZZrrjiimZF5kc/\
++hE//elP+fGPf8yCBQsoKyvjrLPO4uOPP261152fn8/Xv/51HnroIRYuXMiMGTO49dZbufTST76P\
+e/bs2Zx88smUlZXx1FNP0bdvX8aPH8977733qcdfuHAhS5cubVy6d+/e+NisWbOYOnUql156Kc89\
+9xz7778/EyZMYNmyZa3yWiUpY8QYXVx2aAFKgFheXh7T1qtXr3jVVVc1rl944YXxnHPOifvss08s\
+KytrHD/ssMPiaaedFmOMsbKyMu62227x2GOPbfGYq1atijHG+N3vfjeOGTNmq8+///77x8suu2yH\
+XkMSvve978UvfOELW3y8trY2FhcXx9tvv32L25SVlUWg8fW3ZOTIkfGcc85pXK+rq4u9e/du9u9A\
+ai/Ky8sjEIGS2AZ+Nruku3gGS1ll7NixlJWVNa6XlZUxZswYRo8e3Ti+du1a5s6dy9ixYwF48MEH\
+WbFiBRdeeGGLx+zSpQsAPXv25OWXX2b+/PlbfP6ePXvy6KOPsnz58m3OvHjxYjp37rzV5corr9zm\
+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\
+"
+  frames[2] = "data:image/png;base64,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\
+9lmWLFnCNddc0+g5O3XqBECPHj147733ePfddzf5+j169OD5559n8eLFTc48b948OnbsuNnttttu\
+a/L5muLBBx/k2GOPpV+/fk0+ZuLEiey11158/vOfrxs74ogjeP3113nllVcAmD17Nk8//TQnnXRS\
+onklKdP4Se7KKiNGjOCKK66gsrKS1atX8+abbzJs2DDWrVvH/fffD8DLL79MRUVFXcF6//33ARgw\
+YMBmz/31r3+dadOmMXjwYPr168dhhx3G8ccfzznnnENeXh4AEyZM4PTTT6dHjx4MGjSII444glGj\
+RnHiiSdu8ry9evXirbfe2uxrd+7cuanfgi36+OOPeeaZZ/jVr37V5GPWrFnDpEmTuPbaaxuMn332\
+2SxZsoSjjjqKGCOVlZVccsklThFKavW8gqWsMnz4cMrLy3n11VeZNm0ae+21F127dmXYsGF167Cm\
+Tp3K7rvvTt++fYGaafKmKCgo4KmnnuKDDz7gO9/5Dh07duRb3/oWhx56KKtWrQJg4MCBvPvuu/zj\
+H//g/PPPZ9GiRZx88slceOGFmzxvbm4u/fv33+yWZMF65JFH6NSpU6OL4Tdl8uTJlJWVce655zYY\
+nzp1Krfddhv33Xcfb7zxBo8//jhPPfUU3/3udxPLK0kZKe05SrfM39iB1mDFGGPv3r3jrbfeGq+6\
+6qo4duzYuvH+/fvH5557Lh511FHxwgsvrBt//PHHIxBfeumlrX6t2bNnx9zc3PjQQw9tcp9HH300\
+AnH27NmNPj937txYUFCw2e3WW29tUp4trcGqrq6O/fv3j1dccUWTzrfe0Ucf3egataOOOipeddVV\
+DcYeffTRmJ+fH6uqqrbqNaRM5xost/qbU4TKOiNGjGDq1KksX76cq6++um586NChPPPMM7zyyiuM\
+HTu2bvz4449n55135vvf/z6TJ0/e6HwrVqyoW4e1oV133ZUOHTpQXl6+yTwDBw4E2OQ+23OK8H//\
+93/54IMPuOCCC5p8zJw5c5gyZQpPPPHERs+tWrWKNm0aXgjPyckBmn5lUJKykQVLWWfEiBFceuml\
+rFu3jmHDhtWNDxs2jMsuu4y1a9fWrb+Cmqm/iRMncsYZZ/ClL32Jyy+/nP79+7NkyRJ+85vfMG/e\
+PP7nf/6H8ePHs2rVKk466ST69evHihUr+NGPfsS6des47rjjADj99NM58sgjOeKII+jRowdz5sxh\
+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\
+Evb/Aeg89CPJBAttAAAAAElFTkSuQmCC\
+"
+  frames[3] = "data:image/png;base64,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\
+"
+
+
+    /* set a timeout to make sure all the above elements are created before
+       the object is initialized. */
+    setTimeout(function() {
+        anim4c7a754bba1b4ebea3f0c090a910e55e = new Animation(frames, img_id, slider_id, 2000.0,
+                                 loop_select_id);
+    }, 0);
+  })()
+</script>
+</div></div>
+</div>
+<p>Lloydのアルゴリズムの実行結果は最初に選んだクラスタの中心によって変わることがある。最初にクラスタの中心として用いる<span class="math notranslate nohighlight">\(K\)</span>個のデータ点の選び方を変更するため、乱数のシード値を変更する（<span class="math notranslate nohighlight">\(1 \to 0\)</span>）。なお、乱数のシード値は乱数の出現順序を決める数列を指定するものであるため、シード値そのものを意味づけすることはできない。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">y_pred</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">visualize_kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_16_0.png" src="../_images/01kmeans_16_0.png" />
+</div>
+</div>
+<p>すると、先ほどとは全く異なるクラスタリングの結果が得られた。また、目的関数の値も<span class="math notranslate nohighlight">\(13.10\)</span>から<span class="math notranslate nohighlight">\(46.34\)</span>に上昇したことから、クラスタリング結果が悪化したと言える。これは、Lloydアルゴリズムはクラスタ中心の初期値によっては局所解に陥ることを示している。</p>
+<p>最初のクラスタ中心の選び方でLloydアルゴリズムの実行結果がどの程度影響を受けるのかを調べるため、乱数のシードを<span class="math notranslate nohighlight">\(0\)</span>から<span class="math notranslate nohighlight">\(19\)</span>まで変化させて、クラスタリング結果を可視化する。以下のグラフを見ると、ほとんどのシードでは目的関数の値が<span class="math notranslate nohighlight">\(13.10\)</span>まで低下するが、シード値が<span class="math notranslate nohighlight">\(0, 5, 12, 18\)</span>の時に目的関数の値の上昇、すなわちクラスタリング結果の悪化が見られる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="mi">4</span><span class="p">][</span><span class="n">i</span> <span class="o">%</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="n">y_pred</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">visualize_kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_18_0.png" src="../_images/01kmeans_18_0.png" />
+</div>
+</div>
+<p>そこで、LloydのアルゴリズムでK-meansクラスタリングを行うときは、冒頭で用いるクラスタの中心の初期値を変えながらアルゴリズムを実行し、目的関数の値が最も下がったクラスタリング結果を採用する、といった工夫が用いられる（後述する<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans">sklearn.cluster.KMeans</a>にも実装されている）。</p>
+</div>
+<div class="section" id="id14">
+<h2><span class="section-number">10.4. </span>K-meansの目的関数の最小化<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Lloydのアルゴリズムがジャーナル論文として出版されたのは1982年であるが、Lloydのアルゴリズムそのものは1950年代後半から知られるようになっていた。K-meansという名前が使われるようになったのは、<span id="id15">MacQueen [<a class="reference internal" href="../reference.html#id11">1967</a>]</span> の論文によると言われている。そこで、K-meansの目的関数<span class="math notranslate nohighlight">\(J\)</span>とLloydのアルゴリズムがそのように関係するのか説明しておく。</p>
+<p>クラスタの割り当てを決める際、学習データ<span class="math notranslate nohighlight">\(\mathcal{D} = \{\pmb{x}_i\}_{i=1}^N\)</span>は不変であるので、K-meansクラスタリングの目的関数（式<a class="reference internal" href="#equation-eq-kmeans-objective">(10.6)</a>）は<span class="math notranslate nohighlight">\(C_1, \dots, C_K, \pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>の関数である。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c5d56e63-fe0e-4f80-9e51-b3711ef3b372">
+<span class="eqno">(10.9)<a class="headerlink" href="#equation-c5d56e63-fe0e-4f80-9e51-b3711ef3b372" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+J = \sum_{k=1}^{K} \sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2
+\end{align}\]</div>
+<p>この目的関数を最小化するため、<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>と<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を交互に更新していくことを考える。</p>
+<p>まず、<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小化するクラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を求めることを考える。全ての事例はいずれかのクラスタに属しなければならないが、<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>が固定されている状況では、ある事例のクラスタ割り当てが別の事例のクラスタ割り当てに影響を及ぼしたり、目的関数<span class="math notranslate nohighlight">\(J\)</span>の値を変化させてしまうことはない。したがって、事例<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>ごとに距離が最小となる中心<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>を選べばよい。すなわち、事例<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>を次式で求まる番号のクラスタに所属させればよい。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7d9a0ab9-fd52-4042-841a-48970a731e5d">
+<span class="eqno">(10.10)<a class="headerlink" href="#equation-7d9a0ab9-fd52-4042-841a-48970a731e5d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\pmb{x}_i - \pmb{\mu}_k\|^2
+\end{align}\]</div>
+<p>これにより、Lloydのアルゴリズムの式<a class="reference internal" href="#equation-eq-kmeans-cluster-assignment">(10.7)</a>を導出できた。</p>
+<p>次に、クラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小にする<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を求める。目的関数<span class="math notranslate nohighlight">\(J\)</span>の計算において、各<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>の間に依存関係はないので、全ての<span class="math notranslate nohighlight">\(k \in \mathbb{N}_K\)</span>に対して、目的関数を最小とする<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>を求めればよい。そこで、目的関数<span class="math notranslate nohighlight">\(J\)</span>を<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>で偏微分して<span class="math notranslate nohighlight">\(0\)</span>とおく。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-56d143b5-c25f-402f-9c8f-90f487e0dc09">
+<span class="eqno">(10.11)<a class="headerlink" href="#equation-56d143b5-c25f-402f-9c8f-90f487e0dc09" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\frac{\partial J}{\partial \pmb{\mu}_k} = \frac{\partial}{\partial \pmb{\mu}_k} \left(\sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2\right) = 2 \sum_{i \in C_k} (\pmb{x}_i - \pmb{\mu}_k) &amp;= 0 \\
+\sum_{i \in C_k} \pmb{x}_i - \sum_{i \in C_k} \pmb{\mu}_k &amp;= 0 \\
+\sum_{i \in C_k} \pmb{x}_i - |C_k| \pmb{\mu}_k &amp;= 0 \\
+\pmb{\mu}_k &amp;= \frac{1}{|C_k|} \sum_{i \in C_k} \pmb{x}_i
+\end{align}\]</div>
+<p>これは、Lloydのアルゴリズムの式<a class="reference internal" href="#equation-eq-kmeans-center">(10.8)</a>に一致する。</p>
+<p>以上により、K-meansの目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小化することで、Lloydのアルゴリズムを導出できたことになる。この最小化の手順はExpectation Maximization (EM) アルゴリズムとの対応があるが、ここではその詳細を説明しない。</p>
+</div>
+<div class="section" id="scikit-learn">
+<h2><span class="section-number">10.5. </span>scikit-learnによる実装<a class="headerlink" href="#scikit-learn" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>K-meansクラスタリングは<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans">sklearn.cluster.KMeans</a>クラスを使うと簡単に実行できる。局所解の問題に対処するため、デフォルトではクラスタ中心の初期値を変えながら10回試行し（<code class="docutils literal notranslate"><span class="pre">n_init=10</span></code>）、その中で目的関数の値が最も下がったクラスタリング結果を返してくれる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">labels_</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">visualize_kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">inertia_</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_23_0.png" src="../_images/01kmeans_23_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id16">
+<h2><span class="section-number">10.6. </span>クラスタ数の選び方<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>クラスタ分析においてよく湧き上がる疑問は、クラスタ数<span class="math notranslate nohighlight">\(K\)</span>の選び方である。これには明確な指針がある訳ではない。また、「データの事例を３つのグループに分けたい」といった強い動機がある場合は、クラスタ数<span class="math notranslate nohighlight">\(K\)</span>をその値にセットすればよい。もし、データの傾向を見ながらクラスタ数を決定したいと考えている場合は、クラスタ数<span class="math notranslate nohighlight">\(K\)</span>を変えながらクラスタリング結果を確認する。</p>
+<p>以下の例では、クラスタ数を<span class="math notranslate nohighlight">\(K=1\)</span>から<span class="math notranslate nohighlight">\(K=8\)</span>まで変化させながら、クラスタリング結果を可視化したものである。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visualize_kmeans2</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">centers</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">num_clusters</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;WCSS = </span><span class="si">{</span><span class="n">wcss</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;K = </span><span class="si">{</span><span class="n">num_clusters</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">J</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">num_clusters</span> <span class="o">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">num_clusters</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">labels_</span>
+    <span class="n">J</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">n</span> <span class="o">//</span> <span class="mi">4</span><span class="p">][</span><span class="n">n</span> <span class="o">%</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="n">visualize_kmeans2</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">inertia_</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_25_0.png" src="../_images/01kmeans_25_0.png" />
+</div>
+</div>
+<p>また、<span class="math notranslate nohighlight">\(K\)</span>の値を横軸に、目的関数（WCSS）の値を縦軸にプロットすると以下のようになる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)),</span> <span class="n">J</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$K$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;WCSS&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_27_0.png" src="../_images/01kmeans_27_0.png" />
+</div>
+</div>
+<p>K-meansクラスタリングのクラスタ数<span class="math notranslate nohighlight">\(K\)</span>を決定する一つの基準として、目的関数の下がり方が鈍化したときの<span class="math notranslate nohighlight">\(K\)</span>を採用する、という考え方がある。以上のグラフからは、<span class="math notranslate nohighlight">\(K=3\)</span>あたりから目的関数の下がり方が緩やかになっているので、<span class="math notranslate nohighlight">\(K=3\)</span>と決定するのが妥当かもしれない（しかし、上のクラスタリング結果を眺めていると<span class="math notranslate nohighlight">\(K=4\)</span>も捨てがたいと感じるかもしれない）。</p>
+</div>
+<div class="section" id="id17">
+<h2><span class="section-number">10.7. </span>ボロノイ図<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>K-meansでクラスタ中心<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K \in \mathbb{R}^d\)</span>を求めたとする。このとき、特徴空間<span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>上で他のクラスタ中心よりも<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>の方が近くなる領域<span class="math notranslate nohighlight">\(V(\pmb{\mu}_k)\)</span>、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+V(\pmb{\mu}_k) = \{\pmb{x} \in \mathbb{R}^d \mid \|\pmb{x} - \pmb{\mu}_k\|^2 \leq \|\pmb{x} - \pmb{\mu}_{k'}\|, \forall k' \neq k \}
+\end{align*}\]</div>
+<p>は、<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>の<strong>ボロノイ領域</strong>（Voronoi region）と呼ばれる。全てのクラスタ中心に対してボロノイ領域を描いたものは、<strong>ボロノイ図</strong>（Voronoi diagram）と呼ばれる。</p>
+<p><span class="math notranslate nohighlight">\(K=4\)</span>としてK-meansクラスタリングでクラスタの中心を求める。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_clusters</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">num_clusters</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">centers</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cluster_centers_</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ボロノイ図は、<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Voronoi.html">scipy.spatial.Voronoi</a>で簡単に描くことができる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">Voronoi</span><span class="p">,</span> <span class="n">voronoi_plot_2d</span>
+
+<span class="n">vor</span> <span class="o">=</span> <span class="n">Voronoi</span><span class="p">(</span><span class="n">centers</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">centers</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">num_clusters</span><span class="p">))</span>
+
+<span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+<span class="n">top</span><span class="p">,</span> <span class="n">bottom</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+<span class="n">voronoi_plot_2d</span><span class="p">(</span><span class="n">vor</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">show_points</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_vertices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">top</span><span class="p">,</span> <span class="n">bottom</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_32_0.png" src="../_images/01kmeans_32_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id18">
+<h2><span class="section-number">10.8. </span>K-meansの特徴<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>（<a class="reference external" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html">Comparing different clustering algorithms on toy datasets</a>の例を参考にした）</p>
+<p>K-meansはクラスタ中心からのユークリッド距離でクラスタを分けるため、データの形状によっては人間が期待するようなクラスタが得られないことがある。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">.05</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_34_0.png" src="../_images/01kmeans_34_0.png" />
+</div>
+</div>
+<p>K-meansは鎖状にデータが存在しても、クラスタ中心から決定される境界（ボロノイ境界）でクラスタを分ける。データの形状によっては、あまりよい結果をもたらさないこともある。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_moons</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">.05</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_36_0.png" src="../_images/01kmeans_36_0.png" />
+</div>
+</div>
+<p>K-meansは、各クラスタの事例数がほぼ同じになるようなクラスタ割り当てを行う傾向がある。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_blobs</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">170</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_38_0.png" src="../_images/01kmeans_38_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id19">
+<h2><span class="section-number">10.9. </span>応用: 色数の削減<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>K-meansクラスタリングの面白い応用例として、<strong>色数の削減</strong>（color reduction）を紹介しよう。</p>
+<p>コンピュータ上で表示される画像の一つのピクセルは、赤（R）、緑（G）、青（B）の輝度値で表現される。<span class="math notranslate nohighlight">\(0\)</span>から<span class="math notranslate nohighlight">\(255\)</span>までの整数の集合を<span class="math notranslate nohighlight">\(B\)</span>と書くことにすると、ひとつのピクセルは<span class="math notranslate nohighlight">\(B^3\)</span>の色空間、すなわち<span class="math notranslate nohighlight">\(3\)</span>次元のベクトルで表現される。ここで、<span class="math notranslate nohighlight">\(|B^3| = 16,777,216\)</span>であるから、ひとつのピクセルは約1677万通りの色で表現される。しかし、人間の目は輝度値の微妙な差にあまり敏感ではない。そこで、画像中の色の中で、似ている色をまとめた<span class="math notranslate nohighlight">\(K\)</span>個のクラスタを作り、画像の各ピクセルの色をクラスタで表現することで、色の数を<span class="math notranslate nohighlight">\(K\)</span>個に減らすことを考える。K-meansクラスタリングを用いる場合、以下の手順となる。</p>
+<ol class="simple">
+<li><p>画像中の各ピクセルの輝度値を<span class="math notranslate nohighlight">\(3\)</span>次元ベクトル<span class="math notranslate nohighlight">\(\pmb{x}_i \in B^3\)</span>で表す。</p></li>
+<li><p>画像中の全ピクセルの輝度値を学習データ<span class="math notranslate nohighlight">\(\mathcal{D} = \{\pmb{x}_i\}_{i=1}^{N}\)</span>と考える（<span class="math notranslate nohighlight">\(N\)</span>は画像中のピクセルの総数、すなわち画像の幅×高さである）</p></li>
+<li><p>学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>に対してK-meansクラスタリングを適用し、<span class="math notranslate nohighlight">\(K\)</span>個のクラスタ中心<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を求める（この<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>が色の代表である）。</p></li>
+<li><p>画像中の全ピクセルをクラスタ番号で表す（これにより、画像中の色数を<span class="math notranslate nohighlight">\(K\)</span>色に削減したことになる）</p></li>
+</ol>
+<p>この色数の削減は、減色処理や色の量子化（color quantization）などとも呼ばれる。なお、量子化（quantization）とは、信号を離散的な値で近似的に表現することを表す。色をベクトルと見なせば、ベクトルを離散的な値で近似的に表現していることから、ベクトル量子化（vector quantization）の一種である。</p>
+<p>以降では、画像の色を<span class="math notranslate nohighlight">\(8\)</span>色（<span class="math notranslate nohighlight">\(K=8\)</span>）に減らすプログラムを説明する。まず、ターゲットとなる画像を読み込む。画像の読み込みには、<a class="reference external" href="https://pillow.readthedocs.io/en/stable/">Pillow</a>というライブラリを用いている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s2">&quot;https://www.titech.ac.jp/news/img/news-26569-title.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
+<span class="n">img</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_41_0.png" src="../_images/01kmeans_41_0.png" />
+</div>
+</div>
+<p>読み込んだ画像をNumPyのオブジェクトに変換する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>NumPyオブジェクトの次元数は3で、先頭から縦方向の位置、横方向の位置、RGBに対応する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(314, 710, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[[201, 217, 230],
+        [201, 217, 230],
+        [201, 217, 230],
+        ...,
+        [191, 213, 236],
+        [191, 213, 236],
+        [190, 212, 235]],
+
+       [[202, 216, 227],
+        [202, 216, 227],
+        [202, 216, 227],
+        ...,
+        [191, 213, 236],
+        [191, 213, 236],
+        [190, 212, 235]],
+
+       [[202, 216, 227],
+        [202, 216, 227],
+        [202, 216, 227],
+        ...,
+        [192, 213, 234],
+        [192, 213, 234],
+        [192, 213, 234]],
+
+       ...,
+
+       [[183, 178, 184],
+        [193, 184, 189],
+        [148, 136, 138],
+        ...,
+        [ 76,  96,  35],
+        [ 65,  87,  25],
+        [105, 124,  69]],
+
+       [[196, 196, 194],
+        [194, 193, 191],
+        [134, 128, 128],
+        ...,
+        [ 23,  27,  28],
+        [ 63,  75,  29],
+        [ 69,  87,  27]],
+
+       [[196, 196, 194],
+        [162, 161, 159],
+        [138, 132, 132],
+        ...,
+        [ 27,  33,  23],
+        [ 74,  84,  49],
+        [ 61,  76,  35]]], dtype=uint8)
+</pre></div>
+</div>
+</div>
+</div>
+<p>例えば、画像の左上のピクセルにアクセスするには、次のようにすればよい。RGB値が3次元のベクトルとして表現されている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([201, 217, 230], dtype=uint8)
+</pre></div>
+</div>
+</div>
+</div>
+<p>さて、K-meansクラスタリングを適用できるようにするため、2次元で配置されていたピクセルを1列に並べる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(222940, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[201, 217, 230],
+       [201, 217, 230],
+       [201, 217, 230],
+       ...,
+       [ 27,  33,  23],
+       [ 74,  84,  49],
+       [ 61,  76,  35]], dtype=uint8)
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(K=10\)</span>としてK-meansクラスタリングを実行する</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KMeans()
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">model.labels_</span></code>には各ピクセルに割り当てられたクラスタ番号が格納されている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">labels_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 0, 0, ..., 6, 1, 6], dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>元画像のピクセルの並びに合うように、全てのクラスタ番号を2次元に再配置した行列<code class="docutils literal notranslate"><span class="pre">label_matrix</span></code>を作成する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_matrix</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">labels_</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">label_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       ...,
+       [5, 5, 2, ..., 1, 1, 3],
+       [5, 5, 2, ..., 6, 6, 1],
+       [5, 2, 2, ..., 6, 1, 6]], dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>この<code class="docutils literal notranslate"><span class="pre">label_matrix</span></code>を可視化する。この可視化では、クラスタの番号が色として表現される。同じ色の点は同じクラスタ番号が割り振られたことを表す。元画像においてRGB値が似ていた点、すなわち色が似ていた点がクラスタにまとめられたことが確認できる。ただし、クラスタの番号と色の対応関係（カラー・パレット）を元画像に合わせていないため、元画像の色合いとはかけ離れた可視化結果となる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">label_matrix</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;Set1&#39;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_60_0.png" src="../_images/01kmeans_60_0.png" />
+</div>
+</div>
+<p>全クラスタの中心を表示する。これは、元画像の色の代表として選ばれた8色のRGB値であり、元画像の色を8色に減色したことを意味する。この代表の色（ベクトル）を、色数の削減ではパレット（palette）、ベクトル量子化ではコードブック（codebook）と呼ぶ。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">cluster_centers_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[213.34601898, 216.1086883 , 219.35429609],
+       [ 81.61237377,  97.39173692,  49.97289327],
+       [149.03175307, 154.63117326, 141.29058663],
+       [122.28835999, 142.11372107,  74.55334679],
+       [183.8264867 , 137.06406495,  32.88350939],
+       [183.33242026, 184.83309568, 182.5102439 ],
+       [ 41.30110574,  55.73089959,  22.39706618],
+       [102.99044874, 110.16865293, 112.42210558]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>色のRGB値を整数で表示するため、これらのRGB値を整数に丸める。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">palette</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+<span class="n">palette</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[213, 216, 219],
+       [ 81,  97,  49],
+       [149, 154, 141],
+       [122, 142,  74],
+       [183, 137,  32],
+       [183, 184, 182],
+       [ 41,  55,  22],
+       [102, 110, 112]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>減色後の画像がどのようになったのかを確認するため、各ピクセルのクラスタ番号からその色を取り出す。なお、NumPyにおいてインデックスに行列を用いた場合の動作は<a class="reference external" href="https://numpy.org/doc/stable/user/quickstart.html#indexing-with-arrays-of-indices">Indexing with Arrays of Indices</a>で説明されている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_decoded</span> <span class="o">=</span> <span class="n">palette</span><span class="p">[</span><span class="n">label_matrix</span><span class="p">]</span>
+<span class="n">image_decoded</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[[213, 216, 219],
+        [213, 216, 219],
+        [213, 216, 219],
+        ...,
+        [213, 216, 219],
+        [213, 216, 219],
+        [213, 216, 219]],
+
+       [[213, 216, 219],
+        [213, 216, 219],
+        [213, 216, 219],
+        ...,
+        [213, 216, 219],
+        [213, 216, 219],
+        [213, 216, 219]],
+
+       [[213, 216, 219],
+        [213, 216, 219],
+        [213, 216, 219],
+        ...,
+        [213, 216, 219],
+        [213, 216, 219],
+        [213, 216, 219]],
+
+       ...,
+
+       [[183, 184, 182],
+        [183, 184, 182],
+        [149, 154, 141],
+        ...,
+        [ 81,  97,  49],
+        [ 81,  97,  49],
+        [122, 142,  74]],
+
+       [[183, 184, 182],
+        [183, 184, 182],
+        [149, 154, 141],
+        ...,
+        [ 41,  55,  22],
+        [ 41,  55,  22],
+        [ 81,  97,  49]],
+
+       [[183, 184, 182],
+        [149, 154, 141],
+        [149, 154, 141],
+        ...,
+        [ 41,  55,  22],
+        [ 81,  97,  49],
+        [ 41,  55,  22]]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>このNumPyオブジェクトを画像として表示すると、次のようになる。色の精密さは失われているが、元画像をよく表している。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">image_decoded</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01kmeans_68_0.png" src="../_images/01kmeans_68_0.png" />
+</div>
+</div>
+<p>さて、ベクトル量子化により元画像をどのくらい圧縮できたのかを考察してみたい。元画像のサイズは<span class="math notranslate nohighlight">\(710 \times 314\)</span>で、各ピクセルはRGBの輝度値、各輝度値8ビット（1バイト）で表現できるので、（JPEG等で圧縮していない状態の）元画像の情報量は、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+710 \times 314 \times 3 \times 1 = 668,820 \text{ [bytes]} = 668.82 \text{ [kB]}
+\end{align*}\]</div>
+<p>これに対し、ベクトル量子化を施した後、元画像を復元するのに必要な情報はパレット（コードブック）とクラスタ番号である。<span class="math notranslate nohighlight">\(K=8\)</span>としたとき、パレットの情報量は、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+3 \times 1 \times 8 = 24 \text{ [bytes]}
+\end{align*}\]</div>
+<p>各画素は8種類の値、すなわち<span class="math notranslate nohighlight">\(3\)</span>ビットで表現できるので、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+710 \times 314 \times 3 = 668,820 \text{ [bits]} \approx 83,603 \text{ [bytes]}
+\end{align*}\]</div>
+<p>ゆえに、パレットとクラスタ番号を保存するのに必要なバイト数は、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+83,603 \text{ [bytes]} + 24 \text{ [bytes]} = 83,627 \text{ [bytes]} = 83.627 \text{ [kB]}
+\end{align*}\]</div>
+<p>したがって、色数の削減により元画像データの情報量を約1/8に圧縮したことになる。</p>
+</div>
+<div class="section" id="id20">
+<h2><span class="section-number">10.10. </span>確認問題<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference external" href="https://www.nstac.go.jp/SSDSE/">教育用標準データセット（SSDSE）</a>に収録されている都道府県庁所在市別・家計消費データ（SSDSE-C）に対してクラスタ分析を適用し、消費行動が類似している都道府県のクラスタを作りたい。</p>
+<p><strong>(1) データセットの読み込み</strong></p>
+<p>このデータセットを読み込み、各都道府県庁所在地を特徴ベクトルで表現せよ。</p>
+<p><strong>(2) WCSSのプロット</strong></p>
+<p>K-meansクラスタリングを異なるクラスタ数<span class="math notranslate nohighlight">\(K\)</span>で実行し、横軸にクラスタ数、縦軸にK-meansの目的関数の値、すなわちクラスタ内平方和（WCSS: within-cluster sum-of-squares）をプロットしたグラフを描画せよ。</p>
+<p><strong>(3) K-meansクラスタリング</strong></p>
+<p>(2)の結果に基づき、クラスタ数<span class="math notranslate nohighlight">\(K\)</span>を適当に選び、K-meansクラスタリングを実行せよ。<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(K\)</span>までの各クラスタに対して、それぞれ所属する都道府県庁所在地を明らかにせよ。</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "chokkan/mlnote",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./unsupervised"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../classification/05svm.html" title="前へ ページ">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">前へ</p>
+            <p class="prev-next-title"><span class="section-number">9. </span>サポートベクトルマシン</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="02hac.html" title="次へ ページ">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">次へ</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>階層的クラスタリング</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          <div class="extra_footer">
+            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,1499 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5. 線形二値分類 &#8212; 機械学習帳</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://chokkan.github.io/mlnote/classification/01binary.html" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="6. 線形多クラス分類" href="02multi.html" />
+    <link rel="prev" title="4. 勾配法によるパラメータ推定" href="../regression/04sgd.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="ja">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">機械学習帳</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="この本を検索..." aria-label="この本を検索..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  回帰
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/01sra.html">
+   1. 単回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/02mra.html">
+   2. 重回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/03regularization.html">
+   3. モデル選択と正則化
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/04sgd.html">
+   4. 勾配法によるパラメータ推定
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  分類
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   5. 線形二値分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02multi.html">
+   6. 線形多クラス分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03nn.html">
+   7. ニューラルネットワーク (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04nntrain.html">
+   8. ニューラルネットワーク (2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05svm.html">
+   9. サポートベクトルマシン
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  教師無し学習
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/01kmeans.html">
+   10. 非階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/02hac.html">
+   11. 階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/03pca.html">
+   12. 主成分分析 (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/04pca2.html">
+   13. 主成分分析 (2)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  付録
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation.html">
+   表記
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reference.html">
+   参考文献・謝辞
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="ナビゲーションを切り替え" aria-controls="site-navigation"
+                title="ナビゲーションを切り替え" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/classification/01binary.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="ソースファイルをダウンロード" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/chokkan/mlnote"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="ソースリポジトリ"><i
+                    class="fab fa-github"></i>リポジトリ</button></a>
+        <a class="issues-button"
+            href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fclassification/01binary.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="問題を開く"><i class="fas fa-lightbulb"></i>未解決の問題</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="全画面モード"
+        title="全画面モード"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/classification/01binary.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="発売 Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/classification/01binary.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="発売 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="発売 Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> 目次
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   5.1. 二値分類の例：スパム判定
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   5.2. 線形二値分類
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   5.3. ロジスティック回帰
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     5.3.1. シグモイド関数の実装
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   5.4. データの表現
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   5.5. 尤度
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   5.6. 最尤推定
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   5.7. 確率的勾配降下法
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     5.7.1. 確率的勾配降下法の更新式の解釈
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#l-2">
+     5.7.2.
+     <span class="math notranslate nohighlight">
+      \(L_2\)
+     </span>
+     正則化付きロジスティック回帰
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   5.8. 評価
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id12">
+   5.9. スパムフィルタの構築
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     5.9.1. データのダウンロード
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     5.9.2. データの読み込み
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     5.9.3. データ形式の変換
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     5.9.4. 二値分類モデルの学習
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     5.9.5. 分類器の適用・評価
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id18">
+     5.9.6. モデルパラメータの確認
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id19">
+   5.10. 確認問題
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1><span class="section-number">5. </span>線形二値分類<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">5.1. </span>二値分類の例：スパム判定<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>電子メールは誰にでもすぐにメッセージを送ることができるので便利である一方、自分が受け取りたくないスパムメール（迷惑メール）が送られてくることがある。<a class="reference external" href="https://www.soumu.go.jp/main_sosiki/joho_tsusin/d_syohi/m_mail.html">総務省の統計</a>によると、電気通信事業者１０社の全受信メール数に対する<a class="reference external" href="https://www.soumu.go.jp/main_content/000693529.pdf">迷惑メール数の割合は約50%（2020年3月時点）</a>である。そこで、多くのメールサーバやメールクライアントではスパムメールを自動で認識し、利用者の目に触れさせない機能（スパムフィルタ）が搭載されている。スパムフィルタの主なタスクは、与えられたメールがスパムであるか、スパムではないか自動的に判定することである。この判定を行うモジュール、すなわちスパム判定器を構築するのが、今回のお題である。</p>
+<p>では、スパム判定器をどのように構築すればよいか。以下のスパムメールを具体例として考えたい。</p>
+<p><img alt="spam" src="../_images/spam-s.png" /></p>
+<p>このメールの本文中で&quot;I am Victoriya&quot;, &quot;search for boy-friend&quot;, &quot;Ny photos&quot;などのフレーズが出てくることに着目し、これらのフレーズが本文中に含まれているメールをスパムと判定するには、次のようなルールを実装するかもしれない。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_spam</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;I am Victoriya&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;search for boy-friend&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Ny photos&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="c1">#</span>
+    <span class="c1"># ... (大量の判定ルール)</span>
+    <span class="c1">#</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">is_spam</span><span class="p">(</span><span class="s1">&#39;I am Victoriya, I am 27 y.o.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">is_spam</span><span class="p">(</span><span class="s1">&#39;I search for boy-friend.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>このようにメールの本文に関して、スパムである条件を記述していくアプローチを<strong>ルール</strong>に基づく手法と呼ぶ。ルールに基づく手法は、訓練データが少ないときは迅速に作ることができる、スパムと判定する条件が明解であるという利点がある。一方で、スパムと判定する条件を詳細化するほどプログラムが複雑になるため、ルールの保守が難しい。また、英語のスパムメールのために作ったルールを、日本語のスパムメールに適用することができないため、特定の言語やジャンルにおけるメールにしか対応できない。</p>
+<p>そこで、教師あり学習を用いてスパム判定器を構築することを考える。より具体的には、メールを<span class="math notranslate nohighlight">\(d\)</span>次元の説明変数<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>で表現し、スパムメールか（<span class="math notranslate nohighlight">\(1\)</span>）スパムメールでないか（<span class="math notranslate nohighlight">\(0\)</span>）を表す目的変数（出力）<span class="math notranslate nohighlight">\(y \in \{0, 1\}\)</span>を考える。説明変数から目的変数を計算する関数<span class="math notranslate nohighlight">\(f: \mathbb{R}^d \longmapsto \{0, 1\}\)</span>を教師データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>から学習することで、スパム判定器を構築できる。説明変数から<span class="math notranslate nohighlight">\(\{0, 1\}\)</span>などの離散値を取る目的変数を求めることを<strong>分類</strong>（classification）もしくは<strong>識別</strong>と呼ぶ。分類において目的変数が取りうる値は、<strong>クラス</strong>や<strong>カテゴリ</strong>などと呼ばれる。特に、説明変数の取りうる値が２つのクラスに限定された分類を、<strong>二値分類</strong>（binary classification）と呼ぶ。</p>
+<p>以下の図は、機械学習によるスパムフィルターの典型的な動作を示している。スパムメールに関する教師データを使い、事前にスパム判定器を学習しておく。そして、与えられたメールに対して、スパム判定器はメールがスパムであるかどうか推定する。スパムと判定されたメールはスパムフォルダーに自動的に仕分けすることで、新着メールとして表示させないようにする。ただ、スパム判定器が間違った判定をしてしまうことがある。例えば、本当はスパムであるメールをスパムではないと判定してしまうと、新着メールとして表示されてしまう。このとき、メールを閲覧したユーザがそのメールにスパムであることの目印（フラグ）を付けたとする（スパムフォルダーに移動させてもよい）。これは、スパムメールの新しい学習事例を作ったことに相当する。そこで、この新しい学習事例を教師データとしてスパム判定器を再学習すると、スパム判定の性能が向上すると期待される。以降では、スパム判定などの二値分類を実現するモデルと、その学習方法や評価方法を説明する。</p>
+<a class="reference internal image-reference" href="../_images/spam-filter.svg"><img alt="スパム判定器" src="../_images/spam-filter.svg" width="480px" /></a>
+<p>なお、スパムの語源はイギリスBBCが1970年頃に制作した『<a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%A9%BA%E9%A3%9B%E3%81%B6%E3%83%A2%E3%83%B3%E3%83%86%E3%82%A3%E3%83%BB%E3%83%91%E3%82%A4%E3%82%BD%E3%83%B3">空飛ぶモンティ・パイソン</a>』のスケッチ「<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%91%E3%83%A0_(%E3%83%A1%E3%83%BC%E3%83%AB)">スパム</a>」から来ていると言われている（以下は2014年に行われた<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%B3%E3%83%86%E3%82%A3%E3%83%BB%E3%83%91%E3%82%A4%E3%82%BD%E3%83%B3_%E5%BE%A9%E6%B4%BB%E3%83%A9%E3%82%A4%E3%83%96%21">復活ライブ</a>の時に使われた
+メニュー）。</p>
+<p><a title="Eduardo Unda-Sanzana from Antofagasta, Chile, CC BY 2.0 &lt;https://creativecommons.org/licenses/by/2.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Monty_Python_Live_02-07-14_13_04_42_(14598710791).jpg"><a class="reference internal" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Monty_Python_Live_02-07-14_13_04_42_%2814598710791%29.jpg/256px-Monty_Python_Live_02-07-14_13_04_42_%2814598710791%29.jpg"><img alt="Monty Python Live 02-07-14 13 04 42 (14598710791)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Monty_Python_Live_02-07-14_13_04_42_%2814598710791%29.jpg/256px-Monty_Python_Live_02-07-14_13_04_42_%2814598710791%29.jpg" style="width: 256px;" /></a></a></p>
+<p>メールのスパム判定以外にも、二値分類には様々な応用例がある。</p>
+<ul class="simple">
+<li><p>臨床検査: 血液検査やアンケートの回答などの説明変数から、患者の病気や異常の有無を判定する</p></li>
+<li><p>与信調査: 属性情報や過去の取引履歴から顧客の信用の有無を判定する</p></li>
+<li><p>当落予測: 世論調査や出口調査の結果から、候補者の当選・落選を予測する</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">5.2. </span>線形二値分類<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>線形二値分類</strong> (linear binary classification) は、<span class="math notranslate nohighlight">\(d\)</span>次元の特徴ベクトルで表現された事例<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^{d}\)</span>が与えられた時、線形モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w} \in \mathbb{R}^{d}\)</span>との内積を計算し、その正負によってラベル<span class="math notranslate nohighlight">\(\hat{y} \in \{1, 0\}\)</span>を推定する。</p>
+<div class="important admonition">
+<p class="admonition-title">線形二値分類のラベル推定式</p>
+<div class="math notranslate nohighlight" id="equation-eq-binary-classification">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-eq-binary-classification" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+\begin{gather}
+    \hat{y} = \begin{cases}
+        1 &amp; \left(\pmb{x}^\top \pmb{w} &gt; 0\right) \\
+        0 &amp; (\mbox{それ以外})
+    \end{cases}
+\end{gather}
+\end{split}\]</div>
+</div>
+<p>スパム判定では、スパムメールを<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>、スパムではないメールを<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>などと定義する。二値分類において、<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>の事例を<strong>正例</strong>（positive example）、<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>の事例を<strong>負例</strong>（negative example）と呼ぶことがある。</p>
+<p>メールがスパムであるか判定するための手がかりは色々考えられるが、ここでは簡単のため、<span class="math notranslate nohighlight">\(d=9\)</span>次元の特徴空間を例として用いる。この特徴空間の<span class="math notranslate nohighlight">\(1\)</span>次元目は、与えられたメールの本文に&quot;attached&quot;という単語が含まれるならば<span class="math notranslate nohighlight">\(1\)</span>、含まれなければ<span class="math notranslate nohighlight">\(0\)</span>とする。同様に、<span class="math notranslate nohighlight">\(2\)</span>次元目から<span class="math notranslate nohighlight">\(8\)</span>次元目まで、メール本文中に、それぞれ&quot;darling&quot;, &quot;file&quot;, &quot;hi&quot;, &quot;kyoto&quot;, &quot;mark&quot;, &quot;my&quot;, &quot;photo&quot;という単語が含まれるかどうかを表現する。<span class="math notranslate nohighlight">\(9\)</span>次元目はメールの内容に関わらず常に<span class="math notranslate nohighlight">\(1\)</span>とする。例えば、スパム判定を行いたいメールの本文が&quot;Hi darling, my photo in attached file&quot;であった場合、事例<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^9\)</span>は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3b6bc698-ec6e-43ab-9c69-43d2e97222cf">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-3b6bc698-ec6e-43ab-9c69-43d2e97222cf" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+ \pmb{x} = \begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
+\end{pmatrix}^\top
+\end{gather}\]</div>
+<p>線形二値分類は、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>とパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の内積、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d8190be9-36da-47fb-a166-b280afd48735">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-d8190be9-36da-47fb-a166-b280afd48735" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+ \pmb{x}^\top \pmb{w} = \begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
+\end{pmatrix} \begin{pmatrix}
+w_1 \\
+w_2 \\
+w_3 \\
+w_4 \\
+w_5 \\
+w_6 \\
+w_7 \\
+w_8 \\
+w_9
+\end{pmatrix} =w_1 + w_2 + w_3 + w_4 + w_7 + w_8 + w_9
+\end{gather}\]</div>
+<p>を計算し、その符号が正ならば事例をスパム（<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>）と判定し、<span class="math notranslate nohighlight">\(0\)</span>以下ならばスパムでない（<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>）と判定する。つまり、メールに含まれている単語<span class="math notranslate nohighlight">\(j\)</span>に対応する重み<span class="math notranslate nohighlight">\(w_j\)</span>の和でメールのスパムらしさをスコア付けし、そのスコアがしきい値<span class="math notranslate nohighlight">\(0\)</span>を超えたらスパムメールと判定する。</p>
+<p>なお、特徴ベクトルの<span class="math notranslate nohighlight">\(d\)</span>次元目の値が常に<span class="math notranslate nohighlight">\(1\)</span>であることに注意して、正例・負例の判別条件を求めると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3f98e788-722a-4674-8ab8-8312b1dc05fe">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-3f98e788-722a-4674-8ab8-8312b1dc05fe" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+ \pmb{x}^\top\pmb{w} = \sum_{j=1}^{d} w_j x_j = \sum_{j=1}^{d-1} w_j x_j + w_d &amp;&gt; 0 \\
+ \sum_{j=1}^{d-1} w_j x_j &amp;&gt; -w_d
+\end{align}\]</div>
+<p>となる。すなわち、事例を分類するしきい値を<span class="math notranslate nohighlight">\(0\)</span>に固定するのではなく、重み<span class="math notranslate nohighlight">\(-w_9\)</span>でしきい値を自動的に調整する効果が得られる。このように、すべての事例で<span class="math notranslate nohighlight">\(1\)</span>となる特徴量を入れておくことで、線形二値分類モデルのバイアス項を導入できる。</p>
+<p>線形モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>は、学習データによく合致するように（例えば学習データ上においてスパム判定が正しく行えるように）決定する。モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を推定する方法は色々あるが、ここではロジスティック回帰に基づく確率的勾配降下法を紹介する。</p>
+</div>
+<div class="section" id="id4">
+<h2><span class="section-number">5.3. </span>ロジスティック回帰<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>ロジスティック回帰</strong>（logistic regression）は線形二値分類を実現するモデルの一つで、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>に対するラベル<span class="math notranslate nohighlight">\(\hat{y} \in \{1, 0\}\)</span>の条件付き確率<span class="math notranslate nohighlight">\(p(y|\pmb{x})\)</span>を以下の式で求める。</p>
+<div class="important admonition">
+<p class="admonition-title">ロジスティック回帰</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ea18d1b3-29d8-44be-99b2-0df2dff70feb">
+<span class="eqno">(5.5)<a class="headerlink" href="#equation-ea18d1b3-29d8-44be-99b2-0df2dff70feb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+ P(\hat{y} = 1|\pmb{x}) &amp;= \sigma(\pmb{x}^\top \pmb{w}) = \frac{1}{1 + \exp\left(-\pmb{x}^\top \pmb{w}\right)} \\
+ P(\hat{y} = 0|\pmb{x}) &amp;= 1 - p(\hat{y} = 1|\pmb{x})
+\end{align}\]</div>
+</div>
+<p>ただし、<span class="math notranslate nohighlight">\(\sigma(a)\)</span>は<strong>シグモイド関数</strong> (sigmoid function) である。</p>
+<div class="important admonition">
+<p class="admonition-title">シグモイド関数</p>
+<div class="math notranslate nohighlight" id="equation-eq-sigmoid">
+<span class="eqno">(5.6)<a class="headerlink" href="#equation-eq-sigmoid" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{gather}
+\sigma(a) = \frac{1}{1 + \exp\left(-a\right)}
+\end{gather}
+\]</div>
+</div>
+<p>シグモイド関数の形状を以下に示す。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$a$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$\sigma(a)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01binary_14_0.png" src="../_images/01binary_14_0.png" />
+</div>
+</div>
+<p>この形状から明らかなように、シグモイド関数は、以下の特徴を持つ。</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\((-\infty, +\infty) \to (0, 1)\)</span>の単調増加関数</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{a \to -\infty} \sigma(a) = 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{a \to +\infty} \sigma(a) = 1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((0, 0.5)\)</span>に関して点対称</p></li>
+</ul>
+<p>ゆえに、ロジスティック回帰は線形二値分類モデルの内積値<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}\)</span>をシグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>で確率値に変換していると理解することができる。また、</p>
+<div class="math notranslate nohighlight" id="equation-eq-sigmoid-negative">
+<span class="eqno">(5.7)<a class="headerlink" href="#equation-eq-sigmoid-negative" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+ 1 - \sigma(a) = \frac{\left\{1 + e^{-a}\right\} - 1}{1 + e^{-a}} = \frac{e^{-a}}{1 + e^{-a}} = \frac{e^a e^{-a}}{e^a(1 + e^{-a})} = \frac{1}{1 + e^a} = \sigma(-a)
+\end{align}
+\]</div>
+<p>であるから、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-24af2859-58d8-4a67-bf5c-3fdab025658e">
+<span class="eqno">(5.8)<a class="headerlink" href="#equation-24af2859-58d8-4a67-bf5c-3fdab025658e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+ P(\hat{y} = 1|\pmb{x}) &amp;= \sigma(\pmb{x}^\top \pmb{w}) \\
+ P(\hat{y} = 0|\pmb{x}) &amp;= 1 - P(1|\pmb{x}) = 1 - \sigma(\pmb{x}^\top \pmb{w}) = \sigma(-\pmb{x}^\top \pmb{w})
+\end{align}\]</div>
+<p>なお、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>を<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測する確率が<span class="math notranslate nohighlight">\(0.5\)</span>を上回る条件を求めると、線形二値分類の判別式<a class="reference internal" href="#equation-eq-binary-classification">(5.1)</a>と整合することが確認できる。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-aff74a73-9d63-4f4e-95a5-c7b7c7f7baa1">
+<span class="eqno">(5.9)<a class="headerlink" href="#equation-aff74a73-9d63-4f4e-95a5-c7b7c7f7baa1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+ P(\hat{y} = 1|\pmb{x}) &gt; 0.5 \Leftrightarrow \frac{1}{1 + \exp\left(-\pmb{x}^\top \pmb{w}\right)} &gt; \frac{1}{2} \Leftrightarrow 2 &gt; 1 + \exp\left(-\pmb{x}^\top \pmb{w}\right) \Leftrightarrow \pmb{x}^\top \pmb{w} &gt; 0
+\end{align}\]</div>
+<div class="section" id="id5">
+<h3><span class="section-number">5.3.1. </span>シグモイド関数の実装<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>シグモイド関数<span class="math notranslate nohighlight">\(\sigma(a)\)</span>を素直に実装すると、以下のようなプログラムになるであろう。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigmoid</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigmoid</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">sigmoid</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.9525741268224334, 0.04742587317756678)
+</pre></div>
+</div>
+</div>
+</div>
+<p>ところが、<span class="math notranslate nohighlight">\(a=-1000\)</span>とすると<span class="math notranslate nohighlight">\(e^{1000}\)</span>の計算でオーバーフローが発生する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigmoid</span><span class="p">(</span><span class="o">-</span><span class="mf">1000.</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-2-d5641a12eae7&gt;:2: RuntimeWarning: overflow encountered in exp
+  return 1 / (1 + np.exp(-a))
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>この問題を回避するには、式<a class="reference internal" href="#equation-eq-sigmoid-negative">(5.7)</a>より<span class="math notranslate nohighlight">\(\sigma(-a) = 1 - \sigma(a)\)</span>であることを利用し、<code class="docutils literal notranslate"><span class="pre">np.exp</span></code>の計算結果が大きくならないようにすればよい。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigmoid</span><span class="p">(</span><span class="o">-</span><span class="mf">1000.</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2><span class="section-number">5.4. </span>データの表現<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>分類問題のデータの表現方法は回帰と同様である。説明変数と目的変数の一つの組を学習事例として表現する。<span class="math notranslate nohighlight">\(1\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>、<span class="math notranslate nohighlight">\(2\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_2, y_2)\)</span>、<span class="math notranslate nohighlight">\(i\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_i, y_i)\)</span>と表すことにすると、<span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は次のように表される。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-14be3513-fc13-48d3-ab54-c7fa5213e601">
+<span class="eqno">(5.10)<a class="headerlink" href="#equation-14be3513-fc13-48d3-ab54-c7fa5213e601" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathcal{D} = \left\{(\pmb{x}_1, y_1), (\pmb{x}_2, y_2), \dots, (\pmb{x}_N, y_N)\right\} = \left\{(\pmb{x}_i, y_i)\right\}_{i=1}^{N}
+\end{align}\]</div>
+<p>以降では、2個の学習事例（<span class="math notranslate nohighlight">\(N=2\)</span>）からなる単純なデータ<span class="math notranslate nohighlight">\(\mathcal{D}_{s}\)</span>を例として用いる。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5d6d2add-dab0-4fda-ab28-3c0631d18c74">
+<span class="eqno">(5.11)<a class="headerlink" href="#equation-5d6d2add-dab0-4fda-ab28-3c0631d18c74" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathcal{D}_s &amp;= \left\{(\pmb{x}_i, y_i)\right\}_{i=1}^{2} = \left\{(\pmb{x}_1, y_1), (\pmb{x}_2, y_2)\right\} \\
+ (\pmb{x}_1, y_1) &amp;= \left(\begin{pmatrix}
+1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 1
+\end{pmatrix}^\top, 0\right) \\
+ (\pmb{x}_2, y_2) &amp;= \left(\begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
+\end{pmatrix}^\top, 1\right)
+\end{align}\]</div>
+<p>なお、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}_{s}\)</span>はトイ・データではあるが、スパム判定の例と対応付けて理解できるように、メールを<span class="math notranslate nohighlight">\(\mathcal{D}_{s}\)</span>に変換するまでの過程を簡単に説明しておく。先ほどの<span class="math notranslate nohighlight">\(d=9\)</span>次元の特徴空間を用いたスパムメール判定の例の通り、メールは<span class="math notranslate nohighlight">\(9\)</span>次元の事例ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>で表現され、<span class="math notranslate nohighlight">\(1\)</span>次元目から<span class="math notranslate nohighlight">\(8\)</span>次元目まで、各次元はメール本文中に&quot;attached&quot;, &quot;darling&quot;, &quot;file&quot;, &quot;hi&quot;, &quot;kyoto&quot;, &quot;mark&quot;, &quot;my&quot;, &quot;photo&quot;が含まれるならば<span class="math notranslate nohighlight">\(1\)</span>、含まれなければ<span class="math notranslate nohighlight">\(0\)</span>である。<span class="math notranslate nohighlight">\(9\)</span>次元目はメールの内容に関わらず常に<span class="math notranslate nohighlight">\(1\)</span>としておく。いま、スパム判定器の学習データとして、以下の2つのメールがあるとすると、先ほどの学習データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>が得られる。</p>
+<ul class="simple">
+<li><p>学習事例1（スパムではない）: &quot;Hi Mark, Kyoto photo in attached file&quot;</p></li>
+<li><p>学習事例2（スパム）: &quot;Hi darling, my photo in attached file&quot;</p></li>
+</ul>
+<p>なお、分類モデルは特徴ベクトル（説明変数）を通してのみ、メールなどの入力を観測できる。したがって、分類が成功しやすくなるような特徴空間を定義することは、分類器の性能を向上させるために極めて重要である。</p>
+</div>
+<div class="section" id="id7">
+<h2><span class="section-number">5.5. </span>尤度<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>さて、何らかの方法でモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を以下のように決定したとしよう。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-27389c44-0861-4e2c-9c8e-12e8d5027324">
+<span class="eqno">(5.12)<a class="headerlink" href="#equation-27389c44-0861-4e2c-9c8e-12e8d5027324" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{w} = \begin{pmatrix}
+1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 1 &amp; -2
+\end{pmatrix}^\top
+\end{align}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>中の事例<span class="math notranslate nohighlight">\(\pmb{x}_1\)</span>に対してロジスティック回帰モデルを適用する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9925e2de-56e8-423a-8c2d-3cb8d8c486e4">
+<span class="eqno">(5.13)<a class="headerlink" href="#equation-9925e2de-56e8-423a-8c2d-3cb8d8c486e4" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+ \pmb{x}_1^\top \pmb{w} = \begin{pmatrix}
+1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 1
+\end{pmatrix} \begin{pmatrix}
+1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 1 &amp; -2
+\end{pmatrix}^\top = -1 \\
+P(\hat{y} = 1|\pmb{x}_1) = \sigma(\pmb{x}_1^\top \pmb{w}) = \sigma(-1) \approx 0.269
+\end{gather}\]</div>
+<p>ゆえに、<span class="math notranslate nohighlight">\(p(\hat{y} = 1|\pmb{x}_1) = 0.269\)</span>であるから、このモデルは与えられたメールがスパムである確率を<span class="math notranslate nohighlight">\(0.269\)</span>と予測し、その確率が<span class="math notranslate nohighlight">\(0.5\)</span>を超えないことから、<span class="math notranslate nohighlight">\(\pmb{x}_1\)</span>はスパムメールではないと判定している。</p>
+<p>これまでの流れは、事例<span class="math notranslate nohighlight">\(\pmb{x}_1\)</span>とモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が与えられた時、予測結果<span class="math notranslate nohighlight">\(p(\hat{y} = 1|\pmb{x}_1) = 0.269\)</span>を計算するものであった。ここで、学習事例<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>は不変（&quot;Hi Mark, Kyoto photo in attached file&quot;というメールがスパムではないのは事実）であると考える。そして、確率に対する見方を変えて、このモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が与えられた学習事例を正しく判定できる確率、すなわちモデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の学習事例<span class="math notranslate nohighlight">\((\pmb{x}, y)\)</span>に対する<strong>尤度</strong><span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, y}(\pmb{w})\)</span>を次式で定義する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ad47703e-1f6d-4556-9f2f-27cc2d3ebf5c">
+<span class="eqno">(5.14)<a class="headerlink" href="#equation-ad47703e-1f6d-4556-9f2f-27cc2d3ebf5c" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+\hat{l}_{\pmb{x}, y}(\pmb{w}) = P(\hat{y} = y | \pmb{x})
+\end{gather}\]</div>
+<p>この学習事例に対する尤度は、モデルのパラメータが「どのくらい学習事例を正しく再現できるか」を定量化した指標と見なすことができる。尤度が<span class="math notranslate nohighlight">\(1\)</span>に近いほど学習事例を正しく再現できていること、<span class="math notranslate nohighlight">\(0\)</span>に近づくほど学習事例を間違って（例えば<span class="math notranslate nohighlight">\(y=0\)</span>なのに<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測して）再現していることを意味する。</p>
+<p>例えば、学習事例<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>は<span class="math notranslate nohighlight">\(y_1 = 0\)</span>であるから、この学習事例に対するモデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の尤度は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c7042efa-85b2-4090-b8f6-f916e6c23a76">
+<span class="eqno">(5.15)<a class="headerlink" href="#equation-c7042efa-85b2-4090-b8f6-f916e6c23a76" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+\hat{l}_{\pmb{x}_1, y_1}(\pmb{w}) = P(\hat{y} = 0|\pmb{x}_1) = 1 - P(\hat{y} = 1|\pmb{x}_1) = 1 - 0.269 = 0.731
+\end{gather}\]</div>
+<p>これは、モデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が学習事例<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>を<span class="math notranslate nohighlight">\(0.731\)</span>の確率で正しく分類できることを表している。</p>
+<p>続いて、<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>中の事例<span class="math notranslate nohighlight">\(\pmb{x}_2\)</span>に対してロジスティック回帰モデルを適用する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-eea73cd3-99dd-478f-acf3-c1a9d81476a3">
+<span class="eqno">(5.16)<a class="headerlink" href="#equation-eea73cd3-99dd-478f-acf3-c1a9d81476a3" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+ \pmb{x}_2^\top \pmb{w} = \begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
+\end{pmatrix} \begin{pmatrix}
+1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 1 &amp; -2
+\end{pmatrix}^\top = 3 \\
+P(\hat{y} = 1|\pmb{x}_2) = \sigma(\pmb{x}_2^\top \pmb{w}) = \sigma(3) \approx 0.953
+\end{gather}\]</div>
+<p>ゆえに、このモデルは与えられたメールがスパムである確率を<span class="math notranslate nohighlight">\(0.953\)</span>と推定し、その確率が<span class="math notranslate nohighlight">\(0.5\)</span>を超えていることから、<span class="math notranslate nohighlight">\(\pmb{x}_2\)</span>はスパムメールである可能性が高いと判定している。また、モデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の学習事例<span class="math notranslate nohighlight">\((\pmb{x}_2, y_2)\)</span>に対する尤度<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}_2, y_2}(\pmb{w})\)</span>は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1bb87e5d-6135-490a-a642-e657fc953201">
+<span class="eqno">(5.17)<a class="headerlink" href="#equation-1bb87e5d-6135-490a-a642-e657fc953201" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+\hat{l}_{\pmb{x}_2, y_2}(\pmb{w}) = P(\hat{y} = 1|\pmb{x}_2) = 0.953
+\end{gather}\]</div>
+<p>これは、モデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が学習事例<span class="math notranslate nohighlight">\((\pmb{x}_2, y_2)\)</span>を<span class="math notranslate nohighlight">\(0.953\)</span>の確率で正しく分類できることを表している。</p>
+<p>なお、学習事例に対する尤度<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, y}\)</span>は、<span class="math notranslate nohighlight">\(y=0\)</span>と<span class="math notranslate nohighlight">\(y=1\)</span>で場合分けした後、<span class="math notranslate nohighlight">\(y\)</span>乗を使ってまとめると、次式で表現できる。</p>
+<div class="important admonition">
+<p class="admonition-title">事例ごとの尤度</p>
+<div class="math notranslate nohighlight" id="equation-eq-instance-likelihood">
+<span class="eqno">(5.18)<a class="headerlink" href="#equation-eq-instance-likelihood" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+\begin{gather}
+\hat{l}_{\pmb{x}, y}(\pmb{w}) = P(\hat{y} = y | \pmb{x}) = \begin{cases}
+P(\hat{y} = 1 | \pmb{x}) &amp; (y = 1\mbox{のとき}) \\
+P(\hat{y} = 0 | \pmb{x}) &amp; (y = 0\mbox{のとき}) \\
+\end{cases}
+&amp;= p^{y} (1-p)^{(1 - y)}
+\end{gather}
+\end{split}\]</div>
+</div>
+<p>ここで、</p>
+<div class="math notranslate nohighlight" id="equation-eq-definition-of-p">
+<span class="eqno">(5.19)<a class="headerlink" href="#equation-eq-definition-of-p" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+p = P(\hat{y} = 1 | \pmb{x}) = \sigma(\pmb{x}^\top \pmb{w})
+\end{align}
+\]</div>
+<p>とおいた。</p>
+</div>
+<div class="section" id="id8">
+<h2><span class="section-number">5.6. </span>最尤推定<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>先ほどの例では、モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を合理的な値に（手で）調整しておいたので、すべての学習事例を正しく分類できた。しかし、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の値によっては、正しく分類できない学習事例が出てくる。また、両方の学習事例の尤度は学習事例を完全に再現できる値（<span class="math notranslate nohighlight">\(1\)</span>）を下回っている。パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を調整することで、すべての学習事例の尤度を<span class="math notranslate nohighlight">\(1\)</span>に引き上げ、未知の事例に対する予測性能を向上させることができるかもしれない。先ほどの学習データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の例では、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>をうまく調整することで、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e42b4773-249c-4ff5-9f1b-27e0d7e96171">
+<span class="eqno">(5.20)<a class="headerlink" href="#equation-e42b4773-249c-4ff5-9f1b-27e0d7e96171" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+\hat{l}_{\pmb{x}_1, y_1}(\pmb{w}) &amp;= 0.731 \rightsquigarrow 1 \\
+\hat{l}_{\pmb{x}_2, y_2}(\pmb{w}) &amp;= 0.953 \rightsquigarrow 1
+\end{gather}\]</div>
+<p>を実現できるかもしれない。</p>
+<p>そこで、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>全体における尤度を定義し、モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>がどのくらい学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>をうまく反映しているのか、定量的に示したい。ここで、学習データのすべての事例は<strong>独立同分布</strong>（i.i.d: independent and identically distributed）である仮定し、学習データ全体の尤度<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{w})\)</span>を各学習事例の尤度の結合確率として定義する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-cc705656-7a01-4c6d-8c50-951911e4d8ad">
+<span class="eqno">(5.21)<a class="headerlink" href="#equation-cc705656-7a01-4c6d-8c50-951911e4d8ad" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{L}_{\mathcal{D}}(\pmb{w}) = \prod_{i=1}^N \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
+\end{align}\]</div>
+<p>学習データ全体の尤度も<span class="math notranslate nohighlight">\(0\)</span>から<span class="math notranslate nohighlight">\(1\)</span>までの値をとり、尤度が<span class="math notranslate nohighlight">\(1\)</span>に近いほど学習事例を正しく再現できていることを表す。ゆえに、<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{w})\)</span>を目的関数とみなし、この目的関数の値を最大化するような<span class="math notranslate nohighlight">\(\pmb{w}^*\)</span>を求めることで、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>によく合致するモデルパラメータを求めることができる。尤度が最大になるパラメータを求めることを<strong>最尤推定</strong>（MLE: Maximum Likelihood Estimation）と呼ぶ。</p>
+<p>ところで、学習データ全体の尤度は事例の尤度の積であるから、学習事例の数が多くなると<span class="math notranslate nohighlight">\([0, 1]\)</span>の範囲の積を繰り返すことになる。これは、コンピュータ上で学習データ上の尤度を計算するとき、アンダーフローの問題（小さい値を精度良く表現できない問題）を引き起こす。そこで、尤度を最大化する代わりに、尤度の対数をとった<strong>対数尤度</strong>を最大化する。対数尤度は、学習事例の尤度の対数<span class="math notranslate nohighlight">\(\log \hat{l}_{(\pmb{x}_i, y_i)}(\pmb{w})\)</span>の和として表現できる。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-585cb49e-e5f9-41b0-b2a0-121e5b27f548">
+<span class="eqno">(5.22)<a class="headerlink" href="#equation-585cb49e-e5f9-41b0-b2a0-121e5b27f548" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\log \hat{L}_{\mathcal{D}}(\pmb{w}) &amp;= \log \prod_{i=1}^N \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
+= \sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
+\end{align}\]</div>
+<p>なお、回帰では目的関数を最小にするパラメータを求めた。二値分類でも目的関数の最小化の問題に書き換えるため、負の対数尤度を目的関数として用いる。最終的に、ロジスティック回帰モデルの学習で最小化する目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>は次式で表される。</p>
+<div class="important admonition">
+<p class="admonition-title">最尤推定による目的関数</p>
+<div class="amsmath math notranslate nohighlight" id="equation-fe366679-6031-41d8-ad62-29ebca93571a">
+<span class="eqno">(5.23)<a class="headerlink" href="#equation-fe366679-6031-41d8-ad62-29ebca93571a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w}) = -\log \hat{L}_{\mathcal{D}}(\pmb{w})
+= -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
+\end{align}\]</div>
+</div>
+<p>また、学習時に<span class="math notranslate nohighlight">\(L_2\)</span>正則化を導入する場合、目的関数は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-771f560b-c92f-4041-a944-bdc19aadedd0">
+<span class="eqno">(5.24)<a class="headerlink" href="#equation-771f560b-c92f-4041-a944-bdc19aadedd0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MAP}(\pmb{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{w}) + \alpha \|\pmb{w}\|^2
+= -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w}) + \alpha \|\pmb{w}\|^2
+\end{align}\]</div>
+<p>となる。ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> (<span class="math notranslate nohighlight">\(\alpha&gt;0\)</span>) は<span class="math notranslate nohighlight">\(L_2\)</span>正則化の係数である。</p>
+</div>
+<div class="section" id="id9">
+<h2><span class="section-number">5.7. </span>確率的勾配降下法<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これまでの議論により、ロジスティック回帰モデルの学習は、目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^*\)</span>を求める問題に帰着した。回帰の場合は目的関数を最小にする解析解（閉じた解）を求めることができたが、ロジスティック回帰モデルの目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>は、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>に関して偏微分はできるが、その偏微分の値を<span class="math notranslate nohighlight">\(\pmb{0}\)</span>とする解析解を求めることができない。そこで、確率的勾配降下法で目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^*\)</span>を求めることにする。</p>
+<p>ここで、最尤推定の目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-067a4198-69d6-4f70-9e4a-4c83aacd738b">
+<span class="eqno">(5.25)<a class="headerlink" href="#equation-067a4198-69d6-4f70-9e4a-4c83aacd738b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{w})
+= \sum_{i=1}^N - \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
+\end{align}\]</div>
+<p>であり、事例毎の実数値の和に分解できるため、確率的勾配降下法を適用可能である。</p>
+<div class="margin sidebar">
+<p class="sidebar-title">ランダムに選んだ事例<span class="math notranslate nohighlight">\((\pmb{x}, y)\)</span></p>
+<p>前章の説明では、ランダムに選んだ訓練事例を<span class="math notranslate nohighlight">\((\pmb{x}_i, y_i)\)</span>と事例番号<span class="math notranslate nohighlight">\(i\)</span>の添字付きで表記していたが、以降の導出で添字を使うと煩雑になるため、事例番号の添字は省略する。</p>
+</div>
+<p>確率的勾配降下法がランダムに訓練事例<span class="math notranslate nohighlight">\((\pmb{x}, y) \in \mathcal{D}\)</span>を選んだとき、その勾配は<span class="math notranslate nohighlight">\(- \nabla \log \hat{l}_{\pmb{x}, y}(\pmb{w})\)</span>であるから、確率的勾配降下法によるパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の更新式は、</p>
+<div class="math notranslate nohighlight" id="equation-eq-sgd-gradient-update">
+<span class="eqno">(5.26)<a class="headerlink" href="#equation-eq-sgd-gradient-update" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+\pmb{w}^{(t+1)} = \pmb{w}^{(t)} + \eta_t \nabla \log \hat{l}_{\pmb{x}, y}(\pmb{w}^{(t)})
+\end{align}
+\]</div>
+<p>となる。確率的勾配降下法でロジスティック回帰モデルのパラメータ推定を行うためには、訓練事例の勾配<span class="math notranslate nohighlight">\(\nabla \log \hat{l}_{\pmb{x}, y}(\pmb{w})\)</span>、すなわち訓練事例の対数尤度<span class="math notranslate nohighlight">\(\log \hat{l}_{\pmb{x}, y}(\pmb{w})\)</span>の<span class="math notranslate nohighlight">\(\pmb{w}\)</span>に関する偏微分を求めればよい。</p>
+<p>学習事例の対数尤度は、式<a class="reference internal" href="#equation-eq-instance-likelihood">(5.18)</a>より、</p>
+<div class="math notranslate nohighlight" id="equation-eq-loss-binary-classification">
+<span class="eqno">(5.27)<a class="headerlink" href="#equation-eq-loss-binary-classification" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+\log \hat{l}_{\pmb{x}, y}(\pmb{w}) &amp;= \log \left(p^{y} (1-p)^{(1 - y)}\right)
+= y \log p + (1-y)\log(1-p)
+\end{align}
+\]</div>
+<p>と整理できる。ただし、式<a class="reference internal" href="#equation-eq-sigmoid">(5.6)</a>と<a class="reference internal" href="#equation-eq-definition-of-p">(5.19)</a>で表現されているように、<span class="math notranslate nohighlight">\(p\)</span>は<span class="math notranslate nohighlight">\(\pmb{w}\)</span>と<span class="math notranslate nohighlight">\(\pmb{x}\)</span>に依存していることに注意が必要である。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1cbf9eec-132a-4115-9159-cdcab26fd8dc">
+<span class="eqno">(5.28)<a class="headerlink" href="#equation-1cbf9eec-132a-4115-9159-cdcab26fd8dc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+p &amp;= \sigma(a) = \frac{1}{1 + e^{-a}} \\
+a &amp;= \pmb{x}^\top \pmb{w}
+\end{align}\]</div>
+<p>合成関数の微分より、</p>
+<div class="math notranslate nohighlight" id="equation-eq-logress-gradient">
+<span class="eqno">(5.29)<a class="headerlink" href="#equation-eq-logress-gradient" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+\begin{align}
+\nabla \log \hat{l}_{\pmb{x}, y}(\pmb{w})
+= \frac{\partial \left(\log \hat{l}_{\pmb{x}, y}(\pmb{w})\right)}{\partial \pmb{w}}
+&amp;= \frac{\partial}{\partial \pmb{w}} \left\{y \log p + (1 - y) \log (1-p) \right\} \\
+&amp;= \left( \frac{y}{p} \cdot \frac{\partial p}{\partial \pmb{w}} + \frac{1 - y}{1 - p} \cdot (-1) \cdot \frac{\partial p}{\partial \pmb{w}} \right) \\
+&amp;= \left(\frac{y}{p} - \frac{1 - y}{1 - p}\right) \cdot \frac{\partial p}{\partial \pmb{w}} \\
+&amp;= \frac{(1-p) y - p(1 - y)}{p(1 - p)} \cdot \frac{\partial p}{\partial a} \cdot \frac{\partial a}{\partial \pmb{w}} \\
+&amp;= \frac{y - p y - p + p y}{p(1 - p)} \cdot \frac{\partial p}{\partial a} \cdot \frac{\partial a}{\partial \pmb{w}} \\
+&amp;= \frac{y - p}{p(1 - p)} \cdot \frac{\partial p}{\partial a} \cdot \frac{\partial a}{\partial \pmb{w}} \\
+\end{align}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(\frac{\partial p}{\partial a}\)</span>はシグモイド関数<span class="math notranslate nohighlight">\(\sigma(a)\)</span>の微分である。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1c01d487-5146-49f0-8c91-4c0d075593b8">
+<span class="eqno">(5.30)<a class="headerlink" href="#equation-1c01d487-5146-49f0-8c91-4c0d075593b8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\frac{\partial p}{\partial a} = \sigma'(a) &amp;= \frac{\partial}{\partial a}\left(\frac{1}{1 + e^{-a}}\right) \\
+&amp;= (-1) \cdot \frac{1}{\left(1 + e^{-a}\right)^2} \cdot \frac{\partial}{\partial a} \left(1 + e^{-a}\right) \\
+&amp;= - \frac{1}{\left(1 + e^{-a}\right)^2} \cdot e^{-a} \cdot (-1) \\
+&amp;= \frac{1}{1 + e^{-a}} \cdot \frac{e^{-a}}{1 + e^{-a}} \\
+&amp;= \sigma(a) \left(1 - \sigma(a)\right) \\
+&amp;= p (1 - p)
+\end{align}\]</div>
+<p>また、<span class="math notranslate nohighlight">\(\frac{\partial a}{\partial \pmb{w}}=\pmb{x}\)</span>であるから、式<a class="reference internal" href="#equation-eq-logress-gradient">(5.29)</a>は、</p>
+<div class="math notranslate nohighlight" id="equation-eq-grad-logress">
+<span class="eqno">(5.31)<a class="headerlink" href="#equation-eq-grad-logress" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+\begin{align}
+\nabla \log \hat{l}_{\pmb{x}, y}(\pmb{w})
+&amp;= \frac{y - p}{p(1 - p)} \cdot \frac{\partial p}{\partial a} \cdot \frac{\partial a}{\partial \pmb{w}} \\
+&amp;= \frac{y - p}{p(1 - p)} \cdot \{p (1 - p)\} \cdot \pmb{x} \\
+&amp;= (y - p) \pmb{x} \\
+\end{align}
+\end{split}\]</div>
+<p>これを、確率的勾配降下法の反復式<a class="reference internal" href="#equation-eq-sgd-gradient-update">(5.26)</a>に代入すると、</p>
+<div class="important admonition">
+<p class="admonition-title">確率的勾配降下法によるロジスティック回帰モデルのパラメータ更新式</p>
+<div class="math notranslate nohighlight" id="equation-eq-logress-sgd-update">
+<span class="eqno">(5.32)<a class="headerlink" href="#equation-eq-logress-sgd-update" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+\pmb{w}^{(t+1)} =  \pmb{w}^{(t)} + \eta_t (y - p^{(t)}) \pmb{x}
+\end{align}
+\]</div>
+</div>
+<p>ただし、<span class="math notranslate nohighlight">\(p^{(t)}\)</span>は<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>で事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>を分類したとき、その事例が正例<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測される確率である。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-14582a7f-f415-4dff-9cde-8e7db2789c35">
+<span class="eqno">(5.33)<a class="headerlink" href="#equation-14582a7f-f415-4dff-9cde-8e7db2789c35" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+p^{(t)} = \sigma(\pmb{x}^\top \pmb{w}^{(t)})
+\end{align}\]</div>
+<p>確率的勾配降下法で回帰モデルのパラメータを求めるための反復式<a class="reference internal" href="../regression/04sgd.html#equation-eq-mra-sgd">(4.33)</a>と同様に、ある訓練事例における目的変数の真の値<span class="math notranslate nohighlight">\(y\)</span>とその確率推定値<span class="math notranslate nohighlight">\(p\)</span>の差を係数として、その事例の特徴ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>をパラメータベクトルに足し込む形になっているのが興味深い。</p>
+<div class="section" id="id10">
+<h3><span class="section-number">5.7.1. </span>確率的勾配降下法の更新式の解釈<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>式<a class="reference internal" href="#equation-eq-logress-sgd-update">(5.32)</a>の反復式の振る舞いを、学習事例が正例（<span class="math notranslate nohighlight">\(y=1\)</span>）のときと、負例（<span class="math notranslate nohighlight">\(y = 0\)</span>）に分けて考える。もし、学習事例が正例（<span class="math notranslate nohighlight">\(y=1\)</span>）のとき、パラメータの更新式は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-58b3c996-927a-4426-98a0-480284f6fc3c">
+<span class="eqno">(5.34)<a class="headerlink" href="#equation-58b3c996-927a-4426-98a0-480284f6fc3c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{w}^{(t+1)} &amp;= \pmb{w}^{(t)} + \eta_t (1 - p^{(t)}) \pmb{x}
+\end{align}\]</div>
+<p>である。この更新後のパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t+1)}\)</span>で同じ事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>との内積を計算すると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5b03568e-3821-4cae-81d3-e7857afdc3c2">
+<span class="eqno">(5.35)<a class="headerlink" href="#equation-5b03568e-3821-4cae-81d3-e7857afdc3c2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{x}^\top\pmb{w}^{(t+1)} &amp;= \pmb{x}^\top\pmb{w}^{(t)} + \eta_t (1 - p^{(t)}) \underbrace{\pmb{x}^\top\pmb{x}}_{\geq 0} \geq \pmb{x}^\top\pmb{w}^{(t)}
+\end{align}\]</div>
+<p>であるから、更新後のパラメータの内積<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}^{(t+1)}\)</span>は、更新前のパラメータの内積値<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}^{(t)}\)</span>以上にとなり、その変化量は<span class="math notranslate nohighlight">\(\eta_t (1 - p^{(t)}) \pmb{x}^\top\pmb{x}\)</span>である。ここで、学習率<span class="math notranslate nohighlight">\(\eta_t\)</span>は学習事例に依存しない。また、<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{x}\)</span>もパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>の値によらない定数と見なすと、内積の変化量は<span class="math notranslate nohighlight">\((1-p^{(t)})\)</span>に比例することが分かる。いま、学習事例は正例（<span class="math notranslate nohighlight">\(y=1\)</span>）であるので、<span class="math notranslate nohighlight">\((1-p^{(t)})\)</span>はこの事例に対して予測すべき確率<span class="math notranslate nohighlight">\(1\)</span>と、実際に計算された確率<span class="math notranslate nohighlight">\(p^{(t)}\)</span>との差を表している。したがって、モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>が学習事例が正例であることをよく予測できている（<span class="math notranslate nohighlight">\(p^{(t)} \approx 1\)</span>）ならば内積の変化量は小さくなる。逆に、モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>が学習事例が正例であることを予測できていない場合（<span class="math notranslate nohighlight">\(p^{(t)} \approx 0\)</span>）ならば、内積の変化量が大きくなるようにパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>が更新される。</p>
+<p>続いて、学習事例が負例（<span class="math notranslate nohighlight">\(y=0\)</span>）のとき、パラメータの更新式は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-67bb69ee-eba8-4962-9e98-40d3df91a7ba">
+<span class="eqno">(5.36)<a class="headerlink" href="#equation-67bb69ee-eba8-4962-9e98-40d3df91a7ba" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{w}^{(t+1)} = \pmb{w}^{(t)} + \eta_t (0 - p^{(t)}) \pmb{x} = \pmb{w}^{(t)} - \eta_t p^{(t)} \pmb{x}
+\end{align}\]</div>
+<p>である。この更新後のパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t+1)}\)</span>で同じ事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>との内積を計算すると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-39b5ff22-dc0f-439c-9614-2bbbb370f626">
+<span class="eqno">(5.37)<a class="headerlink" href="#equation-39b5ff22-dc0f-439c-9614-2bbbb370f626" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{x}^\top\pmb{w}^{(t+1)} &amp;= \pmb{x}^\top\pmb{w}^{(t)} - \eta_t p^{(t)} \underbrace{\pmb{x}^\top\pmb{x}}_{\geq 0} \leq \pmb{x}^\top\pmb{w}^{(t)}
+\end{align}\]</div>
+<p>であるから、更新後のパラメータの内積<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}^{(t+1)}\)</span>は、更新前のパラメータの内積値<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}^{(t)}\)</span>以下にとなり、その変化量は<span class="math notranslate nohighlight">\(\eta_t p^{(t)} \pmb{x}^\top\pmb{x}\)</span>である。先ほどの正例の議論と同様に、内積の変化量は<span class="math notranslate nohighlight">\(p^{(t)}\)</span>に比例することが分かる。いま、学習事例は負例（<span class="math notranslate nohighlight">\(y=0\)</span>）であるので、<span class="math notranslate nohighlight">\(p^{(t)}\)</span>はこの事例に対して予測すべき確率<span class="math notranslate nohighlight">\(0\)</span>と、実際に計算された確率<span class="math notranslate nohighlight">\(p^{(t)}\)</span>との差を表している。したがって、学習事例が負例であることをモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>がよく予測できている（<span class="math notranslate nohighlight">\(p^{(t)} \approx 0\)</span>）ならば内積の変化量は小さくなる。逆に、学習事例が負例であることをモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>があまり予測できていない場合（<span class="math notranslate nohighlight">\(p^{(t)} \approx 1\)</span>）、内積の変化量が大きくなるようにパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>が更新される。</p>
+</div>
+<div class="section" id="l-2">
+<h3><span class="section-number">5.7.2. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化付きロジスティック回帰<a class="headerlink" href="#l-2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>学習時に<span class="math notranslate nohighlight">\(L_2\)</span>正則化を導入する場合、目的関数は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-90a284fc-e26b-489c-99b3-a1735b2ebf1c">
+<span class="eqno">(5.38)<a class="headerlink" href="#equation-90a284fc-e26b-489c-99b3-a1735b2ebf1c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MAP}(\pmb{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{w}) + \alpha \|\pmb{w}\|_2^2 \\
+&amp;= -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w}) + \alpha \|\pmb{w}\|_2^2 \\
+&amp;= \sum_{i=1}^N \left(-\log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w}) + \frac{\alpha}{N} \|\pmb{w}\|_2^2 \right)\\
+\end{align}\]</div>
+<p>と整理できるので、確率的勾配降下法を適用できる。確率的勾配降下法がランダムに選んだ学習事例を<span class="math notranslate nohighlight">\((\pmb{x}, y)\)</span>とすると、その損失<span class="math notranslate nohighlight">\(l_{\pmb{x}, y}(\pmb{w})\)</span>は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-addd1889-f471-4fde-82f4-058d30c4aa77">
+<span class="eqno">(5.39)<a class="headerlink" href="#equation-addd1889-f471-4fde-82f4-058d30c4aa77" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+l_{\pmb{x}, y}(\pmb{w}) = -\log \hat{l}_{\pmb{x}, y}(\pmb{w}) + \frac{\alpha}{N} \|\pmb{w}\|_2^2
+\end{align}\]</div>
+<p>である。この勾配<span class="math notranslate nohighlight">\(\nabla l_{\pmb{x}, y}(\pmb{w})\)</span>を求めるために、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>で偏微分すると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-933033a1-e68e-4302-976b-6002096470b9">
+<span class="eqno">(5.40)<a class="headerlink" href="#equation-933033a1-e68e-4302-976b-6002096470b9" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\nabla l_{\pmb{x}, y}(\pmb{w}) = \frac{\partial l_{\pmb{x}, y}(\pmb{w})}{\partial \pmb{w}}
+&amp;= \frac{\partial }{\partial \pmb{w}}\left(-\log \hat{l}_{\pmb{x}, y}(\pmb{w}) + \frac{\alpha}{N} \|\pmb{w}\|_2^2\right) \\
+&amp;= - \frac{\partial \left(\log \hat{l}_{\pmb{x}, y}(\pmb{w})\right)}{\partial \pmb{w}} + \frac{\partial}{\partial \pmb{w}} \left(\frac{\alpha}{N} \|\pmb{w}\|_2^2\right)\\
+&amp;= - (y-p) \pmb{x} + \frac{2\alpha}{N} \pmb{w}
+\end{align}\]</div>
+<p>これを、確率的勾配降下法の反復式に代入すると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-56222242-c224-4323-8e1a-4c94d0598bdb">
+<span class="eqno">(5.41)<a class="headerlink" href="#equation-56222242-c224-4323-8e1a-4c94d0598bdb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{w}^{(t+1)} &amp;= \pmb{w}^{(t)} - \eta_t \left.\frac{\partial l_{\pmb{x}, y}(\pmb{w})}{\partial \pmb{w}}\right|_{\pmb{w} = \pmb{w}^{(t)}} \\
+&amp;= \pmb{w}^{(t)} + \eta_t \left\{(y - p) \pmb{x} - \frac{2\alpha}{N} \pmb{w}^{(t)}\right\} \\
+&amp;= \left(1 - \frac{2\alpha\eta_t}{N}\right) \pmb{w}^{(t)} + \eta_t (y - p) \pmb{x}
+\end{align}\]</div>
+<p>リッジ回帰と同様に、パラメータの重みを減衰させる係数<span class="math notranslate nohighlight">\((1 - \frac{2\alpha\eta_t}{N})\)</span>が現れる。</p>
+</div>
+</div>
+<div class="section" id="id11">
+<h2><span class="section-number">5.8. </span>評価<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>さて、学習によって獲得した二値分類モデルの性能（分類の正しさ）をどのように評価すればよいか。回帰のときは、学習で用いた目的関数、すなわち平均二乗残差を使って検証データやテストデータ上の性能を測定した。ロジスティック回帰モデルを最尤推定で学習する場合、尤度（もしくは対数尤度）を最大化していたので、検証データやテストデータ上で尤度を測定すればよい（実際に尤度が評価に用いられることもある）。ところが、尤度は人間にとって分かりやすい指標ではないため、二値分類ではもう少し分かりやすい評価尺度が用いられる。ここでは、二値分類モデルの評価尺度として、正解率、適合率、再現率、F1スコアを紹介する。</p>
+<p>これらの尺度を説明する前に、<strong>真陽性</strong>（TP: true positive）、<strong>偽陽性</strong>（FP: false positive）、<strong>偽陰性</strong>（FN: false negative）、<strong>真陰性</strong>（TN: true negative）の概念を理解する必要がある。モデルが正例と予測（<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>）した事例のうち、実際に正例（<span class="math notranslate nohighlight">\(y=1\)</span>）である事例を真陽性、実際には負例（<span class="math notranslate nohighlight">\(y=0\)</span>）である事例を疑陽性と呼ぶ。一方、モデルが負例と予測（<span class="math notranslate nohighlight">\(\hat{y}=0\)</span>）した事例のうち、実際に負例（<span class="math notranslate nohighlight">\(y=0\)</span>）である事例を真陰性、実際には正例（<span class="math notranslate nohighlight">\(y=1\)</span>）である事例を偽陰性と呼ぶ。これらの概念を表に表すと、以下のようになる。</p>
+<a class="reference internal image-reference" href="../_images/tpfpfntn.svg"><img alt="混同行列" src="../_images/tpfpfntn.svg" width="480px" /></a>
+<p>ここで、真陽性、偽陽性、偽陰性、真陰性の事例数をそれぞれ、<span class="math notranslate nohighlight">\({\rm TP}\)</span>, <span class="math notranslate nohighlight">\({\rm FP}\)</span>, <span class="math notranslate nohighlight">\({\rm FN}\)</span>, <span class="math notranslate nohighlight">\({\rm TN}\)</span>と書くことにすると、正解率<span class="math notranslate nohighlight">\(A\)</span>、適合率<span class="math notranslate nohighlight">\(P\)</span>、再現率<span class="math notranslate nohighlight">\(R\)</span>、F1スコア<span class="math notranslate nohighlight">\(F_1\)</span>は、</p>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a8028291-a76d-4b7b-ade9-34dee1496cf0">
+<span class="eqno">(5.42)<a class="headerlink" href="#equation-a8028291-a76d-4b7b-ade9-34dee1496cf0" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+A = \frac{\mbox{システムの正しい予測事例数}}{\mbox{評価した全事例数}} = \frac{{\rm TP} + {\rm TN}}{{\rm TP} + {\rm TN} + {\rm FP} + {\rm FN}}
+\end{gather}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-1997774e-5af2-4dc5-93cb-2a091aeff3f6">
+<span class="eqno">(5.43)<a class="headerlink" href="#equation-1997774e-5af2-4dc5-93cb-2a091aeff3f6" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+P = \frac{\mbox{システムが正しく正例と予測した事例数}}{\mbox{システムが正例と予測した事例数}} = \frac{{\rm TP}}{{\rm TP} + {\rm FP}}
+\end{gather}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-66df5c22-7c37-4349-8283-1344292fb79f">
+<span class="eqno">(5.44)<a class="headerlink" href="#equation-66df5c22-7c37-4349-8283-1344292fb79f" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+R = \frac{\mbox{システムが正しく正例と予測した事例数}}{\mbox{評価データ中の正例の事例数}} = \frac{{\rm TP}}{{\rm TP} + {\rm FN}}
+\end{gather}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-05bc568d-286c-47ec-afce-d467caf8f134">
+<span class="eqno">(5.45)<a class="headerlink" href="#equation-05bc568d-286c-47ec-afce-d467caf8f134" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+F_1 = \frac{P \times R}{\frac{1}{2}(P + R)} = \frac{2PR}{P + R}
+\end{gather}\]</div>
+</div>
+<p>この中で最も分かりやすい尺度は<strong>正解率</strong>（accuracy）であろう。正解率は、すべての評価事例の中でモデルが予測に成功した割合である。スパム判定の例では、届いたメールに対して、スパム判定の結果が正しかった割合を表す。ただし、評価データ中の正例と負例の割合が大きく偏っている場合、正解率は高くなりやすい。例えば、100件中1件しかスパムメールがやってこない状況では、すべてのメールを「スパムでない」と判定しても正解率が0.99となる。</p>
+<p>適合率と再現率はセットで理解する必要がある。<strong>適合率</strong>（precision）は、モデルが正例と予測した事例のうち、実際に正例である事例の割合である。スパム判定の例では、スパムと判定されたメールのうち、実際にスパムであるメールの割合である。スパム判定において適合率が低いと、本当はスパムではないメールがスパムフォルダに自動仕分けされてしまうことになる。一方、<strong>再現率</strong>（recall）は、実際に正例である事例のうち、モデルが正例として予測できる事例の割合である。スパム判定の例では、スパムメールの何割を自動的に認識できるかを表す。スパム判定において再現率が低いと、スパムメールがスパムフォルダに自動仕分けされず、新着メールとして頻繁に表示されてしまうことになる。</p>
+<p>一般に、適合率と再現率はトレードオフの関係にある。スパムメールの判定の適合率を高めるには、自信を持ってスパムメールと判定できるものだけスパムと判定し、あまり自信がない事例についてはスパムではないと判定すればよい。ところが、このようにして適合率を高めると、スパムメールと判定することに消極的となり、再現率が低下する。一方、再現率を高めるには、スパムメールと認定する基準を下げ、より多くのメールをスパムとして判定できるように調整すればよい。ところが、メールをスパムとして積極的に判定しすぎると、適合率が低下する。従って、モデルの性能を評価するときは、適合率と再現率の両方を測定することが望ましい。スパムメール判定では、スパムフォルダに自動的に仕分けされてしまったメールは読まれないことになってしまうため、再現率よりも適合率を重視すべきである。</p>
+<p>このように、適合率と再現率はトレードオフの関係にあるため、分類器の性能を測定するときにはこの両方の尺度の数値を見る必要がある。この適合率と再現率の調和平均をとったものが<strong>F1スコア</strong>である。F1スコアは異なるモデル間の性能を一つの評価尺度で比較できるので便利である。</p>
+<p>なお、病気などの検査では感度（sensitivity）と特異度（specificity）もよく用いられる。感度は再現率と同じ定義であり、実際に陽性となるべき事例をどの程度陽性として検出できたかを表す。特異度は負例に関する再現率であり、実際に陰性となるべき事例をどの程度陰性として検出できたかを表す。特異度（<span class="math notranslate nohighlight">\(S\)</span>）の定義は次式の通りである。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8449e577-038e-4449-a7ea-5362b02ca0f4">
+<span class="eqno">(5.46)<a class="headerlink" href="#equation-8449e577-038e-4449-a7ea-5362b02ca0f4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+S &amp;= \frac{\mbox{システムが正しく負例と予測した事例数}}{\mbox{評価データ中の負例の事例数}} = \frac{{\rm TN}}{{\rm TN} + {\rm FP}}
+\end{align}\]</div>
+</div>
+<div class="section" id="id12">
+<h2><span class="section-number">5.9. </span>スパムフィルタの構築<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id13">
+<h3><span class="section-number">5.9.1. </span>データのダウンロード<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/sms+spam+collection">SMS Spam Collection Data Set</a>を用いて、英語のスパムフィルタを学習する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>wget https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--2021-08-01 06:20:41--  https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip
+Resolving archive.ics.uci.edu (archive.ics.uci.edu)... 128.195.10.252
+Connecting to archive.ics.uci.edu (archive.ics.uci.edu)|128.195.10.252|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 203415 (199K) [application/x-httpd-php]
+Saving to: ‘smsspamcollection.zip’
+
+smsspamcollection.z 100%[===================&gt;] 198.65K   249KB/s    in 0.8s    
+
+2021-08-01 06:20:43 (249 KB/s) - ‘smsspamcollection.zip’ saved [203415/203415]
+</pre></div>
+</div>
+</div>
+</div>
+<p>ダウンロードしたファイルを解凍する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>unzip smsspamcollection.zip
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Archive:  smsspamcollection.zip
+  inflating: SMSSpamCollection       
+  inflating: readme                  
+</pre></div>
+</div>
+</div>
+</div>
+<p>データのファイル（SMSSpamCollection）は、１行１事例で書かれており、各事例はラベルとテキストのタブ区切り形式である。スパムではないメッセージは&quot;ham&quot;、スパムメッセージは&quot;spam&quot;としてラベル付けされている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>head SMSSpamCollection
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ham	Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...
+ham	Ok lar... Joking wif u oni...
+spam	Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&amp;C&#39;s apply 08452810075over18&#39;s
+ham	U dun say so early hor... U c already then say...
+ham	Nah I don&#39;t think he goes to usf, he lives around here though
+spam	FreeMsg Hey there darling it&#39;s been 3 week&#39;s now and no word back! I&#39;d like some fun you up for it still? Tb ok! XxX std chgs to send, £1.50 to rcv
+ham	Even my brother is not like to speak with me. They treat me like aids patent.
+ham	As per your request &#39;Melle Melle (Oru Minnaminunginte Nurungu Vettam)&#39; has been set as your callertune for all Callers. Press *9 to copy your friends Callertune
+spam	WINNER!! As a valued network customer you have been selected to receivea £900 prize reward! To claim call 09061701461. Claim code KL341. Valid 12 hours only.
+spam	Had your mobile 11 months or more? U R entitled to Update to the latest colour mobiles with camera for Free! Call The Mobile Update Co FREE on 08002986030
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id14">
+<h3><span class="section-number">5.9.2. </span>データの読み込み<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>このファイルから事例を読み込み、リストオブジェクト<code class="docutils literal notranslate"><span class="pre">D</span></code>に格納する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)]</span>
+
+<span class="k">def</span> <span class="nf">vectorize</span><span class="p">(</span><span class="n">tokens</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">readiter</span><span class="p">(</span><span class="n">fi</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fi</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">vectorize</span><span class="p">(</span><span class="n">tokenize</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">yield</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;SMSSpamCollection&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">readiter</span><span class="p">(</span><span class="n">fi</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">D</span></code>の各要素はメッセージ中に含まれる単語の出現頻度（<code class="docutils literal notranslate"><span class="pre">collections.Counter</span></code>オブジェクト）とラベルのタプルである。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Counter({&#39;Even&#39;: 1,
+          &#39;my&#39;: 1,
+          &#39;brother&#39;: 1,
+          &#39;is&#39;: 1,
+          &#39;not&#39;: 1,
+          &#39;like&#39;: 2,
+          &#39;to&#39;: 1,
+          &#39;speak&#39;: 1,
+          &#39;with&#39;: 1,
+          &#39;me&#39;: 2,
+          &#39;They&#39;: 1,
+          &#39;treat&#39;: 1,
+          &#39;aids&#39;: 1,
+          &#39;patent&#39;: 1}),
+ &#39;ham&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html">sklearn.model_selection.train_test_split</a>を用いて、このデータセットを訓練データ（90%）と評価データ（10%）に分割する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">Dtrain</span><span class="p">,</span> <span class="n">Dtest</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>訓練データと評価データの事例数を確認しておく。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">Dtrain</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">Dtest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5016, 558)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id15">
+<h3><span class="section-number">5.9.3. </span>データ形式の変換<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.DictVectorizer.html">sklearn.feature_extraction.DictVectorizer</a>と<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html">sklearn.preprocessing.LabelEncoder</a>を用いて、訓練データと評価データをscikit-learnが扱える行列形式に変換する。</p>
+<p>DictVectorizerは、特徴をキー、値をバリューとする辞書オブジェクトから特徴ベクトルに変換する。このとき、各特徴に<span class="math notranslate nohighlight">\(0\)</span>から始まるID番号を割り振っていくことで、文字列などで表現される特徴をベクトルの要素番号に対応づける。なお、テキストを単語を特徴とするベクトルで表現する場合、ベクトルの要素数はデータ中のすべての単語となるが、各事例のテキストは少数の単語で構成されるため、特徴ベクトルの多くの要素はゼロで、テキストに含まれている単語に対応する要素だけ非ゼロとなる。このように、要素の多くはゼロで、少数の要素が非ゼロであるベクトルは疎ベクトルと呼ばれる。DictVectorizerのデフォルトの動作では、辞書オブジェクトを<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/sparse.html">scipy.sparse</a>の疎ベクトル形式に変換する。</p>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.DictVectorizer.html#sklearn.feature_extraction.DictVectorizer.fit_transform">fit_transform</a>関数は、
+特徴と要素番号の対応関係を更新しながら、辞書オブジェクトを疎ベクトルに変換する。<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.DictVectorizer.html#sklearn.feature_extraction.DictVectorizer.transform">transform</a>関数は、特徴と要素番号の対応関係を更新せずに、辞書オブジェクトを疎ベクトルに変換する（対応関係が登録されていない特徴は無視される）。
+学習時に存在しなかった特徴を評価時に使うことができないため、前者を学習データに、後者を評価データに用いる。いずれの関数も、引数として辞書オブジェクトのリスト（事例のリスト）を与えると、返り値は事例の疎ベクトルをまとめた疎行列となる。</p>
+<p>LabelEncoderはラベルを整数値に変換する。各ラベルに<span class="math notranslate nohighlight">\(0\)</span>から始まるID番号を割り振っていくことで、文字列などで表現されるラベルをクラスの番号に対応づける。今回用いるデータは&quot;ham&quot;と&quot;spam&quot;の二つのラベルで構成されているため、これらのラベルに対して<span class="math notranslate nohighlight">\(0\)</span>または<span class="math notranslate nohighlight">\(1\)</span>が割り当てられる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction</span> <span class="kn">import</span> <span class="n">DictVectorizer</span>
+
+<span class="n">VX</span> <span class="o">=</span> <span class="n">DictVectorizer</span><span class="p">()</span>
+<span class="n">VY</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+
+<span class="n">Xtrain</span> <span class="o">=</span> <span class="n">VX</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">Dtrain</span><span class="p">])</span>
+<span class="n">Ytrain</span> <span class="o">=</span> <span class="n">VY</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">Dtrain</span><span class="p">])</span>
+<span class="n">Xtest</span> <span class="o">=</span> <span class="n">VX</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">Dtest</span><span class="p">])</span>
+<span class="n">Ytest</span> <span class="o">=</span> <span class="n">VY</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">Dtest</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>訓練データの事例<code class="docutils literal notranslate"><span class="pre">Dtrain[10]</span></code>がどのように変換されたのか確認しておこう。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dtrain</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Counter({&#39;I&#39;: 1,
+          &#39;take&#39;: 1,
+          &#39;it&#39;: 2,
+          &#39;we&#39;: 3,
+          &quot;didn&#39;t&quot;: 1,
+          &#39;have&#39;: 2,
+          &#39;the&#39;: 1,
+          &#39;phone&#39;: 1,
+          &#39;callon&#39;: 1,
+          &#39;Friday&#39;: 1,
+          &#39;Can&#39;: 1,
+          &#39;assume&#39;: 1,
+          &quot;won&#39;t&quot;: 1,
+          &#39;this&#39;: 1,
+          &#39;year&#39;: 1,
+          &#39;now?&#39;: 1}),
+ &#39;ham&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>この事例の特徴ベクトルは疎ベクトルとして表現されている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  (0, 1831)	1.0
+  (0, 2385)	1.0
+  (0, 2769)	1.0
+  (0, 5546)	1.0
+  (0, 6110)	1.0
+  (0, 6923)	1.0
+  (0, 8101)	2.0
+  (0, 8587)	2.0
+  (0, 9821)	1.0
+  (0, 10231)	1.0
+  (0, 11832)	1.0
+  (0, 11957)	1.0
+  (0, 12014)	1.0
+  (0, 12653)	3.0
+  (0, 12862)	1.0
+  (0, 13030)	1.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>値が<code class="docutils literal notranslate"><span class="pre">3.0</span></code>となっているベクトルの列番号は<code class="docutils literal notranslate"><span class="pre">12653</span></code>である。<code class="docutils literal notranslate"><span class="pre">Dtrain[10]</span></code>の実行結果から、この特徴に対応する単語は&quot;we&quot;である。そこで、<code class="docutils literal notranslate"><span class="pre">12653</span></code>に対応づけられている特徴を調べると、&quot;we&quot;であることが確認できる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">VX</span><span class="o">.</span><span class="n">feature_names_</span><span class="p">[</span><span class="mi">12653</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;we&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>この事例に対応づけられたラベルのID番号は<span class="math notranslate nohighlight">\(0\)</span>である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Ytrain</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+</div>
+</div>
+<p>LabelEncoderオブジェクトに格納されているラベルからID番号への対応付けを確認すると、&quot;ham&quot;が<span class="math notranslate nohighlight">\(0\)</span>番、&quot;spam&quot;が<span class="math notranslate nohighlight">\(1\)</span>番に割り当てられていることが分かる。つまり、<span class="math notranslate nohighlight">\(y=0\)</span>が&quot;ham&quot;、<span class="math notranslate nohighlight">\(y=1\)</span>が&quot;spam&quot;に対応付けられている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">VY</span><span class="o">.</span><span class="n">classes_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;ham&#39;, &#39;spam&#39;], dtype=&#39;&lt;U4&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id16">
+<h3><span class="section-number">5.9.4. </span>二値分類モデルの学習<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>は線形分類モデルを確率的勾配降下法で学習する。ロジスティック回帰モデルを学習するには、SGDClassifierの引数に<code class="docutils literal notranslate"><span class="pre">loss='log'</span></code>を指定する。<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html#sklearn.linear_model.SGDClassifier.fit">fit</a>関数に訓練データを渡すことで、モデルのパラメータが学習される。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGDClassifier(loss=&#39;log&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id17">
+<h3><span class="section-number">5.9.5. </span>分類器の適用・評価<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>学習した分類器のモデルを用い、評価データの先頭の事例を分類する。予測されたラベルのID番号は<span class="math notranslate nohighlight">\(0\)</span>なので、このメッセージは&quot;ham&quot;（スパムではない）と予測された。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtest</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0])
+</pre></div>
+</div>
+</div>
+</div>
+<p>モデルがこの事例を&quot;ham&quot;および&quot;spam&quot;と予測する確率を表示する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">Xtest</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.99567905, 0.00432095]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>評価データのすべての事例を使い、正解率を求める。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9695340501792115
+</pre></div>
+</div>
+</div>
+</div>
+<p>任意のテキストメッセージを分類モデルに適用する例。以下のメッセージはspamに分類された。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Your account has been credited with 500 FREE Text Messages.&quot;</span>
+<span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">VX</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">vectorize</span><span class="p">(</span><span class="n">tokenize</span><span class="p">(</span><span class="n">msg</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.30330529, 0.69669471]])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id18">
+<h3><span class="section-number">5.9.6. </span>モデルパラメータの確認<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>学習で求められたモデルのパラメータ（重み）は<code class="docutils literal notranslate"><span class="pre">coef_</span></code>メンバ変数で確認できる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-8.37090795e-01, -1.76138728e-01, -7.74805758e-04, ...,
+         2.93789017e-02, -3.55600052e-01, -9.90864851e-04]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>特徴を表す単語とその重みのタプルからなるリストを作成し、重みが小さい順に並べたものを変数<code class="docutils literal notranslate"><span class="pre">F</span></code>に格納する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">VX</span><span class="o">.</span><span class="n">feature_names_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>重みの値が負に大きいトップ20の単語を表示する。<span class="math notranslate nohighlight">\(y=0\)</span>は&quot;ham&quot;に対応するので、これらの単語を含むメッセージは&quot;ham&quot;と予測されやすくなる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;&amp;lt;#&amp;gt;&#39;, -1.3558829924814004),
+ (&#39;me&#39;, -1.303455143586944),
+ (&#39;So&#39;, -1.14067222707557),
+ (&#39;him&#39;, -1.0598045974397776),
+ (&#39;i&#39;, -1.0030856587407084),
+ (&#39;my&#39;, -0.989036736792116),
+ (&#39;?&#39;, -0.9782504941221924),
+ (&#39;good&#39;, -0.9565766623762151),
+ (&#39;I&#39;, -0.9376350998709289),
+ (&#39;Its&#39;, -0.8771757171170732),
+ (&#39;how&#39;, -0.8669824265651959),
+ (&#39;:)&#39;, -0.8547153077528507),
+ (&#39;ask&#39;, -0.8455262058905626),
+ (&#39;Ok&#39;, -0.8390078922985393),
+ (&quot;I&#39;ll&quot;, -0.8386832325339574),
+ (&#39;&#39;, -0.8370907952027454),
+ (&#39;something&#39;, -0.8358732912496923),
+ (&#39;hi&#39;, -0.8223764866888945),
+ (&quot;i&#39;m&quot;, -0.8157132793348036),
+ (&#39;&amp;amp;&#39;, -0.8138253181689464)]
+</pre></div>
+</div>
+</div>
+</div>
+<p>重みの値が正に大きいトップ20の単語を表示する。<span class="math notranslate nohighlight">\(y=1\)</span>は&quot;spam&quot;に対応するので、これらの単語を含むメッセージは&quot;spam&quot;と予測されやすくなる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&quot;let&#39;s&quot;, 1.5410199592235803),
+ (&#39;-&#39;, 1.546029930147131),
+ (&#39;85233&#39;, 1.5646354767938881),
+ (&#39;FREE&gt;Ringtone!Reply&#39;, 1.5646354767938881),
+ (&#39;To&#39;, 1.5765775613191408),
+ (&#39;Reply&#39;, 1.6688173510729016),
+ (&#39;84484&#39;, 1.7389287297155838),
+ (&#39;ringtoneking&#39;, 1.7389287297155838),
+ (&#39;146tf150p&#39;, 1.763641194218317),
+ (&#39;2/2&#39;, 1.763641194218317),
+ (&#39;text&#39;, 1.7664355866227701),
+ (&#39;won&#39;, 1.9273478586846209),
+ (&#39;service&#39;, 1.9282663075223407),
+ (&#39;&amp;&#39;, 1.928861893331028),
+ (&#39;STOP&#39;, 2.0508768286731196),
+ (&#39;mobile&#39;, 2.059881177176412),
+ (&#39;now!&#39;, 2.112823595204192),
+ (&#39;txt&#39;, 2.1171488639279636),
+ (&#39;Txt&#39;, 2.119470386271705),
+ (&#39;Call&#39;, 2.374054661665122)]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id19">
+<h2><span class="section-number">5.10. </span>確認問題<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>(1) 確率的勾配降下法によるロジスティック回帰モデルの学習</strong></p>
+<p>確率的勾配降下法でロジスティック回帰モデルを学習するアルゴリズムを自前で実装せよ。学習データや評価データは自由に選んでよい（難しければ、前節で用いた<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/sms+spam+collection">SMS Spam Collection Data Set</a>を用いよ）。</p>
+<p><strong>(2) 評価データ上での正解率</strong></p>
+<p>評価データ上で学習したモデルの正解率を測定せよ。</p>
+<p><strong>(3) 学習で求めたパラメータ</strong></p>
+<p>学習で求めたモデルのパラメータのうち、重みの絶対値が大きいものトップ20を、重みが正のものと負のものに分けて表示せよ。</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "chokkan/mlnote",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./classification"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../regression/04sgd.html" title="前へ ページ">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">前へ</p>
+            <p class="prev-next-title"><span class="section-number">4. </span>勾配法によるパラメータ推定</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="02multi.html" title="次へ ページ">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">次へ</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>線形多クラス分類</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          <div class="extra_footer">
+            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

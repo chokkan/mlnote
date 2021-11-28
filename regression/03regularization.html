@@ -1,0 +1,780 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3. モデル選択と正則化 &#8212; 機械学習帳</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://chokkan.github.io/mlnote/regression/03regularization.html" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="4. 勾配法によるパラメータ推定" href="04sgd.html" />
+    <link rel="prev" title="2. 重回帰" href="02mra.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="ja">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">機械学習帳</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="この本を検索..." aria-label="この本を検索..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  回帰
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01sra.html">
+   1. 単回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02mra.html">
+   2. 重回帰
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   3. モデル選択と正則化
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04sgd.html">
+   4. 勾配法によるパラメータ推定
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  分類
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/01binary.html">
+   5. 線形二値分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/02multi.html">
+   6. 線形多クラス分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/03nn.html">
+   7. ニューラルネットワーク (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/04nntrain.html">
+   8. ニューラルネットワーク (2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/05svm.html">
+   9. サポートベクトルマシン
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  教師無し学習
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/01kmeans.html">
+   10. 非階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/02hac.html">
+   11. 階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/03pca.html">
+   12. 主成分分析 (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/04pca2.html">
+   13. 主成分分析 (2)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  付録
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation.html">
+   表記
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reference.html">
+   参考文献・謝辞
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="ナビゲーションを切り替え" aria-controls="site-navigation"
+                title="ナビゲーションを切り替え" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/regression/03regularization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="ソースファイルをダウンロード" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/chokkan/mlnote"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="ソースリポジトリ"><i
+                    class="fab fa-github"></i>リポジトリ</button></a>
+        <a class="issues-button"
+            href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fregression/03regularization.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="問題を開く"><i class="fas fa-lightbulb"></i>未解決の問題</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="全画面モード"
+        title="全画面モード"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/regression/03regularization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="発売 Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/regression/03regularization.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="発売 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="発売 Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> 目次
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   3.1. 汎化と過学習
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   3.2. モデル選択
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#l-2">
+   3.3.
+   <span class="math notranslate nohighlight">
+    \(L_2\)
+   </span>
+   正則化（リッジ回帰）
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   3.4. 確認問題
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1><span class="section-number">3. </span>モデル選択と正則化<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">3.1. </span>汎化と過学習<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここでは、以下の<code class="docutils literal notranslate"><span class="pre">X</span></code>を説明変数、<code class="docutils literal notranslate"><span class="pre">Y</span></code>を目的変数として多項式にフィッティングすることを考える。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.</span>  <span class="p">,</span>  <span class="mf">0.16</span><span class="p">,</span>  <span class="mf">0.22</span><span class="p">,</span>  <span class="mf">0.34</span><span class="p">,</span>  <span class="mf">0.44</span><span class="p">,</span>  <span class="mf">0.5</span> <span class="p">,</span>  <span class="mf">0.67</span><span class="p">,</span>  <span class="mf">0.73</span><span class="p">,</span>  <span class="mf">0.9</span> <span class="p">,</span>  <span class="mf">1.</span>  <span class="p">])</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.06</span><span class="p">,</span>  <span class="mf">0.94</span><span class="p">,</span>  <span class="mf">0.97</span><span class="p">,</span>  <span class="mf">0.85</span><span class="p">,</span>  <span class="mf">0.25</span><span class="p">,</span>  <span class="mf">0.09</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.93</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.53</span><span class="p">,</span>  <span class="mf">0.08</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/03regularization_4_0.png" src="../_images/03regularization_4_0.png" />
+</div>
+</div>
+<p>３次関数でデータ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>をフィッティングしてみる。ここでは、多項式フィッティングを簡単に実現する<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html">np.polyfit</a>関数と<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.polyval.html">np.polyval</a>関数を用いる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">W3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">W3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 21.81795457, -32.58352732,  10.97825774,  -0.06314113])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W3</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/03regularization_7_0.png" src="../_images/03regularization_7_0.png" />
+</div>
+</div>
+<p>学習された３次関数のモデルの平均二乗残差は、おおよそ<span class="math notranslate nohighlight">\(6.17 \times 10^{-3}\)</span>である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W3</span><span class="p">,</span> <span class="n">X</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.006168386150620901
+</pre></div>
+</div>
+</div>
+</div>
+<p>３次関数でもよくデータを表現できているように見えるが、さらに近似の精度を上げるため、多項式の次数を上げてみたい。例えば、９次関数でデータ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>をフィッティングすると、以下のようになる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">W9</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">W9</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 7.92106359e+04, -3.56090735e+05,  6.74161690e+05, -6.99307115e+05,
+        4.32757050e+05, -1.62771499e+05,  3.61547202e+04, -4.33492219e+03,
+        2.20316075e+02, -6.00000000e-02])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W9</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/03regularization_12_0.png" src="../_images/03regularization_12_0.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>の全ての点を絶妙に通過する曲線を描くことができたが、曲線がグラフの中に収まりきらなくなってしまった。そこで、<span class="math notranslate nohighlight">\(0 \leq x \leq 1\)</span>の範囲で曲線の全体が表示されるようにグラフを描きなおす。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W9</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/03regularization_14_0.png" src="../_images/03regularization_14_0.png" />
+</div>
+</div>
+<p>与えたデータの目的変数<code class="docutils literal notranslate"><span class="pre">Y</span></code>の最大値は<span class="math notranslate nohighlight">\(0.97\)</span>、最小値は<span class="math notranslate nohighlight">\(-0.93\)</span>であるが、求めた９次多項式の出力はその範囲を逸脱している。とはいえ、学習された９次関数のモデルの平均二乗残差を求めると、おおよそ<span class="math notranslate nohighlight">\(2.03 \times 10^{-20}\)</span>であるから、３次関数のモデルの平均二乗残差（<span class="math notranslate nohighlight">\(6.17 \times 10^{-3}\)</span>）よりも小さい。つまり、３次関数のモデルよりも９次関数のモデルの方が、与えられたデータをよく再現できているのである。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W9</span><span class="p">,</span> <span class="n">X</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.8311174439212307e-20
+</pre></div>
+</div>
+</div>
+</div>
+<p>さて、データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>を表現するにあたって、３次関数によるフィッティングと９次関数によるフィッティングのどちらが良いだろうか。回帰分析を行う目的は、データから説明変数と目的変数を対応付けるメカニズムを理解したり、訓練データには無かった新しい事例に対して出力を予測することであった。モデルが訓練データにはない未知の事例も普遍的に予測できることを<strong>汎化</strong>と呼ぶ。教師あり学習の目的は、汎化能力の高いモデルを学習することである。</p>
+<p>もし、データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>が９次関数から生成されており、かつその正確な値が<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>に記録されていることを事前に知っているのであれば、９次関数によるフィッティングの方が適切と言える。しかし、実際にデータ分析を行うときは、目的変数と説明変数を関連付けるメカニズム（関数の形）が分からないことの方が多い（冒頭で用いた最高気温とアイスクリーム・シャーベットの支出額の関係を思い出して欲しい）。また、観測された説明変数や目的変数には、様々な要因により外乱（ノイズ）が混入することが珍しくない。実際、今回の例で用いている<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>は正弦関数<span class="math notranslate nohighlight">\(\sin\)</span>の入出力にノイズを加えたものであり、３次関数でも９次関数でもない。ということになると、３次関数によるフィッティングの方が真のデータをよく反映しており、汎化能力が高いと言えるのかもしれない。</p>
+<p>この状況をグラフとして可視化した。黒の実線は<span class="math notranslate nohighlight">\(y=\sin(2\pi x)\)</span>の正弦曲線である。正弦曲線上で10点をランダムに選び、<span class="math notranslate nohighlight">\(x\)</span>軸方向と<span class="math notranslate nohighlight">\(y\)</span>軸方向にノイズを加えたものが、青い点で示されたデータ<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>である。このデータに対して、３次関数をフィッティングしたものが青色の点線、９次関数をフィッティングしたものが橙色の破線である。データ<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>が正弦関数から作られていることを知っているのであれば、３次関数のモデルのほうが汎化性能が高いことになる。９次関数のフィッティング結果のように、データを厳密に再現しようとしすぎた結果、汎化性能が低いモデルが学習されてしまう状況を<strong>過学習</strong>（過剰適合、オーバーフィッティング）と呼ぶ。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">W3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">W9</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\sin(2\pi x)$&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;solid&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W3</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Polymominal ($d=3$)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W9</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Polymominal ($d=9$)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;overfitting.png&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/03regularization_18_0.png" src="../_images/03regularization_18_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">3.2. </span>モデル選択<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>に対して汎化性能の高いモデルを獲得するにはどのようにすればよいか。素朴なアイディアとして、<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>のプロットを見ながら多項式の次数<span class="math notranslate nohighlight">\(d\)</span>を（ひらめきで）調整することを思いつくかもしれない。例えば、「データ<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>をプロットした形状から、３次関数にフィッティングするのが適切かもしれない」といった具合である。</p>
+<p>ただ、３次の多項式が本当に適切なのか疑問が残る。９次関数でフィッティングするのは行き過ぎだとしても、４次関数から８次関数の中に３次関数よりも適切なものがあるかもしれない。ここで、次元数<span class="math notranslate nohighlight">\(d\)</span>は多項式モデルのパラメータではあるが、学習によって（目的関数の最小化によって）求めるものではなく、学習に先立って与えておくものであるから、<strong>ハイパーパラメータ</strong>（hypterparameter）と呼ばれる。ハイパーパラメータを変えることによって、同じ学習データから異なるモデルが得られる。今回の例では、次元数を<span class="math notranslate nohighlight">\(d=3, 4, \dots, 9\)</span>と変えながらモデルを学習することで7個のモデルが得られる。さて、この中で汎化性能の高いモデルを選択するにはどのようにすればよいか？</p>
+<p>３次関数と９次関数の学習データ上の平均二乗残差（MSR）を比較したとき、９次関数の平均二乗残差の方が小さくなった。一般に、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>上のモデルの損失<span class="math notranslate nohighlight">\(\hat{L}_\mathcal{D}(\pmb{W})\)</span>は、モデルを複雑にする（例えば、多項式の次数を高くする）ことによって低下するため、汎化性能を測定する指標として用いることができない。</p>
+<p>モデルの汎化性能を定量化する基本的なアイディアは、訓練データとは異なるデータを準備してモデルの性能を評価することである。訓練データで学習したモデルの汎化性能を測定するためのデータは、<strong>評価データ</strong>（evaluation data）や<strong>テストデータ</strong>（test data）と呼ばれる。</p>
+<p>訓練データと評価データを分ける理由を端的に説明する例として、学校の期末試験の話をしてみたい。ある先生は学生のモチベーションを高めるために、期末試験対策の演習問題プリント（訓練データ）を学生に配布している。演習問題は修得してほしい内容の典型例を示すものであり、学生はその問題に取り組むことで、より一般的な問題の解き方を身に付けていく（汎化）。ただ、期末試験では、学生が問題の解決法を修得したのか、問題の答えを丸覚え（過学習）したのか区別する必要がある。したがって、期末試験の問題（評価データ）は演習プリント（訓練データ）のものと異なるのが通常である。</p>
+<p>さて、汎化性能の高いモデルを選択する場合は、評価データの他に<strong>検証データ</strong>（validation data）を用意する。検証データと評価データの内容には本質的な差はなく、検証用データはモデルの選択（ハイパーパラメータを決定など）に用いられるのに対し、評価データはモデルの最終的な性能を評価するために用いられる。なお、訓練データに含まれる事例が検証データや評価データに混じってしまうと、モデルの汎化性能を測定したことにならないので、訓練データに含まれる事例が検証データや評価データに混じってはいけない。データ分析のコンペティションなどでは、訓練データ、検証データ、評価データが予め用意されていることがあるが、これらが分離されていないときは、自分でデータを適当な比率（例えば8:1:1など）で訓練データ、検証データ、評価データに分けておく。なお、検証データは<strong>開発データ</strong>（development data）と呼ばれることもある。</p>
+<p><img alt="model-selection" src="../_images/model-selection.gif" /></p>
+<p>この図では、ハイパーパラメータを変えるなどして４つの異なるモデルを学習し、それぞれ検証データ上で性能（例えばMSRやエラー率）を測定したところ、2番目のモデルの性能が良かったので、このモデルの汎化性能が最も高いと判断している。そこで、この2番目のモデルを採用し、その最終的な性能を評価データ上で測定している。</p>
+<p>さて、以下の<code class="docutils literal notranslate"><span class="pre">X_valid</span></code>と<code class="docutils literal notranslate"><span class="pre">Y_valid</span></code>を検証用データとして用いてモデルを選択する例を説明する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.05</span><span class="p">,</span>  <span class="mf">0.08</span><span class="p">,</span>  <span class="mf">0.12</span><span class="p">,</span>  <span class="mf">0.16</span><span class="p">,</span>  <span class="mf">0.28</span><span class="p">,</span>  <span class="mf">0.44</span><span class="p">,</span>  <span class="mf">0.47</span><span class="p">,</span>  <span class="mf">0.55</span><span class="p">,</span>  <span class="mf">0.63</span><span class="p">,</span>  <span class="mf">0.99</span><span class="p">])</span>
+<span class="n">Y_valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.35</span><span class="p">,</span>  <span class="mf">0.58</span><span class="p">,</span>  <span class="mf">0.68</span><span class="p">,</span>  <span class="mf">0.87</span><span class="p">,</span>  <span class="mf">0.83</span><span class="p">,</span>  <span class="mf">0.45</span><span class="p">,</span>  <span class="mf">0.01</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.36</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.83</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.06</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_valid</span><span class="p">,</span> <span class="n">Y_valid</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/03regularization_21_0.png" src="../_images/03regularization_21_0.png" />
+</div>
+</div>
+<p>以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、訓練データ上のMSRと検証データ上のMSRを計測・表示する。この結果によると、訓練データ上では次元数<span class="math notranslate nohighlight">\(d\)</span>を増やすことでMSRを下げることができ、<span class="math notranslate nohighlight">\(d=9\)</span>ではMSRがほぼ<span class="math notranslate nohighlight">\(0\)</span>になっていることが分かる。一方で、検証データ上のMSRは<span class="math notranslate nohighlight">\(d=9\)</span>の時が明らかに悪く、深刻な過学習が起こっていることを示唆している。また、検証データ上のMSRは<span class="math notranslate nohighlight">\(d=5\)</span>で最小（MSR=0.0094775592）となることが分かる。この実験結果から<span class="math notranslate nohighlight">\(d=5\)</span>のモデルが最も高い汎化性能を示すと判断し、多項式フィッティングの次元数は<span class="math notranslate nohighlight">\(d=5\)</span>が最適と決定するのが、検証データによるハイパーパラメータの調整（チューニング）である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="n">Y_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">Y_valid_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">X_valid</span><span class="p">)</span>
+    <span class="n">e_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Y_hat</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">e_valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Y_valid_hat</span> <span class="o">-</span> <span class="n">Y_valid</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;d = </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s1">: MSR = </span><span class="si">{</span><span class="n">e_train</span><span class="si">:</span><span class="s1">.10f</span><span class="si">}</span><span class="s1"> (training), </span><span class="si">{</span><span class="n">e_valid</span><span class="si">:</span><span class="s1">.10f</span><span class="si">}</span><span class="s1"> (validation)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>d = 1: MSR = 0.2911223347 (training), 0.1485895784 (validation)
+d = 2: MSR = 0.2911017232 (training), 0.1475862207 (validation)
+d = 3: MSR = 0.0061683862 (training), 0.0147889239 (validation)
+d = 4: MSR = 0.0059072699 (training), 0.0154183347 (validation)
+d = 5: MSR = 0.0027495672 (training), 0.0094775592 (validation)
+d = 6: MSR = 0.0025021465 (training), 0.0105152008 (validation)
+d = 7: MSR = 0.0024176615 (training), 0.0129285637 (validation)
+d = 8: MSR = 0.0023835792 (training), 0.0087286135 (validation)
+d = 9: MSR = 0.0000000000 (training), 1.9585095334 (validation)
+</pre></div>
+</div>
+</div>
+</div>
+<p>確認のため、5次関数と3次関数でフィッティングしたときの結果を以下に示す。訓練データ、検証データのいずれにおいても、3次関数よりも5次関数によるフィッティングの方が良さそうであることが分かる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">W3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">W5</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Training data&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_valid</span><span class="p">,</span> <span class="n">Y_valid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Validation data&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W3</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Polymominal ($d=3$)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">W5</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Polymominal ($d=5$)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;solid&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/03regularization_25_0.png" src="../_images/03regularization_25_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="l-2">
+<h2><span class="section-number">3.3. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化（リッジ回帰）<a class="headerlink" href="#l-2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ところで、モデルの過学習が起こるとき、パラメータはどのような値を取るのだろうか。以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、実際に求められた重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の値を表示するものである。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;d = </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">W</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>d = 1: [-1.3  0.7]
+d = 2: [ 0.1 -1.3  0.7]
+d = 3: [ 21.8 -32.6  11.   -0.1]
+d = 4: [ -2.7  27.1 -35.8  11.6  -0.1]
+d = 5: [-4.1e+01  9.8e+01 -6.0e+01 -5.1e+00  8.0e+00 -5.6e-02]
+d = 6: [-5.9e+01  1.4e+02 -1.2e+02  5.9e+01 -3.5e+01  1.1e+01 -5.9e-02]
+d = 7: [ 2.5e+02 -9.4e+02  1.4e+03 -1.0e+03  3.9e+02 -9.5e+01  1.5e+01 -6.0e-02]
+d = 8: [ 8.3e+02 -3.1e+03  4.5e+03 -3.4e+03  1.4e+03 -2.8e+02  2.4e+00  9.2e+00 -6.0e-02]
+d = 9: [ 7.9e+04 -3.6e+05  6.7e+05 -7.0e+05  4.3e+05 -1.6e+05  3.6e+04 -4.3e+03  2.2e+02 -6.0e-02]
+</pre></div>
+</div>
+</div>
+</div>
+<p>次元数<span class="math notranslate nohighlight">\(d\)</span>が増加するにつれて、多項式の係数の値が急激に増加し、極端な曲線でデータをフィッティングしようとしている傾向が見受けられる。そこで、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の「複雑さ」を何らかの関数<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>で測定すれば、過学習の検出に役立つ。また、学習の過程において、複雑すぎるパラメータ対してペナルティ（罰則）を与えながら、パラメータの学習を行うことができれば、過学習の抑制につながる。パラメータの訓練データへの適合度合いとパラメータの複雑さのバランスを取りながら学習する方法は、<strong>正則化</strong>（regularization）と呼ばれる。</p>
+<p>具体的には、訓練データの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\pmb{w})\)</span>に加えて、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の複雑さを表現する関数<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>
+に関するペナルティ項を追加した目的関数<span class="math notranslate nohighlight">\(\hat{J}(\pmb{w})\)</span>を採用することで、両者のバランスを自動的に保ちながらパラメータを求めることを考える。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d91c9ab5-c81f-4d23-9f72-ef5f81a26ad0">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-d91c9ab5-c81f-4d23-9f72-ef5f81a26ad0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{J}(\pmb{w}) = \hat{L}(\pmb{w}) + \alpha R(\pmb{w})
+\end{align}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> <span class="math notranslate nohighlight">\((\geq 0)\)</span>は正則化の効果を指定するハイパーパラメータである。<span class="math notranslate nohighlight">\(\alpha\)</span>を大きく設定すると、パラメータの複雑さ<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>が目的関数に与える影響が大きくなるので、過学習が抑制される。ただし、<span class="math notranslate nohighlight">\(\alpha\)</span>を大きくしすぎるとモデルのデータへの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\pmb{w})\)</span>を軽視することになるため、<strong>過少適合</strong>（アンダーフィッティング）となる。逆に<span class="math notranslate nohighlight">\(\alpha\)</span>を小さく設定すると、モデルへのデータへの適合度合いを重視することになるが、過学習を抑制する効果が薄れる。このように、<span class="math notranslate nohighlight">\(\alpha\)</span>の設定はモデルのデータへの適合度合いと複雑さのトレードオフの関係にある。モデル選択の時と同様に、正則化の重み係数<span class="math notranslate nohighlight">\(\alpha\)</span>はハイパーパラメータとして検証データ上でチューニングする。</p>
+<p>パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の複雑さを定量化する方法はいくつかある。ここでは、最も取り扱いが簡単なパラメータベクトルの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムの二乗を用いる。すなわち、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-74fd8644-2799-436b-a113-6fd6a40b1218">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-74fd8644-2799-436b-a113-6fd6a40b1218" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+R(\pmb{w}) = \|\pmb{w}\|_2^2
+\end{align}\]</div>
+<p>とする。</p>
+<p>以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、実際に求められた重みベクトルの<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>を表示する。次元数が高い場合のパラメータベクトルは、このままでは非常に大きなペナルティを受けると想像できる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;d = </span><span class="si">{}</span><span class="s1">: |W|_2^2 = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">W</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>d = 1: |W|_2^2 = 2.188192483540014
+d = 2: |W|_2^2 = 2.338506288897597
+d = 3: |W|_2^2 = 1658.2355242363553
+d = 4: |W|_2^2 = 2162.7387677157008
+d = 5: |W|_2^2 = 15001.365517234279
+d = 6: |W|_2^2 = 42524.33266367695
+d = 7: |W|_2^2 = 3999189.9453340783
+d = 8: |W|_2^2 = 44487211.248375006
+d = 9: |W|_2^2 = 1291698590019.2412
+</pre></div>
+</div>
+</div>
+</div>
+<p>目的関数の正則化項としてパラメータの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムを用いる回帰を、<strong>リッジ回帰</strong>（<span class="math notranslate nohighlight">\(L_2\)</span>正則化付き回帰）と呼ぶ。リッジ回帰の目的関数は、通常の回帰の目的関数にモデルの複雑さを表すペナルティ項を付与したもので、次式で表される。</p>
+<div class="important admonition">
+<p class="admonition-title">リッジ回帰の目的関数</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3149f77c-08f6-4fd3-bef2-969f7ed76535">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-3149f77c-08f6-4fd3-bef2-969f7ed76535" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{J}(\pmb{w}) &amp;= \hat{L}(\pmb{w}) + \alpha R(\pmb{w}) \\
+&amp;= \|\pmb{y} - \pmb{X}\pmb{w}\|_2^2 + \alpha \|\pmb{w}\|_2^2
+\end{align}\]</div>
+</div>
+<p>リッジ回帰のパラメータ推定は通常の回帰と同様である。目的関数<span class="math notranslate nohighlight">\(J(\pmb{w})\)</span>を最小化する<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を求めるために、その勾配<span class="math notranslate nohighlight">\(\nabla \hat{J}(\pmb{w})\)</span>を求める。重回帰の時に求めた偏微分の結果を用いると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2cd5253f-71ff-4ea3-9408-a2c8a6718094">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-2cd5253f-71ff-4ea3-9408-a2c8a6718094" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\nabla \hat{J}(\pmb{w}) &amp;= \frac{\partial}{\partial \pmb{w}} \left(\hat{L}(\pmb{w}) + \alpha R(\pmb{w})\right) \\
+  &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + \frac{\partial}{\partial \pmb{w}} \left(\alpha \|\pmb{w}\|_2^2\right) \\
+  &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + 2 \alpha \pmb{w} \\
+\end{align}\]</div>
+<p>これを<span class="math notranslate nohighlight">\(0\)</span>とおき、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>について解くと、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f9c7b4db-1382-48e7-b568-9c2b5b67f190">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-f9c7b4db-1382-48e7-b568-9c2b5b67f190" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + \alpha \pmb{w} &amp;= 0 \\
+\pmb{X}^\top \pmb{X}\pmb{w} - \pmb{X}^\top \pmb{y} + \alpha \pmb{w} &amp;= 0 \\
+(\pmb{X}^\top \pmb{X} + \alpha \pmb{I})\pmb{w} &amp;= \pmb{X}^\top \pmb{y} \\
+\pmb{w} &amp;= (\pmb{X}^\top \pmb{X} + \alpha \pmb{I})^{-1}\pmb{X}^\top \pmb{y}
+\end{align}\]</div>
+<p>このように、パラメータ推定の式を少し変更するだけで、リッジ回帰を実現することができる。</p>
+<p>モデルの過学習を抑制し、汎化性能を改善したいとき、モデルに与える特徴ベクトルの要素を手作業で厳選し、過学習をコントロールすることを考えるかもしれない。例えば、先ほどの多項式フィッティングの例では、検証データを用いながら多項式の次元数<span class="math notranslate nohighlight">\(d\)</span>を決定できた。ところが、実際に機械学習を用いる局面では、特徴空間の次元数が膨大（例えば<span class="math notranslate nohighlight">\(1,000,000\)</span>次元以上）となることがある。この場合、探索すべき特徴量の組み合わせは爆発的に増えるため、検証データを用いながら汎化性能が高い特徴量の組み合わせを選ぶのは困難となる。これに対し、リッジ回帰は、モデルパラメータの重みの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムが大きくなりすぎないようにコントロールしながらパラメータ推定を行うため、過学習の抑制を比較的容易に行える（ただし、正則化の係数<span class="math notranslate nohighlight">\(\alpha\)</span>を検証データ上で調整する必要がある）。</p>
+</div>
+<div class="section" id="id4">
+<h2><span class="section-number">3.4. </span>確認問題<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>(1) 9次関数によるリッジ回帰</strong></p>
+<p>例として用いてきた以下の学習データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>に対してリッジ回帰を行い、回帰曲線をプロットせよ。
+ただし、正則化のハイパー・パラメータは<span class="math notranslate nohighlight">\(\alpha = 10^{-9}, 10^{-6}, 10^{-3}, 1\)</span>の4通りを試し、すべての回帰曲線と学習データの各点を一つのグラフ上にプロットせよ。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.</span>  <span class="p">,</span>  <span class="mf">0.16</span><span class="p">,</span>  <span class="mf">0.22</span><span class="p">,</span>  <span class="mf">0.34</span><span class="p">,</span>  <span class="mf">0.44</span><span class="p">,</span>  <span class="mf">0.5</span> <span class="p">,</span>  <span class="mf">0.67</span><span class="p">,</span>  <span class="mf">0.73</span><span class="p">,</span>  <span class="mf">0.9</span> <span class="p">,</span>  <span class="mf">1.</span>  <span class="p">])</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.06</span><span class="p">,</span>  <span class="mf">0.94</span><span class="p">,</span>  <span class="mf">0.97</span><span class="p">,</span>  <span class="mf">0.85</span><span class="p">,</span>  <span class="mf">0.25</span><span class="p">,</span>  <span class="mf">0.09</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.93</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.53</span><span class="p">,</span>  <span class="mf">0.08</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>なお、scikit-learnにはリッジ回帰を行う便利なクラス<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html">sklearn.linear_model.Ridge</a>があるが、ここでは使わずに本資料で説明した式をプログラムとして表現すること。</p>
+<p><strong>(2) パラメータの<span class="math notranslate nohighlight">\(L_2\)</span>ノルム</strong></p>
+<p>学習した4つのモデルのパラメータの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムを計算し、表示せよ。</p>
+<p><strong>(3) 検証データに基づく<span class="math notranslate nohighlight">\(\alpha\)</span>の選択</strong></p>
+<p>例として用いてきた以下の検証データ<code class="docutils literal notranslate"><span class="pre">X_valid</span></code>, <code class="docutils literal notranslate"><span class="pre">Y_valid</span></code>に対して、これまでに学習した4つのモデルの平均二乗残差（MSR）を計算し、正則化のハイパー・パラメータとして最も汎化性能が高いと思われるものを選択せよ。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.05</span><span class="p">,</span>  <span class="mf">0.08</span><span class="p">,</span>  <span class="mf">0.12</span><span class="p">,</span>  <span class="mf">0.16</span><span class="p">,</span>  <span class="mf">0.28</span><span class="p">,</span>  <span class="mf">0.44</span><span class="p">,</span>  <span class="mf">0.47</span><span class="p">,</span>  <span class="mf">0.55</span><span class="p">,</span>  <span class="mf">0.63</span><span class="p">,</span>  <span class="mf">0.99</span><span class="p">])</span>
+<span class="n">Y_valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.35</span><span class="p">,</span>  <span class="mf">0.58</span><span class="p">,</span>  <span class="mf">0.68</span><span class="p">,</span>  <span class="mf">0.87</span><span class="p">,</span>  <span class="mf">0.83</span><span class="p">,</span>  <span class="mf">0.45</span><span class="p">,</span>  <span class="mf">0.01</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.36</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.83</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.06</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "chokkan/mlnote",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="02mra.html" title="前へ ページ">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">前へ</p>
+            <p class="prev-next-title"><span class="section-number">2. </span>重回帰</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="04sgd.html" title="次へ ページ">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">次へ</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>勾配法によるパラメータ推定</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          <div class="extra_footer">
+            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

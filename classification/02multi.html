@@ -1,0 +1,1383 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6. 線形多クラス分類 &#8212; 機械学習帳</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://chokkan.github.io/mlnote/classification/02multi.html" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="7. ニューラルネットワーク (1)" href="03nn.html" />
+    <link rel="prev" title="5. 線形二値分類" href="01binary.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="ja">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">機械学習帳</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="この本を検索..." aria-label="この本を検索..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  回帰
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/01sra.html">
+   1. 単回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/02mra.html">
+   2. 重回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/03regularization.html">
+   3. モデル選択と正則化
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/04sgd.html">
+   4. 勾配法によるパラメータ推定
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  分類
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01binary.html">
+   5. 線形二値分類
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   6. 線形多クラス分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03nn.html">
+   7. ニューラルネットワーク (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04nntrain.html">
+   8. ニューラルネットワーク (2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05svm.html">
+   9. サポートベクトルマシン
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  教師無し学習
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/01kmeans.html">
+   10. 非階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/02hac.html">
+   11. 階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/03pca.html">
+   12. 主成分分析 (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unsupervised/04pca2.html">
+   13. 主成分分析 (2)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  付録
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation.html">
+   表記
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reference.html">
+   参考文献・謝辞
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="ナビゲーションを切り替え" aria-controls="site-navigation"
+                title="ナビゲーションを切り替え" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/classification/02multi.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="ソースファイルをダウンロード" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/chokkan/mlnote"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="ソースリポジトリ"><i
+                    class="fab fa-github"></i>リポジトリ</button></a>
+        <a class="issues-button"
+            href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fclassification/02multi.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="問題を開く"><i class="fas fa-lightbulb"></i>未解決の問題</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="全画面モード"
+        title="全画面モード"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/classification/02multi.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="発売 Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/classification/02multi.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="発売 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="発売 Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> 目次
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   6.1. 多値分類とは
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   6.2. 手書き文字認識
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   6.3. 線形多クラス分類
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   6.4. 多クラスロジスティック回帰
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   6.5. ソフトマックス関数の性質
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     6.5.1. ソフトマックス関数の実装
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     6.5.2. ソフトマックス関数の微分
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   6.6. データの表現
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   6.7. 最尤推定
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   6.8. 確率的勾配降下法
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     6.8.1. 確率的勾配降下法の更新式の解釈
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id13">
+   6.9. 評価
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     6.9.1. マクロ平均とマイクロ平均
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id15">
+   6.10. 実装例
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id16">
+   6.11. 確認問題
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id17">
+   6.12. 付録
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mnist-npz">
+     6.12.1. mnist.npzを作成するプログラム
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1><span class="section-number">6. </span>線形多クラス分類<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">6.1. </span>多値分類とは<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>二値分類を拡張し、与えられた事例を３個以上のクラスに分類する多値分類を考える。多値分類の応用範囲は広く、世の中の様々なタスクが多値分類問題として取り組まれている。</p>
+<p>以下はリアルタイム物体認識の例である。画像（動画）中の全てのピクセルに対して、人間、車、スノーボードなどの物体のクラスを予測することで、画像中に含まれる物体とその位置を認識できる。</p>
+<p><a href="http://www.youtube.com/watch?feature=player_embedded&v=1_SiUOYUoOI" title="YOLOv4 - The most accurate real-time neural network for object detection" target="_blank"><img alt="YOLOv4 - The most accurate real-time neural network for object detection" src="http://img.youtube.com/vi/1_SiUOYUoOI/0.jpg" /></a></p>
+<p>機械翻訳も多値分類問題の一種である。翻訳先言語の全ての単語を予測対象の「クラス」と見なす。翻訳元の文と、これまでに翻訳した単語列が与えられたとき、先頭から順に翻訳先言語の単語を分類タスクとして予測していくことで、翻訳文が得られる。</p>
+<a class="reference internal image-reference" href="../_images/mt.gif"><img alt="../_images/mt.gif" src="../_images/mt.gif" style="width: 320px;" /></a>
+<p>多値分類は我々の知らないところで使われていることもある。以下の例は、ツイートのプロフィールや投稿内容から、そのユーザの属性を推定する例である。推定された属性は広告の最適化や、マーケティングに用いられることがある。他にも、ニュースサイトなどのウェブサイトの閲覧履歴（どのようなページをクリックしているか）から訪問者の属性を推定し、その訪問者にとって最適な（クリック数が増えそうな）広告や記事を表示する（パーソナライゼーション）にも用いられる。</p>
+<a class="reference internal image-reference" href="../_images/attribute.svg"><img alt="../_images/attribute.svg" src="../_images/attribute.svg" width="640px" /></a>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">6.2. </span>手書き文字認識<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>今回は、<a class="reference external" href="http://yann.lecun.com/exdb/mnist/">MNIST</a>をデータとして用い、手書き文字（数字）認識器を構築する。MNISTは手書きの数字70,000事例（訓練用に60,000事例、評価用に10,000事例）を収録したデータセットで、それぞれの事例は<span class="math notranslate nohighlight">\(28 \times 28\)</span>ピクセルのグレースケール画像と認識されるべき数字で表現される。手書き数字認識は、<span class="math notranslate nohighlight">\(28 \times 28 = 754\)</span>ピクセルの画素値が入力（説明変数）<span class="math notranslate nohighlight">\(\pmb{x}\)</span>として与えられたとき、認識されるべき数字（目的変数）<span class="math notranslate nohighlight">\(\hat{y}\)</span>を<span class="math notranslate nohighlight">\(10\)</span>クラス<span class="math notranslate nohighlight">\(\mathcal{Y} = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}\)</span>の中から選択する（分類する）タスクである。</p>
+<p><a title="Josef Steppan, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:MnistExamples.png"><a class="reference internal" href="https://upload.wikimedia.org/wikipedia/commons/2/27/MnistExamples.png"><img alt="MnistExamples" src="https://upload.wikimedia.org/wikipedia/commons/2/27/MnistExamples.png" style="width: 512px;" /></a></a></p>
+<p>ここでは、<a class="reference internal" href="#sec-mnist-npz"><span class="std std-ref">mnist.npzを作成するプログラム</span></a>でMNISTデータセットをNumPy形式に変換した&quot;mnist.npz&quot;を用いる。以下のプログラムで表示されるように、訓練データは<span class="math notranslate nohighlight">\(60,000\)</span> (事例) <span class="math notranslate nohighlight">\(\times\)</span> <span class="math notranslate nohighlight">\(28\)</span> (高さ) <span class="math notranslate nohighlight">\(\times\)</span> <span class="math notranslate nohighlight">\(28\)</span> (幅) のテンソル（<code class="docutils literal notranslate"><span class="pre">data['train_x']</span></code>）と<span class="math notranslate nohighlight">\(60,000\)</span> (事例) のベクトル（<code class="docutils literal notranslate"><span class="pre">data['train_y']</span></code>）、評価データは<span class="math notranslate nohighlight">\(10,000\)</span> (事例) <span class="math notranslate nohighlight">\(\times\)</span> <span class="math notranslate nohighlight">\(28\)</span> (高さ) <span class="math notranslate nohighlight">\(\times\)</span> <span class="math notranslate nohighlight">\(28\)</span> (幅) のテンソル（<code class="docutils literal notranslate"><span class="pre">data['test_x']</span></code>）と<span class="math notranslate nohighlight">\(10,000\)</span> (事例) のベクトル（<code class="docutils literal notranslate"><span class="pre">data['test_y']</span></code>）で構成される。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mnist.npz&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training data (X):&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training data (Y):&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test data (X):&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;test_x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;test_x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test data (Y):&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;test_y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;test_y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training data (X): (60000, 28, 28) float32
+Training data (Y): (60000,) uint8
+Test data (X): (10000, 28, 28) float32
+Test data (Y): (10000,) uint8
+</pre></div>
+</div>
+</div>
+</div>
+<p>以下のプログラムは学習データ中の<span class="math notranslate nohighlight">\(0\)</span>番目の事例の画像と、その正解の数字を表示する。<span class="math notranslate nohighlight">\(28 \times 28\)</span>ピクセルの画像は<span class="math notranslate nohighlight">\(28 \times 28\)</span>の行列として表現され、行列の各要素はピクセルの明るさ（輝度）を表す。公式サイトで配布されているデータセットでは輝度の値が<span class="math notranslate nohighlight">\(0\)</span>（暗い）から<span class="math notranslate nohighlight">\(255\)</span>（明るい）までの整数で表現されるが、&quot;mnist.npz&quot;では<span class="math notranslate nohighlight">\(0\)</span>（暗い）から<span class="math notranslate nohighlight">\(1\)</span>（明るい）の範囲になるように、各輝度値を<span class="math notranslate nohighlight">\(255\)</span>で割っている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_x&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_y&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gold label: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02multi_6_0.png" src="../_images/02multi_6_0.png" />
+</div>
+</div>
+<p>行列の要素にアクセスするときは、縦方向のインデックス→横方向のインデックスの順番になることに注意が必要である。以下は、左上から（0から）数えて下に<span class="math notranslate nohighlight">\(7\)</span>番目、右に<span class="math notranslate nohighlight">\(8\)</span>番目のピクセルの画素値にアクセスする例である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">8</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.93333334
+</pre></div>
+</div>
+</div>
+</div>
+<p>二値分類では事例を<span class="math notranslate nohighlight">\(d\)</span>次元のベクトルで表現したが、手書き文字認識の事例は2次元の行列で表現されている。ここでは簡単のため、2次元の行列を平坦化し、1次元のベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>で事例を表現する。平坦化では、画像の左端の列で上から下に画素値をスキャンしていき、一番下まで到達したら一つ右の列に移動して同様の処理を繰り返す。これにより、左上から下に<span class="math notranslate nohighlight">\(b\)</span>ピクセル、右に<span class="math notranslate nohighlight">\(a\)</span>ピクセルの画素値は、平坦化されたベクトルの<span class="math notranslate nohighlight">\((28b + a)\)</span>番目の要素に対応付けられる。さらに、平坦化されたベクトルの末尾に常に<span class="math notranslate nohighlight">\(1\)</span>となる要素を追加し、<span class="math notranslate nohighlight">\(d = 28 \times 28 + 1 = 785\)</span>次元のベクトルで画像を表現する。</p>
+<p>以下のプログラムは複数の行列（画像）をまとめてベクトルに変換する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">images_to_vectors</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>         <span class="c1"># Flatten: (N x 28 x 28) -&gt; (N x 784)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))]</span>        <span class="c1"># Append 1: (N x 784) -&gt; (N x 785)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">images_to_vectors</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_x&#39;</span><span class="p">])</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">images_to_vectors</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;test_x&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>学習データ中の<span class="math notranslate nohighlight">\(0\)</span>番目の事例をベクトルに変換したものを可視化してみる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Position&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Brightness&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02multi_13_0.png" src="../_images/02multi_13_0.png" />
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\((a,b)=(8,7)\)</span>の画素値は<span class="math notranslate nohighlight">\(28 \times 7 + 8 = 204\)</span>番目の要素として現れていることが確認できる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">[</span><span class="mi">204</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9333333373069763
+</pre></div>
+</div>
+</div>
+</div>
+<p>2次元の画像を1次元のベクトルに変換してしまうのは乱暴に思われるかもしれないが、このような単純な取り扱いでも驚くほどうまくいく。より洗練された手法（畳み込みニューラルネットワークなど）は、後ほど紹介する。</p>
+</div>
+<div class="section" id="id4">
+<h2><span class="section-number">6.3. </span>線形多クラス分類<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>多クラス分類の入力と出力の表記を整理する。</p>
+<ul class="simple">
+<li><p>入力: 分類したい事例を表す<span class="math notranslate nohighlight">\(d\)</span>次元の特徴ベクトル <span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^{d}\)</span></p></li>
+<li><p>クラス集合: 分類の候補となる<span class="math notranslate nohighlight">\(K\)</span>個のクラスの集合 <span class="math notranslate nohighlight">\(\mathcal{Y} = \{\mathcal{C}_1, \mathcal{C}_2, \dots, \mathcal{C}_K\}\)</span></p></li>
+<li><p>出力: 入力を分類するのに最も適切なクラス <span class="math notranslate nohighlight">\(\hat{y} \in \mathcal{Y}\)</span></p></li>
+</ul>
+<p>MNISTによる手書き文字認識の場合、入力画像は<span class="math notranslate nohighlight">\(d=785\)</span>次元の特徴ベクトルで表され、予測したいクラスの集合は<span class="math notranslate nohighlight">\(\mathcal{Y} = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}\)</span>である。</p>
+<p><strong>線形多クラス分類</strong> (linear multi-class classification) では、各カテゴリ<span class="math notranslate nohighlight">\(y \in \mathcal{Y}\)</span>に重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_y \in \mathbb{R}^d\)</span>を用意し、事例<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^{d}\)</span>と重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_y\)</span>との内積を計算し、最も高い内積値が計算されたカテゴリ<span class="math notranslate nohighlight">\(y \in \mathcal{Y}\)</span>に分類する。</p>
+<div class="important admonition">
+<p class="admonition-title">線形多クラス分類のラベル推定式</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d8c78a17-0433-412f-b980-4b95cd8289a1">
+<span class="eqno">(6.1)<a class="headerlink" href="#equation-d8c78a17-0433-412f-b980-4b95cd8289a1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{y} = \mathop{\rm argmax}\limits_{y \in \mathcal{Y}} \pmb{x}^\top\pmb{w}_y
+\end{align}\]</div>
+</div>
+<p>数式では分かりづらいかもしれないので、手書き数字の画像が数字に分類されるまでの流れを以下の図で示す。分類したい画像が与えられると、先ほど説明した平坦化の処理を経て、特徴ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>が作られる。線形多クラス分類のモデルは<span class="math notranslate nohighlight">\(y \in \mathcal{Y}\)</span>ごとに重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_y\)</span>を保有している。特徴ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>と全てのクラスの重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_y\)</span>との内積を計算し、その最大値を求める。下の例では、<span class="math notranslate nohighlight">\(\pmb{x} \cdot \pmb{w}_3\)</span>の内積値が最大であったので、<span class="math notranslate nohighlight">\(\hat{y} = 3\)</span>、つまり入力された画像の数字を<span class="math notranslate nohighlight">\(3\)</span>に分類した。</p>
+<a class="reference internal image-reference" href="../_images/linear-multi.png"><img alt="線形多クラス分類" src="../_images/linear-multi.png" style="width: 75%;" /></a>
+<p>線形多クラス分類モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}_y\)</span>は、学習データによく合致するように（例えば学習データ上において文字認識が正しく行えるように）決定する。モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}_y\)</span>を推定する方法は様々あるが、ここでは多ロジスティック回帰に基づく確率的勾配降下法を紹介する。</p>
+</div>
+<div class="section" id="id5">
+<h2><span class="section-number">6.4. </span>多クラスロジスティック回帰<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>多クラスロジスティック回帰</strong>（multi-class logistic regression）は線形多クラス分類を実現するモデルの一つで、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>をクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類する条件付き確率<span class="math notranslate nohighlight">\(p(\hat{y}=\mathcal{C}_j|\pmb{x})\)</span>を以下の式で求める。</p>
+<div class="important admonition">
+<p class="admonition-title">多クラスロジスティック回帰</p>
+<div class="amsmath math notranslate nohighlight" id="equation-cf892788-ec9c-4268-b852-f2a524b0dad5">
+<span class="eqno">(6.2)<a class="headerlink" href="#equation-cf892788-ec9c-4268-b852-f2a524b0dad5" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+P(\hat{y} = \mathcal{C}_j|\pmb{x}) = \frac{\exp (\pmb{x}^\top \pmb{w}_j)}{\sum_{k=1}^{K} \exp (\pmb{x}^\top \pmb{w}_k)}
+\end{align}\]</div>
+</div>
+<p>この式の意味を詳しく説明するため、あるクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に対するモデルの重み<span class="math notranslate nohighlight">\(\pmb{w}_j\)</span>と事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>との内積を<span class="math notranslate nohighlight">\(a_j\)</span></p>
+<div class="amsmath math notranslate nohighlight" id="equation-25120fc1-be65-4671-a570-1622c3cc05d6">
+<span class="eqno">(6.3)<a class="headerlink" href="#equation-25120fc1-be65-4671-a570-1622c3cc05d6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+a_j = \pmb{x}^\top \pmb{w}_j
+\end{align}\]</div>
+<p>と書くことにして、<span class="math notranslate nohighlight">\(K\)</span>個のクラスに対する内積値を行ベクトル<span class="math notranslate nohighlight">\(\pmb{a} \in \mathbb{R}^{K}\)</span>にまとめる。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-fafc8798-94cc-4bb7-959e-ff8fc2e313b4">
+<span class="eqno">(6.4)<a class="headerlink" href="#equation-fafc8798-94cc-4bb7-959e-ff8fc2e313b4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{a} = \begin{pmatrix}
+a_1 &amp; a_2 &amp; \dots &amp; a_K
+\end{pmatrix} = \begin{pmatrix}
+\pmb{x}^\top\pmb{w}_1 &amp; \pmb{x}^\top\pmb{w}_2 &amp; \dots &amp; \pmb{x}^\top\pmb{w}_K
+\end{pmatrix}
+\end{align}\]</div>
+<p>すると、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>をクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類する条件付き確率<span class="math notranslate nohighlight">\(p(\hat{y}=\mathcal{C}_j|\pmb{x})\)</span>は、<strong>ソフトマックス関数</strong>（softmax function）<span class="math notranslate nohighlight">\(\sigma: \mathbb{R}^K \mapsto \mathbb{R}^K\)</span>で表すことができる。</p>
+<div class="important admonition">
+<p class="admonition-title">ソフトマックス関数</p>
+<div class="amsmath math notranslate nohighlight" id="equation-da95990d-aac4-49e6-b725-1020f09e13d3">
+<span class="eqno">(6.5)<a class="headerlink" href="#equation-da95990d-aac4-49e6-b725-1020f09e13d3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+P(\hat{y} = \mathcal{C}_j|\pmb{x}) = \sigma(\pmb{a})_j = \frac{\exp a_j}{\sum_{k = 1}^{K} \exp a_k}
+\end{align}\]</div>
+</div>
+<p>ここで、<span class="math notranslate nohighlight">\(\sigma(\pmb{a})_j\)</span>はベクトル<span class="math notranslate nohighlight">\(\pmb{a}\)</span>にソフトマックス関数を適用して計算されたベクトルの<span class="math notranslate nohighlight">\(j\)</span>番目の要素を表す（<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, K\}\)</span>）。</p>
+<p>シグモイド関数が実数値のスコアから二値変数の確率分布に変換したように、ソフトマックス関数は<span class="math notranslate nohighlight">\(K\)</span>個のスコア<span class="math notranslate nohighlight">\(a_1, a_2, \dots, a_K\)</span>を確率分布に変換する。二値分類におけるシグモイド関数は、多値分類におけるソフトマックス関数に対応付けられることから、両方の関数とも同じ記号<span class="math notranslate nohighlight">\(\sigma\)</span>で表記している。</p>
+<p>ソフトマックス関数を実装すると以下のようになる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">ea</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ea</span> <span class="o">/</span> <span class="n">ea</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>以下のベクトルに対してソフトマックス関数を適用してみる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">softmax</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.19760595, 0.14639009, 0.24135645, 0.11985407, 0.29479344])
+</pre></div>
+</div>
+</div>
+</div>
+<p>ソフトマックス関数への入力ベクトル、出力ベクトルを左右に並べて表示してみる。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.4</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">a</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k$&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$a$&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">softmax</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k$&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;${\rm softmax}(a)$&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02multi_23_0.png" src="../_images/02multi_23_0.png" />
+</div>
+</div>
+<p>多クラスロジスティック回帰は、重みベクトルを行列で表現することで、より一般的に記述できる。重みベクトルを列ベクトルとし、<span class="math notranslate nohighlight">\(\pmb{w}_1, \pmb{w}_2, \dots, \pmb{w}_K \in \mathbb{R}^d\)</span>を横に並べた行列<span class="math notranslate nohighlight">\(\pmb{W} \in \mathbb{R}^{d \times K}\)</span>を考える。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d5485e26-f527-416b-8032-140be26a83cb">
+<span class="eqno">(6.6)<a class="headerlink" href="#equation-d5485e26-f527-416b-8032-140be26a83cb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{W} = \begin{pmatrix}
+\pmb{w}_1 &amp; \pmb{w}_2 &amp; \dots &amp; \pmb{w}_K
+\end{pmatrix}
+\end{align}\]</div>
+<p>すると、事例<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>全ての重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_k\)</span>との内積<span class="math notranslate nohighlight">\(a_k\)</span>は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b7663a4c-aeb0-4a15-8df8-3a9730b04b8e">
+<span class="eqno">(6.7)<a class="headerlink" href="#equation-b7663a4c-aeb0-4a15-8df8-3a9730b04b8e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\begin{pmatrix}a_1 &amp; a_2 &amp; \dots &amp; a_K\end{pmatrix} &amp;= \begin{pmatrix}\pmb{x}^\top \pmb{w}_1 &amp; \pmb{x}^\top\pmb{w}_2 &amp; \dots &amp; \pmb{x}^\top\pmb{w}_K\end{pmatrix} \\
+\pmb{a} &amp;= \pmb{x}^\top \pmb{W}
+\end{align}\]</div>
+<p>とまとめて書くことができる。</p>
+<p>さらに、<span class="math notranslate nohighlight">\(\sigma(\pmb{a})_j\)</span>を<span class="math notranslate nohighlight">\(p_j\)</span>と略記することにして、ソフトマックス関数の適用結果をベクトル<span class="math notranslate nohighlight">\(\pmb{p} \in \mathbb{R}^K\)</span>で表すことにすると、</p>
+<div class="math notranslate nohighlight" id="equation-eq-p-as-softmax">
+<span class="eqno">(6.8)<a class="headerlink" href="#equation-eq-p-as-softmax" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+\begin{align}
+\begin{pmatrix}p_1 &amp; p_2 &amp; \dots &amp; p_K\end{pmatrix} &amp;= \begin{pmatrix}\sigma(\pmb{x}^\top \pmb{W})_1 &amp; \sigma(\pmb{x}^\top \pmb{W})_2 &amp; \dots &amp; \sigma(\pmb{x}^\top \pmb{W})_K\end{pmatrix} \\
+\pmb{p} &amp;= \sigma(\pmb{x}^\top \pmb{W})
+\end{align}
+\end{split}\]</div>
+<p>すなわち、事例<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を線形識別の重み行列<span class="math notranslate nohighlight">\(\pmb{W}\)</span>を用いて<span class="math notranslate nohighlight">\(K\)</span>個のクラスに分類するときの確率分布は、<span class="math notranslate nohighlight">\(\pmb{p} = \sigma(\pmb{x}^\top \pmb{W})\)</span>という簡単な式で表すことができる。ここで、重み行列<span class="math notranslate nohighlight">\(\pmb{W} \in \mathbb{R}^{d \times K}\)</span>は、<span class="math notranslate nohighlight">\(d\)</span>次元の事例の空間<span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>を<span class="math notranslate nohighlight">\(K\)</span>個のクラスの空間<span class="math notranslate nohighlight">\(\mathbb{R}^K\)</span>に写像するものであると解釈できる。</p>
+<p>これまでの定式化を手書き文字認識に当てはめた例を以下の図に示す。</p>
+<a class="reference internal image-reference" href="../_images/sigmoid.png"><img alt="多クラスロジスティック回帰" src="../_images/sigmoid.png" style="width: 75%;" /></a>
+</div>
+<div class="section" id="id6">
+<h2><span class="section-number">6.5. </span>ソフトマックス関数の性質<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>定義から明らかなように、ソフトマックス関数は以下の性質を満たす。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d474a4f5-f6f6-487c-93ca-9508900f6293">
+<span class="eqno">(6.9)<a class="headerlink" href="#equation-d474a4f5-f6f6-487c-93ca-9508900f6293" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+\forall k: \sigma(\pmb{a})_k &gt; 0
+\end{gather}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-b6e1fec8-5d4b-47f5-961a-2d83fa8aa0a7">
+<span class="eqno">(6.10)<a class="headerlink" href="#equation-b6e1fec8-5d4b-47f5-961a-2d83fa8aa0a7" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+\sum_{k = 1}^{K} \sigma(\pmb{a})_k = 1
+\end{gather}\]</div>
+<p>また、<span class="math notranslate nohighlight">\(K=2\)</span>の場合は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e2f3feab-b91f-48bf-af75-af60be3b4446">
+<span class="eqno">(6.11)<a class="headerlink" href="#equation-e2f3feab-b91f-48bf-af75-af60be3b4446" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\sigma(\pmb{a})_1 = \frac{e^{a_1}}{\sum_{k = 1}^{2} e^{a_k}} = \frac{e^{a_1}}{e^{a_1} + e^{a_2}} = \frac{1}{1 + \frac{e^{a_2}}{e^{a_1}}} = \frac{1}{1 + e^{-(a_1 - a_2)}}
+\end{align}\]</div>
+<p>となることから、<span class="math notranslate nohighlight">\((a_1 - a_2)\)</span>を入力としたシグモイド関数と等価であることが分かる。</p>
+<div class="section" id="id7">
+<h3><span class="section-number">6.5.1. </span>ソフトマックス関数の実装<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>例えば、<span class="math notranslate nohighlight">\(\pmb{a} = \begin{pmatrix}1000 &amp; 0\end{pmatrix}\)</span>に対しては、<span class="math notranslate nohighlight">\(\sigma(\pmb{a}) \approx \begin{pmatrix}1 &amp; 0\end{pmatrix}\)</span>となることが予想される。ところが、以下のプログラムを実行すると警告が表示され、正しい実行結果が得られない。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">softmax</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1015/1334177726.py:2: RuntimeWarning: overflow encountered in exp
+  ea = np.exp(a)
+/tmp/ipykernel_1015/1334177726.py:3: RuntimeWarning: invalid value encountered in true_divide
+  return ea / ea.sum()
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([nan,  0.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>これは、<span class="math notranslate nohighlight">\(e^{1000}\)</span>の計算でオーバーフローが発生するためである。この問題を回避するには、任意の実数<span class="math notranslate nohighlight">\(b \in \mathbb{R}\)</span>に対して、以下の関係が成り立つことを利用する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-20060f01-58ea-47ae-be7f-51e65d8e7a36">
+<span class="eqno">(6.12)<a class="headerlink" href="#equation-20060f01-58ea-47ae-be7f-51e65d8e7a36" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+ \sigma(\pmb{a})_j
+ &amp;= \frac{\exp a_j}{\sum_{k = 1}^{K} \exp a_k} \\
+ &amp;= \frac{\exp (a_j - b + b)}{\sum_{k = 1}^{K} \exp (a_k - b + b)} \\
+ &amp;= \frac{\left(\exp (a_j - b) \right)\exp b}{\sum_{k = 1}^{K} \left(\exp (a_k - b)\right) \exp b} \\
+ &amp;= \frac{\exp (a_j - b)}{\sum_{k = 1}^{K} \exp (a_k - b)}
+\end{align}\]</div>
+<p>つまり、ソフトマックス関数の引数としてベクトル<span class="math notranslate nohighlight">\(\pmb{a}\)</span>を与える時、その全ての要素<span class="math notranslate nohighlight">\(a_k\)</span>から同じ定数を引いたベクトルでソフトマックス関数を適用しても、結果は変わらない。そこで、<span class="math notranslate nohighlight">\(\exp\)</span>の計算結果が大きくなりすぎないように、例えばベクトル<span class="math notranslate nohighlight">\(\pmb{a}\)</span>の要素の最大値を<span class="math notranslate nohighlight">\(b\)</span>として採用すればよい。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">ea</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ea</span> <span class="o">/</span> <span class="n">ea</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">softmax</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1., 0.])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3><span class="section-number">6.5.2. </span>ソフトマックス関数の微分<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>多値分類モデルのパラメータ推定で必要になることを見越して、ここでソフトマックス関数の微分を示す。ソフトマックス関数<span class="math notranslate nohighlight">\(\sigma: \mathbb{R}^K \mapsto \mathbb{R}^K\)</span>を再掲する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-15f0370b-2bb9-4481-a8fd-e4e2c18b7bf1">
+<span class="eqno">(6.13)<a class="headerlink" href="#equation-15f0370b-2bb9-4481-a8fd-e4e2c18b7bf1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\sigma(\pmb{a})_j = \frac{\exp a_j}{\sum_{k = 1}^{K} \exp a_k}
+\end{align}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(\sigma(\pmb{a})_j\)</span>はベクトル<span class="math notranslate nohighlight">\(\pmb{a}\)</span>にソフトマックス関数を適用して計算されたベクトルの<span class="math notranslate nohighlight">\(j\)</span>番目の要素を表す。ソフトマックス関数が返すベクトルを陽に記述すると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-4b6c9269-6025-4cb3-8245-f8d8c10fd375">
+<span class="eqno">(6.14)<a class="headerlink" href="#equation-4b6c9269-6025-4cb3-8245-f8d8c10fd375" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\sigma(\pmb{a}) = \begin{pmatrix}
+\frac{\exp a_1}{\sum_{k = 1}^{K} \exp a_k} &amp; \dots &amp; \frac{\exp a_K}{\sum_{k = 1}^{K} \exp a_k}
+\end{pmatrix}
+\end{align}\]</div>
+<p>となることから明らかなように、ソフトマックス関数の計算結果の<span class="math notranslate nohighlight">\(j\)</span>番目の要素<span class="math notranslate nohighlight">\(\sigma(\pmb{a})_j\)</span>は、入力されたベクトルの全ての要素の影響を受ける。したがって、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1c939494-2ffc-494d-853f-180cce3f1a8d">
+<span class="eqno">(6.15)<a class="headerlink" href="#equation-1c939494-2ffc-494d-853f-180cce3f1a8d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\frac{\partial \sigma(\pmb{a})_1}{\partial a_1}, \frac{\partial \sigma(\pmb{a})_1}{\partial a_2}, \dots, \frac{\partial \sigma(\pmb{a})_1}{\partial a_K}, \frac{\partial \sigma(\pmb{a})_2}{\partial a_1}, \dots \frac{\partial \sigma(\pmb{a})_K}{\partial a_K}
+\end{align}\]</div>
+<p>の全てを求める必要がある。ソフトマックス関数が出力するベクトルのインデックス番号を<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, K\}\)</span>、ソフトマックス関数に入力するベクトルのインデックス番号を<span class="math notranslate nohighlight">\(h \in \{1, 2, \dots, K\}\)</span>として、ソフトマックス関数の偏微分<span class="math notranslate nohighlight">\(\frac{\partial \sigma(\pmb{a})_j}{\partial a_h}\)</span>を求める。</p>
+<div class="margin sidebar">
+<p class="sidebar-title">商の微分法則</p>
+<p><span class="math notranslate nohighlight">\(f(x) = \frac{g(x)}{h(x)}\)</span>と表されるとき、<span class="math notranslate nohighlight">\(g(x)\)</span>と<span class="math notranslate nohighlight">\(h(x)\)</span>がともに微分可能で、<span class="math notranslate nohighlight">\(h(x) \neq 0\)</span>ならば、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+f'(x) = \frac{g'(x)h(x) - g(x)h'(x)}{\{h(x)\}^2}
+\end{equation*}\]</div>
+</div>
+<p><span class="math notranslate nohighlight">\(h=j\)</span>のとき、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-4fe87dd2-c5ab-43a2-aa91-bbd11a2dc062">
+<span class="eqno">(6.16)<a class="headerlink" href="#equation-4fe87dd2-c5ab-43a2-aa91-bbd11a2dc062" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\frac{\partial \sigma(\pmb{a})_j}{\partial a_j} &amp;= \frac{\partial}{\partial a_j} \left(\frac{\exp a_j}{\sum_{k=1}^{K} \exp a_k}\right) \\
+&amp;= \frac{\frac{\partial}{\partial a_j} (\exp a_j) \cdot \left(\sum_{k=1}^{K} \exp a_k\right) - (\exp a_j)\cdot \frac{\partial}{\partial a_j}\left(\sum_{k=1}^{K} \exp a_k\right)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
+&amp;= \frac{(\exp a_j) \cdot \left(\sum_{k=1}^{K} \exp a_k\right) - (\exp a_j)\cdot (\exp a_j)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
+&amp;= \frac{(\exp a_j) \cdot \left(\sum_{k=1}^{K} \exp a_k\right)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} - \frac{(\exp a_j)^2}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
+&amp;= \frac{\exp a_j}{\sum_{k=1}^{K} \exp a_k} - \left(\frac{\exp a_j}{\sum_{k=1}^{K} \exp a_k} \right)^2 \\
+&amp;= \sigma(\pmb{a})_j - \left\{\sigma(\pmb{a})_j\right\}^2 \\
+&amp;= \sigma(\pmb{a})_j \left\{1 - \sigma(\pmb{a})_j\right\}
+\end{align}\]</div>
+<p><span class="math notranslate nohighlight">\(h\neq j\)</span>のとき、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-167c71a1-1d8e-4aa5-a6ae-35ca64c02013">
+<span class="eqno">(6.17)<a class="headerlink" href="#equation-167c71a1-1d8e-4aa5-a6ae-35ca64c02013" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\frac{\partial \sigma(\pmb{a})_j}{\partial a_h} &amp;= \frac{\partial}{\partial a_h} \left(\frac{\exp a_j}{\sum_{k=1}^{K} \exp a_k}\right) \\
+&amp;= \frac{\frac{\partial}{\partial a_h} (\exp a_j) \cdot \left(\sum_{k=1}^{K} \exp a_k\right) - (\exp a_j)\cdot \frac{\partial}{\partial a_h}\left(\sum_{k=1}^{K} \exp a_k\right)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
+&amp;= \frac{0 \cdot \left(\sum_{k=1}^{K} \exp a_k\right) - (\exp a_j)\cdot (\exp a_h)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
+&amp;= -\frac{(\exp a_j) \cdot (\exp a_h)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
+&amp;= -\frac{\exp a_j}{\sum_{k=1}^{K} \exp a_k} \cdot \frac{\exp a_h}{\sum_{k=1}^{K} \exp a_k}\\
+&amp;= -\sigma(\pmb{a})_j \sigma(\pmb{a})_h \\
+\end{align}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(k = h\)</span>の時に<span class="math notranslate nohighlight">\(1\)</span>を返し、それ以外の時に<span class="math notranslate nohighlight">\(0\)</span>を返す記法<span class="math notranslate nohighlight">\(\delta_{jh}\)</span></p>
+<div class="amsmath math notranslate nohighlight" id="equation-0392848c-a453-47c9-8d1e-82ba72bf05a5">
+<span class="eqno">(6.18)<a class="headerlink" href="#equation-0392848c-a453-47c9-8d1e-82ba72bf05a5" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\delta_{jh} = \begin{cases}
+1 &amp; (j = h) \\
+0 &amp; (j \neq h)
+\end{cases}
+\end{align}\]</div>
+<p>を導入すると、ソフトマックス関数の微分は<span class="math notranslate nohighlight">\(j=h\)</span>と<span class="math notranslate nohighlight">\(j \neq h\)</span>の場合をまとめて、以下の式で表現できる。</p>
+<div class="math notranslate nohighlight" id="equation-eq-softmax-derivation">
+<span class="eqno">(6.19)<a class="headerlink" href="#equation-eq-softmax-derivation" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+\frac{\partial \sigma(\pmb{a})_j}{\partial a_h} = \sigma(\pmb{a})_j \left(\delta_{jh} - \sigma(\pmb{a})_h\right)
+\end{align}
+\]</div>
+<p>興味深いことに、この結果はシグモイド関数の微分の結果の形によく似ている。</p>
+</div>
+</div>
+<div class="section" id="id9">
+<h2><span class="section-number">6.6. </span>データの表現<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これまで、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>がクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類されることを<span class="math notranslate nohighlight">\(y=j\)</span>と表していた。しかし、最尤推定を数式として表現しやすくするために、<span class="math notranslate nohighlight">\(K\)</span>次元ベクトルによる記法を導入する。事例がクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類されることを、以下の<span class="math notranslate nohighlight">\(y_k\)</span>を要素とするベクトル<span class="math notranslate nohighlight">\(\pmb{y}\in \mathbb{R}^K\)</span>で表す。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-50872b1d-ab1e-4b64-9e18-6d3af88f3856">
+<span class="eqno">(6.20)<a class="headerlink" href="#equation-50872b1d-ab1e-4b64-9e18-6d3af88f3856" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+y_k = \begin{cases}
+1 &amp; (k = j) \\
+0 &amp; (k \neq j)
+\end{cases}
+\end{align}\]</div>
+<p>すなわち、事例がクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類されることを、<span class="math notranslate nohighlight">\(j\)</span>番目の要素が<span class="math notranslate nohighlight">\(1\)</span>で、それ以外の要素が<span class="math notranslate nohighlight">\(0\)</span>であるベクトル<span class="math notranslate nohighlight">\(\pmb{y} \in \mathbb{R}^K\)</span>で表す。このベクトルは一つの要素のみ<span class="math notranslate nohighlight">\(1\)</span>で、他の要素が<span class="math notranslate nohighlight">\(0\)</span>であるから、<strong>1-of-K表現</strong>または<strong>one-hotベクトル</strong>などと呼ばれる。</p>
+<p>例えば、手書きの数字を認識するタスクにおいて、正解の数字が<span class="math notranslate nohighlight">\(3\)</span>であることを（<span class="math notranslate nohighlight">\(0\)</span>をクラス<span class="math notranslate nohighlight">\(\mathcal{C}_1\)</span>、<span class="math notranslate nohighlight">\(1\)</span>をクラス<span class="math notranslate nohighlight">\(\mathcal{C}_2\)</span>で表すことにしたので）クラス<span class="math notranslate nohighlight">\(\mathcal{C}_4\)</span>で表すことにすると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-684e22be-9aa2-466f-9fa9-c1d3a40a2461">
+<span class="eqno">(6.21)<a class="headerlink" href="#equation-684e22be-9aa2-466f-9fa9-c1d3a40a2461" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{y} = \begin{pmatrix}0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\end{pmatrix}^\top
+\end{align}\]</div>
+<p>と表現される。</p>
+<p>以上の表記法を採用すると、多クラス分類の学習事例は<span class="math notranslate nohighlight">\(d\)</span>次元ベクトルの説明変数<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>と<span class="math notranslate nohighlight">\(K\)</span>次元ベクトルの目的変数<span class="math notranslate nohighlight">\(\pmb{y} \in \mathbb{R}^K\)</span>の１つの組として表現できる。<span class="math notranslate nohighlight">\(1\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_1, \pmb{y}_1)\)</span>、<span class="math notranslate nohighlight">\(2\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_2, \pmb{y}_2)\)</span>、<span class="math notranslate nohighlight">\(i\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_i, \pmb{y}_i)\)</span>と表すことにすると、<span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は次のように表される。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-df1435ee-63b2-44cc-a05f-1659b26c4ba7">
+<span class="eqno">(6.22)<a class="headerlink" href="#equation-df1435ee-63b2-44cc-a05f-1659b26c4ba7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathcal{D} = \left\{(\pmb{x}_1, \pmb{y}_1), (\pmb{x}_2, \pmb{y}_2), \dots, (\pmb{x}_N, \pmb{y}_N)\right\} = \left\{(\pmb{x}_i, \pmb{y}_i)\right\}_{i=1}^{N}
+\end{align}\]</div>
+</div>
+<div class="section" id="id10">
+<h2><span class="section-number">6.7. </span>最尤推定<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>多クラスロジスティック回帰のパラメータ推定の流れは、二値分類のロジスティック回帰の場合と同じである。まず、学習事例<span class="math notranslate nohighlight">\((\pmb{x}, \pmb{y})\)</span>に対するモデルパラメータ<span class="math notranslate nohighlight">\(\pmb{W}\)</span>の尤度<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W})\)</span>を定義する。これは、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>のクラスが<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>であるとき、条件付き確率<span class="math notranslate nohighlight">\(P(\hat{y} = \mathcal{C}_j|\pmb{x})\)</span>を採用すればよい。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3beb7088-5ac5-4fa0-9477-03e10da2f033">
+<span class="eqno">(6.23)<a class="headerlink" href="#equation-3beb7088-5ac5-4fa0-9477-03e10da2f033" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W}) = P(\hat{y} = \mathcal{C}_j|\pmb{x})
+\end{align}\]</div>
+<p>多クラスロジスティック回帰の条件付き確率は、式<a class="reference internal" href="#equation-eq-p-as-softmax">(6.8)</a>より<span class="math notranslate nohighlight">\(\pmb{p} = \sigma(\pmb{x}^\top \pmb{W})\)</span>と計算されることから、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-742fa236-66d7-4a53-ab99-948623e5c276">
+<span class="eqno">(6.24)<a class="headerlink" href="#equation-742fa236-66d7-4a53-ab99-948623e5c276" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W}) = P(\hat{y} = \mathcal{C}_j|\pmb{x}) = p_j
+\end{align}\]</div>
+<p>ところが、学習事例のクラスはインデックス番号<span class="math notranslate nohighlight">\(j\)</span>ではなく、1-of-K表現ベクトル<span class="math notranslate nohighlight">\(\pmb{y}\)</span>で表現することにした。<span class="math notranslate nohighlight">\(k \in \{1, 2, \dots, K\}\)</span>に対して<span class="math notranslate nohighlight">\(y_k = 1\)</span>となるインデックス<span class="math notranslate nohighlight">\(k\)</span>があるとき、<span class="math notranslate nohighlight">\(p_k\)</span>がその事例の尤度であるので、</p>
+<div class="important admonition">
+<p class="admonition-title">事例ごとの尤度</p>
+<div class="amsmath math notranslate nohighlight" id="equation-31e23b21-f5f2-4dbd-80e4-af69bb27b689">
+<span class="eqno">(6.25)<a class="headerlink" href="#equation-31e23b21-f5f2-4dbd-80e4-af69bb27b689" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W}) = p_j = \prod_{k=1}^K \begin{cases} p_k &amp; (y_k = 1) \\ 1 &amp; (y_k = 0)\end{cases} = \prod_{k=1}^K p_k^{y_k}
+\end{align}\]</div>
+</div>
+<p>以下の図は、手書き文字認識においてある事例<span class="math notranslate nohighlight">\((\pmb{x}, \pmb{y})\)</span>に対するモデルパラメータ<span class="math notranslate nohighlight">\(W\)</span>の尤度<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W})\)</span>を尤度を計算する例である（数字との対応付けが分かりやすくなるように<span class="math notranslate nohighlight">\(\pmb{w}_j\)</span>や<span class="math notranslate nohighlight">\(p_j\)</span>のインデックス番号を<span class="math notranslate nohighlight">\(0\)</span>から始めていることに注意せよ）。</p>
+<a class="reference internal image-reference" href="../_images/likelihood.png"><img alt="../_images/likelihood.png" src="../_images/likelihood.png" style="width: 75%;" /></a>
+<p>この図は、事例の尤度は画像が正解の数字に分類される確率であることを示している。</p>
+<p>学習事例の尤度を定義したので、次は学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>全体における尤度を定義する。学習データのすべての事例は独立同分布（i.i.d.）である仮定し、学習データ全体の尤度<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{w})\)</span>を各学習事例の尤度の結合確率として定義する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-88af56d2-ab2a-4e9a-9416-821309c3add2">
+<span class="eqno">(6.26)<a class="headerlink" href="#equation-88af56d2-ab2a-4e9a-9416-821309c3add2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{L}_{\mathcal{D}}(\pmb{W}) = \prod_{i=1}^N \hat{l}_{\pmb{x}_i, \pmb{y}_i}(\pmb{W})
+\end{align}\]</div>
+<p><span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(W)\)</span>を目的関数とみなし、この目的関数の値を最大化するような<span class="math notranslate nohighlight">\(\pmb{W}^*\)</span>を求めることで、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>によく合致するモデルパラメータを求めることができる（最尤推定）。</p>
+<p>ここで、二値分類のときと同様に、学習データ上の尤度を最大化するのではなく、学習データ上の負の対数尤度を最小化に書き換える。すると、多クラスロジスティック回帰モデルの学習で最小化する目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>は次式で表される。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f6b43a57-5ce1-4d19-8cc9-325160cef003">
+<span class="eqno">(6.27)<a class="headerlink" href="#equation-f6b43a57-5ce1-4d19-8cc9-325160cef003" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{W}) \\
+&amp;= -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, \pmb{y}_i}(\pmb{W})
+\end{align}\]</div>
+<div class="margin sidebar">
+<p class="sidebar-title">フロベニウスノルム</p>
+<p>ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>の<span class="math notranslate nohighlight">\(L_2\)</span>ノルム<span class="math notranslate nohighlight">\(\|\pmb{x}\|\)</span>の計算と同様に、行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>の<span class="math notranslate nohighlight">\(L_2\)</span>ノルム<span class="math notranslate nohighlight">\(\|\pmb{X}\|\)</span>は行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>の全ての要素の二乗和の平方根として計算される。</p>
+</div>
+<p>また、学習時に<span class="math notranslate nohighlight">\(L_2\)</span>正則化を導入する場合、目的関数は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-475993f5-477a-44d4-9473-18c12f4cb01c">
+<span class="eqno">(6.28)<a class="headerlink" href="#equation-475993f5-477a-44d4-9473-18c12f4cb01c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MAP}(\pmb{W}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{W}) + \alpha \|\pmb{W}\|_2^2 \\
+&amp;= -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, \pmb{y}_i}(\pmb{W}) + \alpha \|\pmb{W}\|_2^2
+\end{align}\]</div>
+<p>となる。ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> (<span class="math notranslate nohighlight">\(\alpha&gt;0\)</span>) は<span class="math notranslate nohighlight">\(L_2\)</span>正則化の係数である。</p>
+</div>
+<div class="section" id="id11">
+<h2><span class="section-number">6.8. </span>確率的勾配降下法<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これまでの議論により、多クラスロジスティック回帰モデルの学習は、目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\pmb{W}^*\)</span>を求める問題に帰着した。二値分類のロジスティック回帰の場合と同様で、多クラスロジスティック回帰モデルの目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>は、パラメータ<span class="math notranslate nohighlight">\(W\)</span>に関して偏微分はできるが、その偏微分の値を<span class="math notranslate nohighlight">\(\pmb{0}\)</span>とする解析解を求めることができない。目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>は事例ごとの損失の和として表現されているので、確率的勾配降下法で目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\pmb{W}^*\)</span>を求めることにする。</p>
+<p>確率的勾配降下法は、各反復において事例<span class="math notranslate nohighlight">\((\pmb{x}, \pmb{y}) \in \mathcal{D}\)</span>をランダムに選びながら、以下の更新式を繰り返し適用することで、目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}(\pmb{W})\)</span>を最小とするパラメータ<span class="math notranslate nohighlight">\(\pmb{W}^{*}\)</span>を推定する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d4771c06-2170-4b62-8147-c3f20e2babd7">
+<span class="eqno">(6.29)<a class="headerlink" href="#equation-d4771c06-2170-4b62-8147-c3f20e2babd7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{W}^{(t+1)} = \pmb{W}^{(t)} + \eta_t \nabla \log \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W}^{(t)})
+\end{align}\]</div>
+<p>行列<span class="math notranslate nohighlight">\(W\)</span>に対して偏微分を導出するのは分かりづらいかもしれないので、<span class="math notranslate nohighlight">\(t\)</span>回目の反復で行列<span class="math notranslate nohighlight">\(\pmb{W}^{(t)}\)</span>の列ベクトル<span class="math notranslate nohighlight">\(\pmb{w}_j^{(t)}\)</span>毎に偏微分を計算し、すべての<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, K\}\)</span>に対して、重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_j^{(t)}\)</span>を更新する式に書き換えておく。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-33f0a95d-4a9a-4744-8c2b-e302f2a9c672">
+<span class="eqno">(6.30)<a class="headerlink" href="#equation-33f0a95d-4a9a-4744-8c2b-e302f2a9c672" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{w}_j^{(t+1)} = \pmb{w}_j^{(t)} + \eta_t \left.\frac{\partial \log \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W})}{\partial \pmb{w}_j}\right|_{\pmb{W} = \pmb{W}^{(t)}}
+\end{align}\]</div>
+<p>そこで、学習事例の対数尤度<span class="math notranslate nohighlight">\(\log \hat{l}_{(\pmb{x}, \pmb{y})}(\pmb{W})\)</span>を重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_k\)</span>で偏微分することに集中する。まず、学習事例の対数尤度<span class="math notranslate nohighlight">\(\log \hat{l}_{(\pmb{x}, \pmb{y})}(\pmb{W})\)</span>を整理する。</p>
+<div class="math notranslate nohighlight" id="equation-eq-multi-log-likelihood">
+<span class="eqno">(6.31)<a class="headerlink" href="#equation-eq-multi-log-likelihood" title="この数式へのパーマリンク">¶</a></span>\[
+\begin{align}
+\log \hat{l}_{(\pmb{x}, \pmb{y})}(\pmb{W}) &amp;= \log \prod_{k=1}^K p_k^{y_k} = \sum_{k=1}^K y_k \log p_k
+\end{align}
+\]</div>
+<p>ゆえに、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0b0716bd-71c9-4a48-bc51-00da5a81e36a">
+<span class="eqno">(6.32)<a class="headerlink" href="#equation-0b0716bd-71c9-4a48-bc51-00da5a81e36a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\frac{\partial \log \hat{l}_{(\pmb{x}, \pmb{y})}(\pmb{W})}{\partial \pmb{w}_j}
+&amp;= \sum_{k=1}^K \frac{\partial}{\partial \pmb{w}_j}(y_k \log p_k) \\
+&amp;= \sum_{k=1}^K \frac{y_k}{p_k} \frac{\partial p_k}{\partial \pmb{w}_j}
+\end{align}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(p_k\)</span>は<span class="math notranslate nohighlight">\(p_k = \sigma(\pmb{a})_k\)</span>、<span class="math notranslate nohighlight">\(a_j = \pmb{x}^\top \pmb{w}_j\)</span>という合成関数であることに着目し、式<a class="reference internal" href="#equation-eq-softmax-derivation">(6.19)</a>の結果を利用すると、</p>
+<div class="math notranslate nohighlight" id="equation-eq-grad-multilogress">
+<span class="eqno">(6.33)<a class="headerlink" href="#equation-eq-grad-multilogress" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+\begin{align}
+\frac{\partial \log \hat{l}_{(\pmb{x}, \pmb{y})}(\pmb{W})}{\partial \pmb{w}_j}
+&amp;= \sum_{k=1}^K \frac{y_k}{p_k} \frac{\partial p_k}{\partial \pmb{w}_j} \\
+&amp;= \sum_{k=1}^K \frac{y_k}{p_k} \frac{\partial p_k}{\partial a_j} \frac{\partial a_j}{\partial \pmb{w}_j} \\
+&amp;= \sum_{k=1}^K \frac{y_k}{p_k} \left\{p_k \left(\delta_{kj} - p_j\right)\right\} \pmb{x} \\
+&amp;= \pmb{x} \sum_{k=1}^K y_k \left(\delta_{kj} - p_j\right) \\
+&amp;= \pmb{x} \left( \sum_{k=1}^K y_k \delta_{kj} - \sum_{k=1}^K y_k p_j\right) \\
+&amp;= \pmb{x} \left(y_j - p_j \sum_{k=1}^K y_k \right) \\
+&amp;= \pmb{x} \left(y_j - p_j \right)
+\end{align}
+\end{split}\]</div>
+<p>この結果を確率的勾配降下法の更新式に代入すると、</p>
+<div class="important admonition">
+<p class="admonition-title">確率的勾配降下法による多クラスロジスティック回帰のパラメータ更新式</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3a88700e-2d83-440f-9cd8-c2fb81b5993b">
+<span class="eqno">(6.34)<a class="headerlink" href="#equation-3a88700e-2d83-440f-9cd8-c2fb81b5993b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{w}_j^{(t+1)} = \pmb{w}_j^{(t)} + \eta_t \left(y_j - p_j^{(t)}\right) \pmb{x}
+\end{align}\]</div>
+</div>
+<div class="section" id="id12">
+<h3><span class="section-number">6.8.1. </span>確率的勾配降下法の更新式の解釈<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>確率的勾配降下法の更新式は、目的変数の理想値（<span class="math notranslate nohighlight">\(y_j\)</span>）と<span class="math notranslate nohighlight">\(t\)</span>回目の反復における推定値（<span class="math notranslate nohighlight">\(p_j^{(t)}\)</span>）の差をスケーリングとして、事例の特徴ベクトル<span class="math notranslate nohighlight">\(\pmb{x}^\top\)</span>を重みベクトルに足し込むという分かりやすい形をしている。ある学習事例に対してパラメータ更新を行う例を以下に示す。</p>
+<a class="reference internal image-reference" href="../_images/multi-sgd.png"><img alt="../_images/multi-sgd.png" src="../_images/multi-sgd.png" style="width: 75%;" /></a>
+<p>確率的勾配降下法の更新式がモデルのパラメータを望ましい方向に動かすことを確認するため、学習事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>をクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類すべきで、<span class="math notranslate nohighlight">\(h \neq j\)</span>となるクラス<span class="math notranslate nohighlight">\(\mathcal{C}_h\)</span>には分類すべきでない状況を想定する。</p>
+<p><span class="math notranslate nohighlight">\(y_j = 1\)</span>であるため、重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_j\)</span>に関する更新式は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-879a65a1-6c79-4d05-a725-4f6b8b5e76aa">
+<span class="eqno">(6.35)<a class="headerlink" href="#equation-879a65a1-6c79-4d05-a725-4f6b8b5e76aa" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{w}_j^{(t+1)} &amp;= \pmb{w}_j^{(t)} + \eta_t \left(1 - p_j^{(t)}\right) \pmb{x}
+\end{align}\]</div>
+<p>また、<span class="math notranslate nohighlight">\(y_h = 0\)</span>であるため、重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_h\)</span>に関する更新式は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c969cbbd-bdfb-4341-9418-a6129dcb358c">
+<span class="eqno">(6.36)<a class="headerlink" href="#equation-c969cbbd-bdfb-4341-9418-a6129dcb358c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\pmb{w}_h^{(t+1)} &amp;= \pmb{w}_h^{(t)} + \eta_t \left(0 - p_h^{(t)}\right) \pmb{x}
+\end{align}\]</div>
+<p>確率的勾配降下法の<span class="math notranslate nohighlight">\(t\)</span>回目の反復において、事例<span class="math notranslate nohighlight">\(\pmb{w}\)</span>と重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_k^{(t)}\)</span>との内積を<span class="math notranslate nohighlight">\(a_k^{(t)}\)</span>と書くことにすると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2c7bd180-85b4-40f5-a3ec-611497a21376">
+<span class="eqno">(6.37)<a class="headerlink" href="#equation-2c7bd180-85b4-40f5-a3ec-611497a21376" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+a_j^{(t+1)} &amp;= \pmb{x}^\top \pmb{w}_j^{(t+1)} = \pmb{x}^\top\pmb{w}_j^{(t)} + \eta_t \left(1 - p_j^{(t)}\right) \pmb{x}^\top \pmb{x} = a_j^{(t)} + \eta_t \left(1 - p_j^{(t)}\right) \pmb{x}^\top \pmb{x} \geq a_j^{(t)} \\
+a_h^{(t+1)} &amp;= \pmb{x}^\top \pmb{w}_h^{(t+1)} = \pmb{x}^\top\pmb{w}_h^{(t)} + \eta_t \left(0 - p_h^{(t)}\right) \pmb{x}^\top \pmb{x} = a_h^{(t)} - \eta_t p_j^{(t)} \pmb{x}^\top \pmb{x} \leq a_h^{(t)} \\
+\end{align}\]</div>
+<p>となることから、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>はクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類されやすくなり、その他のクラス<span class="math notranslate nohighlight">\(\mathcal{C}_h\)</span>には分類されにくくなるようにパラメータ更新が行われる。</p>
+</div>
+</div>
+<div class="section" id="id13">
+<h2><span class="section-number">6.9. </span>評価<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>二値分類器の性能評価に正解率、適合率、再現率、F1スコアなどが用いられることを説明した。多値分類器の性能評価でも、これらの指標が用いられる。ただし、分類のクラスが3個以上になったため、新たに考慮すべき点が出てくる。</p>
+<p>下の表は、評価データに対する手書き数字認識器の予測結果を行、評価データにおける実際の数字を列として、事例数をまとめたものである。例えば、<span class="math notranslate nohighlight">\(0\)</span>行<span class="math notranslate nohighlight">\(0\)</span>列の数字は、評価データにおいてモデルが数字を「0」と予測した事例のうち、実際に評価データの中で「0」と示されていた事例（予測が正しかった事例）が<span class="math notranslate nohighlight">\(950\)</span>件であったことを表している。<span class="math notranslate nohighlight">\(8\)</span>行<span class="math notranslate nohighlight">\(2\)</span>列の数字は、評価データにおいてモデルが数字を「8」と予測したものの、正しい数字は「2」であった事例が<span class="math notranslate nohighlight">\(54\)</span>件あったことを示している。このように、予測すべきクラスに関して、モデルが予測したクラスと実際（正解）のクラスの事例数をまとめた表を<strong>混同行列</strong>（confusion matrix）と呼ぶ。</p>
+<a class="reference internal image-reference" href="../_images/confusion.png"><img alt="../_images/confusion.png" src="../_images/confusion.png" style="width: 800px;" /></a>
+<p>混同行列の対角成分（緑色）は多値分類器が予測に正解した事例数を表しているので、対角成分の和をとったものが全クラスにおいて予測に正解した事例数を表す。したがって、正解率は混同行列の対角成分の和を全事例数で割ったものである。</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mbox{正解率} = \frac{950+1108+899+921+894+770+911+942+844+913}{10000}= 0.9152
+\end{align*}\]</div>
+<p>クラス<span class="math notranslate nohighlight">\(\mathcal{C}_k\)</span>に関する適合率は、モデルが<span class="math notranslate nohighlight">\(\mathcal{C}_k\)</span>として予測した事例のうち、実際に<span class="math notranslate nohighlight">\(\mathcal{C}_k\)</span>である事例の割合である。上の表では混同行列の各行の事例数の合計列（オレンジ色）を示している。したがって、適合率は混同行列の対角成分（緑色）をその行の事例数の合計値（オレンジ色）で割ったものとなる。</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mbox{数字$0$の適合率} &amp;= \frac{950}{987}= 0.963 \\
+\mbox{数字$1$の適合率} &amp;= \frac{1108}{1147}= 0.966 \\
+&amp;\dots \\
+\mbox{数字$9$の適合率} &amp;= \frac{913}{1057} = 0.864 \\
+\end{align*}\]</div>
+<p>クラス<span class="math notranslate nohighlight">\(\mathcal{C}_k\)</span>に関する再現率は、実際に<span class="math notranslate nohighlight">\(\mathcal{C}_k\)</span>である事例のうち、モデルが<span class="math notranslate nohighlight">\(\mathcal{C}_k\)</span>として予測できた事例の割合である。上の表では混同行列の各列の事例数の合計行（青色）を示している。したがって、再現率は混同行列の対角成分（緑色）をその列の事例数の合計値（青色）で割ったものとなる。</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mbox{数字$0$の再現率} &amp;= \frac{950}{980}= 0.969 \\
+\mbox{数字$1$の再現率} &amp;= \frac{1108}{1135}= 0.976 \\
+&amp;\dots \\
+\mbox{数字$9$の再現率} &amp;= \frac{913}{1009} = 0.905 \\
+\end{align*}\]</div>
+<p>クラス<span class="math notranslate nohighlight">\(\mathcal{C}_k\)</span>に関するF1スコアは、適合率と再現率の調和平均として求める。</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mbox{数字$0$のF1スコア} &amp;= \frac{2 \times 0.963 \times 0.969}{0.963 + 0.969}= 0.966 \\
+\mbox{数字$1$のF1スコア} &amp;= \frac{2 \times 0.966 \times 0.976}{0.966 + 0.976}= 0.971 \\
+&amp;\dots \\
+\mbox{数字$9$のF1スコア} &amp;= \frac{2 \times 0.864 \times 0.905}{0.864 + 0.905} = 0.884 \\
+\end{align*}\]</div>
+<div class="section" id="id14">
+<h3><span class="section-number">6.9.1. </span>マクロ平均とマイクロ平均<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>これまで、適合率、再現率、F1スコアの計算はクラス<span class="math notranslate nohighlight">\(\mathcal{C}_k\)</span>ごとに行っていた。これにより、多値分類器の予測がどのクラスに対して強いのか・弱いのかを調べることができる。一方で、異なる多値分類器の性能を比較したいときは、各クラスの評価結果をまとめて、一つの評価結果に統合する方が便利である。各クラスの評価結果を統合する時に用いられるのが、<strong>マクロ平均</strong>（macro average）や<strong>マイクロ平均</strong>（micro average）である。</p>
+<p>マクロ平均は、各クラスの適合率、再現率、F1スコアの平均を算出したものである。</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mbox{Macro P} &amp;= \frac{0.963 + 0.966 + 0.941 + 0.898 + 0.925 + 0.878 + 0.929 + 0.924 + 0.858 + 0.864}{10} = 0.915 \\
+\mbox{Macro R} &amp;= \frac{0.969 + 0.976 + 0.871 + 0.912 + 0.910 + 0.863 + 0.951 + 0.916 + 0.867 + 0.905}{10} = 0.914 \\
+\mbox{Macro F1} &amp;= \frac{0.966 + 0.971 + 0.905 + 0.905 + 0.917 + 0.871 + 0.940 + 0.920 + 0.862 + 0.884}{10} = 0.914 \\
+\end{align*}\]</div>
+<p>評価データによっては、あるクラスの事例がとても多い／少ないなど、クラスによって事例数の偏りがある。その場合でも、全てのクラスの予測性能を平等に扱い、平均を取るのがマクロ平均である。</p>
+<p>マクロ平均は、各クラスで適合率や再現率を計算する前の事例数を分子と分母に足し合わせていく算出方法である。</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mbox{Micro P} &amp;= \frac{950+1108+899+921+894+770+911+942+844+9134}{987+1147+955+1026+967+877+981+1019+984+1057} = 0.9152 \\
+\mbox{Micro R} &amp;= \frac{950+1108+899+921+894+770+911+942+844+913}{980+1135+1032+1010+982+892+958+1028+974+1009} = 0.9152 \\
+\end{align*}\]</div>
+<p>これまでの設定の場合、マクロ平均の適合率と再現率は正解率と等しくなる。</p>
+<p>マクロ平均がその意義を発揮するのは、分類の評価から外す負のクラスを含む場合である。例えば、物体認識の例ではピクセルを人間、車、スノーボードなどのクラスに分類すると同時に、どの物体とも言えないピクセルは「その他」に分類することになる。この場合、「その他」のクラスは分類の評価から外すのが一般的であるため、マクロ平均やマイクロ平均の算出から除外することになる。今回の数字認識において、仮に認識したい数字は<span class="math notranslate nohighlight">\(1\)</span>, <span class="math notranslate nohighlight">\(2\)</span>, <span class="math notranslate nohighlight">\(3\)</span>, <span class="math notranslate nohighlight">\(4\)</span>の4クラスだけで、それ以外の数字を「その他」とみなして分類性能の計測から除外する場合は、マクロ平均、マイクロ平均ともに以下のような計算となる。</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mbox{Macro P} &amp;= \frac{0.966 + 0.941 + 0.898 + 0.925}{4} = 0.932 \\
+\mbox{Macro R} &amp;= \frac{0.976 + 0.871 + 0.912 + 0.910}{4} = 0.917 \\
+\mbox{Macro F1} &amp;= \frac{0.971 + 0.905 + 0.905 + 0.917}{4} = 0.924 \\
+\mbox{Micro P} &amp;= \frac{1108+899+921+894}{1147+955+1026+967} = 0.933 \\
+\mbox{Micro R} &amp;= \frac{1108+899+921+894}{1135+1032+1010+982} = 0.919 \\
+\mbox{Micro F1} &amp;= \frac{2 \times 0.933 \times 0.919}{0.933 + 0.919} = 0.926
+\end{align*}\]</div>
+</div>
+</div>
+<div class="section" id="id15">
+<h2><span class="section-number">6.10. </span>実装例<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>を使う例。デフォルトでは線形のサポートベクトルマシン（SVM）となるため、インスタンス化するときに<code class="docutils literal notranslate"><span class="pre">loss='log'</span></code>として、ロジスティック回帰を選択する。学習データが<span class="math notranslate nohighlight">\(N\)</span>件の事例から構成され、各事例が<span class="math notranslate nohighlight">\(d\)</span>次元の特徴ベクトルで表現されているとき、<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html#sklearn.linear_model.SGDClassifier.fit">fit</a>メソッドの引数<code class="docutils literal notranslate"><span class="pre">X</span></code>には<span class="math notranslate nohighlight">\(N \times d\)</span>の行列、<code class="docutils literal notranslate"><span class="pre">y</span></code>には<span class="math notranslate nohighlight">\(N\)</span>次元ベクトルを渡せばよい。バイアス項はモデルの内部で自動的に作られるので、特徴空間側で陽に表現する必要はない。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
+
+<span class="k">def</span> <span class="nf">image_to_vector</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># Flatten: (N x 28 x 28) -&gt; (N x 784)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mnist.npz&#39;</span><span class="p">)</span>
+<span class="n">Xtrain</span> <span class="o">=</span> <span class="n">image_to_vector</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_x&#39;</span><span class="p">])</span>       <span class="c1"># (60000 x 784) (no bias term)</span>
+<span class="n">Ytrain</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_y&#39;</span><span class="p">]</span>                        <span class="c1"># (60000) (not one-hot encoding)</span>
+<span class="n">Xtest</span> <span class="o">=</span> <span class="n">image_to_vector</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;test_x&#39;</span><span class="p">])</span>         <span class="c1"># (10000 x 784) (no bias term)</span>
+<span class="n">Ytest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;test_y&#39;</span><span class="p">]</span>                          <span class="c1"># (10000) (not one-hot encoding)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGDClassifier(loss=&#39;log&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>評価データの先頭の事例を分類する。<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html#sklearn.linear_model.SGDClassifier.predict">predict</a>メソッドは複数の事例（<span class="math notranslate nohighlight">\(n\)</span>件）をまとめて分類する仕様であるため、引数<code class="docutils literal notranslate"><span class="pre">X</span></code>には<span class="math notranslate nohighlight">\(n\times d\)</span>の行列を渡すことになっている。このため、１つだけの事例を分類する場合はスライスを使うか、<code class="docutils literal notranslate"><span class="pre">reshape(1,</span> <span class="pre">-1)</span></code>が必要。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtest</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([7], dtype=uint8)
+</pre></div>
+</div>
+</div>
+</div>
+<p>正解のクラスと一致していることが確認できる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Ytest</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7
+</pre></div>
+</div>
+</div>
+</div>
+<p>評価データの先頭の事例に関して、分類クラスの条件付き確率<span class="math notranslate nohighlight">\(P(\mathcal{C}_k|\pmb{x})\)</span>を求める。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">Xtest</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[9.14657227e-05, 2.00645378e-10, 4.12820190e-04, 1.92233011e-02,
+        8.63221023e-06, 3.23680336e-04, 3.28070369e-08, 9.79320093e-01,
+        8.33685350e-05, 5.36605904e-04]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>評価データ上での正解率を計測する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9155
+</pre></div>
+</div>
+</div>
+</div>
+<p>混同行列を得る。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="n">Ytest_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtest</span><span class="p">)</span>
+<span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 955,    0,    1,    2,    0,    5,    9,    3,    4,    1],
+       [   0, 1106,    2,    2,    0,    2,    5,    1,   17,    0],
+       [   6,    7,  911,   17,    7,    6,   14,    8,   52,    4],
+       [   5,    1,   19,  902,    1,   28,    4,   12,   34,    4],
+       [   1,    2,    2,    3,  917,    1,   16,    2,   12,   26],
+       [   8,    2,    0,   30,    9,  768,   22,    7,   43,    3],
+       [   9,    3,    3,    2,    6,   15,  917,    0,    3,    0],
+       [   4,   11,   24,    8,    8,    2,    1,  941,    4,   25],
+       [   6,    9,    5,   14,   12,   26,   13,    8,  877,    4],
+       [   7,    9,    1,   15,   45,   15,    1,   30,   25,  861]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span>
+<span class="n">Ytest_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>各クラスごとの適合率、再現率、F1スコア</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">precision_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.95404595, 0.96173913, 0.9411157 , 0.90653266, 0.91243781,
+       0.88479263, 0.91516966, 0.9298419 , 0.81886088, 0.92780172])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recall_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.9744898 , 0.97444934, 0.88275194, 0.89306931, 0.93380855,
+       0.86098655, 0.95720251, 0.91536965, 0.90041068, 0.85332012])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.96415952, 0.96805252, 0.911     , 0.89975062, 0.9229995 ,
+       0.87272727, 0.93571429, 0.92254902, 0.85770171, 0.88900361])
+</pre></div>
+</div>
+</div>
+</div>
+<p>マクロ平均適合率、再現率、F1スコア</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">precision_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9152338047684225
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recall_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9145858432669651
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.914365805535445
+</pre></div>
+</div>
+</div>
+</div>
+<p>マイクロ平均適合率、再現率、F1スコア</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">precision_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;micro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9155
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recall_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;micro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9155
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1_score</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span> <span class="n">Ytest_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;micro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9155
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(K \times d\)</span>の重み行列にはcoef_属性からアクセスできる。以下は、数字を<span class="math notranslate nohighlight">\(0\)</span>と予測するときの重みベクトルを2次元に変換して可視化したもの。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_top</span><span class="p">()</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02multi_64_0.png" src="../_images/02multi_64_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id16">
+<h2><span class="section-number">6.11. </span>確認問題<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><strong>(1) 確率的勾配降下法による多クラスロジスティック回帰モデルの学習</strong></p>
+<p>確率的勾配降下法で多クラスロジスティック回帰モデルを学習するアルゴリズムを実装せよ。学習データと評価データはMNISTを用いよ。</p>
+<p><strong>(2) 評価データ上での正解率</strong></p>
+<p>評価データ上で学習したモデルの正解率を測定せよ。</p>
+</div>
+<div class="section" id="id17">
+<h2><span class="section-number">6.12. </span>付録<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="mnist-npz">
+<span id="sec-mnist-npz"></span><h3><span class="section-number">6.12.1. </span>mnist.npzを作成するプログラム<a class="headerlink" href="#mnist-npz" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="k">def</span> <span class="nf">read_image</span><span class="p">(</span><span class="n">fi</span><span class="p">):</span>
+    <span class="n">magic</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&gt;IIII&quot;</span><span class="p">,</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">magic</span> <span class="o">==</span> <span class="mh">0x00000803</span>
+    <span class="k">assert</span> <span class="n">rows</span> <span class="o">==</span> <span class="mi">28</span>
+    <span class="k">assert</span> <span class="n">columns</span> <span class="o">==</span> <span class="mi">28</span>
+    <span class="n">rawbuffer</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">rawbuffer</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span> <span class="o">*</span> <span class="n">rows</span> <span class="o">*</span> <span class="n">columns</span>
+    <span class="n">rawdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">rawbuffer</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&gt;u1&#39;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">n</span><span class="o">*</span><span class="n">rows</span><span class="o">*</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rawdata</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+
+<span class="k">def</span> <span class="nf">read_label</span><span class="p">(</span><span class="n">fi</span><span class="p">):</span>
+    <span class="n">magic</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&gt;II&quot;</span><span class="p">,</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">magic</span> <span class="o">==</span> <span class="mh">0x00000801</span>
+    <span class="n">rawbuffer</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">rawbuffer</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">rawbuffer</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&gt;u1&#39;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">openurl_gzip</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+        <span class="n">url</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;Accept-Encoding&quot;</span><span class="p">:</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11&quot;</span><span class="p">,</span> 
+        <span class="p">})</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gzip</span><span class="o">.</span><span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span>
+        <span class="s1">&#39;mnist&#39;</span><span class="p">,</span>
+        <span class="n">train_x</span><span class="o">=</span><span class="n">read_image</span><span class="p">(</span><span class="n">openurl_gzip</span><span class="p">(</span><span class="s1">&#39;http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz&#39;</span><span class="p">)),</span>
+        <span class="n">train_y</span><span class="o">=</span><span class="n">read_label</span><span class="p">(</span><span class="n">openurl_gzip</span><span class="p">(</span><span class="s1">&#39;http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz&#39;</span><span class="p">)),</span>
+        <span class="n">test_x</span><span class="o">=</span><span class="n">read_image</span><span class="p">(</span><span class="n">openurl_gzip</span><span class="p">(</span><span class="s1">&#39;http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz&#39;</span><span class="p">)),</span>
+        <span class="n">test_y</span><span class="o">=</span><span class="n">read_label</span><span class="p">(</span><span class="n">openurl_gzip</span><span class="p">(</span><span class="s1">&#39;http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz&#39;</span><span class="p">))</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "chokkan/mlnote",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./classification"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="01binary.html" title="前へ ページ">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">前へ</p>
+            <p class="prev-next-title"><span class="section-number">5. </span>線形二値分類</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="03nn.html" title="次へ ページ">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">次へ</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>ニューラルネットワーク (1)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          <div class="extra_footer">
+            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

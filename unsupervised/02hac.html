@@ -1,0 +1,1846 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11. 階層的クラスタリング &#8212; 機械学習帳</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://chokkan.github.io/mlnote/unsupervised/02hac.html" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="12. 主成分分析 (1)" href="03pca.html" />
+    <link rel="prev" title="10. 非階層的クラスタリング" href="01kmeans.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="ja">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">機械学習帳</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="この本を検索..." aria-label="この本を検索..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  回帰
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/01sra.html">
+   1. 単回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/02mra.html">
+   2. 重回帰
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/03regularization.html">
+   3. モデル選択と正則化
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/04sgd.html">
+   4. 勾配法によるパラメータ推定
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  分類
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/01binary.html">
+   5. 線形二値分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/02multi.html">
+   6. 線形多クラス分類
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/03nn.html">
+   7. ニューラルネットワーク (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/04nntrain.html">
+   8. ニューラルネットワーク (2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/05svm.html">
+   9. サポートベクトルマシン
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  教師無し学習
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01kmeans.html">
+   10. 非階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   11. 階層的クラスタリング
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03pca.html">
+   12. 主成分分析 (1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04pca2.html">
+   13. 主成分分析 (2)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  付録
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation.html">
+   表記
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reference.html">
+   参考文献・謝辞
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="ナビゲーションを切り替え" aria-controls="site-navigation"
+                title="ナビゲーションを切り替え" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/unsupervised/02hac.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="ソースファイルをダウンロード" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/chokkan/mlnote"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="ソースリポジトリ"><i
+                    class="fab fa-github"></i>リポジトリ</button></a>
+        <a class="issues-button"
+            href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Funsupervised/02hac.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="問題を開く"><i class="fas fa-lightbulb"></i>未解決の問題</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="全画面モード"
+        title="全画面モード"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/unsupervised/02hac.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="発売 Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/unsupervised/02hac.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="発売 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="発売 Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> 目次
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   11.1. 具体例
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     11.1.1. データと距離行列
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     11.1.2. 実行例
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     11.1.3. デンドログラム
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   11.2. 距離関数
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     11.2.1. ユークリッド距離
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     11.2.2. マンハッタン距離
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     11.2.3. コサイン類似度
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   11.3. 凝集型クラスタリング
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     11.3.1. 最短距離法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     11.3.2. 最長距離法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     11.3.3. 群平均法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     11.3.4. 重心法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     11.3.5. ウォード法
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#scipy">
+   11.4. SciPyでの実装例
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     11.4.1. 距離行列を求める
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     11.4.2. クラスタリングの実行
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id18">
+   11.5. 自前で実装
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id19">
+   11.6. 確認問題
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1><span class="section-number">11. </span>階層的クラスタリング<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">scipy.cluster.hierarchy</span>
+<span class="kn">import</span> <span class="nn">scipy.spatial.distance</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>日本の行政区画は<span class="math notranslate nohighlight">\(47\)</span>の都道府県から構成され、その下に市町村や区が置かれている。また、<span class="math notranslate nohighlight">\(47\)</span>の都道府県も、北海道地方や東北地方など、いくつかのグループにまとめて語られることがある。これをクラスタ分析の用語で説明すると、市町村の上に都道府県のクラスタが作られ、都道府県の上に地方のクラスタ、地方のクラスタの上に「日本」というクラスタがあり、日本のクラスタの上に「アジア」のクラスタ……、といった具合で、クラスタに上下関係が存在している。</p>
+<p>生物の<a class="reference external" href="https://ja.wikipedia.org/wiki/%E5%88%86%E9%A1%9E%E5%AD%A6">分類学</a>、<a class="reference external" href="https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E5%8D%81%E9%80%B2%E5%88%86%E9%A1%9E%E6%B3%95">日本十進分類法</a>（図書館の本の分類）、会社の組織図、オブジェクト指向言語のクラスの階層など、階層構造は世の中の至るところで用いられる。モノを階層構造で表現することのメリットは、モノを見る細かさを階層のレベルで調整できることや、モノを探しやすくすることであろう。</p>
+<p><strong>階層的クラスタリング</strong>（hierarchical clustering）は、データからクラスタの階層構造を抽出する手法である。階層的クラスタリングは、凝集型と分割型に大別される。</p>
+<ul class="simple">
+<li><p><strong>凝集型</strong>（ボトムアップ型）： 各事例を要素数<span class="math notranslate nohighlight">\(1\)</span>のクラスタに格納し、クラスタを繰り返し併合していく方法</p></li>
+<li><p><strong>分割型</strong>（トップダウン型）： 全事例を一つの大きなクラスタに格納し、クラスタをを繰り返し分割していく方法</p></li>
+</ul>
+<p>ここでは、凝集型の階層的クラスタリングを取り上げる。</p>
+<div class="section" id="id2">
+<h2><span class="section-number">11.1. </span>具体例<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id3">
+<h3><span class="section-number">11.1.1. </span>データと距離行列<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ここでは、凝集型クラスタリングの動作を具体例で示す。単純な例として、1次元（スカラー）の事例<span class="math notranslate nohighlight">\(5\)</span>件からなるデータ <span class="math notranslate nohighlight">\(X = (x_1, x_2, x_3, x_4, x_5) = (2, 11, 5, 1, 7)\)</span> を考える。事例数を<span class="math notranslate nohighlight">\(N\)</span>で表すことにすると、<span class="math notranslate nohighlight">\(N=5\)</span>である。</p>
+<p>２つの事例<span class="math notranslate nohighlight">\(x_i\)</span>と<span class="math notranslate nohighlight">\(x_j\)</span>の距離を<span class="math notranslate nohighlight">\(d_{ij}\)</span>で表す。ここでは、<span class="math notranslate nohighlight">\(d_{ij} = |x_i - x_j|\)</span>と定義する。例えば、<span class="math notranslate nohighlight">\(x_1\)</span>と<span class="math notranslate nohighlight">\(x_3\)</span>の距離は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1e68185a-3050-4726-bdab-75e1418e7efe">
+<span class="eqno">(11.1)<a class="headerlink" href="#equation-1e68185a-3050-4726-bdab-75e1418e7efe" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+d_{13} = |x_1 - x_3| = |2 - 5| = 3
+\end{align}\]</div>
+<p>さて、データ中の全ての事例の組に対して距離を計算し、<span class="math notranslate nohighlight">\(N \times N\)</span>の行列<span class="math notranslate nohighlight">\(D = (d_{ij})\)</span>で表現する。データ<span class="math notranslate nohighlight">\(X\)</span>に対しては、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ea01d041-533d-4e80-847b-8275df5a0e23">
+<span class="eqno">(11.2)<a class="headerlink" href="#equation-ea01d041-533d-4e80-847b-8275df5a0e23" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+D &amp;= \begin{pmatrix}
+|x_1 - x_1| &amp; |x_1 - x_2| &amp; |x_1 - x_3| &amp; |x_1 - x_4| &amp; |x_1 - x_5| \\
+|x_2 - x_1| &amp; |x_2 - x_2| &amp; |x_2 - x_3| &amp; |x_2 - x_4| &amp; |x_2 - x_5| \\
+|x_3 - x_1| &amp; |x_3 - x_2| &amp; |x_3 - x_3| &amp; |x_3 - x_4| &amp; |x_3 - x_5| \\
+|x_4 - x_1| &amp; |x_4 - x_2| &amp; |x_4 - x_3| &amp; |x_4 - x_4| &amp; |x_4 - x_5| \\
+|x_5 - x_1| &amp; |x_5 - x_2| &amp; |x_5 - x_3| &amp; |x_5 - x_4| &amp; |x_5 - x_5| \\
+\end{pmatrix} \\
+&amp;= \begin{pmatrix}
+|2 - 2| &amp; |2 - 11| &amp; |2 - 5| &amp; |2 - 1| &amp; |2 - 7| \\
+|11 - 2| &amp; |11 - 11| &amp; |11 - 5| &amp; |11 - 1| &amp; |11 - 7| \\
+|5 - 2| &amp; |5 - 11| &amp; |5 - 5| &amp; |5 - 1| &amp; |5 - 7| \\
+|1 - 2| &amp; |1 - 11| &amp; |1 - 5| &amp; |1 - 1| &amp; |1 - 7| \\
+|7 - 2| &amp; |7 - 11| &amp; |7 - 5| &amp; |7 - 1| &amp; |7 - 7| \\
+\end{pmatrix} \\
+&amp;= \begin{pmatrix}
+0 &amp; 9 &amp; 3 &amp; 1 &amp; 5 \\
+9 &amp; 0 &amp; 6 &amp; 10 &amp; 4 \\
+3 &amp; 6 &amp; 0 &amp; 4 &amp; 2 \\
+1 &amp; 10 &amp; 4 &amp; 0 &amp; 6 \\
+5 &amp; 4 &amp; 2 &amp; 6 &amp; 0 \\
+\end{pmatrix}
+\end{align}\]</div>
+<p>なお、<span class="math notranslate nohighlight">\(D\)</span>は<strong>距離行列</strong>（distance matrix）と呼ばれる。<span class="math notranslate nohighlight">\(d_{ij} = d_{ji}\)</span>であることから、距離行列は<span class="math notranslate nohighlight">\(N \times N\)</span>の対称行列である。また、自分自身との距離は<span class="math notranslate nohighlight">\(0\)</span>であることから、距離行列の対角成分は<span class="math notranslate nohighlight">\(0\)</span>である。</p>
+</div>
+<div class="section" id="id4">
+<h3><span class="section-number">11.1.2. </span>実行例<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jinja2</span>
+
+<span class="k">def</span> <span class="nf">distance_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">merge_cluster_single</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+    <span class="n">newD</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">newD</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">newD</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">newD</span><span class="p">[</span><span class="n">j</span><span class="p">]]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">newD</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="n">newD</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="n">newD</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">newD</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">newD</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">newD</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">newD</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    
+    <span class="n">newC</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+    <span class="n">newC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">newC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">newC</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+    <span class="k">del</span> <span class="n">newC</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">newD</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">newC</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">generate_distance_table</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;table&gt;</span>
+<span class="s2">    &lt;tr&gt;</span>
+<span class="s2">      &lt;th width=&quot;120px&quot;&gt;&lt;/th&gt;</span>
+<span class="s2">      {</span><span class="si">% f</span><span class="s2">or item in C %}</span>
+<span class="s2">      &lt;th width=&quot;120px&quot;&gt;{{ item }}&lt;/th&gt;</span>
+<span class="s2">      {</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+<span class="s2">    &lt;/tr&gt;</span>
+<span class="s2">    {</span><span class="si">% f</span><span class="s2">or row in D %}</span>
+<span class="s2">    &lt;tr&gt;</span>
+<span class="s2">      &lt;th&gt;{{ C[loop.index0] }}&lt;/th&gt;</span>
+<span class="s2">      {</span><span class="si">% f</span><span class="s2">or v in row %}</span>
+<span class="s2">      {</span><span class="si">% i</span><span class="s2">f v == minvalue %}</span>
+<span class="s2">      &lt;td style=&quot;text-decoration: underline; color: red;&quot;&gt;{{ v }}&lt;/td&gt;</span>
+<span class="s2">      {</span><span class="si">% e</span><span class="s2">lse %}</span>
+<span class="s2">      &lt;td&gt;{{ v }}&lt;/td&gt;</span>
+<span class="s2">      {</span><span class="si">% e</span><span class="s2">ndif %}</span>
+<span class="s2">      {</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+<span class="s2">    &lt;/tr&gt;</span>
+<span class="s2">    {</span><span class="si">% e</span><span class="s2">ndfor %}</span>
+<span class="s2">    &lt;/table&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">tmpl</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+    
+    <span class="n">minvalue</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">squareform</span><span class="p">(</span><span class="n">D</span><span class="p">))</span> <span class="k">if</span> <span class="n">D</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">0.</span>
+    <span class="k">return</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">minvalue</span><span class="o">=</span><span class="n">minvalue</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>さて、この距離行列を用いてクラスタを形成していく。凝集型のクラスタリングは、全ての事例が自身をのみを要素にもつクラスタを形成する状態を出発点とする。クラスタの要素をタプル<span class="math notranslate nohighlight">\((\dots)\)</span>でまとめることにすると、初期状態のクラスタを次のように表すことができる。</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\left\{(2), (11), (5), (1), (7)\right\}
+\end{align*}\]</div>
+<p>この初期状態のクラスタの中で、距離の近いクラスタを併合するという操作を繰り返していく。この経過を分かりやすく説明するため、さきほどの距離行列を表として示す。クラスタの要素を示すタプルを行見出しと列見出しに、全てのクラスタ間の距離を表のセルに示した。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">C</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([(</span><span class="n">x</span><span class="p">,)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">distance_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">generate_distance_table</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">C</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<table>
+<tr>
+  <th width="120px"></th>
+
+  <th width="120px">(2,)</th>
+
+  <th width="120px">(11,)</th>
+
+  <th width="120px">(5,)</th>
+
+  <th width="120px">(1,)</th>
+
+  <th width="120px">(7,)</th>
+
+</tr>
+
+<tr>
+  <th>(2,)</th>
+
+
+  <td>0.0</td>
+
+
+
+  <td>9.0</td>
+
+
+
+  <td>3.0</td>
+
+
+
+  <td style="text-decoration: underline; color: red;">1.0</td>
+
+
+
+  <td>5.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(11,)</th>
+
+
+  <td>9.0</td>
+
+
+
+  <td>0.0</td>
+
+
+
+  <td>6.0</td>
+
+
+
+  <td>10.0</td>
+
+
+
+  <td>4.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(5,)</th>
+
+
+  <td>3.0</td>
+
+
+
+  <td>6.0</td>
+
+
+
+  <td>0.0</td>
+
+
+
+  <td>4.0</td>
+
+
+
+  <td>2.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(1,)</th>
+
+
+  <td style="text-decoration: underline; color: red;">1.0</td>
+
+
+
+  <td>10.0</td>
+
+
+
+  <td>4.0</td>
+
+
+
+  <td>0.0</td>
+
+
+
+  <td>6.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(7,)</th>
+
+
+  <td>5.0</td>
+
+
+
+  <td>4.0</td>
+
+
+
+  <td>2.0</td>
+
+
+
+  <td>6.0</td>
+
+
+
+  <td>0.0</td>
+
+
+</tr>
+
+</table>
+</div></div>
+</div>
+<p>この表の非対角要素の中で、もっとも値が小さいものを下線および赤色で示した。これによると、<span class="math notranslate nohighlight">\((2)\)</span>と<span class="math notranslate nohighlight">\((1)\)</span>のクラスタ間の距離<span class="math notranslate nohighlight">\(1\)</span>が最小である。そこで、この２つのクラスタを併合し、<span class="math notranslate nohighlight">\((1,2)\)</span>を要素にもつクラスタを作成したい。</p>
+<p>ここで、新しく作成するクラスタ<span class="math notranslate nohighlight">\((1,2)\)</span>とその他のクラスタ<span class="math notranslate nohighlight">\((11), (5), (7)\)</span>との距離をどのように定義するか、検討しなければいけない。今回は、２つのクラスタ間の距離は、双方のクラスタに属する要素で総当りで距離を求め、その最小値と定義することにする（後で説明するが、これは最短距離法と呼ばれる）。すなわち、２つのクラスタをタプル<span class="math notranslate nohighlight">\(A\)</span>と<span class="math notranslate nohighlight">\(B\)</span>で表現したとき、そのクラスタ間の距離<span class="math notranslate nohighlight">\(\mathrm{dist}(A, B)\)</span>を次式で定義する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-bdcda143-9fc1-4fa4-8a42-1ca4fa79b751">
+<span class="eqno">(11.3)<a class="headerlink" href="#equation-bdcda143-9fc1-4fa4-8a42-1ca4fa79b751" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathrm{dist}(A, B) = \min_{a, b \in A \times B} d(a, b)
+\end{align}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(d(a,b)\)</span>は要素<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>の距離で、距離行列<span class="math notranslate nohighlight">\(D\)</span>の対応する要素を参照することで求める（<span class="math notranslate nohighlight">\(d_{ab}\)</span>と説明したいところであるが、<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>は行列におけるインデックス番号ではなく、データ中の要素そのものである）。</p>
+<p>要素<span class="math notranslate nohighlight">\(i\)</span>と<span class="math notranslate nohighlight">\(j\)</span>を統合してクラスタ<span class="math notranslate nohighlight">\((i,j)\)</span>を作成した時、それ以外の要素<span class="math notranslate nohighlight">\(h\)</span> (<span class="math notranslate nohighlight">\(h \neq i\)</span>かつ<span class="math notranslate nohighlight">\(h \neq j\)</span>) との距離は次式で与えられる。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f2d8db50-1293-4ab7-a2bd-7b5dd76fc1f2">
+<span class="eqno">(11.4)<a class="headerlink" href="#equation-f2d8db50-1293-4ab7-a2bd-7b5dd76fc1f2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathrm{dist}[(i,j), (h)] = \min_{a, b \in \{(i,h), (j,h)\}} d(a, b) = \min \{ d(i,h), d(j,h) \}
+\end{align}\]</div>
+<p>ゆえに、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mathrm{dist}[(1,2), (11)] &amp;= \min \{ d(1,11), d(2,11) \} = \min\{10, 9\} = 9 \\
+\mathrm{dist}[(1,2), (5)] &amp;= \min \{ d(1,5), d(2,5) \} = \min\{4, 3\} = 3 \\
+\mathrm{dist}[(1,2), (7)] &amp;= \min \{ d(1,7), d(2,7) \} = \min\{6, 5\} = 5
+\end{align*}\]</div>
+<p>今回の例では、クラスタの要素が整数であり、かつクラスタ間の距離は値の差の絶対値と定義したので、双方のクラスタに属する整数同士で距離（差の絶対値）を総当りで計算し、その最小値がクラスタ間の距離である。</p>
+<p>新しく作成するクラスタ<span class="math notranslate nohighlight">\((1,2)\)</span>と、それ以外のクラスタ<span class="math notranslate nohighlight">\((11), (5), (7)\)</span>との距離を計算できたので、距離行列の表を更新する。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D2</span><span class="p">,</span> <span class="n">C2</span> <span class="o">=</span> <span class="n">merge_cluster_single</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">generate_distance_table</span><span class="p">(</span><span class="n">D2</span><span class="p">,</span> <span class="n">C2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<table>
+<tr>
+  <th width="120px"></th>
+
+  <th width="120px">(1, 2)</th>
+
+  <th width="120px">(11,)</th>
+
+  <th width="120px">(5,)</th>
+
+  <th width="120px">(7,)</th>
+
+</tr>
+
+<tr>
+  <th>(1, 2)</th>
+
+
+  <td>0.0</td>
+
+
+
+  <td>9.0</td>
+
+
+
+  <td>3.0</td>
+
+
+
+  <td>5.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(11,)</th>
+
+
+  <td>9.0</td>
+
+
+
+  <td>0.0</td>
+
+
+
+  <td>6.0</td>
+
+
+
+  <td>4.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(5,)</th>
+
+
+  <td>3.0</td>
+
+
+
+  <td>6.0</td>
+
+
+
+  <td>0.0</td>
+
+
+
+  <td style="text-decoration: underline; color: red;">2.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(7,)</th>
+
+
+  <td>5.0</td>
+
+
+
+  <td>4.0</td>
+
+
+
+  <td style="text-decoration: underline; color: red;">2.0</td>
+
+
+
+  <td>0.0</td>
+
+
+</tr>
+
+</table>
+</div></div>
+</div>
+<p>この表から、次に距離が近いのは<span class="math notranslate nohighlight">\((5)\)</span>と<span class="math notranslate nohighlight">\((7)\)</span>のクラスタで、その距離は<span class="math notranslate nohighlight">\(2\)</span>である。そこで、この２つのクラスタを併合し、<span class="math notranslate nohighlight">\((5,7)\)</span>を要素にもつクラスタを作成する。先ほどと同様に、新しく作成するクラスタと、それ以外のクラスタとの距離を求める。ここで、クラスタ<span class="math notranslate nohighlight">\(A\)</span>と<span class="math notranslate nohighlight">\(B\)</span>を併合したクラスタを<span class="math notranslate nohighlight">\(A + B\)</span>で表すと、<span class="math notranslate nohighlight">\(A+B\)</span>とそれ以外のクラスタ<span class="math notranslate nohighlight">\(C\)</span>との距離は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-afed9746-0156-41cd-8ccf-b38788b3c3ab">
+<span class="eqno">(11.5)<a class="headerlink" href="#equation-afed9746-0156-41cd-8ccf-b38788b3c3ab" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathrm{dist}(A+B, C) = \min \{ \mathrm{dist}(A, C), \mathrm{dist}(B, C)\}
+\end{align}\]</div>
+<p>ゆえに、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mathrm{dist}[(5)+(7), (1,2)] &amp;= \min \{ \mathrm{dist}[(5), (1,2)], \mathrm{dist}[(7), (1,2)] \} = \min\{3, 5\} = 3 \\
+\mathrm{dist}[(5)+(7), (11)] &amp;= \min \{ d(5,11), d(7,11) \} = \min\{6, 4\} = 4 \\
+\end{align*}\]</div>
+<p>この結果に基づき、クラスタ<span class="math notranslate nohighlight">\((5,7)\)</span>を作成し、距離行列の表を更新する。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D3</span><span class="p">,</span> <span class="n">C3</span> <span class="o">=</span> <span class="n">merge_cluster_single</span><span class="p">(</span><span class="n">D2</span><span class="p">,</span> <span class="n">C2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">generate_distance_table</span><span class="p">(</span><span class="n">D3</span><span class="p">,</span> <span class="n">C3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<table>
+<tr>
+  <th width="120px"></th>
+
+  <th width="120px">(1, 2)</th>
+
+  <th width="120px">(11,)</th>
+
+  <th width="120px">(5, 7)</th>
+
+</tr>
+
+<tr>
+  <th>(1, 2)</th>
+
+
+  <td>0.0</td>
+
+
+
+  <td>9.0</td>
+
+
+
+  <td style="text-decoration: underline; color: red;">3.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(11,)</th>
+
+
+  <td>9.0</td>
+
+
+
+  <td>0.0</td>
+
+
+
+  <td>4.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(5, 7)</th>
+
+
+  <td style="text-decoration: underline; color: red;">3.0</td>
+
+
+
+  <td>4.0</td>
+
+
+
+  <td>0.0</td>
+
+
+</tr>
+
+</table>
+</div></div>
+</div>
+<p>この表から、次に距離が近いのは<span class="math notranslate nohighlight">\((1,2)\)</span>と<span class="math notranslate nohighlight">\((5,7)\)</span>のクラスタで、その距離は<span class="math notranslate nohighlight">\(3\)</span>である。この２つのクラスタを併合し、<span class="math notranslate nohighlight">\((1,2,5,7)\)</span>を要素にもつクラスタを作成する。作成後のクラスタとその他のクラスタとの距離を求めると、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mathrm{dist}[(1,2)+(5,7), (11)] &amp;= \min \{ \mathrm{dist}[(1,2), (11)], \mathrm{dist}[(5,7), (11)] \} = \min\{9, 4\} = 4 \\
+\end{align*}\]</div>
+<p>この計算結果に基づき、クラスタ<span class="math notranslate nohighlight">\((1,2,5,7)\)</span>を作成し、距離行列の表を更新する。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D4</span><span class="p">,</span> <span class="n">C4</span> <span class="o">=</span> <span class="n">merge_cluster_single</span><span class="p">(</span><span class="n">D3</span><span class="p">,</span> <span class="n">C3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">generate_distance_table</span><span class="p">(</span><span class="n">D4</span><span class="p">,</span> <span class="n">C4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<table>
+<tr>
+  <th width="120px"></th>
+
+  <th width="120px">(1, 2, 5, 7)</th>
+
+  <th width="120px">(11,)</th>
+
+</tr>
+
+<tr>
+  <th>(1, 2, 5, 7)</th>
+
+
+  <td>0.0</td>
+
+
+
+  <td style="text-decoration: underline; color: red;">4.0</td>
+
+
+</tr>
+
+<tr>
+  <th>(11,)</th>
+
+
+  <td style="text-decoration: underline; color: red;">4.0</td>
+
+
+
+  <td>0.0</td>
+
+
+</tr>
+
+</table>
+</div></div>
+</div>
+<p>最後に、クラスタ<span class="math notranslate nohighlight">\((1,2,5,7)\)</span>と<span class="math notranslate nohighlight">\((11)\)</span>を併合し、全ての事例が一つの大きなクラスタにまとめられる。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D5</span><span class="p">,</span> <span class="n">C5</span> <span class="o">=</span> <span class="n">merge_cluster_single</span><span class="p">(</span><span class="n">D4</span><span class="p">,</span> <span class="n">C4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">generate_distance_table</span><span class="p">(</span><span class="n">D5</span><span class="p">,</span> <span class="n">C5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<table>
+<tr>
+  <th width="120px"></th>
+
+  <th width="120px">(1, 2, 5, 7, 11)</th>
+
+</tr>
+
+<tr>
+  <th>(1, 2, 5, 7, 11)</th>
+
+
+  <td style="text-decoration: underline; color: red;">0.0</td>
+
+
+</tr>
+
+</table>
+</div></div>
+</div>
+<p>これまでの動作は以下のようにまとめられる。</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\((2)\)</span>と<span class="math notranslate nohighlight">\((1)\)</span>のクラスタ（距離=<span class="math notranslate nohighlight">\(1\)</span>）をまとめる</p></li>
+<li><p><span class="math notranslate nohighlight">\((5)\)</span>と<span class="math notranslate nohighlight">\((7)\)</span>のクラスタ（距離=<span class="math notranslate nohighlight">\(2\)</span>）をまとめる</p></li>
+<li><p><span class="math notranslate nohighlight">\((1,2)\)</span>と<span class="math notranslate nohighlight">\((5,7)\)</span>のクラスタ（距離=<span class="math notranslate nohighlight">\(3\)</span>）をまとめる</p></li>
+<li><p><span class="math notranslate nohighlight">\((1,2,5,7)\)</span>と<span class="math notranslate nohighlight">\((11)\)</span>のクラスタ（距離=<span class="math notranslate nohighlight">\(4\)</span>）をまとめる</p></li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3><span class="section-number">11.1.3. </span>デンドログラム<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>このクラスタ形成のプロセスを<strong>デンドログラム</strong>（樹形図）として可視化すると分かりやすい。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;single&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_16_0.png" src="../_images/02hac_16_0.png" />
+</div>
+</div>
+<p>デンドログラムを見ると、クラスタ内の整数同士を総当りで比較して、その最小値の順にクラスタが形成されていることが一目瞭然であろう。</p>
+<p>これまでの説明では、事例を個別のクラスタに割り当てた状態を出発点とし、最終的に全ての事例をまとめた一つのクラスタが形成された。ここで、クラスタ間の距離を閾値として設定すると、異なるクラスタ数の結果を得ることができる。例えば、</p>
+<ul class="simple">
+<li><p>距離の閾値を<span class="math notranslate nohighlight">\(1.5\)</span>とする（下図の点線）: <span class="math notranslate nohighlight">\(4\)</span>個のクラスタ<span class="math notranslate nohighlight">\((1,2), (5), (7), (11)\)</span>が得られる</p></li>
+<li><p>距離の閾値を<span class="math notranslate nohighlight">\(2.5\)</span>とする（下図の破線）: <span class="math notranslate nohighlight">\(3\)</span>個のクラスタ<span class="math notranslate nohighlight">\((1,2), (5,7), (11)\)</span>が得られる</p></li>
+<li><p>距離の閾値を<span class="math notranslate nohighlight">\(1.5\)</span>とする（下図の一点鎖線）: <span class="math notranslate nohighlight">\(2\)</span>個のクラスタ<span class="math notranslate nohighlight">\((1,2,5,7), (11)\)</span>が得られる</p></li>
+</ul>
+<p>凝集型クラスタリングを実際に用いるときは、距離の閾値を設定してクラスタ数を自動的に決めるか、指定したクラスタ数になるように自動的に閾値を調整することが多い。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">([</span><span class="mf">1.5</span><span class="p">],</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">([</span><span class="mf">2.5</span><span class="p">],</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">([</span><span class="mf">3.5</span><span class="p">],</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dashdot&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_18_0.png" src="../_images/02hac_18_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2><span class="section-number">11.2. </span>距離関数<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>先ほどの例では、数値の差の絶対値を要素間の距離として定義した。クラスタリングでは他にも様々な距離関数が用いられる。なお、<span class="math notranslate nohighlight">\(m\)</span>次元上のベクトルで定義された距離関数<span class="math notranslate nohighlight">\(d: \mathbb{R}^m \times \mathbb{R}^m \mapsto \mathbb{R}\)</span>は以下の性質を満たす。</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall \pmb{x}, \pmb{y} \in \mathbb{R}^m: d(\pmb{x}, \pmb{y}) \geq 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall \pmb{x}, \pmb{y} \in \mathbb{R}^m: \pmb{x} = \pmb{y} \Rightarrow d(\pmb{x}, \pmb{y}) = 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall \pmb{x}, \pmb{y} \in \mathbb{R}^m: d(\pmb{x}, \pmb{y}) = d(\pmb{y}, \pmb{x})\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall \pmb{x}, \pmb{y}, \pmb{z} \in \mathbb{R}^m: d(\pmb{x}, \pmb{y}) + d(\pmb{y}, \pmb{z}) \geq d(\pmb{x}, \pmb{z})\)</span>　（三角不等式）</p></li>
+</ul>
+<div class="section" id="id7">
+<h3><span class="section-number">11.2.1. </span>ユークリッド距離<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ユークリッド距離（<span class="math notranslate nohighlight">\(L_2\)</span>距離）は、ベクトル間の距離関数として最も基本的なものである。２つのベクトル<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{y} \in \mathbb{R}^m\)</span>に対して、次式で定義される。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d5a889cb-c461-4efc-9523-18013f67e762">
+<span class="eqno">(11.6)<a class="headerlink" href="#equation-d5a889cb-c461-4efc-9523-18013f67e762" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+d(\pmb{x}, \pmb{y}) = \|\pmb{x} - \pmb{y}\|_2 = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \dots + (x_m - y_m)^2}
+\end{align}\]</div>
+</div>
+<div class="section" id="id8">
+<h3><span class="section-number">11.2.2. </span>マンハッタン距離<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>マンハッタン距離（<span class="math notranslate nohighlight">\(L_1\)</span>距離）は、２つのベクトル<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{y} \in \mathbb{R}^m\)</span>に対して、次式で定義される。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a7c2c403-f79e-4597-b2bd-57d936d3fc01">
+<span class="eqno">(11.7)<a class="headerlink" href="#equation-a7c2c403-f79e-4597-b2bd-57d936d3fc01" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+d(\pmb{x}, \pmb{y}) = \|\pmb{x} - \pmb{y}\|_1 = |u_1 - v_1| + |u_2 - v_2| + \dots + |u_d - v_d|
+\end{align}\]</div>
+<p>なお、冒頭の例で用いた距離関数は<span class="math notranslate nohighlight">\(m=1\)</span>次元のときのマンハッタン距離である。</p>
+</div>
+<div class="section" id="id9">
+<h3><span class="section-number">11.2.3. </span>コサイン類似度<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>２つのベクトル<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{y} \in \mathbb{R}^m\)</span>があり、そのなす各を<span class="math notranslate nohighlight">\(\theta\)</span>とする。このとき、<span class="math notranslate nohighlight">\(\cos \theta\)</span>を<span class="math notranslate nohighlight">\(\pmb{x}\)</span>と<span class="math notranslate nohighlight">\(\pmb{y}\)</span>のコサイン類似度と呼ぶ。ベクトルの内積の公式より、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5165efde-d049-42b0-8db5-8a42cb4bd3d2">
+<span class="eqno">(11.8)<a class="headerlink" href="#equation-5165efde-d049-42b0-8db5-8a42cb4bd3d2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\cos \theta = \frac{\pmb{x} \cdot \pmb{y}}{|\pmb{x}| |\pmb{y}|}
+\end{align}\]</div>
+<p>コサイン類似度は２つのベクトルの「似ている度合い」を<span class="math notranslate nohighlight">\(-1\)</span>（似ていない）から<span class="math notranslate nohighlight">\(1\)</span>（似ている）までの数値で表す。クラスタリングで距離として用いるときは、「似ていない度合い」、すなわち非類似度にするために<span class="math notranslate nohighlight">\(1\)</span>から引くことが多い（他の変換方法もあり得る）。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7e8895a1-aad0-402e-a5e1-e00bff3ef26b">
+<span class="eqno">(11.9)<a class="headerlink" href="#equation-7e8895a1-aad0-402e-a5e1-e00bff3ef26b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+d(\pmb{x}, \pmb{y}) = 1 - \frac{\pmb{x} \cdot \pmb{y}}{|\pmb{x}| |\pmb{y}|} = 1 - \cos \theta
+\end{align}\]</div>
+<p>なお、コサイン（非）類似度は三角不等式を満たさないため、厳密には距離関数と呼べないが、クラスタリングで用いられることがある。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="n">P</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">centers</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">27</span><span class="p">,</span> <span class="n">return_centers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">C0</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">q</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">C1</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">q</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">C0</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">C1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;tab10&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id10">
+<h2><span class="section-number">11.3. </span>凝集型クラスタリング<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>クラスタ分析の対象となるデータ<span class="math notranslate nohighlight">\(X = (\pmb{x}_1, \pmb{x}_2, \dots, \pmb{x}_N)\)</span>が与えられる。凝集型クラスタリングでは、各事例がそれぞれ１つのクラスタを構成する状態を出発点とする。そして、クラスタ間距離関数（後述）で測定した距離が最も短い２つのクラスタを併合する、という操作を<span class="math notranslate nohighlight">\(N-1\)</span>回繰り返し、最終的に一つのクラスタにまとめ上げる。凝集型クラスタリング手法によって、異なるクラスタ間距離関数が用いられる。</p>
+<div class="section" id="id11">
+<h3><span class="section-number">11.3.1. </span>最短距離法<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>冒頭の例で紹介したクラスタリング手法は<strong>最短距離法</strong>（nearest neighbour clustering）または<strong>単連結法</strong>（single-linkage clustering）と呼ばれる。<span class="math notranslate nohighlight">\(m\)</span>次元の事例ベクトル<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{y} \in \mathbb{R}^m\)</span>の任意の距離関数を<span class="math notranslate nohighlight">\(d(\pmb{x}, \pmb{y})\)</span>とする。２つのクラスタ<span class="math notranslate nohighlight">\(C_x\)</span>と<span class="math notranslate nohighlight">\(C_y\)</span>があるとき、そのクラスタ間距離関数は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0bbb1683-59c0-4200-a136-21a3c1ff5b52">
+<span class="eqno">(11.10)<a class="headerlink" href="#equation-0bbb1683-59c0-4200-a136-21a3c1ff5b52" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathrm{dist}_{\textrm{single}}(C_x, C_y) = \min_{(\pmb{x}, \pmb{y}) \in C_x \times C_y} d(\pmb{x}, \pmb{y})
+\end{align}\]</div>
+<p>これは、クラスタ<span class="math notranslate nohighlight">\(C_x\)</span>と<span class="math notranslate nohighlight">\(C_y\)</span>に所属する事例同士の距離を総当りで求めた時、その最小値である。以下の図は、丸印と四角印のクラスタ間の最短距離を求める例である。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">D</span><span class="p">),</span> <span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C0</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">C0</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">C0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">C0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_22_0.png" src="../_images/02hac_22_0.png" />
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(X = (2, 11, 5, 1, 7)\)</span>に対して最短距離法でクラスタリングを実行し、そのデンドログラムを描画した。なお、距離関数としてはユークリッド距離（１次元のデータに対してはマンハッタン距離と等しい）を用いた。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;single&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_24_0.png" src="../_images/02hac_24_0.png" />
+</div>
+</div>
+<p>なお、最短距離法はクラスタが最も近い点を経由して連結されていくため、鎖状に連結されやすい。この現象は<strong>連鎖</strong>（chaining）と呼ばれる。その結果、距離がかなり離れている要素同士でもひとつのクラスタにまとめられてしまうことがある。クラスタ内の要素間の距離の最大値をクラスタの<strong>直径</strong>と呼ぶことにすると、最短距離法は直径の大きいクラスタを生成してしまうことがある。例えば、上のデンドログラムの例ではクラスタ<span class="math notranslate nohighlight">\((1,2)\)</span>と<span class="math notranslate nohighlight">\((5,7)\)</span>が併合されるときの距離は<span class="math notranslate nohighlight">\(3\)</span>であったが、距離が最も遠い要素の組の距離は<span class="math notranslate nohighlight">\(6\)</span>であるから、直径の大きいクラスタが生成されていることが分かる。</p>
+</div>
+<div class="section" id="id12">
+<h3><span class="section-number">11.3.2. </span>最長距離法<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>最短距離法と対極にあるのが、<strong>最長距離法</strong>（furthest neighbour clustering）または<strong>完全連結法</strong>（complete-linkage clustering）である。２つのクラスタ<span class="math notranslate nohighlight">\(C_x\)</span>と<span class="math notranslate nohighlight">\(C_y\)</span>があるとき、そのクラスタ間距離関数は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-aa3da5f8-375d-439a-9461-2148e5a3c34e">
+<span class="eqno">(11.11)<a class="headerlink" href="#equation-aa3da5f8-375d-439a-9461-2148e5a3c34e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathrm{dist}_{\textrm{complete}}(C_x, C_y) = \max_{(\pmb{x}, \pmb{y}) \in C_x \times C_y} d(\pmb{x}, \pmb{y})
+\end{align}\]</div>
+<p>これは、クラスタ<span class="math notranslate nohighlight">\(C_x\)</span>と<span class="math notranslate nohighlight">\(C_y\)</span>に所属する事例同士の距離を総当りで求めた時、その最大値である。以下の図は、丸印と四角印のクラスタ間の最遠距離を求める例である。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">D</span><span class="p">),</span> <span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C0</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">C0</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">C0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">C0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_27_0.png" src="../_images/02hac_27_0.png" />
+</div>
+</div>
+<p>最長距離法のデンドログラムの例を示した。最短距離法と比較すると、<span class="math notranslate nohighlight">\((11)\)</span>が<span class="math notranslate nohighlight">\((5,7)\)</span>と先に併合されるところが大きく異なる。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;complete&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_29_0.png" src="../_images/02hac_29_0.png" />
+</div>
+</div>
+<p>最長距離法は全ての要素同士の距離が短い２つのクラスタを併合していく傾向にあるため、直径の小さいクラスタが生成されやすい。一方で、距離が近い要素同士を含む２つのクラスタがなかなか併合されない状況が生まれる。例えば、上のデンドログラムの例ではクラスタ<span class="math notranslate nohighlight">\((1,2)\)</span>と<span class="math notranslate nohighlight">\((5,7)\)</span>は<span class="math notranslate nohighlight">\(2\)</span>と<span class="math notranslate nohighlight">\(5\)</span>の距離が<span class="math notranslate nohighlight">\(3\)</span>で近そうに見えるが、最遠の組である<span class="math notranslate nohighlight">\((1,7)\)</span>の距離<span class="math notranslate nohighlight">\(6\)</span>が考慮されるため、この2つのクラスタの併合は先延ばしにされてしまう。</p>
+</div>
+<div class="section" id="id13">
+<h3><span class="section-number">11.3.3. </span>群平均法<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>群平均法（group averaging method）は、最短距離法と最長距離法を織り交ぜたような手法である。２つのクラスタ<span class="math notranslate nohighlight">\(C_x\)</span>と<span class="math notranslate nohighlight">\(C_y\)</span>があるとき、そのクラスタ間距離関数は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0711e611-ea79-4169-9bae-4ea9b23eaf76">
+<span class="eqno">(11.12)<a class="headerlink" href="#equation-0711e611-ea79-4169-9bae-4ea9b23eaf76" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathrm{dist}_{\textrm{average}}(C_x, C_y) = \frac{1}{|C_x||C_y|}\sum_{(\pmb{x}, \pmb{y}) \in C_x \times C_y} d(\pmb{x}, \pmb{y})
+\end{align}\]</div>
+<p>最短距離法や最長距離法では、２つのクラスタに属する１組の事例間の距離でクラスタ間の距離が定義されていたが、群平均法ではクラスタ間の事例組の全ての距離の平均を用いる（下図参照）。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C0</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">C0</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">C0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">C0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">C1</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_32_0.png" src="../_images/02hac_32_0.png" />
+</div>
+</div>
+<p>群平均法のデンドログラムの例を示した。形状としては最短距離法と同じであるが、クラスタが併合されるときの距離が長くなっていることが分かる。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;average&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_34_0.png" src="../_images/02hac_34_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id14">
+<h3><span class="section-number">11.3.4. </span>重心法<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>重心法は、各クラスタをそのクラスタに属する事例ベクトルの重心で代表させ、その重心間のユークリッド距離でクラスタ間の距離を定義する。２つのクラスタ<span class="math notranslate nohighlight">\(C_x\)</span>と<span class="math notranslate nohighlight">\(C_y\)</span>があるとき、クラスタ間距離は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7784bcfa-1d38-4bc1-bf0e-d490dea4be01">
+<span class="eqno">(11.13)<a class="headerlink" href="#equation-7784bcfa-1d38-4bc1-bf0e-d490dea4be01" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\mathrm{dist}_{\mathrm{centroid}}(C_x, C_y) = \|\pmb{\mu}_{C_x} - \pmb{\mu}_{C_y}\|_2,\; \pmb{\mu}_{C_x} = \frac{1}{|C_x|}\sum_{\pmb{x} \in C_x} \pmb{x},\; \pmb{\mu}_{C_y} = \frac{1}{|C_y|}\sum_{\pmb{y} \in C_y} \pmb{y}
+\end{align}\]</div>
+<p>以下の図では、丸印と四角印のクラスタ間の重心をx印で示した。この重心間のユークリッド距離がクラスタ間距離として採用される。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C0</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">C0</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">C1</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centers</span><span class="p">[:</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">centers</span><span class="p">[:</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centers</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">centers</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">centers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">centers</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_37_0.png" src="../_images/02hac_37_0.png" />
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;centroid&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_38_0.png" src="../_images/02hac_38_0.png" />
+</div>
+</div>
+<p>重心法のデンドログラムの例を示した。クラスタ<span class="math notranslate nohighlight">\((1,2)\)</span>の重心は<span class="math notranslate nohighlight">\(1.5\)</span>、<span class="math notranslate nohighlight">\((5,7)\)</span>の重心は<span class="math notranslate nohighlight">\(6\)</span>であるから、<span class="math notranslate nohighlight">\((1,2)\)</span>と<span class="math notranslate nohighlight">\((5,7)\)</span>の２つのクラスタは距離<span class="math notranslate nohighlight">\(6 - 1.5 = 4.5\)</span>で併合されている。</p>
+</div>
+<div class="section" id="id15">
+<h3><span class="section-number">11.3.5. </span>ウォード法<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><strong>ウォード法</strong>（Ward's method）はこれまでの凝集型クラスタリングとは異なり、クラスタ間距離ではなく、クラスタ内変動に基づいたクラスタリング手法である。まず、あるクラスタ<span class="math notranslate nohighlight">\(C\)</span>のクラスタ内変動を定義する。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2f33c16d-7789-4edb-ac21-d528c9a6bfaf">
+<span class="eqno">(11.14)<a class="headerlink" href="#equation-2f33c16d-7789-4edb-ac21-d528c9a6bfaf" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+D(C) = \sum_{\pmb{x} \in C} \|\pmb{x} - \pmb{\mu}_C\|^2, \; \pmb{\mu}_C = \frac{1}{|C|}\sum_{\pmb{x} \in C} \pmb{x}
+\end{align}\]</div>
+<p>いま、データが<span class="math notranslate nohighlight">\(K\)</span>個のクラスタ<span class="math notranslate nohighlight">\(C_1, C_2, \dots, C_K\)</span>に分けられているとき、全クラスタ内変動は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5669914a-6b51-4906-aec1-9c3aba8a79fc">
+<span class="eqno">(11.15)<a class="headerlink" href="#equation-5669914a-6b51-4906-aec1-9c3aba8a79fc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+D(C_1) + D(C_2) + \dots + D(C_K) = \sum_{k=1}^K D(C_k) = \sum_{k=1}^K \sum_{\pmb{x} \in C_k} \|\pmb{x} - \pmb{\mu}_{C_k}\|^2
+\end{align}\]</div>
+<p>この全クラスタ変動はK-meansの目的関数と同じであるが、ウォード法は凝集型クラスタリングの手順で全クラスタ内変動の最小化を目指す。</p>
+<p>凝集型クラスタリングでは、各事例がそれぞれ１つのクラスタを構成する状態が出発点であり、その時の全クラスタ変動は<span class="math notranslate nohighlight">\(0\)</span>である。その後、クラスタを併合していくにつれて、全クラスタ内平方和が上昇していく。そこで、全クラスタ内平方和の上昇を抑えることができる２つのクラスタを選び、併合していく。ある２つのクラスタ<span class="math notranslate nohighlight">\(C_x\)</span>と<span class="math notranslate nohighlight">\(C_y\)</span>を併合してクラスタ<span class="math notranslate nohighlight">\(C_x+C_y\)</span>を作ったとき、クラスタ内平方和の上昇分<span class="math notranslate nohighlight">\(\Delta (C_x, C_y)\)</span>は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-02ec286b-7f2a-4858-9ce5-145e2ae52ade">
+<span class="eqno">(11.16)<a class="headerlink" href="#equation-02ec286b-7f2a-4858-9ce5-145e2ae52ade" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+\Delta (C_x, C_y) &amp;= D(C_x+C_y) - D(C_x) - D(C_y) \\
+&amp;= \frac{|C_x||C_y|}{|C_x| + |C_y|} \|\pmb{\mu}_{C_x} - \pmb{\mu}_{C_y}\|^2
+\end{align}\]</div>
+<p>ウォード法は、クラスタ内平方和の上昇が最も低い２つのクラスタを併合する、という操作を<span class="math notranslate nohighlight">\(N-1\)</span>回繰り返す。これにより、クラスタ内変動の小さいコンパクトなクラスタを形成することを目指す。ウォード法のデンドログラムの例を以下に示す。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;ward&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_41_0.png" src="../_images/02hac_41_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="scipy">
+<h2><span class="section-number">11.4. </span>SciPyでの実装例<a class="headerlink" href="#scipy" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>冒頭のデータ <span class="math notranslate nohighlight">\(X = (2, 11, 5, 1, 7)\)</span> を例に、最短距離法の実装を紹介する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>事例数を<span class="math notranslate nohighlight">\(N\)</span>、各事例の特徴ベクトルの次元数を<span class="math notranslate nohighlight">\(m\)</span>とすると、クラスタリングのデータは<span class="math notranslate nohighlight">\(N \times m\)</span>の行列で表現することが多いので、以下のプログラムで形式を変換する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">X_</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+<span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 2],
+       [11],
+       [ 5],
+       [ 1],
+       [ 7]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id16">
+<h3><span class="section-number">11.4.1. </span>距離行列を求める<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>データから距離行列を得るには、<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html">scipy.spatial.distance.pdist</a>を使えばよい。以下のコードは都市ブロック距離（cityblock distance）、つまりマンハッタン距離を求めるものである。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">pdist</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="s1">&#39;cityblock&#39;</span><span class="p">)</span>
+<span class="n">D</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 9.,  3.,  1.,  5.,  6., 10.,  4.,  4.,  2.,  6.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>この実行結果は、距離行列の非対角成分を並べたものである（condensed形式）。正方な距離行列に変換するには、<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.squareform.html">scipy.spatial.distance.squareform</a>を用いればよい。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">squareform</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.,  9.,  3.,  1.,  5.],
+       [ 9.,  0.,  6., 10.,  4.],
+       [ 3.,  6.,  0.,  4.,  2.],
+       [ 1., 10.,  4.,  0.,  6.],
+       [ 5.,  4.,  2.,  6.,  0.]])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id17">
+<h3><span class="section-number">11.4.2. </span>クラスタリングの実行<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>condensed形式の距離行列を引数として<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html">scipy.cluster.hierarchy.linkage</a>を呼び出すと、階層的クラスタリングが実行される。以下では<code class="docutils literal notranslate"><span class="pre">method='single'</span></code>とすることで、最短距離法を指定している。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="s1">&#39;single&#39;</span><span class="p">)</span>
+<span class="n">Z</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0., 3., 1., 2.],
+       [2., 4., 2., 2.],
+       [5., 6., 3., 4.],
+       [1., 7., 4., 5.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>この実行結果を理解するには、<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html">scipy.cluster.hierarchy.linkage</a>のドキュメントを読む必要がある。該当する部分を日本語に訳したものを示す。</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\((n-1) \times 4\)</span>の行列<code class="docutils literal notranslate"><span class="pre">Z</span></code>が返される。<span class="math notranslate nohighlight">\(i\)</span>番目の反復において、<code class="docutils literal notranslate"><span class="pre">Z[i,0]</span></code>と<code class="docutils literal notranslate"><span class="pre">Z[i,1]</span></code>で表されるインデックスのクラスタが併合され、インデックスが<span class="math notranslate nohighlight">\(n+i\)</span>のクラスタが形成される。<span class="math notranslate nohighlight">\(n\)</span>よりも小さいインデックス番号のクラスタは<span class="math notranslate nohighlight">\(n\)</span>件の事例を表す。クラスタ<code class="docutils literal notranslate"><span class="pre">Z[i,0]</span></code>と<code class="docutils literal notranslate"><span class="pre">Z[i,1]</span></code>の距離は<code class="docutils literal notranslate"><span class="pre">Z[i,2]</span></code>で与えられる。4列目の要素<code class="docutils literal notranslate"><span class="pre">Z[i,3]</span></code>はこのクラスタに属する事例の数である。</p>
+</div></blockquote>
+<p>したがって、<code class="docutils literal notranslate"><span class="pre">Z</span></code>は以下のようにクラスタが形成されたことを表している。</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(5\)</span>番のクラスタ: 距離<span class="math notranslate nohighlight">\(1\)</span>で離れている<span class="math notranslate nohighlight">\(0\)</span>番と<span class="math notranslate nohighlight">\(3\)</span>番のクラスタを併合した（併合されたクラスタの要素数は<span class="math notranslate nohighlight">\(2\)</span>）</p></li>
+<li><p><span class="math notranslate nohighlight">\(6\)</span>番のクラスタ: 距離<span class="math notranslate nohighlight">\(2\)</span>で離れている<span class="math notranslate nohighlight">\(2\)</span>番と<span class="math notranslate nohighlight">\(4\)</span>番のクラスタを併合した（併合されたクラスタの要素数は<span class="math notranslate nohighlight">\(2\)</span>）</p></li>
+<li><p><span class="math notranslate nohighlight">\(7\)</span>番のクラスタ: 距離<span class="math notranslate nohighlight">\(3\)</span>で離れている<span class="math notranslate nohighlight">\(5\)</span>番と<span class="math notranslate nohighlight">\(6\)</span>番のクラスタを併合した（併合されたクラスタの要素数は<span class="math notranslate nohighlight">\(4\)</span>）</p></li>
+<li><p><span class="math notranslate nohighlight">\(8\)</span>番のクラスタ: 距離<span class="math notranslate nohighlight">\(4\)</span>で離れている<span class="math notranslate nohighlight">\(1\)</span>番と<span class="math notranslate nohighlight">\(7\)</span>番のクラスタを併合した（併合されたクラスタの要素数は<span class="math notranslate nohighlight">\(5\)</span>）</p></li>
+</ul>
+<p>クラスタリングの実行結果を表す<code class="docutils literal notranslate"><span class="pre">Z</span></code>からデンドログラムを描くには、<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.dendrogram.html">scipy.cluster.hierarchy.dendrogram</a>を呼び出せばよい。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X_</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_55_0.png" src="../_images/02hac_55_0.png" />
+</div>
+</div>
+<p>クラスタリングの実行結果を表す<code class="docutils literal notranslate"><span class="pre">Z</span></code>を用いて、指定した距離の閾値でクラスタを取り出すには、<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html">scipy.cluster.hierarchy.fcluster</a>を用いればよい。なお、実行結果の理解を助けるため、元のデータ<code class="docutils literal notranslate"><span class="pre">X_</span></code>を再掲する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 2, 11,  5,  1,  7])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">fcluster</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 4, 2, 1, 3], dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">fcluster</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 3, 2, 1, 2], dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">fcluster</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 2, 1, 1, 1], dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">fcluster</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">4.5</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 1, 1, 1, 1], dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>また、<code class="docutils literal notranslate"><span class="pre">criterion</span></code>に<code class="docutils literal notranslate"><span class="pre">'maxclust'</span></code>を指定することで、指定した数のクラスタが得られる（距離の閾値が自動的に調整される）。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">fcluster</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 3, 2, 1, 2], dtype=int32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>なお、標準的な距離関数を用いるのであれば、距離行列を介せずに<code class="docutils literal notranslate"><span class="pre">X</span></code>から直接クラスタリングを実行できる。以下の例は最長距離法（<code class="docutils literal notranslate"><span class="pre">method='complete'</span></code>）を実行する例である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">linkage</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cityblock&#39;</span><span class="p">)</span>
+<span class="n">Z</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.,  3.,  1.,  2.],
+       [ 2.,  4.,  2.,  2.],
+       [ 1.,  6.,  6.,  3.],
+       [ 5.,  7., 10.,  5.]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X_</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_66_0.png" src="../_images/02hac_66_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id18">
+<h2><span class="section-number">11.5. </span>自前で実装<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>クラスタリングを行うデータを再掲する（<span class="math notranslate nohighlight">\(N \times 1\)</span>の行列形式である）。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X_</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+<span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 2],
+       [11],
+       [ 5],
+       [ 1],
+       [ 7]])
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(L_1\)</span>距離でデータから距離行列を作成するプログラムは、安直に実装すると次のようになる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">distance_matrix_L1</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">D</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distance_matrix_L1</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.,  9.,  3.,  1.,  5.],
+       [ 9.,  0.,  6., 10.,  4.],
+       [ 3.,  6.,  0.,  4.,  2.],
+       [ 1., 10.,  4.,  0.,  6.],
+       [ 5.,  4.,  2.,  6.,  0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>これは、以下のように書くこともできる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">distance_matrix_L1</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distance_matrix_L1</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.,  9.,  3.,  1.,  5.],
+       [ 9.,  0.,  6., 10.,  4.],
+       [ 3.,  6.,  0.,  4.,  2.],
+       [ 1., 10.,  4.,  0.,  6.],
+       [ 5.,  4.,  2.,  6.,  0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>なお、この実装方法は以下のコードの実行結果がヒントになるが、それでも分かりづらいかもしれない。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[[  0],
+        [ -9],
+        [ -3],
+        [  1],
+        [ -5]],
+
+       [[  9],
+        [  0],
+        [  6],
+        [ 10],
+        [  4]],
+
+       [[  3],
+        [ -6],
+        [  0],
+        [  4],
+        [ -2]],
+
+       [[ -1],
+        [-10],
+        [ -4],
+        [  0],
+        [ -6]],
+
+       [[  5],
+        [ -4],
+        [  2],
+        [  6],
+        [  0]]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>先ほど説明した<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html">scipy.cluster.hierarchy.linkage</a>に準拠した出力になるように、最短距離法を実装する。主な変数の意味は以下のとおりである。</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">M</span></code>: <span class="math notranslate nohighlight">\((2N-1)\times(2N-1)\)</span>の距離行列（対称行列）。<span class="math notranslate nohighlight">\(0\)</span>から<span class="math notranslate nohighlight">\(N-1\)</span>までの行や列は各事例それぞれのクラスタを表し、<span class="math notranslate nohighlight">\(N\)</span>から<span class="math notranslate nohighlight">\(2N-2\)</span>までの行や列は併合されて作成されたクラスタを表す</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code>: <span class="math notranslate nohighlight">\(2N-1\)</span>のベクトル。<code class="docutils literal notranslate"><span class="pre">C[k]</span></code>はクラスタ<span class="math notranslate nohighlight">\(k\)</span>の要素数を表す</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Z</span></code>: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html">scipy.cluster.hierarchy.linkage</a>に準拠したクラスタリング結果を格納する行列</p></li>
+</ul>
+<p>なお、クラスタを併合するときに距離行列の行や列を削除すると実装がややこしくなるので、削除されたとみなされる要素に<code class="docutils literal notranslate"><span class="pre">np.inf</span></code>を代入して、仮想的に行や列が削除された状態を作り出しているのがポイントである。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">single_linkage</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">constant_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;* t=0&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Find the pair of the closest clusters (i,j) to be merged.</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">M</span><span class="p">[:</span><span class="n">t</span><span class="p">,:</span><span class="n">t</span><span class="p">]</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">S</span><span class="p">),</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;argmin =&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        
+        <span class="c1"># Record the number of elements in the new cluster.</span>
+        <span class="n">C</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        
+        <span class="c1"># Record the new cluster in the linkage matrix.</span>
+        <span class="n">Z</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">],</span> <span class="n">C</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+        
+        <span class="c1"># Remove the distance between i and j.</span>
+        <span class="n">M</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">))]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        
+        <span class="c1"># Compute distance from the new cluster to the others.</span>
+        <span class="n">M</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">M</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">M</span><span class="p">[:,</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">M</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span> <span class="n">M</span><span class="p">[:,</span><span class="n">j</span><span class="p">])</span>
+
+        <span class="c1"># Remove the distance for the clusters i and j.</span>
+        <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">M</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">M</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">M</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;* t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Z</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">distance_matrix_L1</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">single_linkage</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>* t=0
+[[inf  9.  3.  1.  5. inf inf inf inf]
+ [ 9. inf  6. 10.  4. inf inf inf inf]
+ [ 3.  6. inf  4.  2. inf inf inf inf]
+ [ 1. 10.  4. inf  6. inf inf inf inf]
+ [ 5.  4.  2.  6. inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]]
+argmin = (0, 3)
+* t=5
+[[inf inf inf inf inf inf inf inf inf]
+ [inf inf  6. inf  4.  9. inf inf inf]
+ [inf  6. inf inf  2.  3. inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf  4.  2. inf inf  5. inf inf inf]
+ [inf  9.  3. inf  5. inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]]
+argmin = (2, 4)
+* t=6
+[[inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf  9.  4. inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf  9. inf inf inf inf  3. inf inf]
+ [inf  4. inf inf inf  3. inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]]
+argmin = (5, 6)
+* t=7
+[[inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf  4. inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf  4. inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]]
+argmin = (1, 7)
+* t=8
+[[inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]
+ [inf inf inf inf inf inf inf inf inf]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>求めたクラスタリング結果<code class="docutils literal notranslate"><span class="pre">Z</span></code>を用いて、デンドログラムを描いてみる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">dn</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">hierarchy</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">X_</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/02hac_81_0.png" src="../_images/02hac_81_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id19">
+<h2><span class="section-number">11.6. </span>確認問題<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference external" href="https://www.nstac.go.jp/SSDSE/">教育用標準データセット（SSDSE）</a>に収録されている都道府県庁所在市別・家計消費データ（SSDSE-C）に対してクラスタ分析を適用し、消費行動が類似している都道府県のクラスタを作りたい。最短距離法、最長距離法、Ward法を用いて都道府県をクラスタリングし、デンドログラムをそれぞれ描画せよ。ただし、クラスタの各要素がどの都道府県であるか分かるようにせよ。</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "chokkan/mlnote",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./unsupervised"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="01kmeans.html" title="前へ ページ">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">前へ</p>
+            <p class="prev-next-title"><span class="section-number">10. </span>非階層的クラスタリング</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="03pca.html" title="次へ ページ">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">次へ</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>主成分分析 (1)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          <div class="extra_footer">
+            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

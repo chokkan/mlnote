@@ -1,0 +1,31 @@
+format: jb-book
+root: index
+
+parts:
+- caption: 回帰
+  numbered: True
+  chapters:
+    - file: regression/01sra
+    - file: regression/02mra
+    - file: regression/03regularization
+    - file: regression/04sgd
+- caption: 分類
+  numbered: True
+  chapters:
+    - file: classification/01binary
+    - file: classification/02multi
+    - file: classification/03nn
+    - file: classification/04nntrain
+    - file: classification/05svm
+- caption: 教師無し学習
+  numbered: True
+  chapters:
+    - file: unsupervised/01kmeans
+    - file: unsupervised/02hac
+    - file: unsupervised/03pca
+    - file: unsupervised/04pca2
+- caption: 付録
+  numbered: False
+  chapters:
+    - file: notation.md
+    - file: reference.md

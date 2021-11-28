@@ -610,13 +610,13 @@
 </div>
 </div>
 <p>このデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を次のように表すことにする（<span class="math notranslate nohighlight">\(i \in \{1, 2, 3, 4\}\)</span>は事例に対するインデックスである）。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b5138cf9-e890-48a0-bd32-7b71e3b09313">
-<span class="eqno">(12.1)<a class="headerlink" href="#equation-b5138cf9-e890-48a0-bd32-7b71e3b09313" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6eba743c-0087-4692-a6b1-689dad453b72">
+<span class="eqno">(12.1)<a class="headerlink" href="#equation-6eba743c-0087-4692-a6b1-689dad453b72" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D}_s = \{(x_i, y_i)\}_{i=1}^{4} = \{(-7,-2),(-3,-3),(4,1),(6,4)\}
 \end{align}\]</div>
 <p>なお、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d09b8941-38f3-4b53-89e1-85536de6f3cb">
-<span class="eqno">(12.2)<a class="headerlink" href="#equation-d09b8941-38f3-4b53-89e1-85536de6f3cb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-366827d7-0865-4591-96d2-743656d6fff6">
+<span class="eqno">(12.2)<a class="headerlink" href="#equation-366827d7-0865-4591-96d2-743656d6fff6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{1}{4}\left(-7 -3 + 4 + 6\right) = 0,\; \frac{1}{4}\left(-2 -3 + 1 + 4\right) = 0 \\
 \end{align}\]</div>
 <p>であるから、この４点の重心は原点<span class="math notranslate nohighlight">\((0,0)\)</span>である（データの重心が原点にない場合の取り扱いは次章で説明する）。</p>
@@ -624,8 +624,8 @@
 <div class="section" id="id3">
 <h2><span class="section-number">12.2. </span>データ点を直線へ射影<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>さて、各点<span class="math notranslate nohighlight">\((x_i, y_i) \in \mathbb{R}^2\)</span>を<span class="math notranslate nohighlight">\(xy\)</span>平面上で原点を通る直線に射影し、その直線上の点<span class="math notranslate nohighlight">\((\hat{x}_i, \hat{y}_i)\)</span>で近似的に表現したい。原点を通る直線は、長さ<span class="math notranslate nohighlight">\(1\)</span>の方向ベクトル<span class="math notranslate nohighlight">\(\pmb{u} \in \mathbb{R}^2\)</span>と媒介変数<span class="math notranslate nohighlight">\(a \in \mathbb{R}\)</span>を用いて、<span class="math notranslate nohighlight">\(a \pmb{u}\)</span>で表される。したがって、点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を射影した点<span class="math notranslate nohighlight">\((\hat{x}_i, \hat{y}_i)\)</span>は、<span class="math notranslate nohighlight">\(a_i \in \mathbb{R}\)</span>を用いて次式で表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c6fce322-2888-469f-8844-4a90b8604366">
-<span class="eqno">(12.3)<a class="headerlink" href="#equation-c6fce322-2888-469f-8844-4a90b8604366" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b133f5cc-0afe-478b-b611-4c21c3fab8cb">
+<span class="eqno">(12.3)<a class="headerlink" href="#equation-b133f5cc-0afe-478b-b611-4c21c3fab8cb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \begin{pmatrix}\hat{x}_i \\ \hat{y}_i\end{pmatrix} = a_i \pmb{u}
 \end{align}\]</div>
 <p>なお、<span class="math notranslate nohighlight">\(|a_i|\)</span>は射影された点<span class="math notranslate nohighlight">\((\hat{x}_i, \hat{y}_i)\)</span>の原点からの距離を表す。射影された点が方向ベクトルと同じ向きにあるときは<span class="math notranslate nohighlight">\(a_i\)</span>は正の値、反対の向きにあるときは<span class="math notranslate nohighlight">\(a_i\)</span>は負の値をとることとし、<span class="math notranslate nohighlight">\(a_i\)</span>を直線上の位置と呼ぶ。以上の定式化により、元のデータ点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>は<span class="math notranslate nohighlight">\(\pmb{u}\)</span>が定める（１次元の）数直線上の位置<span class="math notranslate nohighlight">\(a_i\)</span>として近似的に表現される。</p>
@@ -689,8 +689,8 @@
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(a_i\)</span>を求めるため、直線<span class="math notranslate nohighlight">\(y=\frac{1}{2}x\)</span>に対応する長さ<span class="math notranslate nohighlight">\(1\)</span>の方向ベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>を求める。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7e53f3ae-628f-476a-b56e-9902682e267c">
-<span class="eqno">(12.4)<a class="headerlink" href="#equation-7e53f3ae-628f-476a-b56e-9902682e267c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9d15c24b-0c3d-4c59-aa91-364c936e51d4">
+<span class="eqno">(12.4)<a class="headerlink" href="#equation-9d15c24b-0c3d-4c59-aa91-364c936e51d4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u} = \frac{1}{\sqrt{2^2 + 1^2}}\begin{pmatrix}2 \\ 1\end{pmatrix} = \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix}
 \end{align}\]</div>
 <p>ある点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を方向ベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>上に射影したとき、その位置<span class="math notranslate nohighlight">\(a_i\)</span>は、</p>
@@ -701,16 +701,16 @@ a_i = \left|\begin{pmatrix}x_i \\ y_i\end{pmatrix}\right| \cos \theta = \left|\b
 \end{align}
 \end{split}\]</div>
 <p>と求めることができる。ここで、<span class="math notranslate nohighlight">\(\theta\)</span>は位置ベクトル<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>と方向ベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>のなす角である。ゆえに、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2419ce25-cffe-446c-abe6-d15ad3f3e5de">
-<span class="eqno">(12.6)<a class="headerlink" href="#equation-2419ce25-cffe-446c-abe6-d15ad3f3e5de" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dbeef3d2-5e23-4501-99a9-40a2a13c494d">
+<span class="eqno">(12.6)<a class="headerlink" href="#equation-dbeef3d2-5e23-4501-99a9-40a2a13c494d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 a_1 &amp;= \begin{pmatrix}-7 &amp; -2\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} \approx -7.16 \\
 a_2 &amp;= \begin{pmatrix}-3 &amp; -3\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} \approx -4.02 \\
 a_3 &amp;= \begin{pmatrix}4 &amp; 1\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} \approx 4.02 \\
 a_4 &amp;= \begin{pmatrix}6 &amp; 4\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} \approx 7.16 \\
 \end{align}\]</div>
 <p>以上により、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の各事例<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を方向ベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>と、位置<span class="math notranslate nohighlight">\(a_i\)</span>で近似的に表現したことになる。各事例<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を射影した点<span class="math notranslate nohighlight">\((\hat{x}_i, \hat{y}_i)\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f06b1e1a-536f-4e8f-8577-58b43c56bc3f">
-<span class="eqno">(12.7)<a class="headerlink" href="#equation-f06b1e1a-536f-4e8f-8577-58b43c56bc3f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8726eb1d-b1ca-418b-b784-acaa499e4d14">
+<span class="eqno">(12.7)<a class="headerlink" href="#equation-8726eb1d-b1ca-418b-b784-acaa499e4d14" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \begin{pmatrix}\hat{x}_1 \\ \hat{y}_1\end{pmatrix} &amp;= -7.16 \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} = \begin{pmatrix}-6.4 \\ -3.2 \end{pmatrix}\\
 \begin{pmatrix}\hat{x}_2 \\ \hat{y}_2\end{pmatrix} &amp;= -4.02 \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} = \begin{pmatrix}-3.6 \\ -1.8 \end{pmatrix}\\
 \begin{pmatrix}\hat{x}_3 \\ \hat{y}_3\end{pmatrix} &amp;= 4.02 \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} = \begin{pmatrix}3.6 \\ 1.8 \end{pmatrix} \\
@@ -720,8 +720,8 @@ a_4 &amp;= \begin{pmatrix}6 &amp; 4\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5
 <div class="section" id="id4">
 <h2><span class="section-number">12.3. </span>近似の良さの定量化<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>直線への射影による近似の良さを定量化するため、元データの各点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>から直線上に垂線を降ろしたときの長さを<span class="math notranslate nohighlight">\(\epsilon_i\)</span>とし、これを残差と呼ぶ。三平方の定理（ピタゴラスの定理）より、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f9b1c464-3f9f-4881-8e1a-6294d714c23b">
-<span class="eqno">(12.8)<a class="headerlink" href="#equation-f9b1c464-3f9f-4881-8e1a-6294d714c23b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ab7edc3d-cc88-49ae-b9e0-1c145e880a9f">
+<span class="eqno">(12.8)<a class="headerlink" href="#equation-ab7edc3d-cc88-49ae-b9e0-1c145e880a9f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 x_i^2 + y_i^2 = a_i^2 + \epsilon_i^2
 \end{align}\]</div>
 <p>が成り立つ。以下のグラフでは、各事例に関して直角三角形を色付けして描いている。直線<span class="math notranslate nohighlight">\(y=\frac{1}{2}x\)</span>上の面を底辺、垂線を高さとすると、</p>
@@ -755,8 +755,8 @@ x_i^2 + y_i^2 = a_i^2 + \epsilon_i^2
 </div>
 </div>
 <p>これまでの議論では、データ点を射影する直線（方向ベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>）を固定していたが、以降は射影された点の良さを考慮しながら様々な直線を検討したい。今回のデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の重心は原点であるため、直線の切片は<span class="math notranslate nohighlight">\(0\)</span>に固定し、直線の傾きだけを変更する。回帰分析と同様に、方向ベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>で元のデータ点を射影したときの「良さ」を、全てのデータ点の残差の二乗和で定量化する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6b00f1cc-02b9-42e2-97bf-8ffcdcbed1c4">
-<span class="eqno">(12.9)<a class="headerlink" href="#equation-6b00f1cc-02b9-42e2-97bf-8ffcdcbed1c4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d1f039a0-46b9-4939-a68d-ec8a42817a6f">
+<span class="eqno">(12.9)<a class="headerlink" href="#equation-d1f039a0-46b9-4939-a68d-ec8a42817a6f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sum_{i=1}^{N} \epsilon_i^2
 \end{align}\]</div>
 <p>なお、2次元のデータにおいて、線形回帰では<span class="math notranslate nohighlight">\(y\)</span>軸に関する実際の値と近似値の値の差<span class="math notranslate nohighlight">\(\epsilon = y - \hat{y}\)</span>を残差として定義したのに対し、主成分分析では事例を直線に射影したときの垂線の長さ<span class="math notranslate nohighlight">\(\epsilon = \sqrt{(x - \hat{x})^2 + (y - \hat{y})^2}\)</span>を残差として定義する所が異なる。</p>
@@ -38492,49 +38492,49 @@ zwAAAABJRU5ErkJggg==\
 </div></div>
 </div>
 <p>このアニメーションを注意深く観察すると、残差の二乗和が小さくなる、すなわち各三角形の高さ<span class="math notranslate nohighlight">\(\epsilon_i\)</span>が短くなるとき、各三角形の底辺の長さ<span class="math notranslate nohighlight">\(a_i\)</span>が大きくなり、三角形が直線方向に大きく広がることが分かる。各点について三平方の定理を適用すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ef16c858-b092-45d3-be96-c04789734335">
-<span class="eqno">(12.10)<a class="headerlink" href="#equation-ef16c858-b092-45d3-be96-c04789734335" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-63e97560-f203-4ecf-b438-23fbfb017536">
+<span class="eqno">(12.10)<a class="headerlink" href="#equation-63e97560-f203-4ecf-b438-23fbfb017536" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 a_1^2 + \epsilon_1^2 &amp;= x_1^2 + y_1^2 \\
 a_2^2 + \epsilon_2^2 &amp;= x_2^2 + y_2^2 \\
 a_3^2 + \epsilon_3^2 &amp;= x_3^2 + y_3^2 \\
 a_4^2 + \epsilon_4^2 &amp;= x_4^2 + y_4^2 \\
 \end{align}\]</div>
 <p>この４つの式の両辺を足すと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-216715a9-706d-47f1-a170-a1b4992de8b4">
-<span class="eqno">(12.11)<a class="headerlink" href="#equation-216715a9-706d-47f1-a170-a1b4992de8b4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9e3fbd54-a2d8-4198-8630-f83d2dab86f3">
+<span class="eqno">(12.11)<a class="headerlink" href="#equation-9e3fbd54-a2d8-4198-8630-f83d2dab86f3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 a_1^2 + \epsilon_1^2 + a_2^2 + \epsilon_2^2 + a_3^2 + \epsilon_3^2 + a_4^2 + \epsilon_4^2 &amp;= x_1^2 + y_1^2 + x_2^2 + y_2^2 + x_3^2 + y_3^2 + x_4^2 + y_4^2 \\
 \left(a_1^2 + a_2^2 + a_3^2 + a_4^2\right) + \left(\epsilon_1^2 + \epsilon_2^2 + \epsilon_3^2 + \epsilon_4^2\right) &amp;= x_1^2 + y_1^2 + x_2^2 + y_2^2 + x_3^2 + y_3^2 + x_4^2 + y_4^2
 \end{align}\]</div>
 <p>左辺の<span class="math notranslate nohighlight">\(\left(a_1^2 + a_2^2 + a_3^2 + a_4^2\right)\)</span>は「直線に射影した各点の原点からの距離の二乗和」、<span class="math notranslate nohighlight">\(\left(\epsilon_1^2 + \epsilon_2^2 + \epsilon_3^2 + \epsilon_4^2\right)\)</span>は「直線に射影した各点の残差の二乗和」である。右辺はデータが与えられると直線の傾きに依らず計算できる定数であり、今回のデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>では<span class="math notranslate nohighlight">\(140\)</span>である。</p>
 <p>一般に、以下の関係が成り立つ。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-646235ad-fab0-47dd-8f0b-047f275c2d9a">
-<span class="eqno">(12.12)<a class="headerlink" href="#equation-646235ad-fab0-47dd-8f0b-047f275c2d9a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-be2f4a84-ebb8-4cb7-8739-dd8e41417b08">
+<span class="eqno">(12.12)<a class="headerlink" href="#equation-be2f4a84-ebb8-4cb7-8739-dd8e41417b08" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sum_{i=1}^N a_i^2 + \sum_{i=1}^N \epsilon_i^2 &amp;= \sum_{i=1}^N \left(x_i^2 + y_i^2\right)
 \end{align}\]</div>
 <p>ゆえに、残差の二乗和を最小にする方向ベクトル<span class="math notranslate nohighlight">\(\pmb{u}^*\)</span>を求めることは、<span class="math notranslate nohighlight">\(a_i\)</span>の二乗和を最大にする単位ベクトル<span class="math notranslate nohighlight">\(\pmb{u}^*\)</span>を求めることと等価である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fbb8c070-024f-4474-9b21-d863f2b00b52">
-<span class="eqno">(12.13)<a class="headerlink" href="#equation-fbb8c070-024f-4474-9b21-d863f2b00b52" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ae76e29d-80d9-401a-9113-8eaacd75a4e5">
+<span class="eqno">(12.13)<a class="headerlink" href="#equation-ae76e29d-80d9-401a-9113-8eaacd75a4e5" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u}^* &amp;= \mathop{\rm argmin}\limits_{\|\pmb{u}\|=1} \sum_{i=1}^N \epsilon_i^2 \\
 &amp;= \mathop{\rm argmin}\limits_{\|\pmb{u}\|=1} \left\{ \sum_{i=1}^N \left(x_i^2 + y_i^2\right) - \sum_{i=1}^N a_i^2 \right\} \\
 &amp;= \mathop{\rm argmin}\limits_{\|\pmb{u}\|=1} \left\{ (\mbox{$\pmb{u}$によらない定数}) - \sum_{i=1}^N a_i^2 \right\} \\
 &amp;= \mathop{\rm argmax}\limits_{\|\pmb{u}\|=1} \sum_{i=1}^N a_i^2
 \end{align}\]</div>
 <p>ところで、元のデータの重心が原点にあるとき、<span class="math notranslate nohighlight">\(a_i\)</span>の和も<span class="math notranslate nohighlight">\(0\)</span>になる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a0805d49-4581-4aca-bf89-c1dbe885721d">
-<span class="eqno">(12.14)<a class="headerlink" href="#equation-a0805d49-4581-4aca-bf89-c1dbe885721d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9fcd5c3f-dbea-4a25-9c8f-8702d9e566df">
+<span class="eqno">(12.14)<a class="headerlink" href="#equation-9fcd5c3f-dbea-4a25-9c8f-8702d9e566df" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sum_{i=1}^N a_i = \sum_{i=1}^N \begin{pmatrix}x_i \\ y_i\end{pmatrix}^\top \pmb{u}
 = \begin{pmatrix}\sum_{i=1}^N x_i \\ \sum_{i=1}^N y_i\end{pmatrix}^\top \pmb{u}
 = \begin{pmatrix}0 \\ 0\end{pmatrix}^\top \pmb{u}
 = 0
 \end{align}\]</div>
 <p>これは、<span class="math notranslate nohighlight">\(a_i\)</span>の平均<span class="math notranslate nohighlight">\(\bar{a}\)</span>が<span class="math notranslate nohighlight">\(0\)</span>であることを意味する。すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bc85ad82-35b7-459b-9bcf-5309897cd466">
-<span class="eqno">(12.15)<a class="headerlink" href="#equation-bc85ad82-35b7-459b-9bcf-5309897cd466" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a2a16c93-2dea-497e-b459-edb5a63a8afb">
+<span class="eqno">(12.15)<a class="headerlink" href="#equation-a2a16c93-2dea-497e-b459-edb5a63a8afb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathrm{Var}[\pmb{a}] = \frac{1}{N}\sum_{i=1}^N (a_i - \bar{a})^2 = \frac{1}{N}\sum_{i=1}^N a_i^2
 \end{align}\]</div>
 <p>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6eadda0c-d9bb-4215-9fba-6ce09a674de1">
-<span class="eqno">(12.16)<a class="headerlink" href="#equation-6eadda0c-d9bb-4215-9fba-6ce09a674de1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bdbd02c4-db30-4692-b192-6133cd6949ed">
+<span class="eqno">(12.16)<a class="headerlink" href="#equation-bdbd02c4-db30-4692-b192-6133cd6949ed" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u}^* = \mathop{\rm argmax}\limits_{\|\pmb{u}\|=1} \sum_{i=1}^N a_i^2 = \mathop{\rm argmax}\limits_{\|\pmb{u}\|=1} N \cdot \mathrm{Var}[\pmb{a}] = \mathop{\rm argmax}\limits_{\|\pmb{u}\|=1} \mathrm{Var}[\pmb{a}]
 \end{align}\]</div>
 <p>したがって、データ点を直線に射影し、近似的に表現するとき、その<strong>残差の二乗和を最小化する</strong>ようにベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>を選ぶことと、<strong>射影された点の分散を最大化する</strong>ようにベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>を選ぶことは<strong>等価</strong>である。後者は射影された点の分散を大きくとることで、元のデータ点の情報をできるだけ保存しようとしていると解釈できる。主成分分析は「元データを写像したときの分散が大きくなるような軸を見つける」と説明されることがあるが、これは「元データの情報をできるだけ豊富に表現できるような軸を見つける」や「元データを射影したときの残差ができるだけ小さくなるような軸を見つける」という動機に基づいている。</p>
@@ -38542,13 +38542,13 @@ a_1^2 + \epsilon_1^2 + a_2^2 + \epsilon_2^2 + a_3^2 + \epsilon_3^2 + a_4^2 + \ep
 <div class="section" id="id5">
 <h2><span class="section-number">12.4. </span>第１主成分を求める<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これまでの議論により、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を「よく」射影するベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>を求めることは、<span class="math notranslate nohighlight">\(\|\pmb{u}\|=1\)</span>の制約下で、以下の目的関数<span class="math notranslate nohighlight">\(J\)</span>を最大化する問題に帰着した。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8dab3668-eab5-4526-9285-d01c4c0c4e73">
-<span class="eqno">(12.17)<a class="headerlink" href="#equation-8dab3668-eab5-4526-9285-d01c4c0c4e73" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0481f955-cb2a-4c55-a904-4a0b89fa667f">
+<span class="eqno">(12.17)<a class="headerlink" href="#equation-0481f955-cb2a-4c55-a904-4a0b89fa667f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 J = \sum_{i=1}^4 a_i^2
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\pmb{a} = \begin{pmatrix}a_1 &amp; a_2 &amp; a_3 &amp; a_4\end{pmatrix}^\top\)</span>と表すことにすると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9c0cedfa-eee5-4cb9-a702-eedc19cdbc61">
-<span class="eqno">(12.18)<a class="headerlink" href="#equation-9c0cedfa-eee5-4cb9-a702-eedc19cdbc61" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b2e7468f-301f-4379-a91b-7851945f8b2c">
+<span class="eqno">(12.18)<a class="headerlink" href="#equation-b2e7468f-301f-4379-a91b-7851945f8b2c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 J = \sum_{i=1}^4 a_i^2
   = \begin{pmatrix}a_1 &amp; a_2 &amp; a_3 &amp; a_4\end{pmatrix} \begin{pmatrix}a_1 \\ a_2 \\ a_3 \\ a_4\end{pmatrix}
   = \pmb{a}^\top \pmb{a}
@@ -38564,13 +38564,13 @@ J = \sum_{i=1}^4 a_i^2
 \end{align}
 \end{split}\]</div>
 <p>なお、行列<span class="math notranslate nohighlight">\(\pmb{X} = \mathbb{R}^{4 \times 2}\)</span>はデータ点（事例）のベクトルを並べたものである。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-690831d6-e189-425f-affa-21cd048b1bdb">
-<span class="eqno">(12.20)<a class="headerlink" href="#equation-690831d6-e189-425f-affa-21cd048b1bdb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-409e5a4f-70ad-4df7-b619-16f97250b12f">
+<span class="eqno">(12.20)<a class="headerlink" href="#equation-409e5a4f-70ad-4df7-b619-16f97250b12f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X} = \begin{pmatrix}x_1 &amp; y_1 \\ x_2 &amp; y_2 \\ x_3 &amp; y_3 \\ x_4 &amp; y_4\end{pmatrix}
 \end{align}\]</div>
 <p>すると、目的関数<span class="math notranslate nohighlight">\(J\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-20780358-5948-41f3-9b90-3c341e88306e">
-<span class="eqno">(12.21)<a class="headerlink" href="#equation-20780358-5948-41f3-9b90-3c341e88306e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c3365fca-6e76-4b43-81b6-1349d677811a">
+<span class="eqno">(12.21)<a class="headerlink" href="#equation-c3365fca-6e76-4b43-81b6-1349d677811a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 J = \pmb{a}^\top \pmb{a}
 = \left(\pmb{X} \pmb{u}\right)^\top \left(\pmb{X} \pmb{u}\right)
 = \left(\pmb{u}^\top \pmb{X}^\top\right)\left(\pmb{X} \pmb{u}\right)
@@ -38578,65 +38578,65 @@ J = \pmb{a}^\top \pmb{a}
 = \pmb{u}^\top \pmb{S} \pmb{u}
 \end{align}\]</div>
 <p>と整理できる。<span class="math notranslate nohighlight">\(\pmb{S} = \pmb{X}^\top \pmb{X}\)</span>は対称行列である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ed0afd9e-7cca-40d6-93a1-272795d8fb67">
-<span class="eqno">(12.22)<a class="headerlink" href="#equation-ed0afd9e-7cca-40d6-93a1-272795d8fb67" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5f6d4d67-1cec-4c76-bd97-808dbf120727">
+<span class="eqno">(12.22)<a class="headerlink" href="#equation-5f6d4d67-1cec-4c76-bd97-808dbf120727" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{S} = \pmb{X}^\top \pmb{X} &amp;= \begin{pmatrix}x_1 &amp; x_2 &amp; x_3 &amp; x_4 \\ y_1 &amp; y_2 &amp; y_3 &amp; y_4\end{pmatrix} \begin{pmatrix}x_1 &amp; y_1 \\ x_2 &amp; y_2 \\ x_3 &amp; y_3 \\ x_4 &amp; y_4\end{pmatrix} \\
 &amp;= \begin{pmatrix}x_1^2 + x_2^2 + x_3^2 + x_4^2 &amp; x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4 \\ x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4 &amp; y_1^2 + y_2^2 + y_3^2 + y_4^2\end{pmatrix} 
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(\pmb{u}\)</span>を求めることは、制約<span class="math notranslate nohighlight">\(\|\pmb{u}\|=1\)</span>のもとで目的関数<span class="math notranslate nohighlight">\(J\)</span>を最大化する問題であるので、ラグランジュの未定乗数法で制約なしの問題に書き換える。すると、<span class="math notranslate nohighlight">\(\lambda\)</span>をラグランジュ乗数として、以下のラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\pmb{u}, \lambda)\)</span>を最大化する問題に帰着する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f2a46009-b5ed-4c7e-9708-094d46fdfbcf">
-<span class="eqno">(12.23)<a class="headerlink" href="#equation-f2a46009-b5ed-4c7e-9708-094d46fdfbcf" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3835f35a-ea7e-467a-992d-b194c64c46a4">
+<span class="eqno">(12.23)<a class="headerlink" href="#equation-3835f35a-ea7e-467a-992d-b194c64c46a4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{L}(\pmb{u}, \lambda) &amp;= \pmb{u}^\top \pmb{S} \pmb{u} - \lambda (\pmb{u}^\top\pmb{u} - 1)
 \end{align}\]</div>
 <p>ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\pmb{u}, \lambda)\)</span>を<span class="math notranslate nohighlight">\(\pmb{u}\)</span>で偏微分すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0d7bc526-0cc5-45d0-8d62-3ea107f695f6">
-<span class="eqno">(12.24)<a class="headerlink" href="#equation-0d7bc526-0cc5-45d0-8d62-3ea107f695f6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d5dc09a1-abb2-487a-8b97-459fe39b5a39">
+<span class="eqno">(12.24)<a class="headerlink" href="#equation-d5dc09a1-abb2-487a-8b97-459fe39b5a39" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial \mathcal{L}(\pmb{u}, \lambda)}{\partial \pmb{u}} &amp;= \frac{\partial}{\partial \pmb{u}} \left(\pmb{u}^\top \pmb{S} \pmb{u}\right) - \frac{\partial}{\partial \pmb{u}} \lambda (\pmb{u}^\top\pmb{u} - 1) \\
 &amp;= (\pmb{S} + \pmb{S}^\top)\pmb{u} - 2\pmb{u} \\
 &amp;= 2(\pmb{S} \pmb{u} - \lambda \pmb{u}) \\
 \end{align}\]</div>
 <p>これを<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ff1df015-ca1c-45a0-90d5-74f3442f8a7e">
-<span class="eqno">(12.25)<a class="headerlink" href="#equation-ff1df015-ca1c-45a0-90d5-74f3442f8a7e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4e32b588-e37a-4821-ba3d-b5dcea9f3211">
+<span class="eqno">(12.25)<a class="headerlink" href="#equation-4e32b588-e37a-4821-ba3d-b5dcea9f3211" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial \mathcal{L}(\pmb{u}, \lambda)}{\partial \pmb{u}} = 2(\pmb{S} \pmb{u} - \lambda\pmb{u}) &amp;= 0 \\
 \pmb{S} \pmb{u} &amp;= \lambda\pmb{u} \\
 (\pmb{S} - \lambda \pmb{I}) \pmb{u} &amp;= 0
 \end{align}\]</div>
 <p>ゆえに、<span class="math notranslate nohighlight">\(\pmb{S} = \pmb{X}^\top \pmb{X}\)</span>の固有値問題に帰着した。<span class="math notranslate nohighlight">\(\lambda\)</span>が<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値であるので、特性方程式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cd86989e-599e-488e-bc4c-f220daeade3b">
-<span class="eqno">(12.26)<a class="headerlink" href="#equation-cd86989e-599e-488e-bc4c-f220daeade3b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-42405472-4515-49d3-9b3c-329ea4b207b3">
+<span class="eqno">(12.26)<a class="headerlink" href="#equation-42405472-4515-49d3-9b3c-329ea4b207b3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathrm{det}|\pmb{S} - \lambda \pmb{I}| &amp;= 0 \\
 \mathrm{det}\begin{vmatrix}S_{1,1} - \lambda &amp; S_{1,2} \\ S_{2,1} &amp; S_{2,2} - \lambda \end{vmatrix} &amp;= 0 \\
 (S_{1,1} - \lambda) (S_{2,2} - \lambda) - S_{1,2} S_{2,1} &amp;= 0
 \end{align}\]</div>
 <p>さて、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の例で実際に計算を進める。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5f7c7727-3758-4412-aa88-b4a7950a9c2f">
-<span class="eqno">(12.27)<a class="headerlink" href="#equation-5f7c7727-3758-4412-aa88-b4a7950a9c2f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6209b552-3ea5-41fa-8688-2eb6146f668f">
+<span class="eqno">(12.27)<a class="headerlink" href="#equation-6209b552-3ea5-41fa-8688-2eb6146f668f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{S} &amp;= \pmb{X}^\top \pmb{X} = \begin{pmatrix}-7 &amp; -3 &amp; 4 &amp; 6 \\-2 &amp; -3 &amp; 1 &amp; 4\end{pmatrix}\begin{pmatrix}-7 &amp; -2 \\ -3 &amp; -3 \\ 4 &amp; 1 \\ 6 &amp; 4\end{pmatrix} = \begin{pmatrix}110 &amp; 51 \\ 51 &amp; 30\end{pmatrix}
 \end{align}\]</div>
 <p>であるから、特性方程式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8f1eebbf-82b1-44ec-981c-4a845dc6611d">
-<span class="eqno">(12.28)<a class="headerlink" href="#equation-8f1eebbf-82b1-44ec-981c-4a845dc6611d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7bdf907b-cd8c-4e19-a8e3-d22a9e501d7d">
+<span class="eqno">(12.28)<a class="headerlink" href="#equation-7bdf907b-cd8c-4e19-a8e3-d22a9e501d7d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 (110 - \lambda)(30 - \lambda) - 51^2 &amp;= 0 \\
 \lambda^2 - 140x + 699 &amp;=0 \\
 \lambda &amp;= 70 \pm \sqrt{4201} \\
 \lambda &amp;\approx 134.8, 5.185 
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(J\)</span>を最大化する解として、<span class="math notranslate nohighlight">\(\lambda \approx 134.8\)</span>と<span class="math notranslate nohighlight">\(\lambda \approx 5.185\)</span>のどちらを選べばよいのか？　<span class="math notranslate nohighlight">\(\pmb{S} \pmb{u} = \lambda\pmb{u}\)</span>の両辺に左から<span class="math notranslate nohighlight">\(\pmb{u}^\top\)</span>をかけると、左辺は目的関数<span class="math notranslate nohighlight">\(J\)</span>に一致する。右辺は<span class="math notranslate nohighlight">\(\|\pmb{u}\|=1\)</span>であることに注意すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6073ec28-9026-476b-9fa9-5a6a5d1c9f3f">
-<span class="eqno">(12.29)<a class="headerlink" href="#equation-6073ec28-9026-476b-9fa9-5a6a5d1c9f3f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7031b7bf-be9d-4984-a0ef-385ad59c8660">
+<span class="eqno">(12.29)<a class="headerlink" href="#equation-7031b7bf-be9d-4984-a0ef-385ad59c8660" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u}^\top\pmb{S} \pmb{u} &amp;= \pmb{u}^\top \lambda \pmb{u} \\
 J &amp;= \lambda \pmb{u}^\top \pmb{u} = \lambda
 \end{align}\]</div>
 <p>したがって、求めた固有値<span class="math notranslate nohighlight">\(\lambda\)</span>が目的関数の値となる。そこで、固有値のうち大きい方を<span class="math notranslate nohighlight">\(\lambda_1\)</span>と書くことにして、<span class="math notranslate nohighlight">\(\lambda_1 = 134.8\)</span>とする。<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値問題の等式に<span class="math notranslate nohighlight">\(\lambda = 134.8\)</span>を代入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-237ca380-262e-4988-990d-7e2c7a92da19">
-<span class="eqno">(12.30)<a class="headerlink" href="#equation-237ca380-262e-4988-990d-7e2c7a92da19" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4297f5c2-983c-4943-a3c2-ae1f9a76a467">
+<span class="eqno">(12.30)<a class="headerlink" href="#equation-4297f5c2-983c-4943-a3c2-ae1f9a76a467" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 (\pmb{S} - 134.8 \pmb{I}) \pmb{u} &amp;= 0 \\
 \begin{pmatrix}-24.8 &amp; 51 \\ 51 &amp; -104.8\end{pmatrix} \pmb{u} &amp;= 0 \\
 \end{align}\]</div>
 <p>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9ba3f3f2-346c-46f4-866c-d69a0a7d244f">
-<span class="eqno">(12.31)<a class="headerlink" href="#equation-9ba3f3f2-346c-46f4-866c-d69a0a7d244f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8ee0c9f4-0d67-4038-9113-edf70242746e">
+<span class="eqno">(12.31)<a class="headerlink" href="#equation-8ee0c9f4-0d67-4038-9113-edf70242746e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \begin{cases}
 -24.8 u_1 + 51 u_2 &amp;= 0 \\
 51 u_1 - 104.8 u_2 &amp;= 0
@@ -38648,18 +38648,18 @@ J &amp;= \lambda \pmb{u}^\top \pmb{u} = \lambda
 \end{cases}
 \end{align}\]</div>
 <p>したがって、<span class="math notranslate nohighlight">\(c\)</span>をスカラー値の定数として、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b64d17f0-2335-4db6-9ac1-f260954073b5">
-<span class="eqno">(12.32)<a class="headerlink" href="#equation-b64d17f0-2335-4db6-9ac1-f260954073b5" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5def1aa5-dba1-46c9-becf-2d60f53d390a">
+<span class="eqno">(12.32)<a class="headerlink" href="#equation-5def1aa5-dba1-46c9-becf-2d60f53d390a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u} = c\begin{pmatrix}1 \\ 0.486\end{pmatrix}
 \end{align}\]</div>
 <p>と表される。さらに制約<span class="math notranslate nohighlight">\(\|\pmb{u}\|=1\)</span>を満たすように<span class="math notranslate nohighlight">\(\pmb{u}\)</span>を求めると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-26f62e0f-11fd-4df1-b2ca-dcef82c75dc8">
-<span class="eqno">(12.33)<a class="headerlink" href="#equation-26f62e0f-11fd-4df1-b2ca-dcef82c75dc8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4976751e-0ac7-4918-9f1d-f7547a341bec">
+<span class="eqno">(12.33)<a class="headerlink" href="#equation-4976751e-0ac7-4918-9f1d-f7547a341bec" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u} = \begin{pmatrix}0.899 \\ 0.437\end{pmatrix}
 \end{align}\]</div>
 <p>このように求めた<span class="math notranslate nohighlight">\(\pmb{u}\)</span>を<strong>第１主成分</strong>（the first principal component）と呼ぶ。<span class="math notranslate nohighlight">\(\lambda_1\)</span>は目的関数の値そのものであるから、データを第１主成分の軸に写像したときの分散は<span class="math notranslate nohighlight">\(\lambda_1 = 134.8\)</span>である。各データ点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を第１主成分の直線上に写像したときの位置<span class="math notranslate nohighlight">\(a_i\)</span>を<strong>第１主成分得点</strong>（the first principal component score）と呼ぶ。式<a class="reference internal" href="#equation-eq-definition-of-vector-a">(12.19)</a>を用いて実際に主成分得点を求めてみると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eb6aed7f-40d8-4f72-99da-894a01576a90">
-<span class="eqno">(12.34)<a class="headerlink" href="#equation-eb6aed7f-40d8-4f72-99da-894a01576a90" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-330c20ef-cd97-4d53-8237-560a20a364cd">
+<span class="eqno">(12.34)<a class="headerlink" href="#equation-330c20ef-cd97-4d53-8237-560a20a364cd" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{a} = \pmb{X}\pmb{u} = \begin{pmatrix}-7 &amp; -2 \\ -3 &amp; -3 \\ 4 &amp; 1 \\ 6 &amp; 4\end{pmatrix} \begin{pmatrix}0.899 \\ 0.437\end{pmatrix} \approx \begin{pmatrix}-7.17 \\ -4.01 \\ 4.03 \\ 7.15\end{pmatrix}
 \end{align}\]</div>
 <p>実際に求めた<span class="math notranslate nohighlight">\(\pmb{u}\)</span>を可視化した（おおよそ、これまで例に用いていた<span class="math notranslate nohighlight">\(y=\frac{1}{2}x\)</span>に近いが、それよりも少しずれた直線が解であった）。</p>
@@ -38698,54 +38698,54 @@ J &amp;= \lambda \pmb{u}^\top \pmb{u} = \lambda
 \end{split}\]</div>
 <p>と求めることができる。この<span class="math notranslate nohighlight">\(\pmb{v}\)</span>が<strong>第２主成分</strong>（the second principal component）である。例として用いている<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>は2次元のデータであるので、第３成分以降の軸を求める必要はない。</p>
 <p>ただ、この求め方では2次元以上のデータに対応できないので、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最大化しても<span class="math notranslate nohighlight">\(\pmb{v}\)</span>が求まることを説明する。データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を２番目に「よく」射影するベクトル<span class="math notranslate nohighlight">\(\pmb{v}\)</span>を求めることは、<span class="math notranslate nohighlight">\(\|\pmb{v}\|=1\)</span>および<span class="math notranslate nohighlight">\(\pmb{u}^\top \pmb{v}=0\)</span>の制約下で、以下の目的関数<span class="math notranslate nohighlight">\(J\)</span>を最大化すればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3bd16eab-3586-4e74-a0a1-c7da4be8177a">
-<span class="eqno">(12.36)<a class="headerlink" href="#equation-3bd16eab-3586-4e74-a0a1-c7da4be8177a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5eafcb18-b591-4970-9742-5eb15df9493b">
+<span class="eqno">(12.36)<a class="headerlink" href="#equation-5eafcb18-b591-4970-9742-5eb15df9493b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 J = \pmb{v}^\top \pmb{S} \pmb{v}
 \end{align}\]</div>
 <p>これは、以下のラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\pmb{v}, \lambda, \alpha)\)</span>を最大化する問題に帰着する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d522d387-a284-402b-bdba-25f6830c8aa3">
-<span class="eqno">(12.37)<a class="headerlink" href="#equation-d522d387-a284-402b-bdba-25f6830c8aa3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a435ede9-dc71-41f5-ae1d-fb01165f8727">
+<span class="eqno">(12.37)<a class="headerlink" href="#equation-a435ede9-dc71-41f5-ae1d-fb01165f8727" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{L}(\pmb{u}, \lambda) &amp;= \pmb{v}^\top \pmb{S} \pmb{v} - \lambda (\pmb{v}^\top\pmb{v} - 1) - \alpha \pmb{u}^\top \pmb{v}
 \end{align}\]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(\lambda\)</span>と<span class="math notranslate nohighlight">\(\alpha\)</span>はラグランジュ乗数である。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\pmb{v}, \lambda, \alpha)\)</span>を<span class="math notranslate nohighlight">\(\pmb{v}\)</span>で偏微分すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-267ef3f4-9f55-46f4-98a5-d122425e767e">
-<span class="eqno">(12.38)<a class="headerlink" href="#equation-267ef3f4-9f55-46f4-98a5-d122425e767e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c11409a4-f211-4fc0-903c-1568bbea46b3">
+<span class="eqno">(12.38)<a class="headerlink" href="#equation-c11409a4-f211-4fc0-903c-1568bbea46b3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial \mathcal{L}(\pmb{v}, \lambda, \alpha)}{\partial \pmb{v}} &amp;= \frac{\partial}{\partial \pmb{v}} \left(\pmb{v}^\top \pmb{S} \pmb{v}\right) - \frac{\partial}{\partial \pmb{v}}  \left(\lambda (\pmb{v}^\top\pmb{v} - 1)\right)  - \frac{\partial}{\partial \pmb{v}} \left(\alpha \pmb{u}^\top \pmb{v}\right) \\
 &amp;= (\pmb{S} + \pmb{S}^\top)\pmb{v} - 2\pmb{v} - \alpha \pmb{u} \\
 &amp;= 2\pmb{S} \pmb{v} - 2\lambda\pmb{v}  - \alpha \pmb{u} \\
 \end{align}\]</div>
 <p>これを<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7f70c34f-6383-481e-b368-fe20ab147c20">
-<span class="eqno">(12.39)<a class="headerlink" href="#equation-7f70c34f-6383-481e-b368-fe20ab147c20" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c3916925-84ab-4782-95ea-2d052d2bb3e1">
+<span class="eqno">(12.39)<a class="headerlink" href="#equation-c3916925-84ab-4782-95ea-2d052d2bb3e1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 2\pmb{S} \pmb{v} - 2\lambda\pmb{v}  - \alpha \pmb{u} &amp;= 0
 \end{align}\]</div>
 <p>ここで、左から<span class="math notranslate nohighlight">\(\pmb{u}^\top\)</span>をかけ、<span class="math notranslate nohighlight">\(\pmb{u}^\top\pmb{v}=0\)</span>と<span class="math notranslate nohighlight">\(\pmb{u}^\top\pmb{u}=1\)</span>であることに注意すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9d67ac79-3e30-4a1f-b59b-88ab80ccdd62">
-<span class="eqno">(12.40)<a class="headerlink" href="#equation-9d67ac79-3e30-4a1f-b59b-88ab80ccdd62" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8405de64-6098-4b1d-9f1d-a445769678fc">
+<span class="eqno">(12.40)<a class="headerlink" href="#equation-8405de64-6098-4b1d-9f1d-a445769678fc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 2\pmb{u}^\top \pmb{S} \pmb{v} - 2\lambda\pmb{u}^\top\pmb{v}  - \alpha \pmb{u}^\top\pmb{u} &amp;= 0 \\
 2\pmb{u}^\top\pmb{S} \pmb{v} - \alpha &amp;= 0 \\
 \alpha &amp;= 2\pmb{u}^\top\pmb{S} \pmb{v} = 2\pmb{v}^\top\pmb{S} \pmb{u} \\
 \end{align}\]</div>
 <p>なお、最終行の式変形では、<span class="math notranslate nohighlight">\(\pmb{u}^\top\pmb{S} \pmb{v}\)</span>がスカラーであるから、<span class="math notranslate nohighlight">\((\pmb{u}^\top\pmb{S} \pmb{v})^\top = \pmb{v}^\top\pmb{S} \pmb{u}\)</span>が成り立つことを用いた。ここで、第１主成分を求めたときの固有値問題により、<span class="math notranslate nohighlight">\(\pmb{S} \pmb{u} = \lambda_1 \pmb{u}\)</span>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0af054ff-05ee-42cf-bb71-d598a9b38346">
-<span class="eqno">(12.41)<a class="headerlink" href="#equation-0af054ff-05ee-42cf-bb71-d598a9b38346" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-533804a3-3b12-4c15-86f5-e03a13d1a6e7">
+<span class="eqno">(12.41)<a class="headerlink" href="#equation-533804a3-3b12-4c15-86f5-e03a13d1a6e7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \alpha &amp;= 2\pmb{v}^\top (\pmb{S} \pmb{u}) = 2\pmb{v}^\top (\lambda_1 \pmb{u}) = 2 \lambda_1 \pmb{v}^\top \pmb{u} = 0
 \end{align}\]</div>
 <p>したがって、<span class="math notranslate nohighlight">\(\alpha = 0\)</span>であるから、ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\pmb{v}, \lambda, \alpha)\)</span>を<span class="math notranslate nohighlight">\(\pmb{v}\)</span>で偏微分して<span class="math notranslate nohighlight">\(0\)</span>とおいた式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3af7da8a-1508-48f7-87dd-56885dbc096d">
-<span class="eqno">(12.42)<a class="headerlink" href="#equation-3af7da8a-1508-48f7-87dd-56885dbc096d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a26d9636-8086-47e8-903c-82e892bec074">
+<span class="eqno">(12.42)<a class="headerlink" href="#equation-a26d9636-8086-47e8-903c-82e892bec074" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 2\pmb{S} \pmb{v} - 2\lambda\pmb{v}  &amp;= 0 \\
 \pmb{S} \pmb{v} &amp;= \lambda\pmb{v}
 \end{align}\]</div>
 <p>となり、再び<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値問題に帰着した。そこで、先ほど求めた固有値のうち小さい方を<span class="math notranslate nohighlight">\(\lambda_2\)</span>と書くことにして、<span class="math notranslate nohighlight">\(\lambda_2 = 5.185\)</span>とする。<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値問題の等式に<span class="math notranslate nohighlight">\(\lambda = 5.185\)</span>を代入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3a2fcae3-26fd-4728-a919-c81345a50dda">
-<span class="eqno">(12.43)<a class="headerlink" href="#equation-3a2fcae3-26fd-4728-a919-c81345a50dda" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f904c1ba-9550-43c4-ab01-20ac0f47dbbc">
+<span class="eqno">(12.43)<a class="headerlink" href="#equation-f904c1ba-9550-43c4-ab01-20ac0f47dbbc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 (\pmb{S} - 5.185 \pmb{I}) \pmb{v} &amp;= 0 \\
 \begin{pmatrix}104.8 &amp; 51 \\ 51 &amp; 24.82\end{pmatrix} \pmb{v} &amp;= 0 \\
 \end{align}\]</div>
 <p>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fff001f1-260d-4b8c-b097-c570812654d8">
-<span class="eqno">(12.44)<a class="headerlink" href="#equation-fff001f1-260d-4b8c-b097-c570812654d8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3f6a0066-6e39-4216-a7e3-cac22368a0c6">
+<span class="eqno">(12.44)<a class="headerlink" href="#equation-3f6a0066-6e39-4216-a7e3-cac22368a0c6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \begin{cases}
 104.8 v_1 + 51 v_2 &amp;= 0 \\
 51 v_1 + 24.82 v_2 &amp;= 0
@@ -38757,18 +38757,18 @@ J = \pmb{v}^\top \pmb{S} \pmb{v}
 \end{cases}
 \end{align}\]</div>
 <p>したがって、<span class="math notranslate nohighlight">\(c\)</span>をスカラー値の定数として、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-acdbef0e-bef5-4180-a733-05a413878dee">
-<span class="eqno">(12.45)<a class="headerlink" href="#equation-acdbef0e-bef5-4180-a733-05a413878dee" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c6e56417-6391-4311-b7b9-824151d9313f">
+<span class="eqno">(12.45)<a class="headerlink" href="#equation-c6e56417-6391-4311-b7b9-824151d9313f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{v} = c\begin{pmatrix}1 \\ -2.055\end{pmatrix}
 \end{align}\]</div>
 <p>と表される。さらに制約<span class="math notranslate nohighlight">\(\|\pmb{v}\|=1\)</span>を満たすように<span class="math notranslate nohighlight">\(\pmb{v}\)</span>を求めると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-30b32289-f4e8-4d41-98d8-7119d64f2a41">
-<span class="eqno">(12.46)<a class="headerlink" href="#equation-30b32289-f4e8-4d41-98d8-7119d64f2a41" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d9182b4a-253b-4a4c-83a7-679df319757f">
+<span class="eqno">(12.46)<a class="headerlink" href="#equation-d9182b4a-253b-4a4c-83a7-679df319757f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{v} = \begin{pmatrix}0.438 \\ -0.899\end{pmatrix} 
 \end{align}\]</div>
 <p>このように求めた<span class="math notranslate nohighlight">\(\pmb{v}\)</span>を第２主成分と呼ぶ。式<a class="reference internal" href="#equation-eq-second-pc">(12.35)</a>で求めた<span class="math notranslate nohighlight">\(\pmb{v}\)</span>と逆向きであるが、固有値問題の解から同じ第２主成分が求まった。<span class="math notranslate nohighlight">\(\lambda_2\)</span>も目的関数の値そのものであるから、データを第２主成分の軸に写像したときの分散は<span class="math notranslate nohighlight">\(\lambda_2 = 5.185\)</span>である。式<a class="reference internal" href="#equation-eq-definition-of-vector-a">(12.19)</a>を用いて第２主成分得点を求めてみると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-176de00b-fb72-4cd6-8eeb-81a32db6da84">
-<span class="eqno">(12.47)<a class="headerlink" href="#equation-176de00b-fb72-4cd6-8eeb-81a32db6da84" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-68d7a4cc-bbf9-4ae4-a7dc-8f5f93d74431">
+<span class="eqno">(12.47)<a class="headerlink" href="#equation-68d7a4cc-bbf9-4ae4-a7dc-8f5f93d74431" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{a} = \pmb{X}\pmb{u} = \begin{pmatrix}-7 &amp; -2 \\ -3 &amp; -3 \\ 4 &amp; 1 \\ 6 &amp; 4\end{pmatrix} \begin{pmatrix}0.438 \\ -0.899\end{pmatrix} \approx \begin{pmatrix}1.26 \\ -1.39 \\ -0.85 \\ 0.97\end{pmatrix}
 \end{align}\]</div>
 <p>このデータに対する主成分分析の締めくくりとして、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の第１主成分<span class="math notranslate nohighlight">\(\pmb{u}\)</span>と第２主成分<span class="math notranslate nohighlight">\(\pmb{v}\)</span>を可視化した。</p>
@@ -38941,7 +38941,7 @@ J = \pmb{v}^\top \pmb{S} \pmb{v}
       <p>
         
           <div class="extra_footer">
-            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　作品中のソースコードは<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
 
           </div>
       </p>

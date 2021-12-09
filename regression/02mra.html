@@ -64,7 +64,15 @@
     <meta name="docsearch:language" content="ja">
     
 
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@chokkanorg">
+    <meta name="twitter:title" content="機械学習帳">
+    <meta name="twitter:description" content="機械学習帳は、機械学習を学ぶためのノート（帳）を、デジタル（機械）による新しいカタチの学習帳として実現することを目指しています。">
+    <meta name="twitter:image" content="https://chokkan.github.io/mlnote/_static/mlnote.png">
+
     <!-- Google Analytics -->
+
     
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
 <script>
@@ -284,7 +292,7 @@
     <div class="dropdown-buttons">
         
         <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/regression/02mra.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="発売 Binder" data-toggle="tooltip"
+                class="btn btn-secondary topbarbtn" title="起動 Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
                     alt="Interact on binder">Binder</button></a>
@@ -292,12 +300,18 @@
         
         
         <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/regression/02mra.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="発売 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                title="起動 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="../_static/images/logo_colab.png"
+                    
                     alt="Interact on Colab">Colab</button></a>
+
+        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/master/regression/02mra.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+            title="起動 SageMaker Studio Lab" data-toggle="tooltip" data-placement="left"><i
+                class="fab fa-aws"></i> SageMaker</button></a>
+
         
         <button type="button" class="btn btn-secondary topbarbtn"
-            onclick="initThebeSBT()" title="発売 Thebe" data-toggle="tooltip" data-placement="left"><i
+            onclick="initThebeSBT()" title="起動 Thebe" data-toggle="tooltip" data-placement="left"><i
                 class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
         
     </div>
@@ -465,8 +479,8 @@ Requirement already satisfied: six in /home/okazaki/.local/lib/python3.8/site-pa
 <div class="section" id="id2">
 <h2><span class="section-number">2.1. </span>重回帰<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これまで、以下のデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を例として単回帰を説明した。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-21210fac-4a06-4178-9322-c50c11128102">
-<span class="eqno">(2.1)<a class="headerlink" href="#equation-21210fac-4a06-4178-9322-c50c11128102" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-de088b9b-aa5d-48df-944b-d44fea361312">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-de088b9b-aa5d-48df-944b-d44fea361312" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D}_s = \left\{(x_i, y_i)\right\}_{i=1}^{4} = \left\{(1, 3), (3, 6), (6, 5), (8, 7)\right\}
 \end{align}\]</div>
 <p>また、求めた回帰直線をデータ点とともにプロットしたものを以下に示す。</p>
@@ -503,15 +517,15 @@ Requirement already satisfied: six in /home/okazaki/.local/lib/python3.8/site-pa
 </div>
 </div>
 <p>残差の平均二乗和が最小になるような直線を引いたはずであるが、残差を完全に無くすことはできなかった（決定係数を求めてみると<span class="math notranslate nohighlight">\(0.616\)</span>であり、あまり高くない）。プロットされている点を眺めると、３次関数を当てはめる方が向いているように思われる。そこで、１次関数よりも表現力が高いモデルとして、<span class="math notranslate nohighlight">\(d\)</span>次の多項式の一般形、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-acf021a1-ce8c-49aa-89bb-80299b1ee7d7">
-<span class="eqno">(2.2)<a class="headerlink" href="#equation-acf021a1-ce8c-49aa-89bb-80299b1ee7d7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2fc8203e-7279-48e6-9416-29c95d595407">
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-2fc8203e-7279-48e6-9416-29c95d595407" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{y} = w_0 + w_1 x + w_2 x^2 + \dots + w_d x^d
 \end{align}\]</div>
 <p>にフィッティングすることを考えたい。ここで、<span class="math notranslate nohighlight">\(w_0, w_1, w_2, \dots, w_d \in \mathbb{R}\)</span>はモデルの<strong>パラメータ</strong>である。</p>
 <p>なお、<span class="math notranslate nohighlight">\(\hat{y}\)</span>は重み<span class="math notranslate nohighlight">\(w_0, w_1, w_2, \dots, w_d\)</span>による説明変数<span class="math notranslate nohighlight">\(1, x, x^2, \dots x^d\)</span>の線形重み付き和と考えることができる。このモデルは多項式の一般形ではあるが、<span class="math notranslate nohighlight">\(\hat{y}\)</span>は<span class="math notranslate nohighlight">\(w_i\)</span>と<span class="math notranslate nohighlight">\(x^i\)</span>の線形結合で表されているため、<strong>線形モデル</strong>と見なすことができる。ただし、説明変数が２個以上であるので、単回帰を重回帰に拡張する必要がある。</p>
 <p>一般的に、<span class="math notranslate nohighlight">\(d\)</span>個の説明変数<span class="math notranslate nohighlight">\(x_1, x_2, \dots, x_d\)</span>に対して、線形モデル、すなわち<span class="math notranslate nohighlight">\(d\)</span>個の重み<span class="math notranslate nohighlight">\(w_1, w_2, \dots, w_d\)</span>の線形結合で目的変数の予測値<span class="math notranslate nohighlight">\(\hat{y}\)</span>を計算することを<strong>線形回帰</strong>と呼ぶ。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b305eede-e674-4967-ac49-1996eaac008e">
-<span class="eqno">(2.3)<a class="headerlink" href="#equation-b305eede-e674-4967-ac49-1996eaac008e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5e30bc4c-95d7-4eb2-b157-bda9230e096c">
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-5e30bc4c-95d7-4eb2-b157-bda9230e096c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{y} = w_1 x_1 + w_2 x_2 + \dots + w_d x_d
 \end{align}\]</div>
 <p>ゆえに、<span class="math notranslate nohighlight">\((d-1)\)</span>次の多項式へのフィッティングは、<span class="math notranslate nohighlight">\(d\)</span>個の説明変数<span class="math notranslate nohighlight">\(x_1 = 1\)</span>, <span class="math notranslate nohighlight">\(x_2 = x\)</span>, <span class="math notranslate nohighlight">\(x_3 = x^2\)</span>, <span class="math notranslate nohighlight">\(\dots\)</span>, <span class="math notranslate nohighlight">\(x_d = x^{d-1}\)</span>による線形回帰と見なすことができる。下図は、重回帰でデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>に３次関数を当てはめた結果である。本章の内容をマスターすると、<span class="math notranslate nohighlight">\(4\)</span>個の説明変数<span class="math notranslate nohighlight">\(1, x, x^2, x^3\)</span>に対して、その重み（<span class="math notranslate nohighlight">\(-1.23, 5.41, -1.27, 0.09\)</span>）を求めることができる。</p>
@@ -561,15 +575,15 @@ Requirement already satisfied: six in /home/okazaki/.local/lib/python3.8/site-pa
 <p>と書くことがある。</p>
 </div>
 <p>重回帰の目的関数を一般的に記述するため、ベクトルによる表記を導入する。<span class="math notranslate nohighlight">\(d\)</span>個の説明変数<span class="math notranslate nohighlight">\(x_1, x_2, \dots, x_d\)</span>をベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>でまとめて表現する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6a0a258c-b3c0-4d1f-8dbd-528b0ba3769f">
-<span class="eqno">(2.4)<a class="headerlink" href="#equation-6a0a258c-b3c0-4d1f-8dbd-528b0ba3769f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8924a213-8860-4267-970c-b869c505bb4e">
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-8924a213-8860-4267-970c-b869c505bb4e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{x} = \begin{pmatrix}
 x_1 \\ x_2 \\ \dots \\ x_d
 \end{pmatrix}
 \end{align}\]</div>
 <p>また、<span class="math notranslate nohighlight">\(d\)</span>個のパラメータ（重み）<span class="math notranslate nohighlight">\(w_1, w_2, \dots, w_d\)</span>をベクトル<span class="math notranslate nohighlight">\(\pmb{w} \in \mathbb{R}^d\)</span>でまとめて表現する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a3ff9113-bb56-49db-afee-9d72a2763fb4">
-<span class="eqno">(2.5)<a class="headerlink" href="#equation-a3ff9113-bb56-49db-afee-9d72a2763fb4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b3c7f3c3-65c8-4821-8568-30db2e946036">
+<span class="eqno">(2.5)<a class="headerlink" href="#equation-b3c7f3c3-65c8-4821-8568-30db2e946036" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w} = \begin{pmatrix}
 w_1 \\ w_2 \\ \dots \\ w_d
 \end{pmatrix}
@@ -596,14 +610,14 @@ w_1 \\ w_2 \\ \dots \\ w_d
 <p>と書ける。</p>
 </div>
 <p>すると、重回帰モデルによる目的変数の予測値<span class="math notranslate nohighlight">\(\hat{y}\)</span>は、ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>と<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の内積として記述できる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-98d31da9-fa3f-42bf-a112-de31fdd32c3d">
-<span class="eqno">(2.6)<a class="headerlink" href="#equation-98d31da9-fa3f-42bf-a112-de31fdd32c3d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f520e276-38a4-40c5-9a6a-fc336d20e7c7">
+<span class="eqno">(2.6)<a class="headerlink" href="#equation-f520e276-38a4-40c5-9a6a-fc336d20e7c7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{y} = \pmb{x}^\top\pmb{w} = w_1 x_1 + w_2 x_2 + \dots + w_d x_d
 \end{align}\]</div>
 <p>単回帰のときと同様に、説明変数と目的変数の組を<strong>事例</strong>として表現する。単回帰の場合と異なるのは、説明変数がスカラー<span class="math notranslate nohighlight">\(x\)</span>からベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>に拡張されたことである。
 <span class="math notranslate nohighlight">\(1\)</span>番目の事例を<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>、<span class="math notranslate nohighlight">\(2\)</span>番目の事例を<span class="math notranslate nohighlight">\((\pmb{x}_2, y_2)\)</span>、<span class="math notranslate nohighlight">\(i\)</span>番目の事例を<span class="math notranslate nohighlight">\((\pmb{x}_i, y_i)\)</span>と表すことにすると、<span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は次のように表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bf162724-51b1-492a-8c24-c62d2593e21e">
-<span class="eqno">(2.7)<a class="headerlink" href="#equation-bf162724-51b1-492a-8c24-c62d2593e21e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cab2857c-b6e1-497d-a0c1-c3e1c6cbe35e">
+<span class="eqno">(2.7)<a class="headerlink" href="#equation-cab2857c-b6e1-497d-a0c1-c3e1c6cbe35e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \left\{(\pmb{x}_1, y_1), (\pmb{x}_2, y_2), \dots, (\pmb{x}_N, y_N)\right\} = \left\{(\pmb{x}_i, y_i)\right\}_{i=1}^{N}
 \end{align}\]</div>
 <div class="margin sidebar">
@@ -620,8 +634,8 @@ w_1 \\ w_2 \\ \dots \\ w_d
 <p><span class="math notranslate nohighlight">\(X_{1,2} = 3\)</span>、<span class="math notranslate nohighlight">\(X_{2,3} = 2\)</span>である。</p>
 </div>
 <p>さらに、<span class="math notranslate nohighlight">\(N\)</span>個の事例や目的変数を行列やベクトルで記述する表記法も導入しておく。説明変数のベクトル<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>を行ベクトルとして縦に<span class="math notranslate nohighlight">\(N\)</span>個並べた行列<span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{N \times d}\)</span>を定義する。この行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>は<strong>計画行列</strong>（design matrix）と呼ばれ、それぞれの事例の<span class="math notranslate nohighlight">\(d\)</span>個の説明変数を水平方向に<span class="math notranslate nohighlight">\(d\)</span>個並べ、<span class="math notranslate nohighlight">\(N\)</span>個の事例を垂直方向に<span class="math notranslate nohighlight">\(N\)</span>個並べたものである。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-55c9e6bf-cd6b-4bfc-b463-9fbc1b3fbf51">
-<span class="eqno">(2.8)<a class="headerlink" href="#equation-55c9e6bf-cd6b-4bfc-b463-9fbc1b3fbf51" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-aa2cfed0-f327-4349-8f90-01bc29e6b900">
+<span class="eqno">(2.8)<a class="headerlink" href="#equation-aa2cfed0-f327-4349-8f90-01bc29e6b900" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X} = \begin{pmatrix}
 \pmb{x}_1^\top \\
 \pmb{x}_2^\top \\
@@ -637,8 +651,8 @@ X_{N,1} &amp; X_{N,2} &amp; \dots &amp; X_{N,d}
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(X_{i,j}\)</span>は行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>行<span class="math notranslate nohighlight">\(j\)</span>列の要素を表す。</p>
 <p>また、目的変数<span class="math notranslate nohighlight">\(y_i\)</span>を縦に<span class="math notranslate nohighlight">\(N\)</span>個並べたベクトル<span class="math notranslate nohighlight">\(\pmb{y} \in \mathbb{R}^N\)</span>を定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b02dd7af-8857-45e6-8194-a70b993f5aa7">
-<span class="eqno">(2.9)<a class="headerlink" href="#equation-b02dd7af-8857-45e6-8194-a70b993f5aa7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-13d6b0d8-bff9-4a37-9873-44e6eb38d2f4">
+<span class="eqno">(2.9)<a class="headerlink" href="#equation-13d6b0d8-bff9-4a37-9873-44e6eb38d2f4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{y} = \begin{pmatrix}
 y_1 \\ y_2 \\ \dots \\ y_N
 \end{pmatrix}
@@ -699,8 +713,8 @@ X_{N,1} w_1 + \dots + X_{N,d} w_d \\
 \end{align*}\]</div>
 </div>
 <p>目的変数の予測値<span class="math notranslate nohighlight">\(\hat{y}_i\)</span>を縦に<span class="math notranslate nohighlight">\(N\)</span>個並べ、ベクトル<span class="math notranslate nohighlight">\(\hat{\pmb{y}} \in \mathbb{R}^N\)</span>と書くことにすると、その予測値は計画行列とパラメータベクトルの積で求めることができる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dfccc289-7cb1-42f0-b3bf-1111222ea347">
-<span class="eqno">(2.10)<a class="headerlink" href="#equation-dfccc289-7cb1-42f0-b3bf-1111222ea347" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-16142c24-7edc-40cf-8b33-79768496ee00">
+<span class="eqno">(2.10)<a class="headerlink" href="#equation-16142c24-7edc-40cf-8b33-79768496ee00" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\pmb{y}} = \begin{pmatrix}
 \hat{y}_1 \\ \hat{y}_2 \\ \dots \\ \hat{y}_N
 \end{pmatrix} = \begin{pmatrix}
@@ -723,8 +737,8 @@ b \\ a
 \end{align}
 \end{split}\]</div>
 <p>目的変数の予測値<span class="math notranslate nohighlight">\(\hat{y}\)</span>を計算する式を展開すると、単回帰モデルが得られる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4dcf03d7-92c4-435a-a4cf-3aba7462a3a1">
-<span class="eqno">(2.12)<a class="headerlink" href="#equation-4dcf03d7-92c4-435a-a4cf-3aba7462a3a1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-15f2830e-f2f0-4368-abcc-a99c4f4e27bf">
+<span class="eqno">(2.12)<a class="headerlink" href="#equation-15f2830e-f2f0-4368-abcc-a99c4f4e27bf" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{y} = \pmb{x}^\top\pmb{w} = b + xa = ax + b
 \end{align}\]</div>
 <p>冒頭のグラフの例（<span class="math notranslate nohighlight">\(N=4\)</span>）の学習データは次のように表現される。</p>
@@ -733,8 +747,8 @@ b \\ a
 \mathcal{D}_s = \left\{(\pmb{x}_i, y_i)\right\}_{i=1}^{4} = \left\{\left(\begin{pmatrix}1 &amp; 1\end{pmatrix}^\top, 3\right), \left(\begin{pmatrix}1 &amp; 3\end{pmatrix}^\top, 6\right), \left(\begin{pmatrix}1 &amp; 6\end{pmatrix}^\top, 5\right), \left(\begin{pmatrix}1 &amp; 8\end{pmatrix}^\top, 7\right)\right\}
 \end{align*}\]</div>
 <p>計画行列<span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{4 \times 2}\)</span>と目的変数ベクトル<span class="math notranslate nohighlight">\(\pmb{y} \in \mathbb{R}^4\)</span>は、それぞれ、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d6ed921d-4c2e-4f1f-813b-1efecb168147">
-<span class="eqno">(2.13)<a class="headerlink" href="#equation-d6ed921d-4c2e-4f1f-813b-1efecb168147" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b2cea796-50f5-4ed5-9064-243927c77e1f">
+<span class="eqno">(2.13)<a class="headerlink" href="#equation-b2cea796-50f5-4ed5-9064-243927c77e1f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X} = \begin{pmatrix}
 1 &amp; 1 \\
 1 &amp; 3 \\
@@ -746,8 +760,8 @@ b \\ a
 \end{pmatrix}
 \end{align}\]</div>
 <p>目的変数の予測ベクトル<span class="math notranslate nohighlight">\(\hat{\pmb{y}}\)</span>は行列<span class="math notranslate nohighlight">\(W\)</span>とベクトル<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の積で求めることができる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-19a86067-4301-4f4a-b5e2-e343d2037cce">
-<span class="eqno">(2.14)<a class="headerlink" href="#equation-19a86067-4301-4f4a-b5e2-e343d2037cce" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8286af8e-4d8a-434e-9fc3-ba0664157bb3">
+<span class="eqno">(2.14)<a class="headerlink" href="#equation-8286af8e-4d8a-434e-9fc3-ba0664157bb3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\pmb{y}}
 = \pmb{X} \pmb{w}
 = \begin{pmatrix}
@@ -771,13 +785,13 @@ a + b \\
 <div class="section" id="id5">
 <h2><span class="section-number">2.3. </span>目的関数<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>単回帰のときと同様に、ある事例の目的変数の真の値<span class="math notranslate nohighlight">\(y_i\)</span>と推定値<span class="math notranslate nohighlight">\(\hat{y}_i\)</span>の差を残差<span class="math notranslate nohighlight">\(\epsilon_i\)</span>とする。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0c420084-44d0-41d0-822e-10a8d1d81cba">
-<span class="eqno">(2.15)<a class="headerlink" href="#equation-0c420084-44d0-41d0-822e-10a8d1d81cba" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4af0008e-4cb0-4b9a-bf0d-09eee5ee525c">
+<span class="eqno">(2.15)<a class="headerlink" href="#equation-4af0008e-4cb0-4b9a-bf0d-09eee5ee525c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \epsilon_i = y_i - \hat{y}_i = y_i - \pmb{x}_i^\top\pmb{w}
 \end{align}\]</div>
 <p>学習データにおける平均二乗残差は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0244fa92-ad7c-45b7-961d-57963c3f5dfe">
-<span class="eqno">(2.16)<a class="headerlink" href="#equation-0244fa92-ad7c-45b7-961d-57963c3f5dfe" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-782bd354-f50c-4caf-94a1-20b21923efaf">
+<span class="eqno">(2.16)<a class="headerlink" href="#equation-782bd354-f50c-4caf-94a1-20b21923efaf" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{L} = \frac{1}{N} \sum_{i=1}^{N} \epsilon_i^2 = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2 = \frac{1}{N} \sum_{i=1}^{N} (y_i - \pmb{x}_i^\top\pmb{w})^2
 \end{align}\]</div>
 <p>重回帰モデルの学習において平均二乗残差を最小化するときは、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>や学習事例数<span class="math notranslate nohighlight">\(N\)</span>は事前に与えられる定数であり、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>は変数である。したがって、<span class="math notranslate nohighlight">\(N\)</span>は最小化の解に影響を与えないので（二乗残差の平均を最小化することと二乗残差の和を最小化することは同じ）、今後は目的関数に含めないことにする。すると、重回帰で最小化したい目的関数は、</p>
@@ -788,8 +802,8 @@ a + b \\
 \end{align}
 \]</div>
 <p>なお、全事例に関する残差をベクトル、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-78fcd9e6-c6bd-4208-87a1-5257c7326a33">
-<span class="eqno">(2.18)<a class="headerlink" href="#equation-78fcd9e6-c6bd-4208-87a1-5257c7326a33" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-de0eb461-6e60-4cd9-8547-d4ea52eba091">
+<span class="eqno">(2.18)<a class="headerlink" href="#equation-de0eb461-6e60-4cd9-8547-d4ea52eba091" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{\epsilon} = \begin{pmatrix}
 \epsilon_1 \\ \epsilon_2 \\ \dots \\ \epsilon_N
 \end{pmatrix}
@@ -820,8 +834,8 @@ a + b \\
 <p>ベクトルや行列による表現形式を採用すると、重回帰で最小化したい目的関数は、</p>
 <div class="important admonition">
 <p class="admonition-title">重回帰の目的関数（二乗残差和）</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7bc67c36-7673-4d72-8e39-2cc00ae5b50b">
-<span class="eqno">(2.20)<a class="headerlink" href="#equation-7bc67c36-7673-4d72-8e39-2cc00ae5b50b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2fb53d1f-a927-4179-a74b-e1eec862bd3b">
+<span class="eqno">(2.20)<a class="headerlink" href="#equation-2fb53d1f-a927-4179-a74b-e1eec862bd3b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(\pmb{w}) = \lVert \pmb{\epsilon} \rVert^2 = \lVert \pmb{y} - \pmb{X}\pmb{w} \rVert^2 = \lVert \pmb{X}\pmb{w} - \pmb{y} \rVert^2
 \end{align}\]</div>
 </div>
@@ -855,9 +869,40 @@ X_{N,j}
 &amp;= -2 (\pmb{X}^\top \pmb{\epsilon})_j
 \end{align}
 \end{split}\]</div>
+<div class="margin sidebar">
+<p class="sidebar-title">ベクトルの微分</p>
+<p>本資料ではベクトルの微分に分母レイアウト表記（<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Denominator-layout_notation">Denominator-layout notation</a>）を採用する。二つのベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^m, \pmb{y} \in \mathbb{R}^n\)</span>があるとき、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\frac{\partial \pmb{y}}{\partial \pmb{x}} = \begin{pmatrix}
+\frac{\partial y_1}{\partial x_1} &amp; \frac{\partial y_2}{\partial x_1} &amp; \ldots &amp; \frac{\partial y_n}{\partial x_1} \\
+\frac{\partial y_1}{\partial x_2} &amp; \frac{\partial y_2}{\partial x_2} &amp; \ldots &amp; \frac{\partial y_n}{\partial x_2} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial y_1}{\partial x_m} &amp; \frac{\partial y_2}{\partial x_m} &amp; \ldots &amp; \frac{\partial y_n}{\partial x_m} \\
+\end{pmatrix}
+\end{split}\]</div>
+<p>もし、<span class="math notranslate nohighlight">\(y\)</span>がスカラーであるならば、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\frac{\partial y}{\partial \pmb{x}} = \begin{pmatrix}
+\frac{\partial y}{\partial x_1} \\
+\frac{\partial y}{\partial x_2} \\
+\vdots \\
+\frac{\partial y}{\partial x_m} \\
+\end{pmatrix}
+\end{split}\]</div>
+<p>もし、<span class="math notranslate nohighlight">\(x\)</span>がスカラーであるならば、</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \pmb{y}}{\partial x} = \begin{pmatrix}
+\frac{\partial y_1}{\partial x} &amp; \frac{\partial y_2}{\partial x} &amp; \ldots &amp; \frac{\partial y_n}{\partial x}
+\end{pmatrix}
+\]</div>
+<p>したがって、分母側のベクトルのレイアウトはそのまま、分子側のベクトルのレイアウトは転置が適用される。</p>
+</div>
 <p>なお、最後から２番目の式変形は、計画行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>の転置<span class="math notranslate nohighlight">\(\pmb{X}^\top\)</span>、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-51b8e3d4-0a81-4aea-97e1-d6fa80c48207">
-<span class="eqno">(2.22)<a class="headerlink" href="#equation-51b8e3d4-0a81-4aea-97e1-d6fa80c48207" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e5c51354-63be-405b-b450-a3a2aef53d5f">
+<span class="eqno">(2.22)<a class="headerlink" href="#equation-e5c51354-63be-405b-b450-a3a2aef53d5f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X}^\top = \begin{pmatrix}
 X_{1,1} &amp; X_{2,1} &amp; \dots &amp; X_{N,1} \\
 X_{1,2} &amp; X_{2,2} &amp; \dots &amp; X_{N,2} \\
@@ -868,8 +913,8 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 \end{pmatrix}
 \end{align}\]</div>
 <p>の<span class="math notranslate nohighlight">\(j\)</span>行目の行ベクトルが<span class="math notranslate nohighlight">\(\begin{pmatrix} X_{1,j} &amp; X_{2,j} &amp; \dots &amp; X_{N,j}\end{pmatrix}\)</span>であることを利用した。最終行の式変形では、以下の行列ベクトル積の<span class="math notranslate nohighlight">\(j\)</span>行目の計算結果に基づく。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7fb9d4b8-c2d4-40d1-bc41-e542fe0dacf6">
-<span class="eqno">(2.23)<a class="headerlink" href="#equation-7fb9d4b8-c2d4-40d1-bc41-e542fe0dacf6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9ff8ff57-2b0c-4d1a-ace0-3677656f9ec3">
+<span class="eqno">(2.23)<a class="headerlink" href="#equation-9ff8ff57-2b0c-4d1a-ace0-3677656f9ec3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X}^\top \pmb{\epsilon} = \begin{pmatrix}
 (\pmb{X}^\top)_{1} \pmb{\epsilon} \\
 (\pmb{X}^\top)_{2} \pmb{\epsilon} \\
@@ -879,9 +924,10 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 (\pmb{X}^\top)_{d} \pmb{\epsilon} \\
 \end{pmatrix}
 \end{align}\]</div>
+<p>式<a class="reference internal" href="#equation-eq-mra-grad-wj">(2.21)</a>より、<span class="math notranslate nohighlight">\(\frac{\partial \hat{L}_{\mathcal{D}}(\pmb{w})}{\partial w_j}\)</span>は<span class="math notranslate nohighlight">\(-2 (\pmb{X}^\top \pmb{\epsilon})\)</span>の<span class="math notranslate nohighlight">\(j\)</span>行目の要素に対応する。全ての<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, d\}\)</span>について偏微分したものを<span class="math notranslate nohighlight">\(d\)</span>次元ベクトルとしてまとめ、<span class="math notranslate nohighlight">\(\nabla \hat{L}_{\mathcal{D}}(\pmb{w})\)</span>と書くことにすると、</p>
 <div class="margin sidebar">
 <p class="sidebar-title"><span class="math notranslate nohighlight">\(\nabla\)</span>（ナブラ）と勾配</p>
-<p>ここでは、多変数実関数の勾配を表すために<span class="math notranslate nohighlight">\(\nabla\)</span>を用いる。例えば、<span class="math notranslate nohighlight">\(xyz\)</span>直交座標空間<span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>から実数への関数<span class="math notranslate nohighlight">\(f: \mathbb{R}^3 \longmapsto \mathbb{R}\)</span>があるとき、その<span class="math notranslate nohighlight">\(x, y, z\)</span>に関する偏微分を<span class="math notranslate nohighlight">\(3\)</span>次元ベクトルとしてまとめたものを、<span class="math notranslate nohighlight">\(\nabla f(x, y, z)\)</span>と書く。</p>
+<p>多変数実関数の勾配を表すために<span class="math notranslate nohighlight">\(\nabla\)</span>を用いる。例えば、<span class="math notranslate nohighlight">\(xyz\)</span>直交座標空間<span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>から実数への関数<span class="math notranslate nohighlight">\(f: \mathbb{R}^3 \longmapsto \mathbb{R}\)</span>があるとき、その<span class="math notranslate nohighlight">\(x, y, z\)</span>に関する偏微分を<span class="math notranslate nohighlight">\(3\)</span>次元ベクトルとしてまとめたものを、<span class="math notranslate nohighlight">\(\nabla f(x, y, z)\)</span>と書く。</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \nabla f(x, y, z) &amp;= \begin{pmatrix}
@@ -895,7 +941,7 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 \frac{\partial f(x, y, z)}{\partial z} \\
 \end{pmatrix}
 \end{align*}\]</div>
-<p><span class="math notranslate nohighlight">\(\nabla f(x, y, z)\)</span>は<span class="math notranslate nohighlight">\(f\)</span>の<strong>勾配</strong>と呼ばれ、<span class="math notranslate nohighlight">\(f(x, y, z)\)</span>の増加が最大となる方向を表す。</p>
+<p><span class="math notranslate nohighlight">\(\nabla f(x, y, z)\)</span>は<span class="math notranslate nohighlight">\(f(x, y, z)\)</span>の増加が最大となる方向（<span class="math notranslate nohighlight">\(f\)</span>の<strong>勾配</strong>）を表す。</p>
 <p>なお、<span class="math notranslate nohighlight">\(xyz\)</span>直交座標空間<span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>において、演算子<span class="math notranslate nohighlight">\(\nabla\)</span>の元々の定義は、</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -903,7 +949,6 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 \end{align*}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\pmb{e}_x, \pmb{e}_y, \pmb{e}_z\)</span>はそれぞれ、<span class="math notranslate nohighlight">\(x, y, z\)</span>方向の単位ベクトルである。したがって、先ほどの説明の通り<span class="math notranslate nohighlight">\(\nabla f(x, y, z)\)</span>は<span class="math notranslate nohighlight">\(f(x, y, z)\)</span>を<span class="math notranslate nohighlight">\(x, y, z\)</span>に関して偏微分したベクトルとなる。</p>
 </div>
-<p>式<a class="reference internal" href="#equation-eq-mra-grad-wj">(2.21)</a>より、<span class="math notranslate nohighlight">\(\frac{\partial \hat{L}_{\mathcal{D}}(\pmb{w})}{\partial w_j}\)</span>は<span class="math notranslate nohighlight">\(-2 (\pmb{X}^\top \pmb{\epsilon})\)</span>の<span class="math notranslate nohighlight">\(j\)</span>行目の要素に対応する。全ての<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, d\}\)</span>について偏微分したものを<span class="math notranslate nohighlight">\(d\)</span>次元ベクトルとしてまとめ、<span class="math notranslate nohighlight">\(\nabla \hat{L}_{\mathcal{D}}(\pmb{w})\)</span>と書くことにすると、</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \nabla \hat{L}_{\mathcal{D}}(\pmb{w}) = \begin{pmatrix}
@@ -920,8 +965,8 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 \nabla \hat{L}_{\mathcal{D}}(\pmb{w}) = -2 \pmb{X}^\top \pmb{\epsilon} = 2 \pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y})
 \]</div>
 <p>目的関数を最小化するパラメータベクトル<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を求めるため、これを<span class="math notranslate nohighlight">\(\pmb{0}\)</span>とおき、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>について解くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7ff1ce92-6544-483e-a938-74389592b619">
-<span class="eqno">(2.25)<a class="headerlink" href="#equation-7ff1ce92-6544-483e-a938-74389592b619" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c12bbe77-f54f-46be-8e11-239aa60434aa">
+<span class="eqno">(2.25)<a class="headerlink" href="#equation-c12bbe77-f54f-46be-8e11-239aa60434aa" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) &amp;= \pmb{0} \\
 \pmb{X}^\top \pmb{X}\pmb{w} - \pmb{X}^\top \pmb{y} &amp;= \pmb{0} \\
 \pmb{X}^\top \pmb{X}\pmb{w} &amp;= \pmb{X}^\top \pmb{y} \\
@@ -949,53 +994,89 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 </div>
 <div class="section" id="id7">
 <h2><span class="section-number">2.5. </span>目的関数の微分（別の導出）<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>重回帰の目的関数をベクトルの内積として記述し、パラメータベクトル<span class="math notranslate nohighlight">\(\pmb{w}\)</span>で微分する導出も紹介しておく。</p>
 <div class="margin sidebar">
-<p class="sidebar-title">行列の転置の公式</p>
+<p class="sidebar-title">行列の転置</p>
 <p><span class="math notranslate nohighlight">\((A^\top)^\top = A\)</span></p>
 <p><span class="math notranslate nohighlight">\((AB)^\top = B^\top A^\top\)</span></p>
 <p><span class="math notranslate nohighlight">\((ABC)^\top = C^\top B^\top A^\top\)</span></p>
 </div>
-<div class="amsmath math notranslate nohighlight" id="equation-88200294-237c-4304-af4f-89a926a92269">
-<span class="eqno">(2.28)<a class="headerlink" href="#equation-88200294-237c-4304-af4f-89a926a92269" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<p>重回帰の目的関数をベクトルの内積として記述し、パラメータベクトル<span class="math notranslate nohighlight">\(\pmb{w}\)</span>で微分する導出も紹介しておく。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5ec0c467-8274-4d6c-9ae4-dffaeb8e8a37">
+<span class="eqno">(2.28)<a class="headerlink" href="#equation-5ec0c467-8274-4d6c-9ae4-dffaeb8e8a37" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(\pmb{w}) &amp;= \sum_{i=1}^{N} (y_i - \pmb{x}_i^\top\pmb{w})^2 \\
 &amp;= (\pmb{y} - \pmb{X}\pmb{w})^\top(\pmb{y} - \pmb{X}\pmb{w}) \\
 &amp;= (\pmb{y}^\top - \pmb{w}^\top \pmb{X}^\top)(\pmb{y} - \pmb{X}\pmb{w}) \\
 &amp;= \pmb{y}^\top \pmb{y} - \pmb{y}^\top \pmb{X}\pmb{w} - \pmb{w}^\top \pmb{X}^\top \pmb{y} + \pmb{w}^\top \pmb{X}^\top 
 \end{align}\]</div>
+<div class="margin sidebar">
+<p class="sidebar-title">ベクトルの内積の微分</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{\partial}{\partial \pmb{x}} \pmb{x}^\top\pmb{a} = \frac{\partial}{\partial \pmb{x}} \pmb{a}^\top\pmb{x} = \pmb{a}
+\end{align*}\]</div>
+<p>（証明）ベクトル<span class="math notranslate nohighlight">\(\pmb{a}, \pmb{x} \in \mathbb{R}^d\)</span>に対して、<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{a} = \pmb{a}^\top\pmb{x}\)</span>であるので、どちらか一方の偏微分を計算すればよい。ある整数<span class="math notranslate nohighlight">\(i \in \{1, \dots, d\}\)</span>に対して、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\left(\frac{\partial}{\partial \pmb{x}} \pmb{x}^\top\pmb{a}\right)_i 
+= \frac{\partial}{\partial x_i}\left(\pmb{x}^\top\pmb{a}\right) \\
+=&amp; \frac{\partial}{\partial x_i}\left(a_1 x_1 + \dots a_d x_d \right) 
+= a_i
+\end{align*}\]</div>
+</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\pmb{y}^\top \pmb{X}\pmb{w} = (\pmb{w}^\top \pmb{X}^\top \pmb{y})^\top\)</span>であるから、上式の第2項は第3項の計算結果の転置を取ったものである。また、この計算結果の次元は<span class="math notranslate nohighlight">\(1 \times 1\)</span>（スカラー）であるから、<span class="math notranslate nohighlight">\(\pmb{y}^\top \pmb{X}\pmb{w} = (\pmb{w}^\top \pmb{X}^\top \pmb{y})^\top = \pmb{w}^\top \pmb{X}^\top \pmb{y}\)</span>。ゆえに、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f215b03b-1cb6-44c7-9456-49b0d337ba0f">
-<span class="eqno">(2.29)<a class="headerlink" href="#equation-f215b03b-1cb6-44c7-9456-49b0d337ba0f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-204f708a-a6de-4400-ba32-f01d43198a2a">
+<span class="eqno">(2.29)<a class="headerlink" href="#equation-204f708a-a6de-4400-ba32-f01d43198a2a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(\pmb{w}) = \pmb{y}^\top \pmb{y} - 2\pmb{w}^\top \pmb{X}^\top \pmb{y} + \pmb{w}^\top \pmb{X}^\top \pmb{X}\pmb{w} \\
 \end{align}\]</div>
+<div class="margin sidebar">
+<p class="sidebar-title">二次形式の微分</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\frac{\partial}{\partial \pmb{x}} \pmb{x}^\top \pmb{A}\pmb{x} = (\pmb{A} + \pmb{A}^\top)\pmb{x}
+\end{align*}\]</div>
+<p>（証明）行列<span class="math notranslate nohighlight">\(\pmb{A} \in \mathbb{R}^{d \times d}\)</span>とベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>に対して、<span class="math notranslate nohighlight">\(\pmb{x}\)</span>の二次形式は、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\pmb{x}^\top \pmb{A}\pmb{x} 
+=&amp; \pmb{x}^\top \begin{pmatrix}
+\sum_{j=1}^d A_{1,j} x_j \\
+\vdots \\
+\sum_{j=1}^d A_{d,j} x_j
+\end{pmatrix} \\
+=&amp; \sum_{i=1}^d \sum_{j=1}^d A_{i,j} x_i x_j
+\end{align*}\]</div>
+<p>ゆえに、</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{\partial \pmb{x}^\top \pmb{A}\pmb{x}}{\partial x_k} &amp;= \sum_{i=1}^d A_{i,k} x_i + \sum_{j=1}^d A_{k,j} x_j \\
+&amp;= (\pmb{A}^\top \pmb{x})_k + (\pmb{A} \pmb{x})_k \\
+&amp;= \left((\pmb{A} + \pmb{A}^\top) \pmb{x}\right)_k
+\end{align*}\]</div>
+</div>
 <p>そして、目的関数<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{w})\)</span>を最小化する<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を求めるために、<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{w})\)</span>を<span class="math notranslate nohighlight">\(\pmb{w}\)</span>で偏微分する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0b73adcd-3ed7-492c-9dd0-3a6ee9db4d09">
-<span class="eqno">(2.30)<a class="headerlink" href="#equation-0b73adcd-3ed7-492c-9dd0-3a6ee9db4d09" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a68361e2-ebfb-4766-8170-52cadd2f83f1">
+<span class="eqno">(2.30)<a class="headerlink" href="#equation-a68361e2-ebfb-4766-8170-52cadd2f83f1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \nabla \hat{L}_{\mathcal{D}}(\pmb{w}) = 
 \frac{\partial }{\partial \pmb{w}}(\hat{L}_{\mathcal{D}}(\pmb{w})) &amp;= \frac{\partial}{\partial \pmb{w}} \left(\pmb{y}^\top \pmb{y} - 2\pmb{w}^\top \pmb{X}^\top \pmb{y} + \pmb{w}^\top \pmb{X}^\top \pmb{X}\pmb{w}\right) \\
   &amp;= 0 - \frac{\partial}{\partial \pmb{w}}\left(2\pmb{w}^\top \pmb{X}^\top \pmb{y}\right) + \frac{\partial}{\partial \pmb{w}}\left(\pmb{w}^\top \pmb{X}^\top \pmb{X}\pmb{w}\right)
 \end{align}\]</div>
 <p>上式の第2項は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-31de8300-33b8-46bd-bd30-840465eb097b">
-<span class="eqno">(2.31)<a class="headerlink" href="#equation-31de8300-33b8-46bd-bd30-840465eb097b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-34525dcb-81cf-4e2a-88ff-d7e662613cd1">
+<span class="eqno">(2.31)<a class="headerlink" href="#equation-34525dcb-81cf-4e2a-88ff-d7e662613cd1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial}{\partial \pmb{w}}\left(2\pmb{w}^\top \pmb{X}^\top \pmb{y}\right)
 = 2\pmb{X}^\top \pmb{y}
 \end{align}\]</div>
-<div class="margin sidebar">
-<p class="sidebar-title">二次形式の微分の公式</p>
-<p><span class="math notranslate nohighlight">\(\frac{\partial}{\partial \pmb{x}} \pmb{x}A\pmb{x}^\top = (A + A^\top)\pmb{x}\)</span></p>
-</div>
 <p>上式の第3項は、<span class="math notranslate nohighlight">\(\pmb{X}^\top \pmb{X}\)</span>が正方行列であり、<span class="math notranslate nohighlight">\((\pmb{X}^\top \pmb{X})^\top=\pmb{X}^\top (\pmb{X}^\top)^\top = \pmb{X}^\top \pmb{X}\)</span>である（<span class="math notranslate nohighlight">\(\pmb{X}^\top \pmb{X}\)</span>は対称行列である）ことに注意すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e5294700-80c9-4d91-8b71-69475ff46aef">
-<span class="eqno">(2.32)<a class="headerlink" href="#equation-e5294700-80c9-4d91-8b71-69475ff46aef" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-71aa4705-63e0-4d6c-8d6b-52a7d41aa0f9">
+<span class="eqno">(2.32)<a class="headerlink" href="#equation-71aa4705-63e0-4d6c-8d6b-52a7d41aa0f9" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial}{\partial \pmb{w}}\left(\pmb{w}^\top \pmb{X}^\top \pmb{X}\pmb{w}\right)
 = \frac{\partial}{\partial \pmb{w}}\left(\pmb{w}^\top (\pmb{X}^\top \pmb{X}) \pmb{w}\right)
 = \left((\pmb{X}^\top \pmb{X}) + (\pmb{X}^\top \pmb{X})^\top \right) \pmb{w}
 = 2\pmb{X}^\top \pmb{X}\pmb{w}
 \end{align}\]</div>
 <p>ゆえに、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5f0e014a-7e42-43e1-b4fb-b31b22cd4e46">
-<span class="eqno">(2.33)<a class="headerlink" href="#equation-5f0e014a-7e42-43e1-b4fb-b31b22cd4e46" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1d120280-47af-4b91-b669-fd665f21836e">
+<span class="eqno">(2.33)<a class="headerlink" href="#equation-1d120280-47af-4b91-b669-fd665f21836e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \nabla \hat{L}_{\mathcal{D}}(\pmb{w}) &amp;= - \frac{\partial}{\partial \pmb{w}}\left(2\pmb{w}^\top \pmb{X}^\top \pmb{y}\right) + \frac{\partial}{\partial \pmb{w}}\left(\pmb{w}^\top \pmb{X}^\top \pmb{X}\pmb{w}\right) \\
   &amp;= - 2\pmb{X}^\top \pmb{y} + 2\pmb{X}^\top \pmb{X}\pmb{w} \\
   &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y})
@@ -1019,8 +1100,8 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 </div>
 <p>ここで、重回帰の目的関数は凸関数であることを示しておく。証明の方針は、目的関数の二階微分（ヘッセ行列）が半正定値行列であることを示すことである。</p>
 <p>式<a class="reference internal" href="#equation-eq-gradient">(2.24)</a>より、目的関数の一階微分は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3c05f5e1-6eff-4ce4-836a-e3cc2a39089a">
-<span class="eqno">(2.34)<a class="headerlink" href="#equation-3c05f5e1-6eff-4ce4-836a-e3cc2a39089a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f47e5281-0db5-4906-8800-46df8118dc90">
+<span class="eqno">(2.34)<a class="headerlink" href="#equation-f47e5281-0db5-4906-8800-46df8118dc90" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \nabla \hat{L}_{\mathcal{D}}(\pmb{w})
 = \begin{pmatrix}
 \frac{\partial}{\partial w_1} \\
@@ -1070,8 +1151,8 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 <p>本資料では、<span class="math notranslate nohighlight">\(\nabla^2\)</span>でヘッセ行列を表すこととする。</p>
 </div>
 <p>さらに、目的関数の二階微分（ヘッセ行列）は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b3d39a09-0c86-46ca-9fcf-5098fb87e383">
-<span class="eqno">(2.35)<a class="headerlink" href="#equation-b3d39a09-0c86-46ca-9fcf-5098fb87e383" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9702c6a4-53ed-429c-9b6a-539cfa3f6fa2">
+<span class="eqno">(2.35)<a class="headerlink" href="#equation-9702c6a4-53ed-429c-9b6a-539cfa3f6fa2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \nabla^2 \hat{L}_{\mathcal{D}}(\pmb{w})
 &amp;= \begin{pmatrix}
 \frac{\partial^2}{\partial^2 w_1} &amp; \frac{\partial^2}{\partial w_1 \partial w_2} &amp; \dots &amp; \frac{\partial^2}{\partial w_1 \partial w_d} \\
@@ -1081,11 +1162,12 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 \end{pmatrix} \hat{L}_{\mathcal{D}}(\pmb{w}) \\
 &amp;= \frac{\partial}{\partial \pmb{w}} (2 \pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y})) \\
 &amp;= \frac{\partial}{\partial \pmb{w}} (2 \pmb{X}^\top \pmb{X}\pmb{w} - 2 \pmb{X}^\top \pmb{y}) \\
+&amp;= 2 (\pmb{X}^\top \pmb{X})^\top \\
 &amp;= 2 \pmb{X}^\top \pmb{X}
 \end{align}\]</div>
 <p>ここで、任意の非ゼロベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>に対して、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-153e63ee-820d-402b-bd0e-a9f62a5075fc">
-<span class="eqno">(2.36)<a class="headerlink" href="#equation-153e63ee-820d-402b-bd0e-a9f62a5075fc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-491590dd-fb9f-41e9-86c2-1daa63fe6895">
+<span class="eqno">(2.36)<a class="headerlink" href="#equation-491590dd-fb9f-41e9-86c2-1daa63fe6895" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u}^\top (2 \pmb{X}^\top \pmb{X}) \pmb{u} = 2 \pmb{u}^\top \pmb{X}^\top \pmb{X} \pmb{u} = 2(\pmb{X}\pmb{u})^\top (\pmb{X} \pmb{u}) = 2 \|\pmb{X} \pmb{u}\|^2 \geq 0
 \end{align}\]</div>
 <p>であるから、目的関数の二階微分<span class="math notranslate nohighlight">\(2 \pmb{X}^\top \pmb{X}\)</span>は半正定値行列である。ゆえに、重回帰の目的関数は凸関数である。</p>
@@ -1106,8 +1188,8 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 \end{align}
 \end{split}\]</div>
 <p>この行列・ベクトルの成分を明示すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5fdc39ae-bbe3-4261-88ad-9e4d3582836b">
-<span class="eqno">(2.38)<a class="headerlink" href="#equation-5fdc39ae-bbe3-4261-88ad-9e4d3582836b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d918328d-5770-449a-8114-dfa68b531588">
+<span class="eqno">(2.38)<a class="headerlink" href="#equation-d918328d-5770-449a-8114-dfa68b531588" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \begin{pmatrix}
 X_{1,1} &amp; X_{2,1} &amp; \dots &amp; X_{N,1} \\
 X_{1,2} &amp; X_{2,2} &amp; \dots &amp; X_{N,2} \\
@@ -1146,8 +1228,8 @@ X_{i,1} = 1 &amp; (i \in \{1, 2, \dots, N\})
 \end{array}
 \]</div>
 <p>念のため、<span class="math notranslate nohighlight">\(\pmb{X}\)</span>と<span class="math notranslate nohighlight">\(\pmb{X}^\top\)</span>を明示的に書くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-336fe0c7-54a7-4099-bdf6-9bdbe7944c73">
-<span class="eqno">(2.41)<a class="headerlink" href="#equation-336fe0c7-54a7-4099-bdf6-9bdbe7944c73" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-90365acb-a715-4659-92e0-271bce910923">
+<span class="eqno">(2.41)<a class="headerlink" href="#equation-90365acb-a715-4659-92e0-271bce910923" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X} = 
 \begin{pmatrix}
 1 &amp; X_{1,2} &amp; \dots &amp; X_{1,d} \\
@@ -1176,8 +1258,8 @@ X_{1,d} &amp; X_{2,d} &amp; \dots &amp; X_{N,d}
 <div class="section" id="hat-y-y">
 <h3><span class="section-number">2.7.2. </span>目的変数の推定値<span class="math notranslate nohighlight">\(\hat{y}\)</span>の平均値は観測値<span class="math notranslate nohighlight">\(y\)</span>の平均に等しい<a class="headerlink" href="#hat-y-y" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>残差の定義<span class="math notranslate nohighlight">\(\pmb{\epsilon} = \pmb{y} - \hat{\pmb{y}}\)</span>を明示的に書くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5f2a29a8-7902-4b3e-b65c-8ba94b9b2678">
-<span class="eqno">(2.43)<a class="headerlink" href="#equation-5f2a29a8-7902-4b3e-b65c-8ba94b9b2678" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7033cbc5-104b-4e75-bb00-ec9aaa3f46be">
+<span class="eqno">(2.43)<a class="headerlink" href="#equation-7033cbc5-104b-4e75-bb00-ec9aaa3f46be" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \begin{pmatrix}
 \epsilon_1 \\ \epsilon_2 \\ \dots \\ \epsilon_N
 \end{pmatrix} =
@@ -1190,13 +1272,13 @@ y_1 \\ y_2 \\ \dots \\ y_N
 \end{pmatrix}
 \end{align}\]</div>
 <p>両辺の各要素の和をとると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8f0864b1-0456-4d0e-be81-af7e2ef85974">
-<span class="eqno">(2.44)<a class="headerlink" href="#equation-8f0864b1-0456-4d0e-be81-af7e2ef85974" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2a5cd443-0a0e-43e5-bf30-2348e0e36b78">
+<span class="eqno">(2.44)<a class="headerlink" href="#equation-2a5cd443-0a0e-43e5-bf30-2348e0e36b78" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sum_{i=1}^N \epsilon_i = \sum_{i=1}^N y_i - \sum_{i=1}^N \hat{y}_i
 \end{align}\]</div>
 <p>ここで、式<a class="reference internal" href="#equation-eq-sum-epsilon-zero-mra">(2.42)</a>より左辺は<span class="math notranslate nohighlight">\(0\)</span>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6808e351-e787-4deb-a5fe-54ae0a5911c0">
-<span class="eqno">(2.45)<a class="headerlink" href="#equation-6808e351-e787-4deb-a5fe-54ae0a5911c0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ec731b09-3759-45ba-a053-b5ef14c773df">
+<span class="eqno">(2.45)<a class="headerlink" href="#equation-ec731b09-3759-45ba-a053-b5ef14c773df" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sum_{i=1}^N y_i &amp;= \sum_{i=1}^N \hat{y}_i \\
 \frac{1}{N}\sum_{i=1}^N y_i &amp;= \frac{1}{N}\sum_{i=1}^N \hat{y}_i \\
 \overline{y} &amp;= \overline{\hat{y}}
@@ -1206,13 +1288,13 @@ y_1 \\ y_2 \\ \dots \\ y_N
 <div class="section" id="id12">
 <h3><span class="section-number">2.7.3. </span>観測データの重心は回帰平面上に存在する<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>説明変数の平均ベクトル<span class="math notranslate nohighlight">\(\overline{\pmb{x}}\)</span>、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2868b5b1-0aef-4516-b9d4-312c4440ca10">
-<span class="eqno">(2.46)<a class="headerlink" href="#equation-2868b5b1-0aef-4516-b9d4-312c4440ca10" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-650f93b2-d092-4608-b8de-8d87b644fbbb">
+<span class="eqno">(2.46)<a class="headerlink" href="#equation-650f93b2-d092-4608-b8de-8d87b644fbbb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \overline{\pmb{x}} = \frac{1}{N} \sum_{i=1}^N \pmb{x}_i
 \end{align}\]</div>
 <p>に対して、目的変数の推定値を計算すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f5b75853-d278-4b0e-8862-336c08d07d64">
-<span class="eqno">(2.47)<a class="headerlink" href="#equation-f5b75853-d278-4b0e-8862-336c08d07d64" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-63fb01af-d41f-4e08-a894-0371b79fb02d">
+<span class="eqno">(2.47)<a class="headerlink" href="#equation-63fb01af-d41f-4e08-a894-0371b79fb02d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \overline{\pmb{x}}^\top \pmb{w}
 &amp;= \frac{1}{N} \sum_{i=1}^N \pmb{x}_i^\top \pmb{w} \\
 &amp;= \frac{1}{N} \sum_{i=1}^N \hat{y}_i \\
@@ -1224,8 +1306,8 @@ y_1 \\ y_2 \\ \dots \\ y_N
 <h3><span class="section-number">2.7.4. </span>各説明変数と残差には相関がない<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><span class="math notranslate nohighlight">\(j\)</span>番目の説明変数<span class="math notranslate nohighlight">\(\pmb{X}_{:,j}\)</span>を確率変数と見なし、<span class="math notranslate nohighlight">\(\mathcal{X}_j\)</span>と書くことにする。
 任意の説明変数<span class="math notranslate nohighlight">\(\mathcal{X}_j\)</span>と残差<span class="math notranslate nohighlight">\(\mathcal{E}\)</span>の共分散を計算する。残差の平均は<span class="math notranslate nohighlight">\(\overline{\epsilon}=0\)</span>であること、式<a class="reference internal" href="#equation-eq-epsilon-property">(2.39)</a>と式<a class="reference internal" href="#equation-eq-sum-epsilon-zero-mra">(2.42)</a>を利用すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f5b85a50-6fef-45ae-abe7-7f11dfce6cd7">
-<span class="eqno">(2.48)<a class="headerlink" href="#equation-f5b85a50-6fef-45ae-abe7-7f11dfce6cd7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4806a955-9116-414f-9a2f-25271c980d73">
+<span class="eqno">(2.48)<a class="headerlink" href="#equation-4806a955-9116-414f-9a2f-25271c980d73" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathrm{Cov}[\mathcal{X}_j, \mathcal{E}] &amp;= \frac{1}{N}\sum_{i=1}^N (X_{i,j} - \overline{\pmb{X}_{:,j}}) (\epsilon_i - \overline{\epsilon}) \\
 &amp;= \frac{1}{N}\sum_{i=1}^N (X_{i,j} - \overline{\pmb{X}_{:,j}}) \epsilon_i \\
 &amp;= \frac{1}{N}\sum_{i=1}^N X_{i,j}  \epsilon_i - \frac{1}{N}\sum_{i=1}^N  \overline{\pmb{X}_{:,j}} \epsilon_i \\
@@ -1256,8 +1338,8 @@ y_1 \\ y_2 \\ \dots \\ y_N
 <div class="section" id="id15">
 <h2><span class="section-number">2.8. </span>決定係数<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>目的変数の観測値の分散<span class="math notranslate nohighlight">\(\mathrm{Var}[\mathcal{Y}]\)</span>は目的変数の推定値の分散<span class="math notranslate nohighlight">\(\mathrm{Var}[\hat{\mathcal{Y}}]\)</span>と残差の分散<span class="math notranslate nohighlight">\(\mathrm{Var}[\mathcal{E}]\)</span>の和で表されることを示す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-684b7036-5924-447a-bc84-97479391562c">
-<span class="eqno">(2.50)<a class="headerlink" href="#equation-684b7036-5924-447a-bc84-97479391562c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0aa9d59e-b192-415a-a943-6f1dbf3a3ef3">
+<span class="eqno">(2.50)<a class="headerlink" href="#equation-0aa9d59e-b192-415a-a943-6f1dbf3a3ef3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathrm{Var}[\mathcal{Y}] &amp;= \frac{1}{N} \sum_{i=1}^N (y_i - \overline{y})^2 \\
 &amp;= \frac{1}{N} \sum_{i=1}^N \{(\hat{y}_i + \epsilon_i) - \overline{y}\}^2 \\
 &amp;= \frac{1}{N} \sum_{i=1}^N \{(\hat{y}_i  - \overline{y}) + \epsilon_i\}^2 \\
@@ -1276,8 +1358,8 @@ y_1 \\ y_2 \\ \dots \\ y_N
 <p>データの全変動のうち、回帰によって表現できた回帰変動の割合を<strong>決定係数</strong>とよび、次式で定義する。</p>
 <div class="important admonition">
 <p class="admonition-title">決定係数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eca7eaf2-a1c0-435d-b5fa-654796c9cac3">
-<span class="eqno">(2.51)<a class="headerlink" href="#equation-eca7eaf2-a1c0-435d-b5fa-654796c9cac3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c4e63fd6-e8f9-4b3e-a994-e6c449f43604">
+<span class="eqno">(2.51)<a class="headerlink" href="#equation-c4e63fd6-e8f9-4b3e-a994-e6c449f43604" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{\mathrm{Var}[\mathcal{Y}] - \mathrm{Var}[\mathcal{E}]}{\mathrm{Var}[\mathcal{Y}]} = 1 - \frac{\mathrm{Var}[\mathcal{E}]}{\mathrm{Var}[\mathcal{Y}]}
 \end{align}\]</div>
 </div>
@@ -1358,7 +1440,7 @@ R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02mra_43_0.png" src="../_images/02mra_43_0.png" />
+<img alt="../_images/02mra_49_0.png" src="../_images/02mra_49_0.png" />
 </div>
 </div>
 <p>続いて、3次関数にフィッティングしてみる。</p>
@@ -1384,7 +1466,7 @@ R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02mra_46_0.png" src="../_images/02mra_46_0.png" />
+<img alt="../_images/02mra_52_0.png" src="../_images/02mra_52_0.png" />
 </div>
 </div>
 <p>さらに、4次関数にフィッティングした結果を示す。</p>
@@ -1411,7 +1493,7 @@ R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02mra_49_0.png" src="../_images/02mra_49_0.png" />
+<img alt="../_images/02mra_55_0.png" src="../_images/02mra_55_0.png" />
 </div>
 </div>
 </div>
@@ -1490,7 +1572,7 @@ R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02mra_61_0.png" src="../_images/02mra_61_0.png" />
+<img alt="../_images/02mra_67_0.png" src="../_images/02mra_67_0.png" />
 </div>
 </div>
 </div>

@@ -46,5 +46,5 @@
 + [NumPy](https://numpy.org/)
 + [Matplotlib](https://matplotlib.org/)
 + [scikit-learn](https://scikit-learn.org/)
-+ [PyTorh](https://pytorch.org/)
++ [PyTorch](https://pytorch.org/)
 + [ダ鳥獣ギ画](https://chojugiga.com/)

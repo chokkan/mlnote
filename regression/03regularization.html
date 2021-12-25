@@ -29,7 +29,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -291,7 +290,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/regression/03regularization.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/regression/03regularization.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="起動 Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -299,13 +298,13 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/regression/03regularization.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/regression/03regularization.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="起動 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="../_static/images/logo_colab.png"
                     
                     alt="Interact on Colab">Colab</button></a>
 
-        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/master/regression/03regularization.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/regression/03regularization.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
             title="起動 SageMaker Studio Lab" data-toggle="tooltip" data-placement="left"><i
                 class="fab fa-aws"></i> SageMaker</button></a>
 
@@ -646,14 +645,14 @@ d = 9: [ 7.9e+04 -3.6e+05  6.7e+05 -7.0e+05  4.3e+05 -1.6e+05  3.6e+04 -4.3e+03 
 <p>次元数<span class="math notranslate nohighlight">\(d\)</span>が増加するにつれて、多項式の係数の値が急激に増加し、極端な曲線でデータをフィッティングしようとしている傾向が見受けられる。そこで、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の「複雑さ」を何らかの関数<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>で測定すれば、過学習の検出に役立つ。また、学習の過程において、複雑すぎるパラメータ対してペナルティ（罰則）を与えながら、パラメータの学習を行うことができれば、過学習の抑制につながる。パラメータの訓練データへの適合度合いとパラメータの複雑さのバランスを取りながら学習する方法は、<strong>正則化</strong>（regularization）と呼ばれる。</p>
 <p>具体的には、訓練データの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\pmb{w})\)</span>に加えて、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の複雑さを表現する関数<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>
 に関するペナルティ項を追加した目的関数<span class="math notranslate nohighlight">\(\hat{J}(\pmb{w})\)</span>を採用することで、両者のバランスを自動的に保ちながらパラメータを求めることを考える。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f471b6b8-67cf-4638-8fb4-9394f6dedea0">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-f471b6b8-67cf-4638-8fb4-9394f6dedea0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d48d532d-90b2-43ec-80fc-2c336374d771">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-d48d532d-90b2-43ec-80fc-2c336374d771" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{J}(\pmb{w}) = \hat{L}(\pmb{w}) + \alpha R(\pmb{w})
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> <span class="math notranslate nohighlight">\((\geq 0)\)</span>は正則化の効果を指定するハイパーパラメータである。<span class="math notranslate nohighlight">\(\alpha\)</span>を大きく設定すると、パラメータの複雑さ<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>が目的関数に与える影響が大きくなるので、過学習が抑制される。ただし、<span class="math notranslate nohighlight">\(\alpha\)</span>を大きくしすぎるとモデルのデータへの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\pmb{w})\)</span>を軽視することになるため、<strong>過少適合</strong>（アンダーフィッティング）となる。逆に<span class="math notranslate nohighlight">\(\alpha\)</span>を小さく設定すると、モデルへのデータへの適合度合いを重視することになるが、過学習を抑制する効果が薄れる。このように、<span class="math notranslate nohighlight">\(\alpha\)</span>の設定はモデルのデータへの適合度合いと複雑さのトレードオフの関係にある。モデル選択の時と同様に、正則化の重み係数<span class="math notranslate nohighlight">\(\alpha\)</span>はハイパーパラメータとして検証データ上でチューニングする。</p>
 <p>パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の複雑さを定量化する方法はいくつかある。ここでは、最も取り扱いが簡単なパラメータベクトルの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムの二乗を用いる。すなわち、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c5acea36-4b70-4171-a110-beca7a37eae9">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-c5acea36-4b70-4171-a110-beca7a37eae9" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bbc60e7c-333f-42fe-b36a-9c3c92c2261d">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-bbc60e7c-333f-42fe-b36a-9c3c92c2261d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 R(\pmb{w}) = \|\pmb{w}\|^2
 \end{align}\]</div>
 <p>とする。</p>
@@ -683,22 +682,22 @@ d = 9: |W|_2^2 = 1291698590019.2412
 <p>目的関数の正則化項としてパラメータの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムを用いる回帰を、<strong>リッジ回帰</strong>（<span class="math notranslate nohighlight">\(L_2\)</span>正則化付き回帰）と呼ぶ。リッジ回帰の目的関数は、通常の回帰の目的関数にモデルの複雑さを表すペナルティ項を付与したもので、次式で表される。</p>
 <div class="important admonition">
 <p class="admonition-title">リッジ回帰の目的関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2db37389-2d7d-4688-8dbd-477b7fc6a06d">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-2db37389-2d7d-4688-8dbd-477b7fc6a06d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-74b08078-f1cf-45d4-8f55-8baf319c5223">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-74b08078-f1cf-45d4-8f55-8baf319c5223" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{J}(\pmb{w}) &amp;= \hat{L}(\pmb{w}) + \alpha R(\pmb{w}) \\
 &amp;= \|\pmb{y} - \pmb{X}\pmb{w}\|^2 + \alpha \|\pmb{w}\|^2
 \end{align}\]</div>
 </div>
 <p>リッジ回帰のパラメータ推定は通常の回帰と同様である。目的関数<span class="math notranslate nohighlight">\(J(\pmb{w})\)</span>を最小化する<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を求めるために、その勾配<span class="math notranslate nohighlight">\(\nabla \hat{J}(\pmb{w})\)</span>を求める。重回帰の時に求めた偏微分の結果を用いると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4fccd5c5-ad46-422f-9d5a-3d9f7bc8c9fe">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-4fccd5c5-ad46-422f-9d5a-3d9f7bc8c9fe" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7be5b3ba-fcb1-4320-9f8c-0249c433e2d4">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-7be5b3ba-fcb1-4320-9f8c-0249c433e2d4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \nabla \hat{J}(\pmb{w}) &amp;= \frac{\partial}{\partial \pmb{w}} \left(\hat{L}(\pmb{w}) + \alpha R(\pmb{w})\right) \\
   &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + \frac{\partial}{\partial \pmb{w}} \left(\alpha \|\pmb{w}\|^2\right) \\
   &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + 2 \alpha \pmb{w} \\
 \end{align}\]</div>
 <p>これを<span class="math notranslate nohighlight">\(0\)</span>とおき、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>について解くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6363f8ad-91b6-46ba-8499-18f75e19f7eb">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-6363f8ad-91b6-46ba-8499-18f75e19f7eb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e52b34b7-33d9-4adb-8561-a1ac95683b7a">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-e52b34b7-33d9-4adb-8561-a1ac95683b7a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + \alpha \pmb{w} &amp;= 0 \\
 \pmb{X}^\top \pmb{X}\pmb{w} - \pmb{X}^\top \pmb{y} + \alpha \pmb{w} &amp;= 0 \\
 (\pmb{X}^\top \pmb{X} + \alpha \pmb{I})\pmb{w} &amp;= \pmb{X}^\top \pmb{y} \\
@@ -741,7 +740,7 @@ d = 9: |W|_2^2 = 1291698590019.2412
         requestKernel: true,
         binderOptions: {
             repo: "chokkan/mlnote",
-            ref: "master",
+            ref: "main",
         },
         codeMirrorConfig: {
             theme: "abcdef",

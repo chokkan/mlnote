@@ -29,7 +29,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -291,7 +290,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/classification/03nn.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/classification/03nn.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="起動 Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -299,13 +298,13 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/classification/03nn.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/classification/03nn.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="起動 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="../_static/images/logo_colab.png"
                     
                     alt="Interact on Colab">Colab</button></a>
 
-        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/master/classification/03nn.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/classification/03nn.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
             title="起動 SageMaker Studio Lab" data-toggle="tooltip" data-placement="left"><i
                 class="fab fa-aws"></i> SageMaker</button></a>
 
@@ -546,8 +545,8 @@
 </tbody>
 </table>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9471d80b-5d3c-4b84-846b-d28065550674">
-<span class="eqno">(7.2)<a class="headerlink" href="#equation-9471d80b-5d3c-4b84-846b-d28065550674" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b45f34e2-8b5a-4344-8734-42d8779e4e38">
+<span class="eqno">(7.2)<a class="headerlink" href="#equation-b45f34e2-8b5a-4344-8734-42d8779e4e38" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \{((0, 0), 0), ((0, 1), 0), ((1, 0), 0), ((1, 1), 1)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -677,8 +676,8 @@
 </tbody>
 </table>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6ae6903c-5192-4d34-a643-39ee93d15e8b">
-<span class="eqno">(7.3)<a class="headerlink" href="#equation-6ae6903c-5192-4d34-a643-39ee93d15e8b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-201bb052-809e-42fc-97fe-05b61731b874">
+<span class="eqno">(7.3)<a class="headerlink" href="#equation-201bb052-809e-42fc-97fe-05b61731b874" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \{((0, 0), 0), ((0, 1), 1), ((1, 0), 1), ((1, 1), 1)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -764,8 +763,8 @@
 </tbody>
 </table>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e7b1895a-cf39-457f-8bd3-bf106a882267">
-<span class="eqno">(7.4)<a class="headerlink" href="#equation-e7b1895a-cf39-457f-8bd3-bf106a882267" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a7738b87-a82d-431c-9c40-23474aac80f4">
+<span class="eqno">(7.4)<a class="headerlink" href="#equation-a7738b87-a82d-431c-9c40-23474aac80f4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \{(0, 1), (1, 0)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -871,8 +870,8 @@
 </tbody>
 </table>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-38f6e24c-9e92-4f57-b7fb-2f83e36b68ab">
-<span class="eqno">(7.5)<a class="headerlink" href="#equation-38f6e24c-9e92-4f57-b7fb-2f83e36b68ab" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a42d4d37-1eb3-42fc-975d-0c3f292e81a6">
+<span class="eqno">(7.5)<a class="headerlink" href="#equation-a42d4d37-1eb3-42fc-975d-0c3f292e81a6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \{((0, 0), 1), ((0, 1), 1), ((1, 0), 1), ((1, 1), 0)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -970,8 +969,8 @@
 </table>
 <p>論理和との差は、<span class="math notranslate nohighlight">\(x_1 = 1, x_2 = 1\)</span>のときに<span class="math notranslate nohighlight">\(y=0\)</span>となる点である。両方の入力が等しいときに<span class="math notranslate nohighlight">\(0\)</span>、異なるときに<span class="math notranslate nohighlight">\(1\)</span>を返すことから「排他的」と呼ばれる。</p>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9de3c682-5f18-42a8-b666-733327be5a24">
-<span class="eqno">(7.6)<a class="headerlink" href="#equation-9de3c682-5f18-42a8-b666-733327be5a24" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-165e68f4-81c5-49f3-9a41-cceaf5d1ad61">
+<span class="eqno">(7.6)<a class="headerlink" href="#equation-165e68f4-81c5-49f3-9a41-cceaf5d1ad61" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \{((0, 0), 0), ((0, 1), 1), ((1, 0), 1), ((1, 1), 0)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -1031,8 +1030,8 @@
 <div class="section" id="id8">
 <h3><span class="section-number">7.1.6. </span>線形分離可能・不能<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>なぜ線形二値分類モデルでは排他的論理和を表現できないのか？　その答えは、式<a class="reference internal" href="#equation-eq-binary-decision">(7.1)</a>の条件式から導くことができる。式<a class="reference internal" href="#equation-eq-binary-decision">(7.1)</a>より、入力<span class="math notranslate nohighlight">\(x_1, x_2\)</span>が<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>に分類される条件は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f2fb0747-906f-41bf-80c2-0b0d3bc9777c">
-<span class="eqno">(7.7)<a class="headerlink" href="#equation-f2fb0747-906f-41bf-80c2-0b0d3bc9777c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4f50d6fa-d91b-4318-a11e-8e8e434ddff6">
+<span class="eqno">(7.7)<a class="headerlink" href="#equation-4f50d6fa-d91b-4318-a11e-8e8e434ddff6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 w_1 x_1 + w_2 x_2 + b &amp;&gt; 0 \\
 x_2 &amp;&gt; -\frac{w_1}{w_2}x_1 -\frac{b}{w_2}
 \end{align}\]</div>
@@ -1096,20 +1095,20 @@ x_2 &amp;&gt; -\frac{w_1}{w_2}x_1 -\frac{b}{w_2}
 </div>
 <p>このとき、いかなる直線を考えても<span class="math notranslate nohighlight">\(y=0\)</span>の点の集合と<span class="math notranslate nohighlight">\(y=1\)</span>の点の集合を分けることができない（実際に上のグラフ内で赤と青の点を分ける一本の直線を引くことができるか検討せよ）。言い換えれば、線形二値分類モデルは排他的論理和のすべての訓練事例を正しく再現することができない。このように、線形分類モデルで正しく再現できない訓練事例があるとき、その訓練データは<strong>線形分離不能</strong>（linearly inseparable）という。</p>
 <p>これまでは2入力の線形二値分類モデルについて議論してきたが、より一般的な線形二値分類モデルに対しても同様の議論が成り立つ。式<a class="reference internal" href="01binary.html#equation-eq-binary-classification">(5.1)</a>より、<span class="math notranslate nohighlight">\(d\)</span>次元ベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>を入力とする線形二値分類モデルが出力を<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>と<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>に分離する境界条件は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2e27d3d7-b762-4d42-b17a-30c6a2f751a0">
-<span class="eqno">(7.8)<a class="headerlink" href="#equation-2e27d3d7-b762-4d42-b17a-30c6a2f751a0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9cee81c8-203b-481f-a735-d833bb5fa4f1">
+<span class="eqno">(7.8)<a class="headerlink" href="#equation-9cee81c8-203b-481f-a735-d833bb5fa4f1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{x}^{\top} \pmb{w} = 0
 \end{align}\]</div>
 <p>ゆえに、各事例はパラメータベクトル<span class="math notranslate nohighlight">\(\pmb{w}\)</span>と直交する<strong>分離超平面</strong>（separating hyperplane）で分類される。先ほどの2入力の例では、分離超平面は直線であった。</p>
 <p>訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>を正しく分類する分離超平面を作ることができないとき、その訓練データは線形分離不能と言われる。より厳密には、二値分類の訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>を<span class="math notranslate nohighlight">\(y=0\)</span>の事例を集めた集合<span class="math notranslate nohighlight">\(\mathcal{D}_0\)</span>と、<span class="math notranslate nohighlight">\(y=1\)</span>の事例を集めた集合<span class="math notranslate nohighlight">\(\mathcal{D}_1\)</span>に分割したとき、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6103d580-b073-48f0-bc42-3ca1fa7ef386">
-<span class="eqno">(7.9)<a class="headerlink" href="#equation-6103d580-b073-48f0-bc42-3ca1fa7ef386" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5c31e793-78e3-4fc9-b950-22aa7f8a4104">
+<span class="eqno">(7.9)<a class="headerlink" href="#equation-5c31e793-78e3-4fc9-b950-22aa7f8a4104" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D}_0 = \{(\pmb{x}, y) \in \mathcal{D} \mid y = 0\} \\
 \mathcal{D}_1 = \{(\pmb{x}, y) \in \mathcal{D} \mid y = 1\} \\
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(\mathcal{D}_0\)</span>と<span class="math notranslate nohighlight">\(\mathcal{D}_1\)</span>に関して、以下の条件を同時に満たすパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が存在しないとき、訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は線形分離不能である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4f233dd7-ac1b-40a1-af09-307b519f0767">
-<span class="eqno">(7.10)<a class="headerlink" href="#equation-4f233dd7-ac1b-40a1-af09-307b519f0767" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-03b75c36-6054-41b1-b6ad-b1ffb2e0160b">
+<span class="eqno">(7.10)<a class="headerlink" href="#equation-03b75c36-6054-41b1-b6ad-b1ffb2e0160b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \forall (\pmb{x}, y) \in \mathcal{D}_0: \pmb{x}^{\top} \pmb{w} \leq 0 \\
 \forall (\pmb{x}, y) \in \mathcal{D}_1: \pmb{x}^{\top} \pmb{w} &gt; 0
 \end{align}\]</div>
@@ -1360,15 +1359,15 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 </ul>
 <p>である。なお、これまでの章では、「ベクトル」は値が縦に並んだ列ベクトルを採用していたが、この章の以降では値が横に並んだ行ベクトルを採用する。</p>
 <p>式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>は、出力ベクトル<span class="math notranslate nohighlight">\(\pmb{y}\)</span>の<span class="math notranslate nohighlight">\(j\)</span>番目の要素の値<span class="math notranslate nohighlight">\(y_j\)</span>を計算する式としても表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9f2b09b6-1c4d-487c-8123-01eb4c60f06a">
-<span class="eqno">(7.13)<a class="headerlink" href="#equation-9f2b09b6-1c4d-487c-8123-01eb4c60f06a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2b1efbbb-a21f-4bec-99e4-1a9eacd31b39">
+<span class="eqno">(7.13)<a class="headerlink" href="#equation-2b1efbbb-a21f-4bec-99e4-1a9eacd31b39" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 \end{align}\]</div>
 <p>この式からも明らかなように、行列<span class="math notranslate nohighlight">\(\pmb{W}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>行<span class="math notranslate nohighlight">\(j\)</span>列の要素<span class="math notranslate nohighlight">\(W_{i,j}\)</span>は入力値<span class="math notranslate nohighlight">\(x_i\)</span>から出力値<span class="math notranslate nohighlight">\(y_j\)</span>を計算するときの重み、ベクトル<span class="math notranslate nohighlight">\(\pmb{b}\)</span>の<span class="math notranslate nohighlight">\(j\)</span>番目の要素<span class="math notranslate nohighlight">\(b_j\)</span>は出力値<span class="math notranslate nohighlight">\(y_j\)</span>を計算するときのバイアスを表している。</p>
 <p>入力<span class="math notranslate nohighlight">\(\pmb{x}\)</span>と行列<span class="math notranslate nohighlight">\(\pmb{W}\)</span>の積<span class="math notranslate nohighlight">\(\pmb{x}\pmb{W}\)</span>は、ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>を行列<span class="math notranslate nohighlight">\(\pmb{W}\)</span>で<strong>線形変換</strong>（linear transformation）することを表す。これにバイアスベクトル<span class="math notranslate nohighlight">\(\pmb{b}\)</span>を加えた<span class="math notranslate nohighlight">\(\pmb{x}\pmb{W} + \pmb{b}\)</span>は、数学の世界では線形変換ではなく、厳密には<strong>アフィン変換</strong>（affine transformation）である。ただ、ニューラルネットワークの分野では（バイアスベクトルの加算も含めて）線形変換と呼ぶことがある。線形変換に用いる行列のサイズ<span class="math notranslate nohighlight">\(d_{\rm in} \times d_{\rm out}\)</span>やバイアスベクトルのサイズ<span class="math notranslate nohighlight">\(1 \times d_{\rm out}\)</span>は、入力と出力のベクトルの要素数<span class="math notranslate nohighlight">\(d_{\rm in}, d_{\rm out}\)</span>に合わせて決定する。</p>
 <p>式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>は一つの入力<span class="math notranslate nohighlight">\(\pmb{x}\)</span>に対して出力を計算する式であった。<span class="math notranslate nohighlight">\(B\)</span>個の入力<span class="math notranslate nohighlight">\(\pmb{x}_1, \dots, \pmb{x}_B\)</span>に対して、式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>を同時に適用するときは、<span class="math notranslate nohighlight">\(B\)</span>個の入力ベクトルを縦に積んだ入力行列<span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{B \times d_{\rm in}}\)</span>を定義し、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a2c2bf40-f36a-4ced-9f31-0a5b8c78ae1a">
-<span class="eqno">(7.14)<a class="headerlink" href="#equation-a2c2bf40-f36a-4ced-9f31-0a5b8c78ae1a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-56beb2db-feaf-4465-ba30-9501a66e2858">
+<span class="eqno">(7.14)<a class="headerlink" href="#equation-56beb2db-feaf-4465-ba30-9501a66e2858" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X} = \begin{pmatrix}
 \pmb{x}_1 \\
 \dots \\
@@ -1376,8 +1375,8 @@ y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 \end{pmatrix}
 \end{align}\]</div>
 <p>式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>の入力ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>の箇所を入力行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>に置き換えるだけでよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1e9c8b90-f76e-4671-8d5f-3dd97c27a113">
-<span class="eqno">(7.15)<a class="headerlink" href="#equation-1e9c8b90-f76e-4671-8d5f-3dd97c27a113" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6a8eef58-f1fd-41e0-ac8a-bd7f0a94907c">
+<span class="eqno">(7.15)<a class="headerlink" href="#equation-6a8eef58-f1fd-41e0-ac8a-bd7f0a94907c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{Y} = g(\pmb{X}\pmb{W} + \pmb{b})
 \end{align}\]</div>
 <p>このとき、出力もサイズ<span class="math notranslate nohighlight">\(d_{\rm out}\)</span>の実ベクトル<span class="math notranslate nohighlight">\(\pmb{y}\)</span>から<span class="math notranslate nohighlight">\(B \times d_{\rm out}\)</span>の実行列<span class="math notranslate nohighlight">\(\pmb{Y}\)</span>に拡張される。このように、複数の入力をまとめて処理することはミニバッチ処理と呼ばれる。ミニバッチ処理は、GPUなどのハードウェアでニューラルネットワークの計算を並列に実行するときによく用いられるテクニックである。</p>
@@ -1386,16 +1385,16 @@ y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 <p>入力を線形変換したのち、<strong>活性化関数</strong>（activation function）を通して出力が得られる。活性化関数により、出力を特定の値域に抑えたり、入力に対して非線形な出力を得ることができる。非線形な活性化関数としては、シグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>の他、双曲線関数（<span class="math notranslate nohighlight">\(\tanh\)</span>）やReLU、ステップ関数などがよく用いられる。</p>
 <div class="important admonition">
 <p class="admonition-title">活性化関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dedea87a-66a5-435f-8efc-b6c136fdfa4b">
-<span class="eqno">(7.16)<a class="headerlink" href="#equation-dedea87a-66a5-435f-8efc-b6c136fdfa4b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1f3f5a93-811d-40c2-86de-e4f53c72a542">
+<span class="eqno">(7.16)<a class="headerlink" href="#equation-1f3f5a93-811d-40c2-86de-e4f53c72a542" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \tanh a = \frac{e^a - e^{-a}}{e^a + e^{-a}} = 2\sigma(2a) - 1 \\
 \end{align}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-2425ce99-e1ba-463e-b1ff-1c4a505e5acb">
-<span class="eqno">(7.17)<a class="headerlink" href="#equation-2425ce99-e1ba-463e-b1ff-1c4a505e5acb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9f749669-21dd-447c-9132-6a488daa2ff8">
+<span class="eqno">(7.17)<a class="headerlink" href="#equation-9f749669-21dd-447c-9132-6a488daa2ff8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 {\rm ReLU}(a) = \max(0, a)
 \end{align}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-01b87112-0122-4ee6-bc2a-eeb0472c503f">
-<span class="eqno">(7.18)<a class="headerlink" href="#equation-01b87112-0122-4ee6-bc2a-eeb0472c503f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6c028b58-f88f-4eed-98e5-092135e3fb7e">
+<span class="eqno">(7.18)<a class="headerlink" href="#equation-6c028b58-f88f-4eed-98e5-092135e3fb7e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 {\rm step}(a) = \begin{cases}
 1 &amp; (0 &lt; a) \\
 0 &amp; (a \leq 0)
@@ -1489,13 +1488,13 @@ l_{\rm CE}(\pmb{y}, \hat{\pmb{y}}) = - \sum_{k=1}^{K} y_k \log \hat{y}_k
 </div>
 <p>線形多クラス分類の章では、<span class="math notranslate nohighlight">\(\hat{y} \in \{1, 2, \dots, K\}\)</span>をモデルが予測したラベルと定義しており、モデルがラベルを予測する確率分布を<span class="math notranslate nohighlight">\(\pmb{p} \in [0, 1]^K\)</span>で表していた。その定義の差を吸収し、損失は負の対数尤度で定義されることを考慮すれば、式<a class="reference internal" href="#equation-eq-loss-cross-entropy">(7.21)</a>と式<a class="reference internal" href="02multi.html#equation-eq-multi-log-likelihood">(6.31)</a>は等価である。</p>
 <p>二値分類モデルおよび多値分類モデルの損失関数がクロスエントロピー（交差エントロピー）と呼ばれる理由を補足しておく。クロスエントロピーは2つの確率分布<span class="math notranslate nohighlight">\(p(x)\)</span>と<span class="math notranslate nohighlight">\(q(x)\)</span>の近さを測定する指標で、次式で定義される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-38370302-b6ce-4450-9951-d5df231f7077">
-<span class="eqno">(7.22)<a class="headerlink" href="#equation-38370302-b6ce-4450-9951-d5df231f7077" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3048555b-6f62-49a6-9e12-6bcad938500c">
+<span class="eqno">(7.22)<a class="headerlink" href="#equation-3048555b-6f62-49a6-9e12-6bcad938500c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 H(p, q) = -\sum_{x} p(x) \log q(x)
 \end{align}\]</div>
 <p>分類モデルの定式化では、<span class="math notranslate nohighlight">\(p(x)\)</span>は真のラベルの確率分布、<span class="math notranslate nohighlight">\(q(x)\)</span>はモデルが予測したラベルの確率分布と考えればよい。<span class="math notranslate nohighlight">\(K\)</span>クラス分類の場合、その2つの確率分布のクロスエントロピーは、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1f1813b9-d201-4871-9682-e59bd6a74613">
-<span class="eqno">(7.23)<a class="headerlink" href="#equation-1f1813b9-d201-4871-9682-e59bd6a74613" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dae664e7-51cb-4cb8-a8c2-e06755a9957e">
+<span class="eqno">(7.23)<a class="headerlink" href="#equation-dae664e7-51cb-4cb8-a8c2-e06755a9957e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 H(p, q) = -\sum_{k=1}^K p(k) \log q(k)
 \end{align}\]</div>
 <p>であり、これは式<a class="reference internal" href="#equation-eq-loss-binary-cross-entropy">(7.20)</a>や式<a class="reference internal" href="#equation-eq-loss-cross-entropy">(7.21)</a>と整合する。</p>
@@ -1528,8 +1527,8 @@ y &amp;= g^{(2)}(\pmb{h}\pmb{W}^{(2)} + b^{(2)}) \\
 <p>ここに示した例は、2個の入力<span class="math notranslate nohighlight">\(x_1, x_2\)</span>から2個の中間的な値<span class="math notranslate nohighlight">\(h_1, h_2\)</span>を作り、その中間的な値から1個の値<span class="math notranslate nohighlight">\(y\)</span>を出力するニューラルネットワークである。1層目の入力をサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトル<span class="math notranslate nohighlight">\(\pmb{x} = \begin{pmatrix}x_1 &amp; x_2\end{pmatrix}\)</span>で表し、出力をサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトル<span class="math notranslate nohighlight">\(\pmb{h} = \begin{pmatrix}h_1 &amp; h_2\end{pmatrix}\)</span>で表すことにすると、1層目はサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトルからサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトルへの写像と考えられる。この写像は、<span class="math notranslate nohighlight">\(2 \times 2\)</span>の線形変換行列<span class="math notranslate nohighlight">\(\pmb{W}^{(1)}\)</span>と、サイズ<span class="math notranslate nohighlight">\(2\)</span>のバイアスベクトル<span class="math notranslate nohighlight">\(\pmb{b}^{(1)}\)</span>、活性化関数<span class="math notranslate nohighlight">\(g^{(1)}\)</span>で構成される。この第1層のように、入力に一番近い層を<strong>入力層</strong>と呼ぶ。続いて、2層目はサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトルからサイズ<span class="math notranslate nohighlight">\(1\)</span>のベクトル（スカラー）への写像と考えられる。この写像は、<span class="math notranslate nohighlight">\(2 \times 1\)</span>の線形変換行列（ベクトル）<span class="math notranslate nohighlight">\(\pmb{W}^{(2)}\)</span>と、バイアス<span class="math notranslate nohighlight">\(b^{(2)}\)</span>、活性化関数<span class="math notranslate nohighlight">\(g^{(2)}\)</span>で構成される。この第2層のように、出力に一番近い層を<strong>出力層</strong>と呼ぶ。なお、ベクトル<span class="math notranslate nohighlight">\(\pmb{h}\)</span>は、入力や出力として直接与えるものではなく、中間的に計算されるものであるため、<strong>中間層</strong>、<strong>隠れ状態ベクトル</strong>、<strong>隠れ層</strong>、隠れユニットなどと呼ばれる。</p>
 <p>ニューラルネットワークの層数の数え方には若干の混乱がある。<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{h}, y\)</span>を層として数えることにして、先ほどのニューラルネットワークを<span class="math notranslate nohighlight">\(3\)</span>層と数えることもある。しかし、この資料では入力<span class="math notranslate nohighlight">\(\pmb{x}\)</span>はカウントしないことにして、このニューラルネットワークを<span class="math notranslate nohighlight">\(2\)</span>層と数える。これは、写像の数やパラメータ・セットの数である<span class="math notranslate nohighlight">\(2\)</span>に一致する。また、出力層から数えたネットワークの深さ<span class="math notranslate nohighlight">\(2\)</span>とも一致する。</p>
 <p>一般的に、<span class="math notranslate nohighlight">\(L\)</span>層のニューラルネットワークの第<span class="math notranslate nohighlight">\(l \in \{1, \dots, L\}\)</span>層の写像<span class="math notranslate nohighlight">\(f^{(l)}\)</span>で表すことにする。入力<span class="math notranslate nohighlight">\(\pmb{x}\)</span>に対して<span class="math notranslate nohighlight">\(L\)</span>層のニューラルネットワークを通して得られた出力<span class="math notranslate nohighlight">\(\pmb{y}\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4dd8ff87-6e06-490b-90c7-cdf34556e3c0">
-<span class="eqno">(7.25)<a class="headerlink" href="#equation-4dd8ff87-6e06-490b-90c7-cdf34556e3c0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bfac2bb0-9d72-4065-a011-8ca00bc16c8b">
+<span class="eqno">(7.25)<a class="headerlink" href="#equation-bfac2bb0-9d72-4065-a011-8ca00bc16c8b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{y} = f^{(L)}\left(f^{(L-1)}\left( \dots \left(f^{(1)}(\pmb{x})\right) \dots \right)\right)
 \end{align}\]</div>
 <p>と表すことができる。<span class="math notranslate nohighlight">\(l\)</span>層目の写像<span class="math notranslate nohighlight">\(f^{(l)}\)</span>は次式で表すことができる。</p>
@@ -1564,15 +1563,15 @@ y &amp;= {\rm step}(\pmb{h}\pmb{W}^{(2)} + b^{(2)}) \\
 \end{align}
 \end{split}\]</div>
 <p><a class="reference internal" href="#sec-tlu"><span class="std std-ref">閾値論理ユニット</span></a>の節では、入力に対してORとNANDを取った出力に対して、ANDを取ることでXORの入出力を実現できることを説明した。<span class="math notranslate nohighlight">\(h_1\)</span>を<span class="math notranslate nohighlight">\(x_1, x_2\)</span>の論理和（OR）、<span class="math notranslate nohighlight">\(h_2\)</span>を<span class="math notranslate nohighlight">\(x_1, x_2\)</span>の否定論理積（NAND）とすると、<span class="math notranslate nohighlight">\(y\)</span>は<span class="math notranslate nohighlight">\(h_1, h_2\)</span>の論理積（AND）とすればよい。これらの論理結合子を実現するパラメータは無数にあるが、ここでは次式で表すことにする。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-282e2613-7693-4c93-a03c-5b78314776a6">
-<span class="eqno">(7.28)<a class="headerlink" href="#equation-282e2613-7693-4c93-a03c-5b78314776a6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d849a908-d692-45b8-8067-10ab63703fbc">
+<span class="eqno">(7.28)<a class="headerlink" href="#equation-d849a908-d692-45b8-8067-10ab63703fbc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 h_1 &amp;= x_1 \vee x_2 = {\rm step}(x_1 + x_2 - 0.5) \\
 h_2 &amp;= \lnot (x_1 \wedge x_2) = {\rm step}(-x_1 - x_2 + 1.5) \\
 y &amp;= h_1 \wedge h_2 = {\rm step}(h_1 + h_2 - 1.5)
 \end{align}\]</div>
 <p>ここから、1層目と2層目のニューラルネットワークのパラメータを抽出すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-76d2f73a-9f0f-41c7-b904-00ef3f77e528">
-<span class="eqno">(7.29)<a class="headerlink" href="#equation-76d2f73a-9f0f-41c7-b904-00ef3f77e528" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e4e547e0-8e56-4f63-8e69-1f61f06a8eb7">
+<span class="eqno">(7.29)<a class="headerlink" href="#equation-e4e547e0-8e56-4f63-8e69-1f61f06a8eb7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 W^{(1)}_{1,1} &amp;= 1 \\
 W^{(1)}_{2,1} &amp;= 1 \\
 b^{(1)}_1 &amp;= -0.5 \\
@@ -1584,8 +1583,8 @@ W^{(2)}_{2,1} &amp;= 1 \\
 b^{(2)} &amp;= -1.5 \\
 \end{align}\]</div>
 <p>ゆえに、式<a class="reference internal" href="#equation-eq-xor-as-2layer-nn">(7.27)</a>のパラメータを次のようにセットすればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-893ac472-536a-4bcf-b594-309908fc3cc8">
-<span class="eqno">(7.30)<a class="headerlink" href="#equation-893ac472-536a-4bcf-b594-309908fc3cc8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9a08d593-fe76-4ce3-a040-baa2ac0545cc">
+<span class="eqno">(7.30)<a class="headerlink" href="#equation-9a08d593-fe76-4ce3-a040-baa2ac0545cc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{W}^{(1)} &amp;= \begin{pmatrix}
 W^{(1)}_{1,1} &amp; W^{(1)}_{1,2} \\
 W^{(1)}_{2,1} &amp; W^{(1)}_{2,2}
@@ -22666,7 +22665,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
         requestKernel: true,
         binderOptions: {
             repo: "chokkan/mlnote",
-            ref: "master",
+            ref: "main",
         },
         codeMirrorConfig: {
             theme: "abcdef",

@@ -29,7 +29,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -291,7 +290,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/classification/01binary.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/classification/01binary.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="起動 Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -299,13 +298,13 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/classification/01binary.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/classification/01binary.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="起動 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="../_static/images/logo_colab.png"
                     
                     alt="Interact on Colab">Colab</button></a>
 
-        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/master/classification/01binary.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/classification/01binary.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
             title="起動 SageMaker Studio Lab" data-toggle="tooltip" data-placement="left"><i
                 class="fab fa-aws"></i> SageMaker</button></a>
 
@@ -531,15 +530,15 @@
 </div>
 <p>スパム判定では、スパムメールを<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>、スパムではないメールを<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>などと定義する。二値分類において、<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>の事例を<strong>正例</strong>（positive example）、<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>の事例を<strong>負例</strong>（negative example）と呼ぶことがある。</p>
 <p>メールがスパムであるか判定するための手がかりは色々考えられるが、ここでは簡単のため、<span class="math notranslate nohighlight">\(d=9\)</span>次元の特徴空間を例として用いる。この特徴空間の<span class="math notranslate nohighlight">\(1\)</span>次元目は、与えられたメールの本文に&quot;attached&quot;という単語が含まれるならば<span class="math notranslate nohighlight">\(1\)</span>、含まれなければ<span class="math notranslate nohighlight">\(0\)</span>とする。同様に、<span class="math notranslate nohighlight">\(2\)</span>次元目から<span class="math notranslate nohighlight">\(8\)</span>次元目まで、メール本文中に、それぞれ&quot;darling&quot;, &quot;file&quot;, &quot;hi&quot;, &quot;kyoto&quot;, &quot;mark&quot;, &quot;my&quot;, &quot;photo&quot;という単語が含まれるかどうかを表現する。<span class="math notranslate nohighlight">\(9\)</span>次元目はメールの内容に関わらず常に<span class="math notranslate nohighlight">\(1\)</span>とする。例えば、スパム判定を行いたいメールの本文が&quot;Hi darling, my photo in attached file&quot;であった場合、事例<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^9\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8c713883-70ec-487a-9e45-e8d779e24323">
-<span class="eqno">(5.2)<a class="headerlink" href="#equation-8c713883-70ec-487a-9e45-e8d779e24323" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-82952ed1-cd46-4606-a78c-7006ae1ef171">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-82952ed1-cd46-4606-a78c-7006ae1ef171" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
  \pmb{x} = \begin{pmatrix}
 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
 \end{pmatrix}^\top
 \end{gather}\]</div>
 <p>線形二値分類は、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>とパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の内積、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-11870e93-a3f5-4986-8b2f-5fefeda0672e">
-<span class="eqno">(5.3)<a class="headerlink" href="#equation-11870e93-a3f5-4986-8b2f-5fefeda0672e" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-16c78818-628d-40b4-8f3d-f5cc908d0912">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-16c78818-628d-40b4-8f3d-f5cc908d0912" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
  \pmb{x}^\top \pmb{w} = \begin{pmatrix}
 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
 \end{pmatrix} \begin{pmatrix}
@@ -556,8 +555,8 @@ w_9
 \end{gather}\]</div>
 <p>を計算し、その符号が正ならば事例をスパム（<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>）と判定し、<span class="math notranslate nohighlight">\(0\)</span>以下ならばスパムでない（<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>）と判定する。つまり、メールに含まれている単語<span class="math notranslate nohighlight">\(j\)</span>に対応する重み<span class="math notranslate nohighlight">\(w_j\)</span>の和でメールのスパムらしさをスコア付けし、そのスコアがしきい値<span class="math notranslate nohighlight">\(0\)</span>を超えたらスパムメールと判定する。</p>
 <p>なお、特徴ベクトルの<span class="math notranslate nohighlight">\(d\)</span>次元目の値が常に<span class="math notranslate nohighlight">\(1\)</span>であることに注意して、正例・負例の判別条件を求めると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-afcdb01f-9bc8-4a61-856c-b9301a8f4418">
-<span class="eqno">(5.4)<a class="headerlink" href="#equation-afcdb01f-9bc8-4a61-856c-b9301a8f4418" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a6a3a5cc-925d-4c57-8ca6-0bd4bec038b7">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-a6a3a5cc-925d-4c57-8ca6-0bd4bec038b7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
  \pmb{x}^\top\pmb{w} = \sum_{j=1}^{d} w_j x_j = \sum_{j=1}^{d-1} w_j x_j + w_d &amp;&gt; 0 \\
  \sum_{j=1}^{d-1} w_j x_j &amp;&gt; -w_d
 \end{align}\]</div>
@@ -569,8 +568,8 @@ w_9
 <p><strong>ロジスティック回帰</strong>（logistic regression）は線形二値分類を実現するモデルの一つで、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>に対するラベル<span class="math notranslate nohighlight">\(\hat{y} \in \{1, 0\}\)</span>の条件付き確率<span class="math notranslate nohighlight">\(p(y|\pmb{x})\)</span>を以下の式で求める。</p>
 <div class="important admonition">
 <p class="admonition-title">ロジスティック回帰</p>
-<div class="amsmath math notranslate nohighlight" id="equation-001665dd-5c44-43d7-bfe2-c33f192a73c6">
-<span class="eqno">(5.5)<a class="headerlink" href="#equation-001665dd-5c44-43d7-bfe2-c33f192a73c6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6fc69bd9-967e-4753-954a-c200359e775c">
+<span class="eqno">(5.5)<a class="headerlink" href="#equation-6fc69bd9-967e-4753-954a-c200359e775c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
  P(\hat{y} = 1|\pmb{x}) &amp;= \sigma(\pmb{x}^\top \pmb{w}) = \frac{1}{1 + \exp\left(-\pmb{x}^\top \pmb{w}\right)} \\
  P(\hat{y} = 0|\pmb{x}) &amp;= 1 - P(\hat{y} = 1|\pmb{x})
 \end{align}\]</div>
@@ -617,14 +616,14 @@ w_9
 \end{align}
 \]</div>
 <p>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6853f62e-e0d8-4a0b-97d0-3b19c38c3feb">
-<span class="eqno">(5.8)<a class="headerlink" href="#equation-6853f62e-e0d8-4a0b-97d0-3b19c38c3feb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8e4af9b3-8c7c-48eb-9af0-6d048dd7d74d">
+<span class="eqno">(5.8)<a class="headerlink" href="#equation-8e4af9b3-8c7c-48eb-9af0-6d048dd7d74d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
  P(\hat{y} = 1|\pmb{x}) &amp;= \sigma(\pmb{x}^\top \pmb{w}) \\
  P(\hat{y} = 0|\pmb{x}) &amp;= 1 - P(\hat{y} = 1|\pmb{x}) = 1 - \sigma(\pmb{x}^\top \pmb{w}) = \sigma(-\pmb{x}^\top \pmb{w})
 \end{align}\]</div>
 <p>なお、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>を<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測する確率が<span class="math notranslate nohighlight">\(0.5\)</span>を上回る条件を求めると、線形二値分類の判別式<a class="reference internal" href="#equation-eq-binary-classification">(5.1)</a>と整合することが確認できる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2c5512eb-1e94-454c-a764-62c86f2d47c8">
-<span class="eqno">(5.9)<a class="headerlink" href="#equation-2c5512eb-1e94-454c-a764-62c86f2d47c8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0bf73f34-8c33-4bd8-bfd3-e630ecc8af67">
+<span class="eqno">(5.9)<a class="headerlink" href="#equation-0bf73f34-8c33-4bd8-bfd3-e630ecc8af67" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
  P(\hat{y} = 1|\pmb{x}) &gt; 0.5 \Leftrightarrow \frac{1}{1 + \exp\left(-\pmb{x}^\top \pmb{w}\right)} &gt; \frac{1}{2} \Leftrightarrow 2 &gt; 1 + \exp\left(-\pmb{x}^\top \pmb{w}\right) \Leftrightarrow \pmb{x}^\top \pmb{w} &gt; 0
 \end{align}\]</div>
 <div class="section" id="id5">
@@ -708,13 +707,13 @@ w_9
 <div class="section" id="id6">
 <h2><span class="section-number">5.4. </span>データの表現<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>分類問題のデータの表現方法は回帰と同様である。説明変数と目的変数の一つの組を学習事例として表現する。<span class="math notranslate nohighlight">\(1\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>、<span class="math notranslate nohighlight">\(2\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_2, y_2)\)</span>、<span class="math notranslate nohighlight">\(i\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_i, y_i)\)</span>と表すことにすると、<span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は次のように表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-19c2e585-5ea8-41df-bcb5-b4eb7c2d665f">
-<span class="eqno">(5.10)<a class="headerlink" href="#equation-19c2e585-5ea8-41df-bcb5-b4eb7c2d665f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-32aa3e2d-942d-4707-8aab-1462505e4f8a">
+<span class="eqno">(5.10)<a class="headerlink" href="#equation-32aa3e2d-942d-4707-8aab-1462505e4f8a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \left\{(\pmb{x}_1, y_1), (\pmb{x}_2, y_2), \dots, (\pmb{x}_N, y_N)\right\} = \left\{(\pmb{x}_i, y_i)\right\}_{i=1}^{N}
 \end{align}\]</div>
 <p>以降では、2個の学習事例（<span class="math notranslate nohighlight">\(N=2\)</span>）からなる単純なデータ<span class="math notranslate nohighlight">\(\mathcal{D}_{s}\)</span>を例として用いる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a99b0bf8-d4c6-4c86-b8b2-b962a4bbbc5d">
-<span class="eqno">(5.11)<a class="headerlink" href="#equation-a99b0bf8-d4c6-4c86-b8b2-b962a4bbbc5d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-248356c5-f5df-4fea-83ab-5efe075a3633">
+<span class="eqno">(5.11)<a class="headerlink" href="#equation-248356c5-f5df-4fea-83ab-5efe075a3633" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D}_s &amp;= \left\{(\pmb{x}_i, y_i)\right\}_{i=1}^{2} = \left\{(\pmb{x}_1, y_1), (\pmb{x}_2, y_2)\right\} \\
  (\pmb{x}_1, y_1) &amp;= \left(\begin{pmatrix}
 1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 1
@@ -733,15 +732,15 @@ w_9
 <div class="section" id="id7">
 <h2><span class="section-number">5.5. </span>尤度<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>さて、何らかの方法でモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を以下のように決定したとしよう。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-31df7a27-d893-47c9-b792-bc6f40507622">
-<span class="eqno">(5.12)<a class="headerlink" href="#equation-31df7a27-d893-47c9-b792-bc6f40507622" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-069b6792-c368-402e-a370-3b8465d34d6c">
+<span class="eqno">(5.12)<a class="headerlink" href="#equation-069b6792-c368-402e-a370-3b8465d34d6c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w} = \begin{pmatrix}
 1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 1 &amp; -2
 \end{pmatrix}^\top
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>中の事例<span class="math notranslate nohighlight">\(\pmb{x}_1\)</span>に対してロジスティック回帰モデルを適用する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e1f00d57-cf19-40ab-afa5-a1e19f8632ba">
-<span class="eqno">(5.13)<a class="headerlink" href="#equation-e1f00d57-cf19-40ab-afa5-a1e19f8632ba" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-6c695009-a6ff-4878-9464-5c14a7fdcf15">
+<span class="eqno">(5.13)<a class="headerlink" href="#equation-6c695009-a6ff-4878-9464-5c14a7fdcf15" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
  \pmb{x}_1^\top \pmb{w} = \begin{pmatrix}
 1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 1
 \end{pmatrix} \begin{pmatrix}
@@ -751,20 +750,20 @@ P(\hat{y} = 1|\pmb{x}_1) = \sigma(\pmb{x}_1^\top \pmb{w}) = \sigma(-1) \approx 0
 \end{gather}\]</div>
 <p>ゆえに、<span class="math notranslate nohighlight">\(P(\hat{y} = 1|\pmb{x}_1) = 0.269\)</span>であるから、このモデルは与えられたメールがスパムである確率を<span class="math notranslate nohighlight">\(0.269\)</span>と予測し、その確率が<span class="math notranslate nohighlight">\(0.5\)</span>を超えないことから、<span class="math notranslate nohighlight">\(\pmb{x}_1\)</span>はスパムメールではないと判定している。</p>
 <p>これまでの流れは、事例<span class="math notranslate nohighlight">\(\pmb{x}_1\)</span>とモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が与えられた時、予測結果<span class="math notranslate nohighlight">\(P(\hat{y} = 1|\pmb{x}_1) = 0.269\)</span>を計算するものであった。ここで、学習事例<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>は不変（&quot;Hi Mark, Kyoto photo in attached file&quot;というメールがスパムではないのは事実）であると考える。そして、確率に対する見方を変えて、このモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が与えられた学習事例を正しく判定できる確率、すなわちモデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の学習事例<span class="math notranslate nohighlight">\((\pmb{x}, y)\)</span>に対する<strong>尤度</strong><span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, y}(\pmb{w})\)</span>を次式で定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cb6238f7-49f6-4d25-a64a-2fe8c0af94bd">
-<span class="eqno">(5.14)<a class="headerlink" href="#equation-cb6238f7-49f6-4d25-a64a-2fe8c0af94bd" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-92f38b7e-79e4-4e71-b96f-42eb98233f5f">
+<span class="eqno">(5.14)<a class="headerlink" href="#equation-92f38b7e-79e4-4e71-b96f-42eb98233f5f" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 \hat{l}_{\pmb{x}, y}(\pmb{w}) = P(\hat{y} = y | \pmb{x})
 \end{gather}\]</div>
 <p>この学習事例に対する尤度は、モデルのパラメータが「どのくらい学習事例を正しく再現できるか」を定量化した指標と見なすことができる。尤度が<span class="math notranslate nohighlight">\(1\)</span>に近いほど学習事例を正しく再現できていること、<span class="math notranslate nohighlight">\(0\)</span>に近づくほど学習事例を間違って（例えば<span class="math notranslate nohighlight">\(y=0\)</span>なのに<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測して）再現していることを意味する。</p>
 <p>例えば、学習事例<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>は<span class="math notranslate nohighlight">\(y_1 = 0\)</span>であるから、この学習事例に対するモデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の尤度は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3a90a4f9-4ba3-425e-b8cd-42383734de45">
-<span class="eqno">(5.15)<a class="headerlink" href="#equation-3a90a4f9-4ba3-425e-b8cd-42383734de45" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-e324bc12-5c73-4618-a83e-e5818f0d6471">
+<span class="eqno">(5.15)<a class="headerlink" href="#equation-e324bc12-5c73-4618-a83e-e5818f0d6471" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 \hat{l}_{\pmb{x}_1, y_1}(\pmb{w}) = P(\hat{y} = 0|\pmb{x}_1) = 1 - P(\hat{y} = 1|\pmb{x}_1) = 1 - 0.269 = 0.731
 \end{gather}\]</div>
 <p>これは、モデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が学習事例<span class="math notranslate nohighlight">\((\pmb{x}_1, y_1)\)</span>を<span class="math notranslate nohighlight">\(0.731\)</span>の確率で正しく分類できることを表している。</p>
 <p>続いて、<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>中の事例<span class="math notranslate nohighlight">\(\pmb{x}_2\)</span>に対してロジスティック回帰モデルを適用する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6e3b52fb-7342-4203-ad64-fb44d1c99896">
-<span class="eqno">(5.16)<a class="headerlink" href="#equation-6e3b52fb-7342-4203-ad64-fb44d1c99896" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-57047c10-a8da-4269-ae5b-42d43e117c8e">
+<span class="eqno">(5.16)<a class="headerlink" href="#equation-57047c10-a8da-4269-ae5b-42d43e117c8e" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
  \pmb{x}_2^\top \pmb{w} = \begin{pmatrix}
 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
 \end{pmatrix} \begin{pmatrix}
@@ -773,8 +772,8 @@ P(\hat{y} = 1|\pmb{x}_1) = \sigma(\pmb{x}_1^\top \pmb{w}) = \sigma(-1) \approx 0
 P(\hat{y} = 1|\pmb{x}_2) = \sigma(\pmb{x}_2^\top \pmb{w}) = \sigma(3) \approx 0.953
 \end{gather}\]</div>
 <p>ゆえに、このモデルは与えられたメールがスパムである確率を<span class="math notranslate nohighlight">\(0.953\)</span>と推定し、その確率が<span class="math notranslate nohighlight">\(0.5\)</span>を超えていることから、<span class="math notranslate nohighlight">\(\pmb{x}_2\)</span>はスパムメールである可能性が高いと判定している。また、モデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の学習事例<span class="math notranslate nohighlight">\((\pmb{x}_2, y_2)\)</span>に対する尤度<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}_2, y_2}(\pmb{w})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a37076e2-f874-4f29-b7df-385d20b05c1b">
-<span class="eqno">(5.17)<a class="headerlink" href="#equation-a37076e2-f874-4f29-b7df-385d20b05c1b" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-16822490-dd44-43fc-a463-8a7953e753bc">
+<span class="eqno">(5.17)<a class="headerlink" href="#equation-16822490-dd44-43fc-a463-8a7953e753bc" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 \hat{l}_{\pmb{x}_2, y_2}(\pmb{w}) = P(\hat{y} = 1|\pmb{x}_2) = 0.953
 \end{gather}\]</div>
 <p>これは、モデルパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>が学習事例<span class="math notranslate nohighlight">\((\pmb{x}_2, y_2)\)</span>を<span class="math notranslate nohighlight">\(0.953\)</span>の確率で正しく分類できることを表している。</p>
@@ -804,36 +803,36 @@ p = P(\hat{y} = 1 | \pmb{x}) = \sigma(\pmb{x}^\top \pmb{w})
 <div class="section" id="id8">
 <h2><span class="section-number">5.6. </span>最尤推定<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>先ほどの例では、モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を合理的な値に（手で）調整しておいたので、すべての学習事例を正しく分類できた。しかし、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の値によっては、正しく分類できない学習事例が出てくる。また、両方の学習事例の尤度は学習事例を完全に再現できる値（<span class="math notranslate nohighlight">\(1\)</span>）を下回っている。パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を調整することで、すべての学習事例の尤度を<span class="math notranslate nohighlight">\(1\)</span>に引き上げ、未知の事例に対する予測性能を向上させることができるかもしれない。先ほどの学習データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の例では、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>をうまく調整することで、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7eddb432-8844-490a-9230-71d2273a085b">
-<span class="eqno">(5.20)<a class="headerlink" href="#equation-7eddb432-8844-490a-9230-71d2273a085b" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-37700687-211a-4304-80ef-085e47498af0">
+<span class="eqno">(5.20)<a class="headerlink" href="#equation-37700687-211a-4304-80ef-085e47498af0" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 \hat{l}_{\pmb{x}_1, y_1}(\pmb{w}) &amp;= 0.731 \rightsquigarrow 1 \\
 \hat{l}_{\pmb{x}_2, y_2}(\pmb{w}) &amp;= 0.953 \rightsquigarrow 1
 \end{gather}\]</div>
 <p>を実現できるかもしれない。</p>
 <p>そこで、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>全体における尤度を定義し、モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>がどのくらい学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>をうまく反映しているのか、定量的に示したい。ここで、学習データのすべての事例は<strong>独立同分布</strong>（i.i.d: independent and identically distributed）である仮定し、学習データ全体の尤度<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{w})\)</span>を各学習事例の尤度の結合確率として定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-978a6d1e-6c32-4bf5-907a-2a37abe85852">
-<span class="eqno">(5.21)<a class="headerlink" href="#equation-978a6d1e-6c32-4bf5-907a-2a37abe85852" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a43b8448-5937-47d3-bc4d-c23ad837a71c">
+<span class="eqno">(5.21)<a class="headerlink" href="#equation-a43b8448-5937-47d3-bc4d-c23ad837a71c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(\pmb{w}) = \prod_{i=1}^N \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
 \end{align}\]</div>
 <p>学習データ全体の尤度も<span class="math notranslate nohighlight">\(0\)</span>から<span class="math notranslate nohighlight">\(1\)</span>までの値をとり、尤度が<span class="math notranslate nohighlight">\(1\)</span>に近いほど学習事例を正しく再現できていることを表す。ゆえに、<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{w})\)</span>を目的関数とみなし、この目的関数の値を最大化するような<span class="math notranslate nohighlight">\(\pmb{w}^*\)</span>を求めることで、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>によく合致するモデルパラメータを求めることができる。尤度が最大になるパラメータを求めることを<strong>最尤推定</strong>（MLE: Maximum Likelihood Estimation）と呼ぶ。</p>
 <p>ところで、学習データ全体の尤度は事例の尤度の積であるから、学習事例の数が多くなると<span class="math notranslate nohighlight">\([0, 1]\)</span>の範囲の積を繰り返すことになる。これは、コンピュータ上で学習データ上の尤度を計算するとき、アンダーフローの問題（小さい値を精度良く表現できない問題）を引き起こす。そこで、尤度を最大化する代わりに、尤度の対数をとった<strong>対数尤度</strong>を最大化する。対数尤度は、学習事例の尤度の対数<span class="math notranslate nohighlight">\(\log \hat{l}_{(\pmb{x}_i, y_i)}(\pmb{w})\)</span>の和として表現できる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-113beee5-8043-4f3e-b33b-24e0347d0604">
-<span class="eqno">(5.22)<a class="headerlink" href="#equation-113beee5-8043-4f3e-b33b-24e0347d0604" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9217c397-9b4d-4cdd-8e63-5df240bdcc61">
+<span class="eqno">(5.22)<a class="headerlink" href="#equation-9217c397-9b4d-4cdd-8e63-5df240bdcc61" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \log \hat{L}_{\mathcal{D}}(\pmb{w}) &amp;= \log \prod_{i=1}^N \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
 = \sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
 \end{align}\]</div>
 <p>なお、回帰では目的関数を最小にするパラメータを求めた。二値分類でも目的関数の最小化の問題に書き換えるため、負の対数尤度を目的関数として用いる。最終的に、ロジスティック回帰モデルの学習で最小化する目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>は次式で表される。</p>
 <div class="important admonition">
 <p class="admonition-title">最尤推定による目的関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5dd21a19-995e-49c8-9443-7c4e3ff8fa56">
-<span class="eqno">(5.23)<a class="headerlink" href="#equation-5dd21a19-995e-49c8-9443-7c4e3ff8fa56" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a37ddce2-950f-4099-bd7f-c5e29d7272cc">
+<span class="eqno">(5.23)<a class="headerlink" href="#equation-a37ddce2-950f-4099-bd7f-c5e29d7272cc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w}) = -\log \hat{L}_{\mathcal{D}}(\pmb{w})
 = -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
 \end{align}\]</div>
 </div>
 <p>また、学習時に<span class="math notranslate nohighlight">\(L_2\)</span>正則化を導入する場合、目的関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b4f50bba-2970-4ae7-be25-5677e71c8bf3">
-<span class="eqno">(5.24)<a class="headerlink" href="#equation-b4f50bba-2970-4ae7-be25-5677e71c8bf3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a434c691-c36f-4eed-a56f-5159fd7f2cac">
+<span class="eqno">(5.24)<a class="headerlink" href="#equation-a434c691-c36f-4eed-a56f-5159fd7f2cac" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MAP}(\pmb{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{w}) + \alpha \|\pmb{w}\|^2
 = -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w}) + \alpha \|\pmb{w}\|^2
 \end{align}\]</div>
@@ -843,8 +842,8 @@ p = P(\hat{y} = 1 | \pmb{x}) = \sigma(\pmb{x}^\top \pmb{w})
 <h2><span class="section-number">5.7. </span>確率的勾配降下法<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これまでの議論により、ロジスティック回帰モデルの学習は、目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^*\)</span>を求める問題に帰着した。回帰の場合は目的関数を最小にする解析解（閉じた解）を求めることができたが、ロジスティック回帰モデルの目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>は、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>に関して偏微分はできるが、その偏微分の値を<span class="math notranslate nohighlight">\(\pmb{0}\)</span>とする解析解を求めることができない。そこで、確率的勾配降下法で目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^*\)</span>を求めることにする。</p>
 <p>ここで、最尤推定の目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-37ed056e-e3ed-4c83-927a-10271dc1be11">
-<span class="eqno">(5.25)<a class="headerlink" href="#equation-37ed056e-e3ed-4c83-927a-10271dc1be11" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0cb65bc2-4def-4785-9676-59247ec3e95e">
+<span class="eqno">(5.25)<a class="headerlink" href="#equation-0cb65bc2-4def-4785-9676-59247ec3e95e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{w})
 = \sum_{i=1}^N - \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w})
 \end{align}\]</div>
@@ -870,8 +869,8 @@ p = P(\hat{y} = 1 | \pmb{x}) = \sigma(\pmb{x}^\top \pmb{w})
 \end{align}
 \]</div>
 <p>と整理できる。ただし、式<a class="reference internal" href="#equation-eq-sigmoid">(5.6)</a>と<a class="reference internal" href="#equation-eq-definition-of-p">(5.19)</a>で表現されているように、<span class="math notranslate nohighlight">\(p\)</span>は<span class="math notranslate nohighlight">\(\pmb{w}\)</span>と<span class="math notranslate nohighlight">\(\pmb{x}\)</span>に依存していることに注意が必要である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cc518786-4297-49df-9a2f-2f7b01d01dc1">
-<span class="eqno">(5.28)<a class="headerlink" href="#equation-cc518786-4297-49df-9a2f-2f7b01d01dc1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-911fec2b-4c68-4d59-96c1-08fcab0b3fd6">
+<span class="eqno">(5.28)<a class="headerlink" href="#equation-911fec2b-4c68-4d59-96c1-08fcab0b3fd6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 p &amp;= \sigma(a) = \frac{1}{1 + e^{-a}} \\
 a &amp;= \pmb{x}^\top \pmb{w}
 \end{align}\]</div>
@@ -890,8 +889,8 @@ a &amp;= \pmb{x}^\top \pmb{w}
 \end{align}
 \end{split}\]</div>
 <p><span class="math notranslate nohighlight">\(\frac{\partial p}{\partial a}\)</span>はシグモイド関数<span class="math notranslate nohighlight">\(\sigma(a)\)</span>の微分である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fa7f9dab-bf55-4b08-8a76-e1386f3673e4">
-<span class="eqno">(5.30)<a class="headerlink" href="#equation-fa7f9dab-bf55-4b08-8a76-e1386f3673e4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0cca1425-2c91-432d-8bcc-a86690987da6">
+<span class="eqno">(5.30)<a class="headerlink" href="#equation-0cca1425-2c91-432d-8bcc-a86690987da6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial p}{\partial a} = \sigma'(a) &amp;= \frac{\partial}{\partial a}\left(\frac{1}{1 + e^{-a}}\right) \\
 &amp;= (-1) \cdot \frac{1}{\left(1 + e^{-a}\right)^2} \cdot \frac{\partial}{\partial a} \left(1 + e^{-a}\right) \\
 &amp;= - \frac{1}{\left(1 + e^{-a}\right)^2} \cdot e^{-a} \cdot (-1) \\
@@ -920,32 +919,32 @@ a &amp;= \pmb{x}^\top \pmb{w}
 \]</div>
 </div>
 <p>ただし、<span class="math notranslate nohighlight">\(p^{(t)}\)</span>は<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>で事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>を分類したとき、その事例が正例<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測される確率である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2c9de523-7569-48d4-bd68-f460f1dbdc65">
-<span class="eqno">(5.33)<a class="headerlink" href="#equation-2c9de523-7569-48d4-bd68-f460f1dbdc65" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8b657ecc-de5e-40a1-b6ba-47a4d3e754e9">
+<span class="eqno">(5.33)<a class="headerlink" href="#equation-8b657ecc-de5e-40a1-b6ba-47a4d3e754e9" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 p^{(t)} = \sigma(\pmb{x}^\top \pmb{w}^{(t)})
 \end{align}\]</div>
 <p>確率的勾配降下法で回帰モデルのパラメータを求めるための反復式<a class="reference internal" href="../regression/04sgd.html#equation-eq-mra-sgd">(4.33)</a>と同様に、ある訓練事例における目的変数の真の値<span class="math notranslate nohighlight">\(y\)</span>とその確率推定値<span class="math notranslate nohighlight">\(p\)</span>の差を係数として、その事例の特徴ベクトル<span class="math notranslate nohighlight">\(\pmb{x}\)</span>をパラメータベクトルに足し込む形になっているのが興味深い。</p>
 <div class="section" id="id10">
 <h3><span class="section-number">5.7.1. </span>確率的勾配降下法の更新式の解釈<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>式<a class="reference internal" href="#equation-eq-logress-sgd-update">(5.32)</a>の反復式の振る舞いを、学習事例が正例（<span class="math notranslate nohighlight">\(y=1\)</span>）のときと、負例（<span class="math notranslate nohighlight">\(y = 0\)</span>）に分けて考える。もし、学習事例が正例（<span class="math notranslate nohighlight">\(y=1\)</span>）のとき、パラメータの更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a0b2e517-7fe7-47a8-9f62-fd50262bc719">
-<span class="eqno">(5.34)<a class="headerlink" href="#equation-a0b2e517-7fe7-47a8-9f62-fd50262bc719" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8a31324c-e11a-477f-ae5f-b3cac961b371">
+<span class="eqno">(5.34)<a class="headerlink" href="#equation-8a31324c-e11a-477f-ae5f-b3cac961b371" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w}^{(t+1)} &amp;= \pmb{w}^{(t)} + \eta_t (1 - p^{(t)}) \pmb{x}
 \end{align}\]</div>
 <p>である。この更新後のパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t+1)}\)</span>で同じ事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>との内積を計算すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-226e264d-f052-4475-8629-2f49b6de7010">
-<span class="eqno">(5.35)<a class="headerlink" href="#equation-226e264d-f052-4475-8629-2f49b6de7010" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-52d6235c-2d24-4da4-ac55-11a831766ed9">
+<span class="eqno">(5.35)<a class="headerlink" href="#equation-52d6235c-2d24-4da4-ac55-11a831766ed9" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{x}^\top\pmb{w}^{(t+1)} &amp;= \pmb{x}^\top\pmb{w}^{(t)} + \eta_t (1 - p^{(t)}) \underbrace{\pmb{x}^\top\pmb{x}}_{\geq 0} \geq \pmb{x}^\top\pmb{w}^{(t)}
 \end{align}\]</div>
 <p>であるから、更新後のパラメータの内積<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}^{(t+1)}\)</span>は、更新前のパラメータの内積値<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}^{(t)}\)</span>以上にとなり、その変化量は<span class="math notranslate nohighlight">\(\eta_t (1 - p^{(t)}) \pmb{x}^\top\pmb{x}\)</span>である。ここで、学習率<span class="math notranslate nohighlight">\(\eta_t\)</span>は学習事例に依存しない。また、<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{x}\)</span>もパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>の値によらない定数と見なすと、内積の変化量は<span class="math notranslate nohighlight">\((1-p^{(t)})\)</span>に比例することが分かる。いま、学習事例は正例（<span class="math notranslate nohighlight">\(y=1\)</span>）であるので、<span class="math notranslate nohighlight">\((1-p^{(t)})\)</span>はこの事例に対して予測すべき確率<span class="math notranslate nohighlight">\(1\)</span>と、実際に計算された確率<span class="math notranslate nohighlight">\(p^{(t)}\)</span>との差を表している。したがって、モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>が学習事例が正例であることをよく予測できている（<span class="math notranslate nohighlight">\(p^{(t)} \approx 1\)</span>）ならば内積の変化量は小さくなる。逆に、モデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>が学習事例が正例であることを予測できていない場合（<span class="math notranslate nohighlight">\(p^{(t)} \approx 0\)</span>）ならば、内積の変化量が大きくなるようにパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>が更新される。</p>
 <p>続いて、学習事例が負例（<span class="math notranslate nohighlight">\(y=0\)</span>）のとき、パラメータの更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f9dc160a-e4f7-42b6-bd7b-e7df5db4962b">
-<span class="eqno">(5.36)<a class="headerlink" href="#equation-f9dc160a-e4f7-42b6-bd7b-e7df5db4962b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-47d0a494-b922-4b27-bc2f-6dd0c51cd2af">
+<span class="eqno">(5.36)<a class="headerlink" href="#equation-47d0a494-b922-4b27-bc2f-6dd0c51cd2af" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w}^{(t+1)} = \pmb{w}^{(t)} + \eta_t (0 - p^{(t)}) \pmb{x} = \pmb{w}^{(t)} - \eta_t p^{(t)} \pmb{x}
 \end{align}\]</div>
 <p>である。この更新後のパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t+1)}\)</span>で同じ事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>との内積を計算すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0393b6ed-c0de-458b-9a89-095b8a665adc">
-<span class="eqno">(5.37)<a class="headerlink" href="#equation-0393b6ed-c0de-458b-9a89-095b8a665adc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-00d10a69-607d-4f9e-9c67-8a7fd9c8ee5d">
+<span class="eqno">(5.37)<a class="headerlink" href="#equation-00d10a69-607d-4f9e-9c67-8a7fd9c8ee5d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{x}^\top\pmb{w}^{(t+1)} &amp;= \pmb{x}^\top\pmb{w}^{(t)} - \eta_t p^{(t)} \underbrace{\pmb{x}^\top\pmb{x}}_{\geq 0} \leq \pmb{x}^\top\pmb{w}^{(t)}
 \end{align}\]</div>
 <p>であるから、更新後のパラメータの内積<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}^{(t+1)}\)</span>は、更新前のパラメータの内積値<span class="math notranslate nohighlight">\(\pmb{x}^\top\pmb{w}^{(t)}\)</span>以下にとなり、その変化量は<span class="math notranslate nohighlight">\(\eta_t p^{(t)} \pmb{x}^\top\pmb{x}\)</span>である。先ほどの正例の議論と同様に、内積の変化量は<span class="math notranslate nohighlight">\(p^{(t)}\)</span>に比例することが分かる。いま、学習事例は負例（<span class="math notranslate nohighlight">\(y=0\)</span>）であるので、<span class="math notranslate nohighlight">\(p^{(t)}\)</span>はこの事例に対して予測すべき確率<span class="math notranslate nohighlight">\(0\)</span>と、実際に計算された確率<span class="math notranslate nohighlight">\(p^{(t)}\)</span>との差を表している。したがって、学習事例が負例であることをモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>がよく予測できている（<span class="math notranslate nohighlight">\(p^{(t)} \approx 0\)</span>）ならば内積の変化量は小さくなる。逆に、学習事例が負例であることをモデルのパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>があまり予測できていない場合（<span class="math notranslate nohighlight">\(p^{(t)} \approx 1\)</span>）、内積の変化量が大きくなるようにパラメータ<span class="math notranslate nohighlight">\(\pmb{w}^{(t)}\)</span>が更新される。</p>
@@ -953,28 +952,28 @@ p^{(t)} = \sigma(\pmb{x}^\top \pmb{w}^{(t)})
 <div class="section" id="l-2">
 <h3><span class="section-number">5.7.2. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化付きロジスティック回帰<a class="headerlink" href="#l-2" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>学習時に<span class="math notranslate nohighlight">\(L_2\)</span>正則化を導入する場合、目的関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8153dca8-2a81-402c-aa60-1703431c23ba">
-<span class="eqno">(5.38)<a class="headerlink" href="#equation-8153dca8-2a81-402c-aa60-1703431c23ba" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-18c7fbe3-ac8c-4b21-9cb3-5d6518c2ab52">
+<span class="eqno">(5.38)<a class="headerlink" href="#equation-18c7fbe3-ac8c-4b21-9cb3-5d6518c2ab52" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MAP}(\pmb{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{w}) + \alpha \|\pmb{w}\|^2 \\
 &amp;= -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w}) + \alpha \|\pmb{w}\|^2 \\
 &amp;= \sum_{i=1}^N \left(-\log \hat{l}_{\pmb{x}_i, y_i}(\pmb{w}) + \frac{\alpha}{N} \|\pmb{w}\|^2 \right)\\
 \end{align}\]</div>
 <p>と整理できるので、確率的勾配降下法を適用できる。確率的勾配降下法がランダムに選んだ学習事例を<span class="math notranslate nohighlight">\((\pmb{x}, y)\)</span>とすると、その損失<span class="math notranslate nohighlight">\(l_{\pmb{x}, y}(\pmb{w})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4c2dfc3d-70f4-4d08-a8fc-642591bd435d">
-<span class="eqno">(5.39)<a class="headerlink" href="#equation-4c2dfc3d-70f4-4d08-a8fc-642591bd435d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f45ba6b5-a765-45c6-b70a-d47fc4503898">
+<span class="eqno">(5.39)<a class="headerlink" href="#equation-f45ba6b5-a765-45c6-b70a-d47fc4503898" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 l_{\pmb{x}, y}(\pmb{w}) = -\log \hat{l}_{\pmb{x}, y}(\pmb{w}) + \frac{\alpha}{N} \|\pmb{w}\|^2
 \end{align}\]</div>
 <p>である。この勾配<span class="math notranslate nohighlight">\(\nabla l_{\pmb{x}, y}(\pmb{w})\)</span>を求めるために、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>で偏微分すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d373296e-ba43-46d5-b620-23700b2f201c">
-<span class="eqno">(5.40)<a class="headerlink" href="#equation-d373296e-ba43-46d5-b620-23700b2f201c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-afcf01dc-c03f-463c-87b1-c0d916e4dbf2">
+<span class="eqno">(5.40)<a class="headerlink" href="#equation-afcf01dc-c03f-463c-87b1-c0d916e4dbf2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \nabla l_{\pmb{x}, y}(\pmb{w}) = \frac{\partial l_{\pmb{x}, y}(\pmb{w})}{\partial \pmb{w}}
 &amp;= \frac{\partial }{\partial \pmb{w}}\left(-\log \hat{l}_{\pmb{x}, y}(\pmb{w}) + \frac{\alpha}{N} \|\pmb{w}\|^2\right) \\
 &amp;= - \frac{\partial \left(\log \hat{l}_{\pmb{x}, y}(\pmb{w})\right)}{\partial \pmb{w}} + \frac{\partial}{\partial \pmb{w}} \left(\frac{\alpha}{N} \|\pmb{w}\|^2\right)\\
 &amp;= - (y-p) \pmb{x} + \frac{2\alpha}{N} \pmb{w}
 \end{align}\]</div>
 <p>これを、確率的勾配降下法の反復式に代入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7a1791af-e4c2-453a-8e14-184b65d34668">
-<span class="eqno">(5.41)<a class="headerlink" href="#equation-7a1791af-e4c2-453a-8e14-184b65d34668" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f85884a6-04b1-493e-bb05-858e44f8c24b">
+<span class="eqno">(5.41)<a class="headerlink" href="#equation-f85884a6-04b1-493e-bb05-858e44f8c24b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w}^{(t+1)} &amp;= \pmb{w}^{(t)} - \eta_t \left.\frac{\partial l_{\pmb{x}, y}(\pmb{w})}{\partial \pmb{w}}\right|_{\pmb{w} = \pmb{w}^{(t)}} \\
 &amp;= \pmb{w}^{(t)} + \eta_t \left\{(y - p) \pmb{x} - \frac{2\alpha}{N} \pmb{w}^{(t)}\right\} \\
 &amp;= \left(1 - \frac{2\alpha\eta_t}{N}\right) \pmb{w}^{(t)} + \eta_t (y - p) \pmb{x}
@@ -990,20 +989,20 @@ l_{\pmb{x}, y}(\pmb{w}) = -\log \hat{l}_{\pmb{x}, y}(\pmb{w}) + \frac{\alpha}{N}
 <p>ここで、真陽性、偽陽性、偽陰性、真陰性の事例数をそれぞれ、<span class="math notranslate nohighlight">\({\rm TP}\)</span>, <span class="math notranslate nohighlight">\({\rm FP}\)</span>, <span class="math notranslate nohighlight">\({\rm FN}\)</span>, <span class="math notranslate nohighlight">\({\rm TN}\)</span>と書くことにすると、正解率<span class="math notranslate nohighlight">\(A\)</span>、適合率<span class="math notranslate nohighlight">\(P\)</span>、再現率<span class="math notranslate nohighlight">\(R\)</span>、F1スコア<span class="math notranslate nohighlight">\(F_1\)</span>は、</p>
 <div class="admonition important">
 <p class="admonition-title">重要</p>
-<div class="amsmath math notranslate nohighlight" id="equation-285994a0-a393-4058-8dac-88c34d05f12e">
-<span class="eqno">(5.42)<a class="headerlink" href="#equation-285994a0-a393-4058-8dac-88c34d05f12e" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-bdaa68cd-d0ef-478b-afb7-948b92438f31">
+<span class="eqno">(5.42)<a class="headerlink" href="#equation-bdaa68cd-d0ef-478b-afb7-948b92438f31" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 A = \frac{\mbox{システムの正しい予測事例数}}{\mbox{評価した全事例数}} = \frac{{\rm TP} + {\rm TN}}{{\rm TP} + {\rm TN} + {\rm FP} + {\rm FN}}
 \end{gather}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-e2801d53-e8e3-4e0e-9180-47450bcc81a9">
-<span class="eqno">(5.43)<a class="headerlink" href="#equation-e2801d53-e8e3-4e0e-9180-47450bcc81a9" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-6b2ed914-c62b-4856-91b6-71bc4e49e784">
+<span class="eqno">(5.43)<a class="headerlink" href="#equation-6b2ed914-c62b-4856-91b6-71bc4e49e784" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 P = \frac{\mbox{システムが正しく正例と予測した事例数}}{\mbox{システムが正例と予測した事例数}} = \frac{{\rm TP}}{{\rm TP} + {\rm FP}}
 \end{gather}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-8a3888f2-2084-480d-8475-a0cd57dff01f">
-<span class="eqno">(5.44)<a class="headerlink" href="#equation-8a3888f2-2084-480d-8475-a0cd57dff01f" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-06cbf7e8-4d4b-47db-8cd9-d688ab23dd7a">
+<span class="eqno">(5.44)<a class="headerlink" href="#equation-06cbf7e8-4d4b-47db-8cd9-d688ab23dd7a" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 R = \frac{\mbox{システムが正しく正例と予測した事例数}}{\mbox{評価データ中の正例の事例数}} = \frac{{\rm TP}}{{\rm TP} + {\rm FN}}
 \end{gather}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-73877729-f485-4d05-ab3b-c4e8a2170567">
-<span class="eqno">(5.45)<a class="headerlink" href="#equation-73877729-f485-4d05-ab3b-c4e8a2170567" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-9c1134f3-a68a-429e-933b-f9674241142c">
+<span class="eqno">(5.45)<a class="headerlink" href="#equation-9c1134f3-a68a-429e-933b-f9674241142c" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 F_1 = \frac{P \times R}{\frac{1}{2}(P + R)} = \frac{2PR}{P + R}
 \end{gather}\]</div>
 </div>
@@ -1012,8 +1011,8 @@ F_1 = \frac{P \times R}{\frac{1}{2}(P + R)} = \frac{2PR}{P + R}
 <p>一般に、適合率と再現率はトレードオフの関係にある。スパムメールの判定の適合率を高めるには、自信を持ってスパムメールと判定できるものだけスパムと判定し、あまり自信がない事例についてはスパムではないと判定すればよい。ところが、このようにして適合率を高めると、スパムメールと判定することに消極的となり、再現率が低下する。一方、再現率を高めるには、スパムメールと認定する基準を下げ、より多くのメールをスパムとして判定できるように調整すればよい。ところが、メールをスパムとして積極的に判定しすぎると、適合率が低下する。従って、モデルの性能を評価するときは、適合率と再現率の両方を測定することが望ましい。スパムメール判定では、スパムフォルダに自動的に仕分けされてしまったメールは読まれないことになってしまうため、再現率よりも適合率を重視すべきである。</p>
 <p>このように、適合率と再現率はトレードオフの関係にあるため、分類器の性能を測定するときにはこの両方の尺度の数値を見る必要がある。この適合率と再現率の調和平均をとったものが<strong>F1スコア</strong>である。F1スコアは異なるモデル間の性能を一つの評価尺度で比較できるので便利である。</p>
 <p>なお、病気などの検査では感度（sensitivity）と特異度（specificity）もよく用いられる。感度は再現率と同じ定義であり、実際に陽性となるべき事例をどの程度陽性として検出できたかを表す。特異度は負例に関する再現率であり、実際に陰性となるべき事例をどの程度陰性として検出できたかを表す。特異度（<span class="math notranslate nohighlight">\(S\)</span>）の定義は次式の通りである。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-739922f8-9db0-432b-961f-7c8c629377ba">
-<span class="eqno">(5.46)<a class="headerlink" href="#equation-739922f8-9db0-432b-961f-7c8c629377ba" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9c00a61f-6792-43c5-896b-90138c15a595">
+<span class="eqno">(5.46)<a class="headerlink" href="#equation-9c00a61f-6792-43c5-896b-90138c15a595" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 S &amp;= \frac{\mbox{システムが正しく負例と予測した事例数}}{\mbox{評価データ中の負例の事例数}} = \frac{{\rm TN}}{{\rm TN} + {\rm FP}}
 \end{align}\]</div>
 </div>
@@ -1504,7 +1503,7 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
         requestKernel: true,
         binderOptions: {
             repo: "chokkan/mlnote",
-            ref: "master",
+            ref: "main",
         },
         codeMirrorConfig: {
             theme: "abcdef",

@@ -29,7 +29,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/custom-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -291,7 +290,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/master?urlpath=lab/tree/unsupervised/01kmeans.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/unsupervised/01kmeans.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="起動 Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -299,13 +298,13 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/master/unsupervised/01kmeans.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/unsupervised/01kmeans.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="起動 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="../_static/images/logo_colab.png"
                     
                     alt="Interact on Colab">Colab</button></a>
 
-        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/master/unsupervised/01kmeans.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/unsupervised/01kmeans.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
             title="起動 SageMaker Studio Lab" data-toggle="tooltip" data-placement="left"><i
                 class="fab fa-aws"></i> SageMaker</button></a>
 
@@ -527,31 +526,31 @@
 <div class="section" id="k-means">
 <h2><span class="section-number">10.2. </span>K-meansクラスタリング<a class="headerlink" href="#k-means" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><span class="math notranslate nohighlight">\(d\)</span>次元のベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>で表された事例を<span class="math notranslate nohighlight">\(N\)</span>件集めたデータがある。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-90a071b0-b048-4b3f-96ef-fd7c2b0c221d">
-<span class="eqno">(10.1)<a class="headerlink" href="#equation-90a071b0-b048-4b3f-96ef-fd7c2b0c221d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-40fc60a0-fd29-4924-affe-83f89fed52f1">
+<span class="eqno">(10.1)<a class="headerlink" href="#equation-40fc60a0-fd29-4924-affe-83f89fed52f1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \{\pmb{x}_1, \pmb{x}_2, \dots, \pmb{x}_N\} = \{\pmb{x}_i\}_{i=1}^N
 \end{align}\]</div>
 <p>このデータ中の事例を<span class="math notranslate nohighlight">\(K\)</span>個のクラスタに分割したい。なお、実際にクラスタリングを行うときは、クラスタの数<span class="math notranslate nohighlight">\(K\)</span>をどのように決定するかが重要な問題となるが、当面は<span class="math notranslate nohighlight">\(K\)</span>を事前に決定してあるものとする。</p>
 <p>ここで、<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(K\)</span>までの自然数の集合を<span class="math notranslate nohighlight">\(\mathbb{N}_K\)</span>と書くことにする。各クラスタに所属する事例を集合<span class="math notranslate nohighlight">\(C_1, C_2, \dots, C_K\)</span>で表す。<span class="math notranslate nohighlight">\(k\)</span>番目のクラスタを表す集合<span class="math notranslate nohighlight">\(C_k\)</span>は、そのクラスタに属する事例のインデックス番号を集めたものであると定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e0033e84-0720-408c-949f-a2d877a7bf79">
-<span class="eqno">(10.2)<a class="headerlink" href="#equation-e0033e84-0720-408c-949f-a2d877a7bf79" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-525e0346-2b82-40b6-a40e-918eab8f58e3">
+<span class="eqno">(10.2)<a class="headerlink" href="#equation-525e0346-2b82-40b6-a40e-918eab8f58e3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 C_k = \{i \in \mathbb{N}_K \mid \text{事例$\pmb{x}_i$が$k$番目のクラスタに属する}\}
 \end{align}\]</div>
 <p>各事例は<span class="math notranslate nohighlight">\(C_1\)</span>から<span class="math notranslate nohighlight">\(C_K\)</span>までのいずれかのクラスタに必ず属することとする。すなわち、任意の異なる<span class="math notranslate nohighlight">\(k, k' \in \mathbb{N}_K\)</span>に対して、<span class="math notranslate nohighlight">\(C_k \cap C_{k'} = \emptyset\)</span>を満たし、かつ<span class="math notranslate nohighlight">\(\bigcup\limits_{k \in \mathbb{N}_K} C_k = \mathbb{N}_K\)</span>である。あるいは、集合族<span class="math notranslate nohighlight">\(\{C_1, C_2, \dots, C_K\}\)</span>は<span class="math notranslate nohighlight">\(\mathbb{N}_K\)</span>の分割と説明することもできる。</p>
 <p>例えば、事例数が<span class="math notranslate nohighlight">\(4\)</span>（<span class="math notranslate nohighlight">\(N=4\)</span>）のデータを<span class="math notranslate nohighlight">\(2\)</span>個のクラスタ（<span class="math notranslate nohighlight">\(K=2\)</span>）に分割するとき、<span class="math notranslate nohighlight">\(\pmb{x}_1, \pmb{x}_2, \pmb{x}_4\)</span>が<span class="math notranslate nohighlight">\(1\)</span>番目のクラスタに属し、<span class="math notranslate nohighlight">\(\pmb{x}_3\)</span>が<span class="math notranslate nohighlight">\(2\)</span>番目のクラスタに属する状況を、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d6a68342-da9e-4a29-a34c-f08564715620">
-<span class="eqno">(10.3)<a class="headerlink" href="#equation-d6a68342-da9e-4a29-a34c-f08564715620" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4f84ed13-b7da-4ed9-bd82-d5e43067130e">
+<span class="eqno">(10.3)<a class="headerlink" href="#equation-4f84ed13-b7da-4ed9-bd82-d5e43067130e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 C_1 = \{1, 2, 4\}, C_2 = \{3\}
 \end{align}\]</div>
 <p>として表す。</p>
 <p>さて、クラスタリングの基本的な考え方は、同じクラスタ内に属する事例間の距離が近く、異なるクラスタ間に属する事例間の距離が遠くなるように、クラスタの割り当てを決定することである。あるクラスタ割り当てが与えられたとき、<strong>K-meansクラスタリング</strong>（K平均クラスタリング）では、各クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>を中心ベクトル<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>で代表させる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-257c16e5-5906-4aa3-958b-8746306f8ec3">
-<span class="eqno">(10.4)<a class="headerlink" href="#equation-257c16e5-5906-4aa3-958b-8746306f8ec3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-68e89346-2e1c-493f-a158-98e9c5933d0e">
+<span class="eqno">(10.4)<a class="headerlink" href="#equation-68e89346-2e1c-493f-a158-98e9c5933d0e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{\mu}_k = \frac{1}{|C_k|} \sum_{i \in C_k} \pmb{x}_i
 \end{align}\]</div>
 <p>そして、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>のまとまり具合を計測する尺度として、そのクラスタに属する事例ベクトルと中心ベクトルとの二乗距離の和を用いる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b2ca6091-de0a-4a97-828c-df90077caa1e">
-<span class="eqno">(10.5)<a class="headerlink" href="#equation-b2ca6091-de0a-4a97-828c-df90077caa1e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f4e74d16-c4cc-4457-956b-4284bea80f37">
+<span class="eqno">(10.5)<a class="headerlink" href="#equation-f4e74d16-c4cc-4457-956b-4284bea80f37" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2
 \end{align}\]</div>
 <p>これは、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>に属する事例の分散の<span class="math notranslate nohighlight">\(|C_k|\)</span>倍であるから、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>内のデータのばらつきを表していると解釈できる。</p>
@@ -1790,20 +1789,20 @@ UsIsWJIkSQmzYEmSJCXMgiVJkpQwC5YkSVLC/j+3sErRd0s/HQAAAABJRU5ErkJggg==\
 <h2><span class="section-number">10.4. </span>K-meansの目的関数の最小化<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Lloydのアルゴリズムがジャーナル論文として出版されたのは1982年であるが、Lloydのアルゴリズムそのものは1950年代後半から知られるようになっていた。K-meansという名前が使われるようになったのは、<span id="id15">MacQueen [<a class="reference internal" href="../reference.html#id11">1967</a>]</span> の論文によると言われている。そこで、K-meansの目的関数<span class="math notranslate nohighlight">\(J\)</span>とLloydのアルゴリズムがそのように関係するのか説明しておく。</p>
 <p>クラスタの割り当てを決める際、学習データ<span class="math notranslate nohighlight">\(\mathcal{D} = \{\pmb{x}_i\}_{i=1}^N\)</span>は不変であるので、K-meansクラスタリングの目的関数（式<a class="reference internal" href="#equation-eq-kmeans-objective">(10.6)</a>）は<span class="math notranslate nohighlight">\(C_1, \dots, C_K, \pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>の関数である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-102c57f2-423d-4952-8278-97f91cf9c19f">
-<span class="eqno">(10.9)<a class="headerlink" href="#equation-102c57f2-423d-4952-8278-97f91cf9c19f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-de2b23c2-ce04-4296-ac93-248a13be99f4">
+<span class="eqno">(10.9)<a class="headerlink" href="#equation-de2b23c2-ce04-4296-ac93-248a13be99f4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 J = \sum_{k=1}^{K} \sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2
 \end{align}\]</div>
 <p>この目的関数を最小化するため、<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>と<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を交互に更新していくことを考える。</p>
 <p>まず、<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小化するクラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を求めることを考える。全ての事例はいずれかのクラスタに属しなければならないが、<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>が固定されている状況では、ある事例のクラスタ割り当てが別の事例のクラスタ割り当てに影響を及ぼしたり、目的関数<span class="math notranslate nohighlight">\(J\)</span>の値を変化させてしまうことはない。したがって、事例<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>ごとに距離が最小となる中心<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>を選べばよい。すなわち、事例<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>を次式で求まる番号のクラスタに所属させればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7bfb99cb-f73e-48ab-826e-444632d7ec26">
-<span class="eqno">(10.10)<a class="headerlink" href="#equation-7bfb99cb-f73e-48ab-826e-444632d7ec26" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bee68119-5764-4920-b0af-6c35bc377d45">
+<span class="eqno">(10.10)<a class="headerlink" href="#equation-bee68119-5764-4920-b0af-6c35bc377d45" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\pmb{x}_i - \pmb{\mu}_k\|^2
 \end{align}\]</div>
 <p>これにより、Lloydのアルゴリズムの式<a class="reference internal" href="#equation-eq-kmeans-cluster-assignment">(10.7)</a>を導出できた。</p>
 <p>次に、クラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小にする<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を求める。目的関数<span class="math notranslate nohighlight">\(J\)</span>の計算において、各<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>の間に依存関係はないので、全ての<span class="math notranslate nohighlight">\(k \in \mathbb{N}_K\)</span>に対して、目的関数を最小とする<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>を求めればよい。そこで、目的関数<span class="math notranslate nohighlight">\(J\)</span>を<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>で偏微分して<span class="math notranslate nohighlight">\(0\)</span>とおく。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-911f7a86-c917-4e16-8ca4-2d1d0d299e45">
-<span class="eqno">(10.11)<a class="headerlink" href="#equation-911f7a86-c917-4e16-8ca4-2d1d0d299e45" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9aa8c733-74b9-4e4f-bf0f-eaa9e4a0ae31">
+<span class="eqno">(10.11)<a class="headerlink" href="#equation-9aa8c733-74b9-4e4f-bf0f-eaa9e4a0ae31" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial J}{\partial \pmb{\mu}_k} = \frac{\partial}{\partial \pmb{\mu}_k} \left(\sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2\right) = 2 \sum_{i \in C_k} (\pmb{x}_i - \pmb{\mu}_k) &amp;= 0 \\
 \sum_{i \in C_k} \pmb{x}_i - \sum_{i \in C_k} \pmb{\mu}_k &amp;= 0 \\
 \sum_{i \in C_k} \pmb{x}_i - |C_k| \pmb{\mu}_k &amp;= 0 \\
@@ -2363,7 +2362,7 @@ V(\pmb{\mu}_k) = \{\pmb{x} \in \mathbb{R}^d \mid \|\pmb{x} - \pmb{\mu}_k\|^2 \le
         requestKernel: true,
         binderOptions: {
             repo: "chokkan/mlnote",
-            ref: "master",
+            ref: "main",
         },
         codeMirrorConfig: {
             theme: "abcdef",

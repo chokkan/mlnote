@@ -2,14 +2,14 @@ name: mlnote-env
 
 dependencies:
   - ipython
-  - pip
   - python
   - numpy
   - matplotlib
   - pandas
   - autograd
-  - torch
+  - pytorch
   - tensorflow
   - jax
-  - schemdraw
-  
+  - pip
+  - pip:
+    - schemdraw

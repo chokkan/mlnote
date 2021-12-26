@@ -1,5 +1,6 @@
 numpy
 matplotlib
+scikit-learn
 pandas
 autograd
 torch

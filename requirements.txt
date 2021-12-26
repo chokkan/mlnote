@@ -1,0 +1,8 @@
+numpy
+matplotlib
+pandas
+autograd
+torch
+tensorflow
+jax
+schemdraw

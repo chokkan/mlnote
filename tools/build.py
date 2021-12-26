@@ -18,7 +18,7 @@ twitter_card = """
 sagemaker_studio_lab = """
                     alt="Interact on Colab">Colab</button></a>
 
-        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/master/{}"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/{}"><button type="button" class="btn btn-secondary topbarbtn"
             title="起動 SageMaker Studio Lab" data-toggle="tooltip" data-placement="left"><i
                 class="fab fa-aws"></i> SageMaker</button></a>
 """
@@ -41,7 +41,7 @@ def modify_html():
             
         # Find the path to .ipynb
         path = ''
-        m = re.search(r'"https://colab\.research\.google\.com/github/chokkan/mlnote/blob/master/([^"]+)"', content)
+        m = re.search(r'"https://colab\.research\.google\.com/github/chokkan/mlnote/blob/main/([^"]+)"', content)
         if m is not None:
             path = m.group(1)
             print(f'    path: {path}')

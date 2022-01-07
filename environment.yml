@@ -5,6 +5,7 @@ dependencies:
   - python
   - numpy
   - matplotlib
+  - scikit-learn
   - pandas
   - autograd
   - pytorch

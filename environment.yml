@@ -1,4 +1,4 @@
-name: mlnote-env
+name: mlnote
 
 dependencies:
   - ipython

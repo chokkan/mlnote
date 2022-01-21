@@ -63,14 +63,6 @@ def modify_html():
         with open(src, 'w') as fo:
             fo.write(content)
 
-def update_license():
-    for src in glob.glob('*.ipynb'):
-        with open(src) as fi:
-            content = fi.read()
-        with open(src, 'w') as fo:
-            fo.write(content)
-
 if __name__ == '__main__':
-    #update_license()
     build()
     modify_html()

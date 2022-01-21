@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -43,7 +43,7 @@
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/translations.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -91,7 +91,12 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
     
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
@@ -224,22 +229,22 @@
 
 
           
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
     <div class="topbar container-xl fixed-top">
     <div class="topbar-contents row">
         <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
         <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="ナビゲーションを切り替え" aria-controls="site-navigation"
-                title="ナビゲーションを切り替え" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">ナビゲーションを切り替え</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
             
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
@@ -254,7 +259,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -309,6 +314,7 @@
                 class="fab fa-aws"></i> SageMaker</button></a>
 
         
+        
         <button type="button" class="btn btn-secondary topbarbtn"
             onclick="initThebeSBT()" title="起動 Thebe" data-toggle="tooltip" data-placement="left"><i
                 class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
@@ -319,7 +325,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> 目次
@@ -415,7 +421,106 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>ニューラルネットワーク (2)</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> 目次 </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   8.1. 計算グラフと自動微分
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     8.1.1. 前向き計算
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     8.1.2. 後ろ向き自動微分
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     8.1.3. 損失関数を自動微分する例
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     8.1.4. 自動微分の実装
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#nn">
+   8.2. 単層NNの学習
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     8.2.1. 原始的な実装
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sequential">
+     8.2.2. Sequentialによる実装
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     8.2.3. 最適化アルゴリズムの利用
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     8.2.4. NNのクラスを定義・実装する
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   8.3. 多層NNの実装
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     8.3.1. 単層NN
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     8.3.2. 多層NN
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id13">
+   8.4. 確認問題: 自動微分
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id14">
+   8.5. 確認問題: NNの学習
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="id1">
@@ -433,13 +538,13 @@
 <p>前章では、多層のニューラルネットワークを一般的に表現する方法を説明した。また、論理和（OR）や論理積（AND）などの論理結合子に対応する単層ニューラルネットワーク（線形分類器）のパラメータを学習で求め、その組み合わせで排他的論理和（XOR）の入出力を再現する多層ニューラルネットワークを構成する例を示した。排他的論理和の例では、入力と出力の組み合わせの数が少ないうえ、入力を出力に対応付ける背景知識（論理）が明確であった。ところが、機械学習が用いられるシナリオは、入力を出力に対応づけるメカニズムが不明な状況において、訓練データのみを用いて入力から出力を計算する写像を獲得することである。単層ニューラルネットワークの学習方法は回帰や線形分類などで説明した通りであるが、多層ニューラルネットワークの学習はどのようにすれば良いのだろうか？</p>
 <p>本章では、ニューラルネットワークのモデルのパラメータを確率的勾配降下法で汎用的に学習する手法として、<strong>計算グラフ</strong>（computation graph）による<strong>自動微分</strong>（automatic differentiation）を紹介する。その後、<a class="reference external" href="https://pytorch.org/">PyTorch</a>による実装を紹介する。</p>
 <p>まず、確率的勾配降下法の更新式を思い出してみたい。モデルに含まれる全てのパラメータを1次元に並べてベクトルとして一般的に表現したものを<span class="math notranslate nohighlight">\(\pmb{\theta}\)</span>と書くことにする。例えば、式<a class="reference internal" href="03nn.html#equation-eq-multi-layer-nn-example">(7.24)</a>の例では、行列<span class="math notranslate nohighlight">\(\pmb{W}^{(1)}, \pmb{W}^{(2)}\)</span>の全ての要素、ベクトル<span class="math notranslate nohighlight">\(\pmb{b}^{(1)}\)</span>の全ての要素、スカラー<span class="math notranslate nohighlight">\(b^{(2)}\)</span>を並べたベクトルが<span class="math notranslate nohighlight">\(\pmb{\theta}\)</span>である。ある訓練事例<span class="math notranslate nohighlight">\((\pmb{x}, \pmb{y})\)</span>に対する損失関数を<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta}^{(t)})\)</span>と定義する。<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータの値を<span class="math notranslate nohighlight">\(\pmb{\theta}^{(t)}\)</span>と書くことにすると、パラメータの更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7880eecf-69e3-4ee8-94ce-e9bc8d2e33f9">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-7880eecf-69e3-4ee8-94ce-e9bc8d2e33f9" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e14bc190-cc0a-44b0-ade1-917704db2482">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-e14bc190-cc0a-44b0-ade1-917704db2482" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{\theta}^{(t+1)} = \pmb{\theta}^{(t)} - \eta_t \nabla \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta}^{(t)})
 \end{align}\]</div>
 <p>パラメータベクトル<span class="math notranslate nohighlight">\(\pmb{\theta}\)</span>の要素数を<span class="math notranslate nohighlight">\(K\)</span>とすると、勾配<span class="math notranslate nohighlight">\(\nabla \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d29223b0-4c9d-42ce-bf88-1e6626031a53">
-<span class="eqno">(8.2)<a class="headerlink" href="#equation-d29223b0-4c9d-42ce-bf88-1e6626031a53" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7aa1931d-3a94-439c-924e-14b1798c3030">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-7aa1931d-3a94-439c-924e-14b1798c3030" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \nabla \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta}) = \begin{pmatrix} \frac{\partial \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})}{\partial \theta_1} &amp; \frac{\partial \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})}{\partial \theta_2} &amp; \dots &amp; \frac{\partial \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})}{\partial \theta_K} \end{pmatrix}
 \end{align}\]</div>
 <p>である。ゆえに、損失関数<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})\)</span>に対して、全てのパラメータ<span class="math notranslate nohighlight">\(\theta_k\)</span> (<span class="math notranslate nohighlight">\(k \in \{1, 2, \dots, K\}\)</span>) に関する偏微分を求めることができれば、確率的勾配降下法を適用できる。これまでは、損失関数の定義から合成関数の微分や連鎖律を駆使して偏微分を求め、回帰では式<a class="reference internal" href="../regression/04sgd.html#equation-eq-grad-regression">(4.32)</a>、線形二値分類では式<a class="reference internal" href="01binary.html#equation-eq-grad-logress">(5.31)</a>、線形多値分類では式<a class="reference internal" href="02multi.html#equation-eq-grad-multilogress">(6.33)</a>を得た。しかし、多層ニューラルネットワークになると損失値を計算するまでに関数の合成が何回も繰り返されるため、偏微分を手作業で求めるのは大変である。また、用いるニューラルネットワークの形状や活性化関数によって偏微分を求める式が変わってしまうため、全ての場合に対して手作業で偏微分を求めるのは現実的ではない。そこで、ニューラルネットワークの学習では損失関数を計算グラフとして表現し、自動微分で偏微分を求めるのが定石となっている。これは、ニューラルネットワークの学習方法として考案された<strong>誤差逆伝播法</strong>（backpropagation）と本質的に同じものである。</p>
@@ -4610,8 +4715,8 @@ JEmSJNXm/wNA/smcBO73VQAAAABJRU5ErkJggg==\
 <p>後ろ向き自動微分では、根から葉に向かって偏微分の値を計算していく。このアニメーションでは、葉が左側、根が右側に配置されているので、右から左へと偏微分の計算が行われていく。そのため、この計算過程は<strong>後ろ向き自動微分</strong>（backward automatic differentiation）や<strong>リバースモード自動微分</strong>（reverse-mode automatic differentiation）と呼ばれている。</p>
 <p>後ろ向き自動微分では、根に対応する部分に<span class="math notranslate nohighlight">\(1\)</span>を書くことからスタートする。続けて、計算グラフ上の根（右側）から葉（左側）に向かって偏微分の値を計算していく。計算グラフ中のノードを右から左に通過するたびに、ノードの右側を左側で偏微分した値と、ノードの右側で既に計算されている偏微分値の積を計算し、左側に書き込んでいく。この手続きを再帰的に繰り返していくと、全てのノードに関する偏微分の値を計算できる。</p>
 <p>このアニメーションの各コマで求められた偏微分の計算過程を以下に示す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-921d82db-8e01-4006-a379-184b4305a34f">
-<span class="eqno">(8.3)<a class="headerlink" href="#equation-921d82db-8e01-4006-a379-184b4305a34f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cfa4ee2d-11bd-4920-ba6f-afda42435b47">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-cfa4ee2d-11bd-4920-ba6f-afda42435b47" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial y}{\partial y} &amp;=  1 \\
 \frac{\partial y}{\partial \alpha} &amp;= \frac{\partial }{\partial \alpha} (\alpha + b) = 1 \\
 \frac{\partial y}{\partial b} &amp;= \frac{\partial }{\partial b} (\alpha + b) = 1 \\
@@ -4623,14 +4728,14 @@ JEmSJNXm/wNA/smcBO73VQAAAABJRU5ErkJggg==\
 <div class="section" id="id5">
 <h3><span class="section-number">8.1.3. </span>損失関数を自動微分する例<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>後ろ向き自動微分の実行過程は明確ではあるが、この単純な例ではその威力が分かりにくいかもしれない。より実践的な例として、単層ニューラルネットワーク（線形二値分類モデル）対して、二値クロスエントロピーで定義された損失関数に基づき、パラメータの勾配を求める例を考えよう。特徴ベクトルの要素数を<span class="math notranslate nohighlight">\(d\)</span>、訓練事例を<span class="math notranslate nohighlight">\((\pmb{x}, y) \in \mathbb{R}^d \times \{0, 1\}\)</span>、単層ニューラルネットワークのパラメータを<span class="math notranslate nohighlight">\(\pmb{w} \in \mathbb{R}^d\)</span>、活性化関数にシグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>を用いることにすると、損失関数は<span class="math notranslate nohighlight">\(\log \hat{l}_{\pmb{x}, y}(\pmb{w})\)</span>で表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-87eeea2d-d218-41ab-982c-4afb4ef96a5a">
-<span class="eqno">(8.4)<a class="headerlink" href="#equation-87eeea2d-d218-41ab-982c-4afb4ef96a5a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f3fea55e-c73e-49f6-8b04-b361afc9fafb">
+<span class="eqno">(8.4)<a class="headerlink" href="#equation-f3fea55e-c73e-49f6-8b04-b361afc9fafb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{l}_{\pmb{x}, y}(\pmb{w}) &amp;= -y \log p - (1-y) \log (1-p) \\
 p &amp;= \sigma(\pmb{x}^\top \pmb{w}) = \frac{1}{1 + e^{-\pmb{x}^\top \pmb{w}}}
 \end{align}\]</div>
 <p>ここでは、選ばれた訓練事例は正例（<span class="math notranslate nohighlight">\(y = 1\)</span>）とする。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dc985a34-a7ea-47d8-9f26-f4c3f7cc34c1">
-<span class="eqno">(8.5)<a class="headerlink" href="#equation-dc985a34-a7ea-47d8-9f26-f4c3f7cc34c1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-97608244-3130-4c1e-bde7-ab1a4a06a52c">
+<span class="eqno">(8.5)<a class="headerlink" href="#equation-97608244-3130-4c1e-bde7-ab1a4a06a52c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{l}_{\pmb{x}, 1}(\pmb{w}) = -\log p = -\log \sigma(\pmb{x}^\top \pmb{w}) = -\log \frac{1}{1 + e^{-\pmb{x}^\top \pmb{w}}}
 \end{align}\]</div>
 <p>さらに、特徴ベクトルの次元数<span class="math notranslate nohighlight">\(d = 2\)</span>の場合を考えると、損失関数は、</p>
@@ -14937,8 +15042,8 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </pre></div>
 </div>
 <p>ミニバッチ処理のため、式<a class="reference internal" href="#equation-eq-single-layer-nn-example">(8.7)</a>の<span class="math notranslate nohighlight">\(\pmb{x}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を用い、<span class="math notranslate nohighlight">\(\hat{y}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\hat{\pmb{y}}\)</span>を計算する。<a class="reference external" href="https://pytorch.org/docs/stable/notes/broadcasting.html">ブロードキャスト</a>により、スカラである<code class="docutils literal notranslate"><span class="pre">b</span></code>はベクトルに拡張され、計算が行われる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8b29b9a0-f07c-45d7-84b4-514f3c5dac49">
-<span class="eqno">(8.8)<a class="headerlink" href="#equation-8b29b9a0-f07c-45d7-84b4-514f3c5dac49" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d3f5f263-d432-4d90-a85d-6299da24c3b4">
+<span class="eqno">(8.8)<a class="headerlink" href="#equation-d3f5f263-d432-4d90-a85d-6299da24c3b4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\pmb{y}} &amp;= \sigma(\pmb{X}\pmb{w} + \pmb{b}) \\
 \begin{pmatrix}
 \hat{y}_1 \\
@@ -14969,8 +15074,8 @@ b
 </pre></div>
 </div>
 <p>事例ごとに尤度を計算して、<code class="docutils literal notranslate"><span class="pre">l</span></code>に格納する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ac58e109-0e5d-4f26-9edf-b5253058446a">
-<span class="eqno">(8.9)<a class="headerlink" href="#equation-ac58e109-0e5d-4f26-9edf-b5253058446a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a6f066ae-c13a-41d7-8f60-814b17bfbd36">
+<span class="eqno">(8.9)<a class="headerlink" href="#equation-a6f066ae-c13a-41d7-8f60-814b17bfbd36" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{l} &amp;= \pmb{y} \odot \hat{\pmb{y}} + (1 - \pmb{y}) \cdot (1 - \hat{\pmb{y}}) \\
 \begin{pmatrix}
 l_1 \\
@@ -15408,8 +15513,8 @@ y_4 \hat{y}_4
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="03nn.html" title="前へ ページ">
         <i class="fas fa-angle-left"></i>
@@ -15426,20 +15531,18 @@ y_4 \hat{y}_4
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          <div class="extra_footer">
-            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+  <p>
+    
+      <div class="extra_footer">
+        © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
 
-          </div>
-      </p>
-    </div>
-  </footer>
+      </div>
+  </p>
+</footer>
 </main>
 
 

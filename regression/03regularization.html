@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -43,7 +43,7 @@
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/translations.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -91,7 +91,12 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
     
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
@@ -224,22 +229,22 @@
 
 
           
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
     <div class="topbar container-xl fixed-top">
     <div class="topbar-contents row">
         <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
         <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="ナビゲーションを切り替え" aria-controls="site-navigation"
-                title="ナビゲーションを切り替え" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">ナビゲーションを切り替え</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
             
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
@@ -254,7 +259,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -309,6 +314,7 @@
                 class="fab fa-aws"></i> SageMaker</button></a>
 
         
+        
         <button type="button" class="btn btn-secondary topbarbtn"
             onclick="initThebeSBT()" title="起動 Thebe" data-toggle="tooltip" data-placement="left"><i
                 class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
@@ -319,7 +325,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> 目次
@@ -358,7 +364,49 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>モデル選択と正則化</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> 目次 </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   3.1. 汎化と過学習
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   3.2. モデル選択
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#l-2">
+   3.3.
+   <span class="math notranslate nohighlight">
+    \(L_2\)
+   </span>
+   正則化（リッジ回帰）
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   3.4. 確認問題
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="id1">
@@ -645,14 +693,14 @@ d = 9: [ 7.9e+04 -3.6e+05  6.7e+05 -7.0e+05  4.3e+05 -1.6e+05  3.6e+04 -4.3e+03 
 <p>次元数<span class="math notranslate nohighlight">\(d\)</span>が増加するにつれて、多項式の係数の値が急激に増加し、極端な曲線でデータをフィッティングしようとしている傾向が見受けられる。そこで、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の「複雑さ」を何らかの関数<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>で測定すれば、過学習の検出に役立つ。また、学習の過程において、複雑すぎるパラメータ対してペナルティ（罰則）を与えながら、パラメータの学習を行うことができれば、過学習の抑制につながる。パラメータの訓練データへの適合度合いとパラメータの複雑さのバランスを取りながら学習する方法は、<strong>正則化</strong>（regularization）と呼ばれる。</p>
 <p>具体的には、訓練データの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\pmb{w})\)</span>に加えて、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の複雑さを表現する関数<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>
 に関するペナルティ項を追加した目的関数<span class="math notranslate nohighlight">\(\hat{J}(\pmb{w})\)</span>を採用することで、両者のバランスを自動的に保ちながらパラメータを求めることを考える。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-03c0814a-1943-403a-bec0-389798511da5">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-03c0814a-1943-403a-bec0-389798511da5" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0e9870c5-a72d-4c56-b5f2-58509e787d4d">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-0e9870c5-a72d-4c56-b5f2-58509e787d4d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{J}(\pmb{w}) = \hat{L}(\pmb{w}) + \alpha R(\pmb{w})
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> <span class="math notranslate nohighlight">\((\geq 0)\)</span>は正則化の効果を指定するハイパーパラメータである。<span class="math notranslate nohighlight">\(\alpha\)</span>を大きく設定すると、パラメータの複雑さ<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>が目的関数に与える影響が大きくなるので、過学習が抑制される。ただし、<span class="math notranslate nohighlight">\(\alpha\)</span>を大きくしすぎるとモデルのデータへの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\pmb{w})\)</span>を軽視することになるため、<strong>過少適合</strong>（アンダーフィッティング）となる。逆に<span class="math notranslate nohighlight">\(\alpha\)</span>を小さく設定すると、モデルへのデータへの適合度合いを重視することになるが、過学習を抑制する効果が薄れる。このように、<span class="math notranslate nohighlight">\(\alpha\)</span>の設定はモデルのデータへの適合度合いと複雑さのトレードオフの関係にある。モデル選択の時と同様に、正則化の重み係数<span class="math notranslate nohighlight">\(\alpha\)</span>はハイパーパラメータとして検証データ上でチューニングする。</p>
 <p>パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の複雑さを定量化する方法はいくつかある。ここでは、最も取り扱いが簡単なパラメータベクトルの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムの二乗を用いる。すなわち、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-53d6038f-8bdf-4bbf-b5fa-37df5c3adfa7">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-53d6038f-8bdf-4bbf-b5fa-37df5c3adfa7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f9d5b4f4-5cd4-45ca-a9b9-9237a963c0b3">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-f9d5b4f4-5cd4-45ca-a9b9-9237a963c0b3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 R(\pmb{w}) = \|\pmb{w}\|^2
 \end{align}\]</div>
 <p>とする。</p>
@@ -682,22 +730,22 @@ d = 9: |W|_2^2 = 1291698590019.2412
 <p>目的関数の正則化項としてパラメータの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムを用いる回帰を、<strong>リッジ回帰</strong>（<span class="math notranslate nohighlight">\(L_2\)</span>正則化付き回帰）と呼ぶ。リッジ回帰の目的関数は、通常の回帰の目的関数にモデルの複雑さを表すペナルティ項を付与したもので、次式で表される。</p>
 <div class="important admonition">
 <p class="admonition-title">リッジ回帰の目的関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0f937133-1bb4-4d60-bee1-31a7dcb67a1b">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-0f937133-1bb4-4d60-bee1-31a7dcb67a1b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bf3db76b-5418-478b-95eb-8695334a6284">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-bf3db76b-5418-478b-95eb-8695334a6284" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{J}(\pmb{w}) &amp;= \hat{L}(\pmb{w}) + \alpha R(\pmb{w}) \\
 &amp;= \|\pmb{y} - \pmb{X}\pmb{w}\|^2 + \alpha \|\pmb{w}\|^2
 \end{align}\]</div>
 </div>
 <p>リッジ回帰のパラメータ推定は通常の回帰と同様である。目的関数<span class="math notranslate nohighlight">\(J(\pmb{w})\)</span>を最小化する<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を求めるために、その勾配<span class="math notranslate nohighlight">\(\nabla \hat{J}(\pmb{w})\)</span>を求める。重回帰の時に求めた偏微分の結果を用いると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f09a96bf-b8c8-4e07-9c97-6d4ea9da46d6">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-f09a96bf-b8c8-4e07-9c97-6d4ea9da46d6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-372e976a-6cb8-4172-92d5-4d21eb81d20e">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-372e976a-6cb8-4172-92d5-4d21eb81d20e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \nabla \hat{J}(\pmb{w}) &amp;= \frac{\partial}{\partial \pmb{w}} \left(\hat{L}(\pmb{w}) + \alpha R(\pmb{w})\right) \\
   &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + \frac{\partial}{\partial \pmb{w}} \left(\alpha \|\pmb{w}\|^2\right) \\
   &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + 2 \alpha \pmb{w} \\
 \end{align}\]</div>
 <p>これを<span class="math notranslate nohighlight">\(0\)</span>とおき、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>について解くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b5879420-dc23-4c7b-bebf-4a67c643f63e">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-b5879420-dc23-4c7b-bebf-4a67c643f63e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6a57bfa6-ccb2-4721-9f34-c7551a2a98e7">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-6a57bfa6-ccb2-4721-9f34-c7551a2a98e7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + \alpha \pmb{w} &amp;= 0 \\
 \pmb{X}^\top \pmb{X}\pmb{w} - \pmb{X}^\top \pmb{y} + \alpha \pmb{w} &amp;= 0 \\
 (\pmb{X}^\top \pmb{X} + \alpha \pmb{I})\pmb{w} &amp;= \pmb{X}^\top \pmb{y} \\
@@ -757,8 +805,8 @@ d = 9: |W|_2^2 = 1291698590019.2412
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="02mra.html" title="前へ ページ">
         <i class="fas fa-angle-left"></i>
@@ -775,20 +823,18 @@ d = 9: |W|_2^2 = 1291698590019.2412
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          <div class="extra_footer">
-            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+  <p>
+    
+      <div class="extra_footer">
+        © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
 
-          </div>
-      </p>
-    </div>
-  </footer>
+      </div>
+  </p>
+</footer>
 </main>
 
 

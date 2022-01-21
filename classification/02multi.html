@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -43,7 +43,7 @@
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/translations.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -91,7 +91,12 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
     
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
@@ -224,22 +229,22 @@
 
 
           
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
     <div class="topbar container-xl fixed-top">
     <div class="topbar-contents row">
         <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
         <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="ナビゲーションを切り替え" aria-controls="site-navigation"
-                title="ナビゲーションを切り替え" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">ナビゲーションを切り替え</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
             
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
@@ -254,7 +259,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -309,6 +314,7 @@
                 class="fab fa-aws"></i> SageMaker</button></a>
 
         
+        
         <button type="button" class="btn btn-secondary topbarbtn"
             onclick="initThebeSBT()" title="起動 Thebe" data-toggle="tooltip" data-placement="left"><i
                 class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
@@ -319,7 +325,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> 目次
@@ -427,7 +433,118 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>線形多クラス分類</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> 目次 </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   6.1. 多値分類とは
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   6.2. 手書き文字認識
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   6.3. 線形多クラス分類
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   6.4. 多クラスロジスティック回帰
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   6.5. ソフトマックス関数の性質
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     6.5.1. ソフトマックス関数の実装
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     6.5.2. ソフトマックス関数の微分
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   6.6. データの表現
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   6.7. 最尤推定
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   6.8. 確率的勾配降下法
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     6.8.1. 確率的勾配降下法の更新式の解釈
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id13">
+   6.9. 評価
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     6.9.1. マクロ平均とマイクロ平均
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id15">
+   6.10. 実装例
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id16">
+   6.11. 確認問題
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id17">
+   6.12. 付録
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mnist-npz">
+     6.12.1. mnist.npzを作成するプログラム
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="id1">
@@ -572,8 +689,8 @@ Test data (Y): (10000,) uint8
 <p><strong>線形多クラス分類</strong> (linear multi-class classification) では、各カテゴリ<span class="math notranslate nohighlight">\(y \in \mathcal{Y}\)</span>に重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_y \in \mathbb{R}^d\)</span>を用意し、事例<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^{d}\)</span>と重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_y\)</span>との内積を計算し、最も高い内積値が計算されたカテゴリ<span class="math notranslate nohighlight">\(y \in \mathcal{Y}\)</span>に分類する。</p>
 <div class="important admonition">
 <p class="admonition-title">線形多クラス分類のラベル推定式</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c32edefd-5bb1-4da0-822b-ebfd6553c381">
-<span class="eqno">(6.1)<a class="headerlink" href="#equation-c32edefd-5bb1-4da0-822b-ebfd6553c381" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3145613f-c7b7-4de2-9756-72fbf1ab3f68">
+<span class="eqno">(6.1)<a class="headerlink" href="#equation-3145613f-c7b7-4de2-9756-72fbf1ab3f68" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{y} = \mathop{\rm argmax}\limits_{y \in \mathcal{Y}} \pmb{w}_y^\top\pmb{x}
 \end{align}\]</div>
 </div>
@@ -594,13 +711,13 @@ P(\hat{y} = \mathcal{C}_j|\pmb{x}) = \frac{\exp (\pmb{w}_j^\top\pmb{x})}{\sum_{k
 \]</div>
 </div>
 <p>この式を詳しく説明するため、あるクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に対するモデルの重み<span class="math notranslate nohighlight">\(\pmb{w}_j\)</span>と事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>との内積を<span class="math notranslate nohighlight">\(a_j\)</span></p>
-<div class="amsmath math notranslate nohighlight" id="equation-af7bd62a-5855-42ee-a298-ea6b142cb5be">
-<span class="eqno">(6.3)<a class="headerlink" href="#equation-af7bd62a-5855-42ee-a298-ea6b142cb5be" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ed101657-68c9-41fa-bc66-6b8b08fdd83d">
+<span class="eqno">(6.3)<a class="headerlink" href="#equation-ed101657-68c9-41fa-bc66-6b8b08fdd83d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 a_j = \pmb{w}_j^\top\pmb{x}
 \end{align}\]</div>
 <p>と書くことにして、<span class="math notranslate nohighlight">\(K\)</span>個のクラスに対する内積値をベクトル<span class="math notranslate nohighlight">\(\pmb{a} \in \mathbb{R}^{K}\)</span>にまとめる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-25d9b717-2057-4cdb-a31c-c107ed293170">
-<span class="eqno">(6.4)<a class="headerlink" href="#equation-25d9b717-2057-4cdb-a31c-c107ed293170" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9053ee74-c5f7-4944-8a2f-4d98863e544c">
+<span class="eqno">(6.4)<a class="headerlink" href="#equation-9053ee74-c5f7-4944-8a2f-4d98863e544c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{a} = \begin{pmatrix}
 a_1 \\ a_2 \\ \vdots \\ a_K
 \end{pmatrix} = \begin{pmatrix}
@@ -610,8 +727,8 @@ a_1 \\ a_2 \\ \vdots \\ a_K
 <p>すると、式<a class="reference internal" href="#equation-eq-multiclass-logistic-regression">(6.2)</a>は<strong>ソフトマックス関数</strong>（softmax function）<span class="math notranslate nohighlight">\(\sigma: \mathbb{R}^K \mapsto \mathbb{R}^K\)</span>で表すことができる。</p>
 <div class="important admonition">
 <p class="admonition-title">ソフトマックス関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f19de013-ca0f-4f3a-9233-920071570f77">
-<span class="eqno">(6.5)<a class="headerlink" href="#equation-f19de013-ca0f-4f3a-9233-920071570f77" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1437df77-1a80-4e42-aeca-fe174a46057a">
+<span class="eqno">(6.5)<a class="headerlink" href="#equation-1437df77-1a80-4e42-aeca-fe174a46057a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 P(\hat{y} = \mathcal{C}_j|\pmb{x}) = \sigma(\pmb{a})_j = \frac{\exp a_j}{\sum_{k = 1}^{K} \exp a_k}
 \end{align}\]</div>
 </div>
@@ -660,15 +777,15 @@ P(\hat{y} = \mathcal{C}_j|\pmb{x}) = \sigma(\pmb{a})_j = \frac{\exp a_j}{\sum_{k
 </div>
 </div>
 <p>多クラスロジスティック回帰は、重みベクトルを行列で表現することで、より一般的に記述できる。重みベクトル行ベクトルとし、<span class="math notranslate nohighlight">\(\pmb{w}_1^\top, \pmb{w}_2^\top, \dots, \pmb{w}_K^\top \in \mathbb{R}^d\)</span>を縦に並べた行列<span class="math notranslate nohighlight">\(\pmb{W} \in \mathbb{R}^{K \times d}\)</span>を考える。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-22d5ba27-d7c8-423e-ab32-c6f070250061">
-<span class="eqno">(6.6)<a class="headerlink" href="#equation-22d5ba27-d7c8-423e-ab32-c6f070250061" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0b41a7cb-dd5f-4177-a067-c6ef37cc314c">
+<span class="eqno">(6.6)<a class="headerlink" href="#equation-0b41a7cb-dd5f-4177-a067-c6ef37cc314c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{W} = \begin{pmatrix}
 \pmb{w}_1^\top \\ \pmb{w}_2^\top \\ \vdots \\ \pmb{w}_K^\top
 \end{pmatrix}
 \end{align}\]</div>
 <p>すると、事例<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>全ての重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_k\)</span>との内積<span class="math notranslate nohighlight">\(a_k\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fcb0fd16-281a-4e7f-bb5c-4b36cbc0dddd">
-<span class="eqno">(6.7)<a class="headerlink" href="#equation-fcb0fd16-281a-4e7f-bb5c-4b36cbc0dddd" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-37a92dc3-aedb-4163-ace7-6b97aaf9c183">
+<span class="eqno">(6.7)<a class="headerlink" href="#equation-37a92dc3-aedb-4163-ace7-6b97aaf9c183" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \begin{pmatrix}a_1 \\ a_2 \\ \vdots \\ a_K\end{pmatrix} &amp;= \begin{pmatrix}\pmb{w}_1^\top\pmb{x} \\ \pmb{w}_2^\top\pmb{x} \\ \vdots \\ \pmb{w}_K^\top\pmb{x}\end{pmatrix} \\
 \pmb{a} &amp;= \pmb{W}\pmb{x}
 \end{align}\]</div>
@@ -688,17 +805,17 @@ P(\hat{y} = \mathcal{C}_j|\pmb{x}) = \sigma(\pmb{a})_j = \frac{\exp a_j}{\sum_{k
 <div class="section" id="id6">
 <h2><span class="section-number">6.5. </span>ソフトマックス関数の性質<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>定義から明らかなように、ソフトマックス関数は以下の性質を満たす。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d981bf97-8711-44eb-ab0b-f5755e92e49b">
-<span class="eqno">(6.9)<a class="headerlink" href="#equation-d981bf97-8711-44eb-ab0b-f5755e92e49b" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-3d0c813d-2e14-4213-b012-cf406dc7bdb4">
+<span class="eqno">(6.9)<a class="headerlink" href="#equation-3d0c813d-2e14-4213-b012-cf406dc7bdb4" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 \forall k: \sigma(\pmb{a})_k &gt; 0
 \end{gather}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-b6310ac3-3584-45a7-9f7a-75eab94edfe0">
-<span class="eqno">(6.10)<a class="headerlink" href="#equation-b6310ac3-3584-45a7-9f7a-75eab94edfe0" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-3ca0c207-0cf7-4c85-8d1d-846c6305cc5d">
+<span class="eqno">(6.10)<a class="headerlink" href="#equation-3ca0c207-0cf7-4c85-8d1d-846c6305cc5d" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 \sum_{k = 1}^{K} \sigma(\pmb{a})_k = 1
 \end{gather}\]</div>
 <p>また、<span class="math notranslate nohighlight">\(K=2\)</span>の場合は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fe9aa185-178a-46d0-bc10-469b9968d078">
-<span class="eqno">(6.11)<a class="headerlink" href="#equation-fe9aa185-178a-46d0-bc10-469b9968d078" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-158847bc-0216-49e1-a0e0-c03ab9bca6b4">
+<span class="eqno">(6.11)<a class="headerlink" href="#equation-158847bc-0216-49e1-a0e0-c03ab9bca6b4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sigma(\pmb{a})_1 = \frac{e^{a_1}}{\sum_{k = 1}^{2} e^{a_k}} = \frac{e^{a_1}}{e^{a_1} + e^{a_2}} = \frac{1}{1 + \frac{e^{a_2}}{e^{a_1}}} = \frac{1}{1 + e^{-(a_1 - a_2)}}
 \end{align}\]</div>
 <p>となることから、<span class="math notranslate nohighlight">\((a_1 - a_2)\)</span>を入力としたシグモイド関数と等価であることが分かる。</p>
@@ -725,8 +842,8 @@ P(\hat{y} = \mathcal{C}_j|\pmb{x}) = \sigma(\pmb{a})_j = \frac{\exp a_j}{\sum_{k
 </div>
 </div>
 <p>これは、<span class="math notranslate nohighlight">\(e^{1000}\)</span>の計算でオーバーフローが発生するためである。この問題を回避するには、任意の実数<span class="math notranslate nohighlight">\(b \in \mathbb{R}\)</span>に対して、以下の関係が成り立つことを利用する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5a6c14c8-589c-4175-914a-fce7687c0578">
-<span class="eqno">(6.12)<a class="headerlink" href="#equation-5a6c14c8-589c-4175-914a-fce7687c0578" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4dfee8a1-9dc1-412b-bc86-5674d49c1c16">
+<span class="eqno">(6.12)<a class="headerlink" href="#equation-4dfee8a1-9dc1-412b-bc86-5674d49c1c16" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
  \sigma(\pmb{a})_j
  &amp;= \frac{\exp a_j}{\sum_{k = 1}^{K} \exp a_k} \\
  &amp;= \frac{\exp (a_j - b + b)}{\sum_{k = 1}^{K} \exp (a_k - b + b)} \\
@@ -760,20 +877,20 @@ P(\hat{y} = \mathcal{C}_j|\pmb{x}) = \sigma(\pmb{a})_j = \frac{\exp a_j}{\sum_{k
 <div class="section" id="id8">
 <h3><span class="section-number">6.5.2. </span>ソフトマックス関数の微分<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>多値分類モデルのパラメータ推定で必要になることを見越して、ここでソフトマックス関数の微分を示す。ソフトマックス関数<span class="math notranslate nohighlight">\(\sigma: \mathbb{R}^K \mapsto \mathbb{R}^K\)</span>を再掲する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3dd8820a-ca97-40d8-b75b-c18ce2901f83">
-<span class="eqno">(6.13)<a class="headerlink" href="#equation-3dd8820a-ca97-40d8-b75b-c18ce2901f83" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f368bb05-1f6a-4e29-a094-8777e55dee6b">
+<span class="eqno">(6.13)<a class="headerlink" href="#equation-f368bb05-1f6a-4e29-a094-8777e55dee6b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sigma(\pmb{a})_j = \frac{\exp a_j}{\sum_{k = 1}^{K} \exp a_k}
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\sigma(\pmb{a})_j\)</span>はベクトル<span class="math notranslate nohighlight">\(\pmb{a}\)</span>にソフトマックス関数を適用して計算されたベクトルの<span class="math notranslate nohighlight">\(j\)</span>番目の要素を表す。ソフトマックス関数が返すベクトルを陽に記述すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1e986d1a-98c2-4dd6-bf42-13ed4984ade3">
-<span class="eqno">(6.14)<a class="headerlink" href="#equation-1e986d1a-98c2-4dd6-bf42-13ed4984ade3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1d3f94ff-ba82-4d17-9a85-bb59e96ff576">
+<span class="eqno">(6.14)<a class="headerlink" href="#equation-1d3f94ff-ba82-4d17-9a85-bb59e96ff576" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sigma(\pmb{a}) = \begin{pmatrix}
 \frac{\exp a_1}{\sum_{k = 1}^{K} \exp a_k} \\ \vdots \\ \frac{\exp a_K}{\sum_{k = 1}^{K} \exp a_k}
 \end{pmatrix}
 \end{align}\]</div>
 <p>となることから明らかなように、ソフトマックス関数の計算結果の<span class="math notranslate nohighlight">\(j\)</span>番目の要素<span class="math notranslate nohighlight">\(\sigma(\pmb{a})_j\)</span>は、入力されたベクトルの全ての要素の影響を受ける。したがって、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0426b818-268e-4c20-930f-e56bc5d6c8c2">
-<span class="eqno">(6.15)<a class="headerlink" href="#equation-0426b818-268e-4c20-930f-e56bc5d6c8c2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-36ce7015-2f41-4c02-af03-97171853871a">
+<span class="eqno">(6.15)<a class="headerlink" href="#equation-36ce7015-2f41-4c02-af03-97171853871a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial \sigma(\pmb{a})_1}{\partial a_1}, \frac{\partial \sigma(\pmb{a})_1}{\partial a_2}, \dots, \frac{\partial \sigma(\pmb{a})_1}{\partial a_K}, \frac{\partial \sigma(\pmb{a})_2}{\partial a_1}, \dots \frac{\partial \sigma(\pmb{a})_K}{\partial a_K}
 \end{align}\]</div>
 <p>の全てを求める必要がある。ソフトマックス関数が出力するベクトルのインデックス番号を<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, K\}\)</span>、ソフトマックス関数に入力するベクトルのインデックス番号を<span class="math notranslate nohighlight">\(h \in \{1, 2, \dots, K\}\)</span>として、ソフトマックス関数の偏微分<span class="math notranslate nohighlight">\(\frac{\partial \sigma(\pmb{a})_j}{\partial a_h}\)</span>を求める。</p>
@@ -786,8 +903,8 @@ f'(x) = \frac{g'(x)h(x) - g(x)h'(x)}{\{h(x)\}^2}
 \end{equation*}\]</div>
 </div>
 <p><span class="math notranslate nohighlight">\(h=j\)</span>のとき、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0bac04f9-a777-4f26-a006-b28d7956fe9a">
-<span class="eqno">(6.16)<a class="headerlink" href="#equation-0bac04f9-a777-4f26-a006-b28d7956fe9a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e21700be-f08a-4544-ab64-eb68bee8d916">
+<span class="eqno">(6.16)<a class="headerlink" href="#equation-e21700be-f08a-4544-ab64-eb68bee8d916" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial \sigma(\pmb{a})_j}{\partial a_j} &amp;= \frac{\partial}{\partial a_j} \left(\frac{\exp a_j}{\sum_{k=1}^{K} \exp a_k}\right) \\
 &amp;= \frac{\frac{\partial}{\partial a_j} (\exp a_j) \cdot \left(\sum_{k=1}^{K} \exp a_k\right) - (\exp a_j)\cdot \frac{\partial}{\partial a_j}\left(\sum_{k=1}^{K} \exp a_k\right)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
 &amp;= \frac{(\exp a_j) \cdot \left(\sum_{k=1}^{K} \exp a_k\right) - (\exp a_j)\cdot (\exp a_j)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
@@ -797,8 +914,8 @@ f'(x) = \frac{g'(x)h(x) - g(x)h'(x)}{\{h(x)\}^2}
 &amp;= \sigma(\pmb{a})_j \left\{1 - \sigma(\pmb{a})_j\right\}
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(h\neq j\)</span>のとき、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0bc8539d-cce9-4818-9162-4e85e3e640b8">
-<span class="eqno">(6.17)<a class="headerlink" href="#equation-0bc8539d-cce9-4818-9162-4e85e3e640b8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a64f220e-e42a-4222-830b-8f30543d1171">
+<span class="eqno">(6.17)<a class="headerlink" href="#equation-a64f220e-e42a-4222-830b-8f30543d1171" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial \sigma(\pmb{a})_j}{\partial a_h} &amp;= \frac{\partial}{\partial a_h} \left(\frac{\exp a_j}{\sum_{k=1}^{K} \exp a_k}\right) \\
 &amp;= \frac{\frac{\partial}{\partial a_h} (\exp a_j) \cdot \left(\sum_{k=1}^{K} \exp a_k\right) - (\exp a_j)\cdot \frac{\partial}{\partial a_h}\left(\sum_{k=1}^{K} \exp a_k\right)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
 &amp;= \frac{0 \cdot \left(\sum_{k=1}^{K} \exp a_k\right) - (\exp a_j)\cdot (\exp a_h)}{\left(\sum_{k=1}^{K} \exp a_k\right)^2} \\
@@ -807,8 +924,8 @@ f'(x) = \frac{g'(x)h(x) - g(x)h'(x)}{\{h(x)\}^2}
 &amp;= -\sigma(\pmb{a})_j \sigma(\pmb{a})_h \\
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(k = h\)</span>の時に<span class="math notranslate nohighlight">\(1\)</span>を返し、それ以外の時に<span class="math notranslate nohighlight">\(0\)</span>を返す記法<span class="math notranslate nohighlight">\(\delta_{jh}\)</span></p>
-<div class="amsmath math notranslate nohighlight" id="equation-b27c565e-c722-4c32-9429-ffc411949ace">
-<span class="eqno">(6.18)<a class="headerlink" href="#equation-b27c565e-c722-4c32-9429-ffc411949ace" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9318e16f-0c48-4ad7-88fc-9e68aa45e5f8">
+<span class="eqno">(6.18)<a class="headerlink" href="#equation-9318e16f-0c48-4ad7-88fc-9e68aa45e5f8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \delta_{jh} = \begin{cases}
 1 &amp; (j = h) \\
 0 &amp; (j \neq h)
@@ -827,8 +944,8 @@ f'(x) = \frac{g'(x)h(x) - g(x)h'(x)}{\{h(x)\}^2}
 <div class="section" id="id9">
 <h2><span class="section-number">6.6. </span>データの表現<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これまで、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>がクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類されることを<span class="math notranslate nohighlight">\(y=j\)</span>と表していた。しかし、最尤推定を数式として表現しやすくするために、<span class="math notranslate nohighlight">\(K\)</span>次元ベクトルによる記法を導入する。事例がクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類されることを、以下の<span class="math notranslate nohighlight">\(y_k\)</span>を要素とするベクトル<span class="math notranslate nohighlight">\(\pmb{y}\in \mathbb{R}^K\)</span>で表す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7386524f-8cd7-44d9-83e4-bdd7beca56d7">
-<span class="eqno">(6.20)<a class="headerlink" href="#equation-7386524f-8cd7-44d9-83e4-bdd7beca56d7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a3602715-7fc5-472e-a2a6-a6a7945cf1bd">
+<span class="eqno">(6.20)<a class="headerlink" href="#equation-a3602715-7fc5-472e-a2a6-a6a7945cf1bd" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 y_k = \begin{cases}
 1 &amp; (k = j) \\
 0 &amp; (k \neq j)
@@ -836,34 +953,34 @@ y_k = \begin{cases}
 \end{align}\]</div>
 <p>すなわち、事例がクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類されることを、<span class="math notranslate nohighlight">\(j\)</span>番目の要素が<span class="math notranslate nohighlight">\(1\)</span>で、それ以外の要素が<span class="math notranslate nohighlight">\(0\)</span>であるベクトル<span class="math notranslate nohighlight">\(\pmb{y} \in \mathbb{R}^K\)</span>で表す。このベクトルは一つの要素のみ<span class="math notranslate nohighlight">\(1\)</span>で、他の要素が<span class="math notranslate nohighlight">\(0\)</span>であるから、<strong>1-of-K表現</strong>または<strong>one-hotベクトル</strong>などと呼ばれる。</p>
 <p>例えば、手書きの数字を認識するタスクにおいて、正解の数字が<span class="math notranslate nohighlight">\(3\)</span>であることを（<span class="math notranslate nohighlight">\(0\)</span>をクラス<span class="math notranslate nohighlight">\(\mathcal{C}_1\)</span>、<span class="math notranslate nohighlight">\(1\)</span>をクラス<span class="math notranslate nohighlight">\(\mathcal{C}_2\)</span>で表すことにしたので）クラス<span class="math notranslate nohighlight">\(\mathcal{C}_4\)</span>で表すことにすると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fadf9f46-5e9a-4c64-b3f1-2fbd1b675869">
-<span class="eqno">(6.21)<a class="headerlink" href="#equation-fadf9f46-5e9a-4c64-b3f1-2fbd1b675869" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fc5a6cef-793f-4d53-befd-40a5380abd86">
+<span class="eqno">(6.21)<a class="headerlink" href="#equation-fc5a6cef-793f-4d53-befd-40a5380abd86" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{y} = \begin{pmatrix}0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\end{pmatrix}^\top
 \end{align}\]</div>
 <p>と表現される。</p>
 <p>以上の表記法を採用すると、多クラス分類の学習事例は<span class="math notranslate nohighlight">\(d\)</span>次元ベクトルの説明変数<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>と<span class="math notranslate nohighlight">\(K\)</span>次元ベクトルの目的変数<span class="math notranslate nohighlight">\(\pmb{y} \in \mathbb{R}^K\)</span>の１つの組として表現できる。<span class="math notranslate nohighlight">\(1\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_1, \pmb{y}_1)\)</span>、<span class="math notranslate nohighlight">\(2\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_2, \pmb{y}_2)\)</span>、<span class="math notranslate nohighlight">\(i\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\pmb{x}_i, \pmb{y}_i)\)</span>と表すことにすると、<span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は次のように表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ce9028f2-d379-439f-bff6-c8228df02a7f">
-<span class="eqno">(6.22)<a class="headerlink" href="#equation-ce9028f2-d379-439f-bff6-c8228df02a7f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fde01f6f-d963-42fe-bd45-4065a6f22777">
+<span class="eqno">(6.22)<a class="headerlink" href="#equation-fde01f6f-d963-42fe-bd45-4065a6f22777" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \left\{(\pmb{x}_1, \pmb{y}_1), (\pmb{x}_2, \pmb{y}_2), \dots, (\pmb{x}_N, \pmb{y}_N)\right\} = \left\{(\pmb{x}_i, \pmb{y}_i)\right\}_{i=1}^{N}
 \end{align}\]</div>
 </div>
 <div class="section" id="id10">
 <h2><span class="section-number">6.7. </span>最尤推定<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>多クラスロジスティック回帰のパラメータ推定の流れは、二値分類のロジスティック回帰の場合と同じである。まず、学習事例<span class="math notranslate nohighlight">\((\pmb{x}, \pmb{y})\)</span>に対するモデルパラメータ<span class="math notranslate nohighlight">\(\pmb{W}\)</span>の尤度<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W})\)</span>を定義する。これは、事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>のクラスが<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>であるとき、条件付き確率<span class="math notranslate nohighlight">\(P(\hat{y} = \mathcal{C}_j|\pmb{x})\)</span>を採用すればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e9b63718-9676-4413-af9e-a8feb217e5b6">
-<span class="eqno">(6.23)<a class="headerlink" href="#equation-e9b63718-9676-4413-af9e-a8feb217e5b6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-85958b18-6a72-454c-b598-729941533509">
+<span class="eqno">(6.23)<a class="headerlink" href="#equation-85958b18-6a72-454c-b598-729941533509" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W}) = P(\hat{y} = \mathcal{C}_j|\pmb{x})
 \end{align}\]</div>
 <p>多クラスロジスティック回帰の条件付き確率は、式<a class="reference internal" href="#equation-eq-p-as-softmax">(6.8)</a>より<span class="math notranslate nohighlight">\(\pmb{p} = \sigma(\pmb{W}\pmb{x})\)</span>と計算されることから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e59a4bdd-63fa-49e0-934c-45a5ca7994eb">
-<span class="eqno">(6.24)<a class="headerlink" href="#equation-e59a4bdd-63fa-49e0-934c-45a5ca7994eb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-71568b6a-794d-4940-92f6-e51f630aaf13">
+<span class="eqno">(6.24)<a class="headerlink" href="#equation-71568b6a-794d-4940-92f6-e51f630aaf13" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W}) = P(\hat{y} = \mathcal{C}_j|\pmb{x}) = p_j
 \end{align}\]</div>
 <p>ところが、学習事例のクラスはインデックス番号<span class="math notranslate nohighlight">\(j\)</span>ではなく、1-of-K表現ベクトル<span class="math notranslate nohighlight">\(\pmb{y}\)</span>で表現することにした。<span class="math notranslate nohighlight">\(k \in \{1, 2, \dots, K\}\)</span>に対して<span class="math notranslate nohighlight">\(y_k = 1\)</span>となるインデックス<span class="math notranslate nohighlight">\(k\)</span>があるとき、<span class="math notranslate nohighlight">\(p_k\)</span>がその事例の尤度であるので、</p>
 <div class="important admonition">
 <p class="admonition-title">事例ごとの尤度</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c3d7a1f3-305f-4274-9790-c6acbd115844">
-<span class="eqno">(6.25)<a class="headerlink" href="#equation-c3d7a1f3-305f-4274-9790-c6acbd115844" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2f4ef382-c514-4c28-b63a-54f4d9c4d866">
+<span class="eqno">(6.25)<a class="headerlink" href="#equation-2f4ef382-c514-4c28-b63a-54f4d9c4d866" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W}) = p_j = \prod_{k=1}^K \begin{cases} p_k &amp; (y_k = 1) \\ 1 &amp; (y_k = 0)\end{cases} = \prod_{k=1}^K p_k^{y_k}
 \end{align}\]</div>
 </div>
@@ -871,14 +988,14 @@ y_k = \begin{cases}
 <a class="reference internal image-reference" href="../_images/likelihood.png"><img alt="../_images/likelihood.png" src="../_images/likelihood.png" style="width: 75%;" /></a>
 <p>この図は、事例の尤度は画像が正解の数字に分類される確率であることを示している。</p>
 <p>学習事例の尤度を定義したので、次は学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>全体における尤度を定義する。学習データのすべての事例は独立同分布（i.i.d.）である仮定し、学習データ全体の尤度<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{w})\)</span>を各学習事例の尤度の結合確率として定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b23513ac-7f07-42cb-b046-f1083a4caf8c">
-<span class="eqno">(6.26)<a class="headerlink" href="#equation-b23513ac-7f07-42cb-b046-f1083a4caf8c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3acb33e9-63e0-4dd1-a8c5-097c16808b6f">
+<span class="eqno">(6.26)<a class="headerlink" href="#equation-3acb33e9-63e0-4dd1-a8c5-097c16808b6f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(\pmb{W}) = \prod_{i=1}^N \hat{l}_{\pmb{x}_i, \pmb{y}_i}(\pmb{W})
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\pmb{W})\)</span>を目的関数とみなし、この目的関数の値を最大化するような<span class="math notranslate nohighlight">\(\pmb{W}^*\)</span>を求めることで、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>によく合致するモデルパラメータを求めることができる（最尤推定）。</p>
 <p>ここで、二値分類のときと同様に、学習データ上の尤度を最大化するのではなく、学習データ上の負の対数尤度を最小化に書き換える。すると、多クラスロジスティック回帰モデルの学習で最小化する目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>は次式で表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2d955771-f9ae-4908-9ee3-06ce6c3858a0">
-<span class="eqno">(6.27)<a class="headerlink" href="#equation-2d955771-f9ae-4908-9ee3-06ce6c3858a0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-def4ee71-4eb7-4dac-a7a7-6bc9a5c215b7">
+<span class="eqno">(6.27)<a class="headerlink" href="#equation-def4ee71-4eb7-4dac-a7a7-6bc9a5c215b7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{W}) \\
 &amp;= -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, \pmb{y}_i}(\pmb{W})
 \end{align}\]</div>
@@ -901,8 +1018,8 @@ y_k = \begin{cases}
 <p>行列のフロベニウスノルムは要素を一列に並べたベクトルを作り、そのベクトルの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムを計算することと等価である。なお、行列の<span class="math notranslate nohighlight">\(L_2\)</span>ノルムには別の定義（スペクトルノルム）があるため、添え字<span class="math notranslate nohighlight">\(F\)</span>を付けている。</p>
 </div>
 <p>また、学習時に<span class="math notranslate nohighlight">\(L_2\)</span>正則化を導入する場合、目的関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e5b13cef-8d0f-4035-96b1-8ad0501443bc">
-<span class="eqno">(6.28)<a class="headerlink" href="#equation-e5b13cef-8d0f-4035-96b1-8ad0501443bc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-056a804e-a54e-43e6-9ed9-b443e79c99aa">
+<span class="eqno">(6.28)<a class="headerlink" href="#equation-056a804e-a54e-43e6-9ed9-b443e79c99aa" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MAP}(\pmb{W}) &amp;= -\log \hat{L}_{\mathcal{D}}(\pmb{W}) + \alpha \|\pmb{W}\|_F^2 \\
 &amp;= -\sum_{i=1}^N \log \hat{l}_{\pmb{x}_i, \pmb{y}_i}(\pmb{W}) + \alpha \|\pmb{W}\|_F^2
 \end{align}\]</div>
@@ -912,13 +1029,13 @@ y_k = \begin{cases}
 <h2><span class="section-number">6.8. </span>確率的勾配降下法<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これまでの議論により、多クラスロジスティック回帰モデルの学習は、目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\pmb{W}^*\)</span>を求める問題に帰着した。二値分類のロジスティック回帰の場合と同様で、多クラスロジスティック回帰モデルの目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>は、パラメータ<span class="math notranslate nohighlight">\(\pmb{W}\)</span>に関して偏微分はできるが、その偏微分の値を<span class="math notranslate nohighlight">\(\pmb{0}\)</span>とする解析解を求めることができない。目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>は事例ごとの損失の和として表現されているので、確率的勾配降下法で目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\pmb{W})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\pmb{W}^*\)</span>を求めることにする。</p>
 <p>確率的勾配降下法は、各反復において事例<span class="math notranslate nohighlight">\((\pmb{x}, \pmb{y}) \in \mathcal{D}\)</span>をランダムに選びながら、以下の更新式を繰り返し適用することで、目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}(\pmb{W})\)</span>を最小とするパラメータ<span class="math notranslate nohighlight">\(\pmb{W}^{*}\)</span>を推定する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-553ce43c-5cbb-4e31-9864-a3b8c38b6d5a">
-<span class="eqno">(6.29)<a class="headerlink" href="#equation-553ce43c-5cbb-4e31-9864-a3b8c38b6d5a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a5647ff3-bb98-45c2-96f2-2ad01b8d4fcc">
+<span class="eqno">(6.29)<a class="headerlink" href="#equation-a5647ff3-bb98-45c2-96f2-2ad01b8d4fcc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{W}^{(t+1)} = \pmb{W}^{(t)} + \eta_t \nabla \log \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W}^{(t)})
 \end{align}\]</div>
 <p>行列<span class="math notranslate nohighlight">\(W\)</span>に対して偏微分を導出するのは分かりづらいかもしれないので、<span class="math notranslate nohighlight">\(t\)</span>回目の反復で行列<span class="math notranslate nohighlight">\(\pmb{W}^{(t)}\)</span>の列ベクトル<span class="math notranslate nohighlight">\(\pmb{w}_j^{(t)}\)</span>毎に偏微分を計算し、すべての<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, K\}\)</span>に対して、重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_j^{(t)}\)</span>を更新する式に書き換えておく。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e276b281-cd26-4724-958e-1fdb7fedaa4f">
-<span class="eqno">(6.30)<a class="headerlink" href="#equation-e276b281-cd26-4724-958e-1fdb7fedaa4f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b059b684-0d52-438f-a637-9bfffe59bb16">
+<span class="eqno">(6.30)<a class="headerlink" href="#equation-b059b684-0d52-438f-a637-9bfffe59bb16" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w}_j^{(t+1)} = \pmb{w}_j^{(t)} + \eta_t \left.\frac{\partial \log \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{W})}{\partial \pmb{w}_j}\right|_{\pmb{W} = \pmb{W}^{(t)}}
 \end{align}\]</div>
 <p>そこで、学習事例の対数尤度<span class="math notranslate nohighlight">\(\log \hat{l}_{(\pmb{x}, \pmb{y})}(\pmb{W})\)</span>を重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_k\)</span>で偏微分することに集中する。まず、学習事例の対数尤度<span class="math notranslate nohighlight">\(\log \hat{l}_{(\pmb{x}, \pmb{y})}(\pmb{W})\)</span>を整理する。</p>
@@ -929,8 +1046,8 @@ y_k = \begin{cases}
 \end{align}
 \]</div>
 <p>ゆえに、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-56cb3456-d883-4d33-9d0a-397a490b91cc">
-<span class="eqno">(6.32)<a class="headerlink" href="#equation-56cb3456-d883-4d33-9d0a-397a490b91cc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c9e0e685-22d1-4524-be2f-d1d097c76abc">
+<span class="eqno">(6.32)<a class="headerlink" href="#equation-c9e0e685-22d1-4524-be2f-d1d097c76abc" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial \log \hat{l}_{(\pmb{x}, \pmb{y})}(\pmb{W})}{\partial \pmb{w}_j}
 &amp;= \sum_{k=1}^K \frac{\partial}{\partial \pmb{w}_j}(y_k \log p_k) \\
 &amp;= \sum_{k=1}^K \frac{y_k}{p_k} \frac{\partial p_k}{\partial \pmb{w}_j}
@@ -952,8 +1069,8 @@ y_k = \begin{cases}
 <p>この結果を確率的勾配降下法の更新式に代入すると、</p>
 <div class="important admonition">
 <p class="admonition-title">確率的勾配降下法による多クラスロジスティック回帰のパラメータ更新式</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f549d049-db73-4f83-acbf-da7f74e9f2e4">
-<span class="eqno">(6.34)<a class="headerlink" href="#equation-f549d049-db73-4f83-acbf-da7f74e9f2e4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1c871a31-de93-472b-9a79-4831b8f3b702">
+<span class="eqno">(6.34)<a class="headerlink" href="#equation-1c871a31-de93-472b-9a79-4831b8f3b702" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w}_j^{(t+1)} = \pmb{w}_j^{(t)} + \eta_t \left(y_j - p_j^{(t)}\right) \pmb{x}
 \end{align}\]</div>
 </div>
@@ -963,18 +1080,18 @@ y_k = \begin{cases}
 <a class="reference internal image-reference" href="../_images/multi-sgd.png"><img alt="../_images/multi-sgd.png" src="../_images/multi-sgd.png" style="width: 75%;" /></a>
 <p>確率的勾配降下法の更新式がモデルのパラメータを望ましい方向に動かすことを確認するため、学習事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>をクラス<span class="math notranslate nohighlight">\(\mathcal{C}_j\)</span>に分類すべきで、<span class="math notranslate nohighlight">\(h \neq j\)</span>となるクラス<span class="math notranslate nohighlight">\(\mathcal{C}_h\)</span>には分類すべきでない状況を想定する。</p>
 <p><span class="math notranslate nohighlight">\(y_j = 1\)</span>であるため、重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_j\)</span>に関する更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fbea01b2-7422-4a86-bc2a-47721b5d16af">
-<span class="eqno">(6.35)<a class="headerlink" href="#equation-fbea01b2-7422-4a86-bc2a-47721b5d16af" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ce27e30c-5388-4de0-bf8c-9397b01ed4d7">
+<span class="eqno">(6.35)<a class="headerlink" href="#equation-ce27e30c-5388-4de0-bf8c-9397b01ed4d7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w}_j^{(t+1)} &amp;= \pmb{w}_j^{(t)} + \eta_t \left(1 - p_j^{(t)}\right) \pmb{x}
 \end{align}\]</div>
 <p>また、<span class="math notranslate nohighlight">\(y_h = 0\)</span>であるため、重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_h\)</span>に関する更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6caae975-e247-4da1-9a16-6eff7363a2a1">
-<span class="eqno">(6.36)<a class="headerlink" href="#equation-6caae975-e247-4da1-9a16-6eff7363a2a1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0547c28d-4024-49d2-a67e-3e4762586f2f">
+<span class="eqno">(6.36)<a class="headerlink" href="#equation-0547c28d-4024-49d2-a67e-3e4762586f2f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{w}_h^{(t+1)} &amp;= \pmb{w}_h^{(t)} + \eta_t \left(0 - p_h^{(t)}\right) \pmb{x}
 \end{align}\]</div>
 <p>確率的勾配降下法の<span class="math notranslate nohighlight">\(t\)</span>回目の反復において、事例<span class="math notranslate nohighlight">\(\pmb{w}\)</span>と重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}_k^{(t)}\)</span>との内積を<span class="math notranslate nohighlight">\(a_k^{(t)}\)</span>と書くことにすると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eb69fdbb-38e9-4e6b-bc39-af9b88208bf4">
-<span class="eqno">(6.37)<a class="headerlink" href="#equation-eb69fdbb-38e9-4e6b-bc39-af9b88208bf4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-57f01a8a-4962-4a92-8b07-3acf43264c2c">
+<span class="eqno">(6.37)<a class="headerlink" href="#equation-57f01a8a-4962-4a92-8b07-3acf43264c2c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 a_j^{(t+1)} &amp;= \pmb{x}^\top \pmb{w}_j^{(t+1)} = \pmb{x}^\top\pmb{w}_j^{(t)} + \eta_t \left(1 - p_j^{(t)}\right) \pmb{x}^\top \pmb{x} = a_j^{(t)} + \eta_t \left(1 - p_j^{(t)}\right) \pmb{x}^\top \pmb{x} \geq a_j^{(t)} \\
 a_h^{(t+1)} &amp;= \pmb{x}^\top \pmb{w}_h^{(t+1)} = \pmb{x}^\top\pmb{w}_h^{(t)} + \eta_t \left(0 - p_h^{(t)}\right) \pmb{x}^\top \pmb{x} = a_h^{(t)} - \eta_t p_j^{(t)} \pmb{x}^\top \pmb{x} \leq a_h^{(t)} \\
 \end{align}\]</div>
@@ -1376,8 +1493,8 @@ a_h^{(t+1)} &amp;= \pmb{x}^\top \pmb{w}_h^{(t+1)} = \pmb{x}^\top\pmb{w}_h^{(t)} 
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="01binary.html" title="前へ ページ">
         <i class="fas fa-angle-left"></i>
@@ -1394,20 +1511,18 @@ a_h^{(t+1)} &amp;= \pmb{x}^\top \pmb{w}_h^{(t+1)} = \pmb{x}^\top\pmb{w}_h^{(t)} 
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          <div class="extra_footer">
-            © Copyright 2020-2021 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+  <p>
+    
+      <div class="extra_footer">
+        © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
 
-          </div>
-      </p>
-    </div>
-  </footer>
+      </div>
+  </p>
+</footer>
 </main>
 
 

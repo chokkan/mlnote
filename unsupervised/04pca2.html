@@ -529,13 +529,13 @@ Requirement already satisfied: six in /home/okazaki/.local/lib/python3.8/site-pa
 <div class="section" id="id2">
 <h2><span class="section-number">13.1. </span>データの表現<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><span class="math notranslate nohighlight">\(d\)</span>次元のベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>からなる事例を<span class="math notranslate nohighlight">\(N\)</span>件集めたデータを行列<span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{N \times d}\)</span>で表す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7c23f4d6-8879-4919-b020-1c6da430bbfb">
-<span class="eqno">(13.1)<a class="headerlink" href="#equation-7c23f4d6-8879-4919-b020-1c6da430bbfb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-455df29d-378a-488a-b734-64ebcb4aa17b">
+<span class="eqno">(13.1)<a class="headerlink" href="#equation-455df29d-378a-488a-b734-64ebcb4aa17b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{X} = \begin{pmatrix}\pmb{x}_1^\top \\ \pmb{x}_2^\top \\ \dots \\ \pmb{x}_N^\top \end{pmatrix}
 \end{align}\]</div>
 <p>また、データの平均ベクトル<span class="math notranslate nohighlight">\(\pmb{\bar{x}} \in \mathbb{R}^d\)</span>を次式で定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-523e9bb3-87d3-42f2-95fa-5015c2f34f09">
-<span class="eqno">(13.2)<a class="headerlink" href="#equation-523e9bb3-87d3-42f2-95fa-5015c2f34f09" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4d9c70d9-671a-4449-a48a-48738331e351">
+<span class="eqno">(13.2)<a class="headerlink" href="#equation-4d9c70d9-671a-4449-a48a-48738331e351" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{\bar{x}} = \frac{1}{N} \sum_{i=1}^N \pmb{x}_i
 \end{align}\]</div>
 <div class="section" id="id3">
@@ -612,8 +612,8 @@ u_2
 \end{split}\]</div>
 </div>
 <p>なお、分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の各要素<span class="math notranslate nohighlight">\(S_{a,b}\)</span>は、行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を用いると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d756926e-e573-4113-aeff-81459f575a39">
-<span class="eqno">(13.6)<a class="headerlink" href="#equation-d756926e-e573-4113-aeff-81459f575a39" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-1926fbee-2fa1-428f-aaa6-732a6253e94f">
+<span class="eqno">(13.6)<a class="headerlink" href="#equation-1926fbee-2fa1-428f-aaa6-732a6253e94f" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
 S_{a,b} = \frac{1}{N} \sum_{i=1}^N (X_{i,a} - \bar{x}_a) (X_{i,b} - \bar{x}_b) \\
 \bar{x}_a = \frac{1}{N} \sum_{i=1}^N X_{i,a}, \; \bar{x}_b = \frac{1}{N} \sum_{i=1}^N X_{i,b}
 \end{gather}\]</div>
@@ -625,18 +625,18 @@ S_{a,b} = \frac{1}{N} \sum_{i=1}^N (X_{i,a} - \bar{x}_a) (X_{i,b} - \bar{x}_b) \
 <div class="section" id="id5">
 <h3><span class="section-number">13.2.1. </span>第1主成分<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>主成分分析では、ある単位ベクトル<span class="math notranslate nohighlight">\(\pmb{u} \in \mathbb{R}^d\)</span>でデータ点を射影したとき、射影された点の分散を最大化したい。前章で説明した通り、第1主成分<span class="math notranslate nohighlight">\(\pmb{u}_1\)</span>は、<span class="math notranslate nohighlight">\(\|\pmb{u}_1\|=1\)</span>の制約のもとで次式の目的関数を最大化する問題の解である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6657ee2d-af34-4fbf-8347-655d4d24acc4">
-<span class="eqno">(13.7)<a class="headerlink" href="#equation-6657ee2d-af34-4fbf-8347-655d4d24acc4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dc694469-f215-49c3-be26-0739af2b61b7">
+<span class="eqno">(13.7)<a class="headerlink" href="#equation-dc694469-f215-49c3-be26-0739af2b61b7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 J = \pmb{u}_1^\top \pmb{S} \pmb{u}_1
 \end{align}\]</div>
 <p>これを制約なしの最大化問題に書き換えるため、ラグランジュの未定乗数法を用いる。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e684db42-9b63-4b39-8f40-f681b5e0f575">
-<span class="eqno">(13.8)<a class="headerlink" href="#equation-e684db42-9b63-4b39-8f40-f681b5e0f575" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2cda05de-39e4-49c7-8704-09a1c44cb1d3">
+<span class="eqno">(13.8)<a class="headerlink" href="#equation-2cda05de-39e4-49c7-8704-09a1c44cb1d3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{L} = \pmb{u}_1^\top \pmb{S} \pmb{u}_1 - \lambda_1 (\pmb{u}_1^\top\pmb{u}_1 - 1)
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\lambda_1\)</span>はラグランジュ乗数である。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>を最大化するため、<span class="math notranslate nohighlight">\(\pmb{u}_1\)</span>に関する偏微分を<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-352c7264-9520-4772-917d-a8bb47524fab">
-<span class="eqno">(13.9)<a class="headerlink" href="#equation-352c7264-9520-4772-917d-a8bb47524fab" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-469eb4e9-8d21-49bb-bf79-a17309b989a6">
+<span class="eqno">(13.9)<a class="headerlink" href="#equation-469eb4e9-8d21-49bb-bf79-a17309b989a6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial \mathcal{L}}{\partial \pmb{u}_1} = 2\pmb{S} \pmb{u}_1 - 2\lambda_1 \pmb{u}_1 &amp;= 0 \\
 \pmb{S} \pmb{u}_1 = \lambda_1 \pmb{u}_1
 \end{align}\]</div>
@@ -681,13 +681,13 @@ J = \pmb{u}_1^\top \pmb{S} \pmb{u}_1 = \pmb{u}_1^\top (\pmb{S} \pmb{u}_1) = \pmb
 \end{align}
 \end{split}\]</div>
 <p>第<span class="math notranslate nohighlight">\(k+1\)</span>主成分ベクトル<span class="math notranslate nohighlight">\(\pmb{u}_{k+1}\)</span>は、<span class="math notranslate nohighlight">\(\|\pmb{u}_{k+1}\|=1, \pmb{u}_1^\top \pmb{u}_{k+1} = \dots = \pmb{u}_k^\top \pmb{u}_{k+1} = 0\)</span>の制約のもとで次の目的関数を最大化する問題の解である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e078907f-359e-4f46-92be-5344d1f38401">
-<span class="eqno">(13.14)<a class="headerlink" href="#equation-e078907f-359e-4f46-92be-5344d1f38401" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-394792fb-129e-4c0b-ae98-02144e2ca83f">
+<span class="eqno">(13.14)<a class="headerlink" href="#equation-394792fb-129e-4c0b-ae98-02144e2ca83f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{align}\]</div>
 <p>これを制約なしの最大化問題に書き換えるため、ラグランジュの未定乗数法を用いる。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8419357b-003b-4118-b8fb-bdee694c619e">
-<span class="eqno">(13.15)<a class="headerlink" href="#equation-8419357b-003b-4118-b8fb-bdee694c619e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-888151fa-3eae-419b-bcc0-4871f25c418c">
+<span class="eqno">(13.15)<a class="headerlink" href="#equation-888151fa-3eae-419b-bcc0-4871f25c418c" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{L} = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1} - \lambda_{k+1} (\pmb{u}_{k+1}^\top\pmb{u}_{k+1} - 1) - \sum_{i=1}^k \alpha_i \pmb{u}_i^\top \pmb{u}_{k+1}
 \end{align}\]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(\alpha_1, \dots, \alpha_k, \lambda_{k+1}\)</span>はラグランジュ乗数である。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>を最大化するため、<span class="math notranslate nohighlight">\(\pmb{u}_{k+1}\)</span>に関する偏微分を<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
@@ -698,15 +698,15 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{align}
 \]</div>
 <p>ここで、上の等式において<span class="math notranslate nohighlight">\(\pmb{u}_1^\top\)</span>を左からかけ、式<a class="reference internal" href="#equation-eq-orthonormal">(13.13)</a>に注意しながら展開すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6d57c3a2-b4d5-4162-be9a-e259a1930035">
-<span class="eqno">(13.17)<a class="headerlink" href="#equation-6d57c3a2-b4d5-4162-be9a-e259a1930035" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a4e676d6-ac52-497d-bfef-daefbcf0272b">
+<span class="eqno">(13.17)<a class="headerlink" href="#equation-a4e676d6-ac52-497d-bfef-daefbcf0272b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 2\pmb{u}_1^\top \pmb{S} \pmb{u}_{k+1} - 2\lambda_{k+1} \pmb{u}_1^\top \pmb{u}_{k+1} - \sum_{i=1}^k \alpha_i \pmb{u}_1^\top \pmb{u}_i &amp;= 0 \\
 2\pmb{u}_1^\top \pmb{S} \pmb{u}_{k+1} - \alpha_1 &amp;= 0 \\
 \alpha_1 &amp;= 2\pmb{u}_1^\top \pmb{S} \pmb{u}_{k+1} = 2\pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_1 = 2\pmb{u}_{k+1}^\top \lambda_1 \pmb{u}_1 = 0
 \end{align}\]</div>
 <p>同様に、全ての<span class="math notranslate nohighlight">\(j \in \{1, \dots, k\}\)</span>に対して、<span class="math notranslate nohighlight">\(\pmb{u}_j^\top\)</span>を左からかけることで、<span class="math notranslate nohighlight">\(\alpha_j = 0\)</span>が示される。ゆえに、式<a class="reference internal" href="#equation-eq-pca-lagrange">(13.16)</a>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b63347b4-17a3-4d30-94a6-40b00e420f40">
-<span class="eqno">(13.18)<a class="headerlink" href="#equation-b63347b4-17a3-4d30-94a6-40b00e420f40" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-89257538-a395-4d68-9928-85c37908f476">
+<span class="eqno">(13.18)<a class="headerlink" href="#equation-89257538-a395-4d68-9928-85c37908f476" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{S} \pmb{u}_{k+1} = \lambda_{k+1} \pmb{u}_{k+1}
 \end{align}\]</div>
 <p>と整理される。したがって、第<span class="math notranslate nohighlight">\(k+1\)</span>主成分以降を求める問題も分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値問題に帰着する。これを<span class="math notranslate nohighlight">\(k=1\)</span>から<span class="math notranslate nohighlight">\(k=d-1\)</span>まで繰り返すことで、すべての主成分ベクトルを求めることができる。</p>
@@ -721,8 +721,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{align}
 \]</div>
 <p>とする。また、<span class="math notranslate nohighlight">\(\lambda_1, \lambda_2, \dots, \lambda_d\)</span>に対応する固有ベクトルを<span class="math notranslate nohighlight">\(\pmb{u}_1, \pmb{u}_1, \dots, \pmb{u}_d\)</span>とする。ただし、固有ベクトルは、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a2957fa4-eb70-455a-bb90-7b3ee40ae944">
-<span class="eqno">(13.20)<a class="headerlink" href="#equation-a2957fa4-eb70-455a-bb90-7b3ee40ae944" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ad1d8bd3-5bc7-4bb9-8227-601cd68ee4b6">
+<span class="eqno">(13.20)<a class="headerlink" href="#equation-ad1d8bd3-5bc7-4bb9-8227-601cd68ee4b6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u}^\top_i \pmb{u}_j = \begin{cases}
 1 &amp; (i = j) \\
 0 &amp; (i \neq j)
@@ -848,8 +848,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{align}
 \end{split}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\pmb{\Lambda} \in \mathbb{R}^{d \times d}\)</span>は固有値を要素とする対角行列である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5dc638cb-ac86-486b-8e64-31a54f2e9fbe">
-<span class="eqno">(13.25)<a class="headerlink" href="#equation-5dc638cb-ac86-486b-8e64-31a54f2e9fbe" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-042368a3-c3ea-490d-8115-d6c7390620ff">
+<span class="eqno">(13.25)<a class="headerlink" href="#equation-042368a3-c3ea-490d-8115-d6c7390620ff" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{\Lambda} = {\rm diag}(\lambda_1, \lambda_2, \dots, \lambda_d) = \begin{pmatrix}
 \lambda_1 &amp; 0 &amp; \ldots &amp; 0 \\
 0 &amp; \lambda_2 &amp; \ldots &amp; 0 \\
@@ -858,8 +858,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{pmatrix}
 \end{align}\]</div>
 <p>また、行列<span class="math notranslate nohighlight">\(\pmb{Q} \in \mathbb{R}^{d \times d}\)</span>は列ベクトルである固有ベクトルを横方向に配置したものである。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4cfbde6a-662a-4f5b-aded-3cccda9c8b46">
-<span class="eqno">(13.26)<a class="headerlink" href="#equation-4cfbde6a-662a-4f5b-aded-3cccda9c8b46" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-de1c0168-88d1-4b3a-bb2e-b6e2089c9299">
+<span class="eqno">(13.26)<a class="headerlink" href="#equation-de1c0168-88d1-4b3a-bb2e-b6e2089c9299" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{Q} = \begin{pmatrix}
 \pmb{q}_1 &amp; \pmb{q}_2 &amp; \dots &amp; \pmb{q}_d
 \end{pmatrix}
@@ -907,8 +907,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 <div class="important admonition">
 <p class="admonition-title">スペクトル分解</p>
 <p>実対称行列<span class="math notranslate nohighlight">\(\pmb{S} \in \mathbb{R}^{d \times d}\)</span>は、直交行列<span class="math notranslate nohighlight">\(\pmb{Q} \in \mathbb{R}^{d \times d}\)</span>、対角行列<span class="math notranslate nohighlight">\(\pmb{\Lambda} \in \mathbb{R}^{d \times d}\)</span>、直交行列<span class="math notranslate nohighlight">\(\pmb{Q}^\top\)</span>の積に分解できる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9cb5b038-c4f5-4976-8f24-39d64356aa90">
-<span class="eqno">(13.28)<a class="headerlink" href="#equation-9cb5b038-c4f5-4976-8f24-39d64356aa90" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4ea5c196-3cda-4e49-a0a3-eb1d469501b4">
+<span class="eqno">(13.28)<a class="headerlink" href="#equation-4ea5c196-3cda-4e49-a0a3-eb1d469501b4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{S} &amp;= \pmb{Q} \pmb{\Lambda} \pmb{Q}^\top \\
 &amp;= \begin{pmatrix}
 \vert &amp; \vert &amp; \ldots &amp; \vert \\
@@ -967,8 +967,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 <div class="note dropdown admonition">
 <p class="admonition-title">分散共分散行列は半正定値対称行列である</p>
 <p>行列<span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{N \times d}\)</span>の分散共分散行列を<span class="math notranslate nohighlight">\(\pmb{S} \in \mathbb{R}^{d \times d}\)</span>とする。分散共分散行列は対称行列であるので、半正定値行列であることを示せばよい。任意のベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>に対して、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ca677d16-9c54-4bbf-8c42-150965a46270">
-<span class="eqno">(13.29)<a class="headerlink" href="#equation-ca677d16-9c54-4bbf-8c42-150965a46270" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-340ffb9c-4779-49b1-a0b1-9ca987c445f1">
+<span class="eqno">(13.29)<a class="headerlink" href="#equation-340ffb9c-4779-49b1-a0b1-9ca987c445f1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u}^\top \pmb{S} \pmb{u}
 &amp;= \pmb{u}^\top \left[\frac{1}{N} \sum_{i=1}^N (\pmb{x}_i - \pmb{\bar{x})}(\pmb{x}_i - \pmb{\bar{x}})^\top\right] \pmb{u} \\
 &amp;= \frac{1}{N} \sum_{i=1}^N \left\{\pmb{u}^\top (\pmb{x}_i - \pmb{\bar{x})}\right\} \cdot \left\{(\pmb{x}_i - \pmb{\bar{x}})^\top \pmb{u}\right\} \\
@@ -982,20 +982,20 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 <div class="note dropdown admonition">
 <p class="admonition-title">半正定値対称行列の固有値はすべて非負である</p>
 <p>半正定値対称行列を<span class="math notranslate nohighlight">\(\pmb{S}\)</span>とする。その行列のある固有値を<span class="math notranslate nohighlight">\(\lambda\)</span>、対応する固有ベクトルを<span class="math notranslate nohighlight">\(\pmb{u}\)</span>とする。すなわち、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-47d9e3ed-70a1-4eb7-b45f-eb9e3a870e41">
-<span class="eqno">(13.30)<a class="headerlink" href="#equation-47d9e3ed-70a1-4eb7-b45f-eb9e3a870e41" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b6f367ff-072c-45e2-a58e-b220d8bfe539">
+<span class="eqno">(13.30)<a class="headerlink" href="#equation-b6f367ff-072c-45e2-a58e-b220d8bfe539" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{S} \pmb{u} = \lambda \pmb{u}
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の二次形式を計算すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ac7561e9-2e5f-4f28-8f23-247cbc3687f2">
-<span class="eqno">(13.31)<a class="headerlink" href="#equation-ac7561e9-2e5f-4f28-8f23-247cbc3687f2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-32073d2d-76de-4968-a446-dc2d48ba4e60">
+<span class="eqno">(13.31)<a class="headerlink" href="#equation-32073d2d-76de-4968-a446-dc2d48ba4e60" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u}^\top \pmb{S} \pmb{u} = \pmb{u}^\top \lambda \pmb{u} = \lambda \pmb{u}^\top \pmb{u}
 \end{align}\]</div>
 <p>分散共分散行列は半正定値対称行列であるから、左辺は非負であることが分かっている。右辺が非負となるためには、<span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>が成り立たなければならない。</p>
 </div>
 <p>分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>は実対称行列であるから、直交行列<span class="math notranslate nohighlight">\(\pmb{Q} \in \mathbb{R}^{d \times d}\)</span>と対角行列<span class="math notranslate nohighlight">\(\pmb{\Lambda} = {\rm diag}(\lambda_1, \dots, \lambda_d) \in \mathbb{R}^{d \times d}\)</span>によるスペクトル分解が存在する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c8dd699d-3aa6-4ebe-86f9-07e0e673f859">
-<span class="eqno">(13.32)<a class="headerlink" href="#equation-c8dd699d-3aa6-4ebe-86f9-07e0e673f859" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6c4acff2-ef26-4c73-8942-1de99a0eef22">
+<span class="eqno">(13.32)<a class="headerlink" href="#equation-6c4acff2-ef26-4c73-8942-1de99a0eef22" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{S} = \pmb{Q} \pmb{\Lambda} \pmb{Q}^\top
 \end{align}\]</div>
 <p>さらに、分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>は半正定値対称行列であり、その固有値はすべて非負である。そこで、<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値を大きい順に並べておく。</p>
@@ -1007,13 +1007,13 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \]</div>
 <p>また、これらの固有値に対応するように固有ベクトル<span class="math notranslate nohighlight">\(\pmb{Q} = \begin{pmatrix}\pmb{q}_1 &amp; \pmb{q}_2 &amp; \dots &amp; \pmb{q}_d\end{pmatrix}\)</span>を並び替えておく。</p>
 <p>さて、式<a class="reference internal" href="#equation-eq-pca-objective">(13.38)</a>で示したように、主成分分析における第1主成分<span class="math notranslate nohighlight">\(\pmb{u}_1 \in \mathbb{R}^d\)</span>は以下の最大化問題で求まる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-02e9d760-d1fb-461a-bcbd-0c30bd1d8a9b">
-<span class="eqno">(13.34)<a class="headerlink" href="#equation-02e9d760-d1fb-461a-bcbd-0c30bd1d8a9b" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e526592d-7ff2-4af5-91c8-babfff30505e">
+<span class="eqno">(13.34)<a class="headerlink" href="#equation-e526592d-7ff2-4af5-91c8-babfff30505e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{u}_1 = \mathop{\rm argmax}\limits_{\|\pmb{u}\| = 1} \pmb{u}^\top \pmb{S} \pmb{u} = \mathop{\rm argmax}\limits_{\|\pmb{u}\| \neq 0} \frac{\pmb{u}^\top \pmb{S} \pmb{u}}{\pmb{u}^\top \pmb{u}}
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\({\rm argmax}\)</span>の中身、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-80cecd3d-0786-496e-ae94-46b0124487e1">
-<span class="eqno">(13.35)<a class="headerlink" href="#equation-80cecd3d-0786-496e-ae94-46b0124487e1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d812f403-b21e-49a5-bfec-6b29552d5bb1">
+<span class="eqno">(13.35)<a class="headerlink" href="#equation-d812f403-b21e-49a5-bfec-6b29552d5bb1" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\pmb{u}^\top \pmb{S} \pmb{u}}{\pmb{u}^\top \pmb{u}}
 \end{align}\]</div>
 <p>はレイリー商（Rayleigh quotient）と呼ばる。以下で示すように、このレイリー商は<span class="math notranslate nohighlight">\(\pmb{u} = \pm \pmb{q}_1\)</span>のとき最大値<span class="math notranslate nohighlight">\(\lambda_1\)</span>をとる。すなわち、データ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を第1主成分ベクトルに射影するとき、その分散の最大値は<span class="math notranslate nohighlight">\(\lambda_1\)</span>であり、その最大値を与える第1主成分ベクトルは<span class="math notranslate nohighlight">\(\pmb{u}_1 = \pm \pmb{q}_1\)</span>である。</p>
@@ -1023,8 +1023,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 </div>
 <div class="note admonition">
 <p class="admonition-title">レイリー商による最大値</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d55df0d0-a6db-4b85-8e8e-0d3150994616">
-<span class="eqno">(13.36)<a class="headerlink" href="#equation-d55df0d0-a6db-4b85-8e8e-0d3150994616" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4dd8a8c2-501d-46b5-bc26-6a45bbb62fa3">
+<span class="eqno">(13.36)<a class="headerlink" href="#equation-4dd8a8c2-501d-46b5-bc26-6a45bbb62fa3" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\pmb{u}^\top \pmb{S} \pmb{u}}{\pmb{u}^\top \pmb{u}}
 &amp;= \frac{\pmb{u}^\top (\pmb{Q}\pmb{\Lambda}\pmb{Q}^\top) \pmb{u}}{\pmb{u}^\top \pmb{u}} &amp;&amp; (\because \pmb{S} = \pmb{Q}\pmb{\Lambda}\pmb{Q}^\top) \\
 &amp;= \frac{\pmb{u}^\top \pmb{Q}\pmb{\Lambda}\pmb{Q}^\top \pmb{u}}{\pmb{u}^\top\pmb{Q} \pmb{Q}^\top\pmb{u}} &amp;&amp; (\because \pmb{Q} \pmb{Q}^\top = \pmb{I}) \\
@@ -1033,8 +1033,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 &amp;= \frac{\lambda_1 z_1^2 + \lambda_2 z_2^2 + \dots + \lambda_d z_d^2}{z_1^2 + z_2^2 + \dots + z_d^2} &amp;&amp; (\because \pmb{\Lambda} = {\rm diag}(\lambda_1, \lambda_2, \dots, \lambda_d))
 \end{align}\]</div>
 <p>上式は<span class="math notranslate nohighlight">\(\lambda_1, \lambda_2, \dots, \lambda_d\)</span>の<span class="math notranslate nohighlight">\(z_1^2, z_2^2, \dots, z_d^2\)</span>による重み付き平均である。したがって、その最大値は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dd845123-54de-42ff-aa59-0f862aefaa5e">
-<span class="eqno">(13.37)<a class="headerlink" href="#equation-dd845123-54de-42ff-aa59-0f862aefaa5e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fb263b0e-517d-48a3-905d-d7683ce8bb87">
+<span class="eqno">(13.37)<a class="headerlink" href="#equation-fb263b0e-517d-48a3-905d-d7683ce8bb87" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \max_{\|\pmb{u}\| \neq 0} \frac{\pmb{u}^\top \pmb{S} \pmb{u}}{\pmb{u}^\top \pmb{u}}
 = \max_{\|\pmb{z}\| \neq 0} \frac{\lambda_1 z_1^2 + \lambda_2 z_2^2 + \dots + \lambda_d z_d^2}{z_1^2 + z_2^2 + \dots + z_d^2}
 \leq \lambda_1 \\
@@ -1054,13 +1054,13 @@ J_k &amp;= \sum_{i=1}^k \pmb{u}_i^\top \pmb{S} \pmb{u}_i \\
 \end{align}
 \end{split}\]</div>
 <p>ゆえに、分散の和<span class="math notranslate nohighlight">\(J_k\)</span>は<span class="math notranslate nohighlight">\(d\)</span>個の固有値<span class="math notranslate nohighlight">\(\lambda_1, \dots, \lambda_d\)</span>の<span class="math notranslate nohighlight">\(z_1, \dots, z_d\)</span>による重み付き和として表される。そこで、<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, d\}\)</span>に関して<span class="math notranslate nohighlight">\(z_j\)</span>の性質を調べる。まず、ベッセルの不等式より、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ee59ac9f-5d35-43fc-9b8a-7fe81282aace">
-<span class="eqno">(13.39)<a class="headerlink" href="#equation-ee59ac9f-5d35-43fc-9b8a-7fe81282aace" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-23115500-9b57-478e-b577-16c0c99997ff">
+<span class="eqno">(13.39)<a class="headerlink" href="#equation-23115500-9b57-478e-b577-16c0c99997ff" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 \end{align}\]</div>
 <p>さらに、<span class="math notranslate nohighlight">\(z_j\)</span>の和は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-93e6268b-1ab0-41bf-8757-101db8c56845">
-<span class="eqno">(13.40)<a class="headerlink" href="#equation-93e6268b-1ab0-41bf-8757-101db8c56845" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-18f9660a-1737-4a0e-a829-55fe3328b582">
+<span class="eqno">(13.40)<a class="headerlink" href="#equation-18f9660a-1737-4a0e-a829-55fe3328b582" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sum_{j = 1}^{d} z_j = \sum_{j = 1}^{d} \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 = \sum_{i=1}^k \sum_{j = 1}^{d} \pmb{u}_i^\top\pmb{q}_j \pmb{q}_j^\top\pmb{u}_i = \sum_{i=1}^k \pmb{u}_i^\top\pmb{Q} \pmb{Q}^\top\pmb{u}_i = \sum_{i=1}^k \pmb{u}_i^\top\pmb{u}_i = k
 \end{align}\]</div>
 <p>したがって、式<a class="reference internal" href="#equation-eq-pca-objective">(13.38)</a>は<span class="math notranslate nohighlight">\(0 \leq z_j \leq 1\)</span>かつ、<span class="math notranslate nohighlight">\(\sum_{j = 1}^{d} z_j = k\)</span>による固有値<span class="math notranslate nohighlight">\(\lambda_1, \dots, \lambda_d\)</span>の重み付き和である。式<a class="reference internal" href="#equation-eq-eigenvalue-order">(13.33)</a>のように、分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値を大きい順に並べてある場合、式<a class="reference internal" href="#equation-eq-pca-objective">(13.38)</a>が最大となるのは、<span class="math notranslate nohighlight">\(z_1 = \dots = z_k = 1, z_{k+1} = \dots = z_d = 0\)</span>と選んだときである。<span class="math notranslate nohighlight">\(1 \leq j \leq k\)</span>に対して、<span class="math notranslate nohighlight">\(z_j = 1\)</span>を満たすには、<span class="math notranslate nohighlight">\(\pmb{u}_j = \pmb{q}_j\)</span>とすればよい。</p>
@@ -1082,8 +1082,8 @@ z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 <p>行列<span class="math notranslate nohighlight">\(\pmb{A}\)</span>の対角成分の和をトレースと呼び、<span class="math notranslate nohighlight">\(\mathrm{tr}(\pmb{A})\)</span>で表す。</p>
 </div>
 <p>データ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>の共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の対角成分の和は、データ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>の分散の和である。<span class="math notranslate nohighlight">\(\pmb{S} = \pmb{Q} \pmb{\Lambda} \pmb{Q}^\top\)</span>のスペクトル分解を用いると、<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の対角成分の和は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-df103b1a-1567-4d4b-aeee-bdcef69c02ef">
-<span class="eqno">(13.42)<a class="headerlink" href="#equation-df103b1a-1567-4d4b-aeee-bdcef69c02ef" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1d40ce6f-42a7-44b2-833e-535d668e0a7e">
+<span class="eqno">(13.42)<a class="headerlink" href="#equation-1d40ce6f-42a7-44b2-833e-535d668e0a7e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathrm{tr}(\pmb{S}) &amp;= \mathrm{tr}(\pmb{Q} \pmb{\Lambda} \pmb{Q}^\top) \\
 &amp;= \mathrm{tr}(\lambda_1 \pmb{q}_1 \pmb{q}_1^\top + \lambda_2 \pmb{q}_2 \pmb{q}_2^\top + \dots + \lambda_d \pmb{q}_d \pmb{q}_d^\top) \\
 &amp;= \lambda_1 \pmb{q}_1^\top \pmb{q}_1 + \lambda_2 \pmb{q}_2^\top \pmb{q}_2 + \dots + \lambda_d \pmb{q}_d^\top \pmb{q}_d \\
@@ -1093,16 +1093,16 @@ z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 <p>第<span class="math notranslate nohighlight">\(k\)</span>主成分に対応する固有値<span class="math notranslate nohighlight">\(\lambda_k\)</span>は、元のデータ<span class="math notranslate nohighlight">\(X\)</span>を第<span class="math notranslate nohighlight">\(k\)</span>主成分の軸に射影したときの分散を表す。全ての主成分における分散の総和に対し、第<span class="math notranslate nohighlight">\(k\)</span>主成分の分散が占める割合を第<span class="math notranslate nohighlight">\(k\)</span>主成分の<strong>寄与率</strong>と呼ぶ。</p>
 <div class="important admonition">
 <p class="admonition-title">寄与率</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fc5aa19c-ac92-42c4-8bec-977461ace859">
-<span class="eqno">(13.43)<a class="headerlink" href="#equation-fc5aa19c-ac92-42c4-8bec-977461ace859" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f67b621e-66a6-40e3-9ef6-f5c8d3da8ade">
+<span class="eqno">(13.43)<a class="headerlink" href="#equation-f67b621e-66a6-40e3-9ef6-f5c8d3da8ade" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\lambda_k}{\sum_{i=1}^d \lambda_i} = \frac{\lambda_k}{\lambda_1 + \lambda_2 + \dots + \lambda_d}
 \end{align}\]</div>
 </div>
 <p>また、第<span class="math notranslate nohighlight">\(k\)</span>主成分までに表現された分散の総和が、データ全体の分散の総和に占める割合を第<span class="math notranslate nohighlight">\(k\)</span>主成分までの<strong>累積寄与率</strong>と呼ぶ。</p>
 <div class="important admonition">
 <p class="admonition-title">累積寄与率</p>
-<div class="amsmath math notranslate nohighlight" id="equation-78c9a0a6-70b8-450e-b801-e198d096978e">
-<span class="eqno">(13.44)<a class="headerlink" href="#equation-78c9a0a6-70b8-450e-b801-e198d096978e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-10a26aae-e4a5-4ecf-a736-007e6dce1cb6">
+<span class="eqno">(13.44)<a class="headerlink" href="#equation-10a26aae-e4a5-4ecf-a736-007e6dce1cb6" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\sum_{i=1}^k \lambda_i}{\sum_{i=1}^d \lambda_i} = \frac{\lambda_1 + \lambda_2 \dots + \lambda_k}{\lambda_1 + \lambda_2 + \dots + \lambda_d}
 \end{align}\]</div>
 </div>

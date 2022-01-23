@@ -536,17 +536,17 @@
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>活発で、外向的だと思う 5
 他人に不満をもち、もめごとを起こしやすいと思う 3
-しっかりしていて、自分に厳しいと思う 4
+しっかりしていて、自分に厳しいと思う 3
 心配性で、うろたえやすいと思う 5
 新しいことが好きで、変わった考えをもつと思う 6
 ひかえめで、おとなしいと思う 5
 人に気をつかう、やさしい人間だと思う 5
-だらしなく、うっかりしていると思う 5
-冷静で、気分が安定していると思う 6
+だらしなく、うっかりしていると思う 4
+冷静で、気分が安定していると思う 5
 発想力に欠けた、平凡な人間だと思う 3
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;外向性&#39;: 4.0, &#39;協調性&#39;: 5.0, &#39;勤勉性&#39;: 3.5, &#39;神経症傾向&#39;: 3.5, &#39;開放性&#39;: 5.5}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;外向性&#39;: 4.0, &#39;協調性&#39;: 5.0, &#39;勤勉性&#39;: 3.5, &#39;神経症傾向&#39;: 4.0, &#39;開放性&#39;: 5.5}
 </pre></div>
 </div>
 </div>
@@ -601,26 +601,26 @@
 <div class="section" id="k-means">
 <h2><span class="section-number">10.2. </span>K-meansクラスタリング<a class="headerlink" href="#k-means" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><span class="math notranslate nohighlight">\(d\)</span>次元のベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>で表された事例を<span class="math notranslate nohighlight">\(N\)</span>件集めたデータがある。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-917e4f97-0d60-4467-b483-dd8c1a816b62">
-<span class="eqno">(10.1)<a class="headerlink" href="#equation-917e4f97-0d60-4467-b483-dd8c1a816b62" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-85150681-e3be-4ea7-8b6e-6f4458d84106">
+<span class="eqno">(10.1)<a class="headerlink" href="#equation-85150681-e3be-4ea7-8b6e-6f4458d84106" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathcal{D} = \{\pmb{x}_1, \pmb{x}_2, \dots, \pmb{x}_N\} = \{\pmb{x}_i\}_{i=1}^N
 \end{align}\]</div>
 <p>このデータ中の事例を<span class="math notranslate nohighlight">\(K\)</span>個のクラスタに分割したい。なお、実際にクラスタリングを行うときは、クラスタの数<span class="math notranslate nohighlight">\(K\)</span>をどのように決定するかが重要な問題となるが、当面は<span class="math notranslate nohighlight">\(K\)</span>を事前に決定してあるものとする。</p>
 <p>ここで、<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(N\)</span>までの自然数の集合を<span class="math notranslate nohighlight">\(\mathbb{N}_N\)</span>と書くことにする。各クラスタに所属する事例を集合<span class="math notranslate nohighlight">\(C_1, C_2, \dots, C_K\)</span>で表す。<span class="math notranslate nohighlight">\(k\)</span>番目のクラスタを表す集合<span class="math notranslate nohighlight">\(C_k\)</span>は、そのクラスタに属する事例のインデックス番号を集めたものであると定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ef98a1f2-784d-4ab2-9441-30503b5e54e0">
-<span class="eqno">(10.2)<a class="headerlink" href="#equation-ef98a1f2-784d-4ab2-9441-30503b5e54e0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fe395b70-c4c3-4d92-a3e6-f5206f156aa8">
+<span class="eqno">(10.2)<a class="headerlink" href="#equation-fe395b70-c4c3-4d92-a3e6-f5206f156aa8" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 C_k = \{i \in \mathbb{N}_N \mid \text{事例$\pmb{x}_i$が$k$番目のクラスタに属する}\}
 \end{align}\]</div>
 <p>各事例は<span class="math notranslate nohighlight">\(C_1\)</span>から<span class="math notranslate nohighlight">\(C_K\)</span>までのいずれかのクラスタに必ず属することとする。すなわち、任意の異なる<span class="math notranslate nohighlight">\(k, k' \in \mathbb{N}_K\)</span>に対して、<span class="math notranslate nohighlight">\(C_k \cap C_{k'} = \emptyset\)</span>を満たし、かつ<span class="math notranslate nohighlight">\(\bigcup\limits_{k = 1}^K C_k = \mathbb{N}_N\)</span>である。あるいは、集合族<span class="math notranslate nohighlight">\(\{C_1, C_2, \dots, C_K\}\)</span>は<span class="math notranslate nohighlight">\(\mathbb{N}_N\)</span>の分割と説明することもできる。</p>
 <p>例えば、事例数が<span class="math notranslate nohighlight">\(4\)</span>（<span class="math notranslate nohighlight">\(N=4\)</span>）のデータを<span class="math notranslate nohighlight">\(2\)</span>個のクラスタ（<span class="math notranslate nohighlight">\(K=2\)</span>）に分割するとき、<span class="math notranslate nohighlight">\(\pmb{x}_1, \pmb{x}_2, \pmb{x}_4\)</span>が<span class="math notranslate nohighlight">\(1\)</span>番目のクラスタに属し、<span class="math notranslate nohighlight">\(\pmb{x}_3\)</span>が<span class="math notranslate nohighlight">\(2\)</span>番目のクラスタに属する状況を、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b5af05e6-28a0-425e-a9b3-1bef9924ea99">
-<span class="eqno">(10.3)<a class="headerlink" href="#equation-b5af05e6-28a0-425e-a9b3-1bef9924ea99" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f7ba748c-8f41-495c-80bb-8a20ce1c9c86">
+<span class="eqno">(10.3)<a class="headerlink" href="#equation-f7ba748c-8f41-495c-80bb-8a20ce1c9c86" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 C_1 = \{1, 2, 4\}, C_2 = \{3\}
 \end{align}\]</div>
 <p>として表す。</p>
 <p>さて、クラスタリングの基本的な考え方は、同じクラスタ内に属する事例間の距離が近く、異なるクラスタ間に属する事例間の距離が遠くなるように、クラスタの割り当てを決定することである。あるクラスタ割り当てが与えられたとき、<strong>K-meansクラスタリング</strong>（K平均クラスタリング）では、各クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>を中心ベクトル<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>で代表させる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8b39a86f-b36f-4b2e-afb0-38c1cfb1128a">
-<span class="eqno">(10.4)<a class="headerlink" href="#equation-8b39a86f-b36f-4b2e-afb0-38c1cfb1128a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dd36ce7c-2154-456a-8a8a-f6d1d8de79d5">
+<span class="eqno">(10.4)<a class="headerlink" href="#equation-dd36ce7c-2154-456a-8a8a-f6d1d8de79d5" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \pmb{\mu}_k = \frac{1}{|C_k|} \sum_{i \in C_k} \pmb{x}_i
 \end{align}\]</div>
 <p>例えば、以下の8個の点が同じクラスタに属する場合、そのクラスタを中心ベクトル（×印）で代表させる。</p>
@@ -643,8 +643,8 @@ C_1 = \{1, 2, 4\}, C_2 = \{3\}
 </div>
 </div>
 <p>そして、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>のまとまり具合を計測する尺度として、そのクラスタに属する事例ベクトルと中心ベクトルとの二乗距離の和を用いる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-13649b28-2ea1-49e1-a2b1-38dcdba0a00f">
-<span class="eqno">(10.5)<a class="headerlink" href="#equation-13649b28-2ea1-49e1-a2b1-38dcdba0a00f" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-74891e51-67d8-4efa-bbc7-4b998a009057">
+<span class="eqno">(10.5)<a class="headerlink" href="#equation-74891e51-67d8-4efa-bbc7-4b998a009057" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2
 \end{align}\]</div>
 <p>これは、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>に属する事例の分散の<span class="math notranslate nohighlight">\(|C_k|\)</span>倍であるから、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>内のデータのばらつきを表していると解釈できる。先ほどの例を用いると、各事例（点）と中心ベクトル（×印）とのユークリッド距離（下図点線）の二乗和である。</p>
@@ -787,13 +787,15 @@ k^* = \mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\pmb{x}_i - \pmb{\mu}
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">kmeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">wcss</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">y_old</span> <span class="o">=</span> <span class="kc">None</span>
     
     <span class="c1"># Prepare a random generator with the seed.</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     
     <span class="c1"># Extract K points at random from the data as the initial centers.</span>
     <span class="n">centers</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n</span><span class="p">)[:</span><span class="n">num_clusters</span><span class="p">]]</span>
-    <span class="n">y_old</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     
     <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iterations</span><span class="p">):</span>
         <span class="n">wcss</span> <span class="o">=</span> <span class="mf">0.</span>
@@ -803,7 +805,6 @@ k^* = \mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\pmb{x}_i - \pmb{\mu}
             <span class="n">H</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">centers</span><span class="o">.</span><span class="n">copy</span><span class="p">()])</span>
 
         <span class="c1"># Find cluster assignments.</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
             <span class="c1"># Compute the distance to each cluster center.</span>
             <span class="n">dist</span> <span class="o">=</span> <span class="p">((</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -817,18 +818,17 @@ k^* = \mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\pmb{x}_i - \pmb{\mu}
         
         <span class="c1"># Terminate if the cluster assignement was unchanged.</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">y_old</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span>
+            <span class="k">break</span>
         
         <span class="c1"># Compute the geometric center of each cluster.</span>
-        <span class="n">centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_clusters</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_clusters</span><span class="p">):</span>
             <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span>       <span class="c1"># i such that Y[i] == c</span>
             <span class="n">centers</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         
-        <span class="c1"># Update the cluster assignment and continue.</span>
-        <span class="n">y_old</span> <span class="o">=</span> <span class="n">y</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span>
+        <span class="c1"># Store the current cluster assignment for the next iteration.</span>
+        <span class="n">y_old</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">wcss</span>
 </pre></div>
 </div>
 </div>
@@ -1077,42 +1077,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img4712e06b4be242e3a7e152e639326444">
+  <img id="_anim_imge9180e9dad3c4cac91187d4105725e6c">
   <div class="anim-controls">
-    <input id="_anim_slider4712e06b4be242e3a7e152e639326444" type="range" class="anim-slider"
+    <input id="_anim_slidere9180e9dad3c4cac91187d4105725e6c" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="anim4712e06b4be242e3a7e152e639326444.set_frame(parseInt(this.value));"></input>
+           oninput="anime9180e9dad3c4cac91187d4105725e6c.set_frame(parseInt(this.value));"></input>
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim4712e06b4be242e3a7e152e639326444.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="anime9180e9dad3c4cac91187d4105725e6c.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim4712e06b4be242e3a7e152e639326444.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="anime9180e9dad3c4cac91187d4105725e6c.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim4712e06b4be242e3a7e152e639326444.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="anime9180e9dad3c4cac91187d4105725e6c.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim4712e06b4be242e3a7e152e639326444.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="anime9180e9dad3c4cac91187d4105725e6c.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim4712e06b4be242e3a7e152e639326444.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="anime9180e9dad3c4cac91187d4105725e6c.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim4712e06b4be242e3a7e152e639326444.play_animation()">
+      <button title="Play" aria-label="Play" onclick="anime9180e9dad3c4cac91187d4105725e6c.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim4712e06b4be242e3a7e152e639326444.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="anime9180e9dad3c4cac91187d4105725e6c.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim4712e06b4be242e3a7e152e639326444.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="anime9180e9dad3c4cac91187d4105725e6c.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim4712e06b4be242e3a7e152e639326444.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="anime9180e9dad3c4cac91187d4105725e6c.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select4712e06b4be242e3a7e152e639326444"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selecte9180e9dad3c4cac91187d4105725e6c"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_4712e06b4be242e3a7e152e639326444"
+      <input type="radio" name="state" value="once" id="_anim_radio1_e9180e9dad3c4cac91187d4105725e6c"
              >
-      <label for="_anim_radio1_4712e06b4be242e3a7e152e639326444">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_4712e06b4be242e3a7e152e639326444"
+      <label for="_anim_radio1_e9180e9dad3c4cac91187d4105725e6c">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_e9180e9dad3c4cac91187d4105725e6c"
              checked>
-      <label for="_anim_radio2_4712e06b4be242e3a7e152e639326444">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_4712e06b4be242e3a7e152e639326444"
+      <label for="_anim_radio2_e9180e9dad3c4cac91187d4105725e6c">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_e9180e9dad3c4cac91187d4105725e6c"
              >
-      <label for="_anim_radio3_4712e06b4be242e3a7e152e639326444">Reflect</label>
+      <label for="_anim_radio3_e9180e9dad3c4cac91187d4105725e6c">Reflect</label>
     </form>
   </div>
 </div>
@@ -1122,9 +1122,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img4712e06b4be242e3a7e152e639326444";
-    var slider_id = "_anim_slider4712e06b4be242e3a7e152e639326444";
-    var loop_select_id = "_anim_loop_select4712e06b4be242e3a7e152e639326444";
+    var img_id = "_anim_imge9180e9dad3c4cac91187d4105725e6c";
+    var slider_id = "_anim_slidere9180e9dad3c4cac91187d4105725e6c";
+    var loop_select_id = "_anim_loop_selecte9180e9dad3c4cac91187d4105725e6c";
     var frames = new Array(10);
 
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQCAYAAAByNR6YAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -4060,7 +4060,7 @@ CwAAwGEULAAAAIdRsAAAABz2/wDkiPD20fcgIQAAAABJRU5ErkJggg==\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim4712e06b4be242e3a7e152e639326444 = new Animation(frames, img_id, slider_id, 2000.0,
+        anime9180e9dad3c4cac91187d4105725e6c = new Animation(frames, img_id, slider_id, 2000.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -4109,20 +4109,20 @@ CwAAwGEULAAAAIdRsAAAABz2/wDkiPD20fcgIQAAAABJRU5ErkJggg==\
 <h2><span class="section-number">10.4. </span>K-meansの目的関数の最小化<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Lloydのアルゴリズムがジャーナル論文として出版されたのは1982年であるが、Lloydのアルゴリズムそのものは1950年代後半から知られるようになっていた。K-meansという名前が使われるようになったのは、<span id="id15">MacQueen [<a class="reference internal" href="../reference.html#id11">1967</a>]</span> の論文によると言われている。そこで、K-meansの目的関数<span class="math notranslate nohighlight">\(J\)</span>とLloydのアルゴリズムがそのように関係するのか説明しておく。</p>
 <p>クラスタの割り当てを決める際、学習データ<span class="math notranslate nohighlight">\(\mathcal{D} = \{\pmb{x}_i\}_{i=1}^N\)</span>は不変であるので、K-meansクラスタリングの目的関数（式<a class="reference internal" href="#equation-eq-kmeans-objective">(10.6)</a>）は<span class="math notranslate nohighlight">\(C_1, \dots, C_K, \pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>の関数である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-91f604a4-1308-463a-9ce2-ca87b0b19a9d">
-<span class="eqno">(10.9)<a class="headerlink" href="#equation-91f604a4-1308-463a-9ce2-ca87b0b19a9d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3c584caf-5c91-4608-9303-ecc4e6d7d83a">
+<span class="eqno">(10.9)<a class="headerlink" href="#equation-3c584caf-5c91-4608-9303-ecc4e6d7d83a" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 J = \sum_{k=1}^{K} \sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2
 \end{align}\]</div>
 <p>この目的関数を最小化するため、<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>と<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を交互に更新していくことを考える。</p>
 <p>まず、<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小化するクラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を求めることを考える。全ての事例はいずれかのクラスタに属しなければならないが、<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>が固定されている状況では、ある事例のクラスタ割り当てが別の事例のクラスタ割り当てに影響を及ぼしたり、目的関数<span class="math notranslate nohighlight">\(J\)</span>の値を変化させてしまうことはない。したがって、事例<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>ごとに距離が最小となる中心<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>を選べばよい。すなわち、事例<span class="math notranslate nohighlight">\(\pmb{x}_i\)</span>を次式で求まる番号のクラスタに所属させればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e567bcdd-9ea4-4656-9e3f-03ce96650113">
-<span class="eqno">(10.10)<a class="headerlink" href="#equation-e567bcdd-9ea4-4656-9e3f-03ce96650113" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d0da31b3-5af5-42ca-ba05-262ab3f7b0a2">
+<span class="eqno">(10.10)<a class="headerlink" href="#equation-d0da31b3-5af5-42ca-ba05-262ab3f7b0a2" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\pmb{x}_i - \pmb{\mu}_k\|^2
 \end{align}\]</div>
 <p>これにより、Lloydのアルゴリズムの式<a class="reference internal" href="#equation-eq-kmeans-cluster-assignment">(10.7)</a>を導出できた。</p>
 <p>次に、クラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小にする<span class="math notranslate nohighlight">\(\pmb{\mu}_1, \dots, \pmb{\mu}_K\)</span>を求める。目的関数<span class="math notranslate nohighlight">\(J\)</span>の計算において、各<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>の間に依存関係はないので、全ての<span class="math notranslate nohighlight">\(k \in \mathbb{N}_K\)</span>に対して、目的関数を最小とする<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>を求めればよい。そこで、目的関数<span class="math notranslate nohighlight">\(J\)</span>を<span class="math notranslate nohighlight">\(\pmb{\mu}_k\)</span>で偏微分して<span class="math notranslate nohighlight">\(0\)</span>とおく。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-96774eac-0fe6-4afc-8fb6-5ec2bca3a8ab">
-<span class="eqno">(10.11)<a class="headerlink" href="#equation-96774eac-0fe6-4afc-8fb6-5ec2bca3a8ab" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-710a0f9d-2264-4d5f-be1a-7a4191db8b6e">
+<span class="eqno">(10.11)<a class="headerlink" href="#equation-710a0f9d-2264-4d5f-be1a-7a4191db8b6e" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
 \frac{\partial J}{\partial \pmb{\mu}_k} = \frac{\partial}{\partial \pmb{\mu}_k} \left(\sum_{i \in C_k} \|\pmb{x}_i - \pmb{\mu}_k\|^2\right) = 2 \sum_{i \in C_k} (\pmb{x}_i - \pmb{\mu}_k) &amp;= 0 \\
 \sum_{i \in C_k} \pmb{x}_i - \sum_{i \in C_k} \pmb{\mu}_k &amp;= 0 \\
 \sum_{i \in C_k} \pmb{x}_i - |C_k| \pmb{\mu}_k &amp;= 0 \\
@@ -4460,7 +4460,7 @@ V(\pmb{\mu}_k) = \{\pmb{x} \in \mathbb{R}^d \mid \|\pmb{x} - \pmb{\mu}_k\|^2 \le
 </div>
 </div>
 </div>
-<p><span class="math notranslate nohighlight">\(K=10\)</span>としてK-meansクラスタリングを実行する</p>
+<p><span class="math notranslate nohighlight">\(K=8\)</span>としてK-meansクラスタリングを実行する</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span>
@@ -4482,7 +4482,7 @@ V(\pmb{\mu}_k) = \{\pmb{x} \in \mathbb{R}^d \mid \|\pmb{x} - \pmb{\mu}_k\|^2 \le
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([4, 4, 4, ..., 3, 0, 3], dtype=int32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 1, 1, ..., 4, 2, 4], dtype=int32)
 </pre></div>
 </div>
 </div>
@@ -4496,13 +4496,13 @@ V(\pmb{\mu}_k) = \{\pmb{x} \in \mathbb{R}^d \mid \|\pmb{x} - \pmb{\mu}_k\|^2 \le
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[4, 4, 4, ..., 4, 4, 4],
-       [4, 4, 4, ..., 4, 4, 4],
-       [4, 4, 4, ..., 4, 4, 4],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1, 1, 1, ..., 1, 1, 1],
+       [1, 1, 1, ..., 1, 1, 1],
+       [1, 1, 1, ..., 1, 1, 1],
        ...,
-       [1, 1, 5, ..., 0, 0, 7],
-       [1, 1, 5, ..., 3, 3, 0],
-       [1, 5, 5, ..., 3, 0, 3]], dtype=int32)
+       [7, 7, 3, ..., 2, 2, 6],
+       [7, 7, 3, ..., 4, 4, 2],
+       [7, 3, 3, ..., 4, 2, 4]], dtype=int32)
 </pre></div>
 </div>
 </div>
@@ -4528,14 +4528,14 @@ V(\pmb{\mu}_k) = \{\pmb{x} \in \mathbb{R}^d \mid \|\pmb{x} - \pmb{\mu}_k\|^2 \le
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 84.13125854, 100.2114094 ,  49.97751975],
-       [183.10584298, 184.56519777, 181.90205294],
-       [101.60405939, 108.98935805, 111.07230518],
-       [ 42.76871273,  57.20167592,  23.90438001],
-       [213.25854807, 216.01546793, 219.2507964 ],
-       [148.14840693, 153.49444522, 142.53329374],
-       [184.04585711, 137.13914584,  32.81942531],
-       [125.22445582, 144.83422677,  77.30787037]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[102.57238038, 109.79890975, 112.05009951],
+       [213.19825854, 215.94807347, 219.17603201],
+       [ 81.33258116,  97.10530433,  49.68005536],
+       [148.36181301, 154.15051257, 140.17941509],
+       [ 41.15426396,  55.57136458,  22.28316255],
+       [183.84859155, 137.09507042,  32.91862285],
+       [121.74363453, 141.59718988,  73.99701133],
+       [182.51130733, 184.04131739, 181.59997765]])
 </pre></div>
 </div>
 </div>
@@ -4549,14 +4549,14 @@ V(\pmb{\mu}_k) = \{\pmb{x} \in \mathbb{R}^d \mid \|\pmb{x} - \pmb{\mu}_k\|^2 \le
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 84, 100,  49],
-       [183, 184, 181],
-       [101, 108, 111],
-       [ 42,  57,  23],
-       [213, 216, 219],
-       [148, 153, 142],
-       [184, 137,  32],
-       [125, 144,  77]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[102, 109, 112],
+       [213, 215, 219],
+       [ 81,  97,  49],
+       [148, 154, 140],
+       [ 41,  55,  22],
+       [183, 137,  32],
+       [121, 141,  73],
+       [182, 184, 181]])
 </pre></div>
 </div>
 </div>
@@ -4570,55 +4570,55 @@ V(\pmb{\mu}_k) = \{\pmb{x} \in \mathbb{R}^d \mid \|\pmb{x} - \pmb{\mu}_k\|^2 \le
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[[213, 216, 219],
-        [213, 216, 219],
-        [213, 216, 219],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[[213, 215, 219],
+        [213, 215, 219],
+        [213, 215, 219],
         ...,
-        [213, 216, 219],
-        [213, 216, 219],
-        [213, 216, 219]],
+        [213, 215, 219],
+        [213, 215, 219],
+        [213, 215, 219]],
 
-       [[213, 216, 219],
-        [213, 216, 219],
-        [213, 216, 219],
+       [[213, 215, 219],
+        [213, 215, 219],
+        [213, 215, 219],
         ...,
-        [213, 216, 219],
-        [213, 216, 219],
-        [213, 216, 219]],
+        [213, 215, 219],
+        [213, 215, 219],
+        [213, 215, 219]],
 
-       [[213, 216, 219],
-        [213, 216, 219],
-        [213, 216, 219],
+       [[213, 215, 219],
+        [213, 215, 219],
+        [213, 215, 219],
         ...,
-        [213, 216, 219],
-        [213, 216, 219],
-        [213, 216, 219]],
+        [213, 215, 219],
+        [213, 215, 219],
+        [213, 215, 219]],
 
        ...,
 
-       [[183, 184, 181],
-        [183, 184, 181],
-        [148, 153, 142],
+       [[182, 184, 181],
+        [182, 184, 181],
+        [148, 154, 140],
         ...,
-        [ 84, 100,  49],
-        [ 84, 100,  49],
-        [125, 144,  77]],
+        [ 81,  97,  49],
+        [ 81,  97,  49],
+        [121, 141,  73]],
 
-       [[183, 184, 181],
-        [183, 184, 181],
-        [148, 153, 142],
+       [[182, 184, 181],
+        [182, 184, 181],
+        [148, 154, 140],
         ...,
-        [ 42,  57,  23],
-        [ 42,  57,  23],
-        [ 84, 100,  49]],
+        [ 41,  55,  22],
+        [ 41,  55,  22],
+        [ 81,  97,  49]],
 
-       [[183, 184, 181],
-        [148, 153, 142],
-        [148, 153, 142],
+       [[182, 184, 181],
+        [148, 154, 140],
+        [148, 154, 140],
         ...,
-        [ 42,  57,  23],
-        [ 84, 100,  49],
-        [ 42,  57,  23]]])
+        [ 41,  55,  22],
+        [ 81,  97,  49],
+        [ 41,  55,  22]]])
 </pre></div>
 </div>
 </div>

@@ -12,6 +12,7 @@ dependencies:
   - tensorflow
   - jax
   - jinja2
+  - openpyxl
   - pip
   - pip:
     - schemdraw

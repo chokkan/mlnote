@@ -16,11 +16,24 @@ twitter_card = """
 """
 
 sagemaker_studio_lab = """
-                    alt="Interact on Colab">Colab</button></a>
+<span class="headerbtn__text-container">Colab</span>
+</a>
 
-        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/{}"><button type="button" class="btn btn-secondary topbarbtn"
-            title="起動 SageMaker Studio Lab" data-toggle="tooltip" data-placement="left"><i
-                class="fab fa-aws"></i> SageMaker</button></a>
+      </li>
+
+      <li>
+        <a href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/{}"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on SageMaker Studio Lab"
+>
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-aws"></i>
+</span>
+<span class="headerbtn__text-container">SageMaker</span>
+</a>
 """
 
 def build():
@@ -49,13 +62,10 @@ def modify_html():
         # Add meta tags for Twitter card.
         content = content.replace('<!-- Google Analytics -->', twitter_card)
         
-        # An ad-hoc fix for the incorrect translation.
-        content = content.replace('title="発売 ', 'title="起動 ')
-        
         # Add the button for SageMaker Studio Lab.
         if path:
             content = content.replace(
-                'alt="Interact on Colab">Colab</button></a>',
+                '<span class="headerbtn__text-container">Colab</span>\n</a>',
                 sagemaker_studio_lab.format(path)
                 )
         

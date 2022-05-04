@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>13. 主成分分析 (2) &#8212; 機械学習帳</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,12 +19,8 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -32,27 +29,30 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/translations.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script>
-        const thebe_selector = ".thebe,.cell"
-        const thebe_selector_input = "pre,.cell_input div.highlight"
-        const thebe_selector_output = ".output,.cell_output"
-    </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/unsupervised/04pca2.html" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
@@ -82,7 +82,21 @@
                 </script>
 
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -91,14 +105,10 @@
     <div class="container-xl">
       <div class="row">
           
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
       
@@ -108,7 +118,7 @@
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="この本を検索..." aria-label="この本を検索..." autocomplete="off" >
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <p aria-level="2" class="caption" role="heading">
@@ -216,122 +226,263 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
-<div class="sbt-scroll-pixel-helper"></div>
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            <div class="topbar-left">
-                
-                <label class="nav-toggle-button" for="__navigation">
-                    <div class="visually-hidden">ナビゲーションを切り替え</div>
-                    <i class="fas fa-bars"></i>
-                </label>
-                
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
             
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="このページをダウンロード"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/unsupervised/04pca2.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="ソースファイルをダウンロード" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="PDFに印刷"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/chokkan/mlnote"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="ソースリポジトリ"><i
-                    class="fab fa-github"></i>リポジトリ</button></a>
-        <a class="issues-button"
-            href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Funsupervised/04pca2.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="問題を開く"><i class="fas fa-lightbulb"></i>未解決の問題</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="全画面モード"
-        title="全画面モード"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/unsupervised/04pca2.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="起動 Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/unsupervised/04pca2.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="起動 Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    
-                    alt="Interact on Colab">Colab</button></a>
-
-        <a class="colab-button" href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/unsupervised/04pca2.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-            title="起動 SageMaker Studio Lab" data-toggle="tooltip" data-placement="left"><i
-                class="fab fa-aws"></i> SageMaker</button></a>
-
-        
-        
-        <button type="button" class="btn btn-secondary topbarbtn"
-            onclick="initThebeSBT()" title="起動 Thebe" data-toggle="tooltip" data-placement="left"><i
-                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
-        
-    </div>
-</div>
-
         </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> 目次
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/unsupervised/04pca2.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/unsupervised/04pca2.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+
+      <li>
+        <a href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/unsupervised/04pca2.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on SageMaker Studio Lab"
+>
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-aws"></i>
+</span>
+<span class="headerbtn__text-container">SageMaker</span>
+</a>
+
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/chokkan/mlnote"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Funsupervised/04pca2.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/unsupervised/04pca2.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id2">
    13.1. データの表現
@@ -400,12 +551,11 @@
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>主成分分析 (2)</h1>
@@ -414,7 +564,7 @@
                     <div id="jb-print-toc">
                         
                         <div>
-                            <h2> 目次 </h2>
+                            <h2> Contents </h2>
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
@@ -490,11 +640,12 @@
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="id1">
-<h1><span class="section-number">13. </span>主成分分析 (2)<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1><span class="section-number">13. </span>主成分分析 (2)<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">#</a></h1>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install japanize-matplotlib
@@ -527,26 +678,26 @@ Requirement already satisfied: six in /home/okazaki/.local/lib/python3.8/site-pa
 </div>
 <p>2次元のデータの例で主成分分析の基本的な考え方を掴んだところで、多次元のデータに対する主成分分析を考えよう。</p>
 <div class="section" id="id2">
-<h2><span class="section-number">13.1. </span>データの表現<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2><span class="section-number">13.1. </span>データの表現<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">#</a></h2>
 <p><span class="math notranslate nohighlight">\(d\)</span>次元のベクトル<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span>からなる事例を<span class="math notranslate nohighlight">\(N\)</span>件集めたデータを行列<span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{N \times d}\)</span>で表す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-830f2eba-143a-4c3a-b713-dddddcf1b4cf">
-<span class="eqno">(13.1)<a class="headerlink" href="#equation-830f2eba-143a-4c3a-b713-dddddcf1b4cf" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-02720649-c8a9-4c13-a545-4c12ba92ac72">
+<span class="eqno">(13.1)<a class="headerlink" href="#equation-02720649-c8a9-4c13-a545-4c12ba92ac72" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{X} = \begin{pmatrix}\pmb{x}_1^\top \\ \pmb{x}_2^\top \\ \dots \\ \pmb{x}_N^\top \end{pmatrix}
 \end{align}\]</div>
 <p>また、データの平均ベクトル<span class="math notranslate nohighlight">\(\pmb{\bar{x}} \in \mathbb{R}^d\)</span>を次式で定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-61a6096f-8869-42dd-aa9b-bdd1b33dc477">
-<span class="eqno">(13.2)<a class="headerlink" href="#equation-61a6096f-8869-42dd-aa9b-bdd1b33dc477" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-42cf2a7f-a28c-4155-80f6-5f3acea74c25">
+<span class="eqno">(13.2)<a class="headerlink" href="#equation-42cf2a7f-a28c-4155-80f6-5f3acea74c25" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{\bar{x}} = \frac{1}{N} \sum_{i=1}^N \pmb{x}_i
 \end{align}\]</div>
 <div class="section" id="id3">
-<h3><span class="section-number">13.1.1. </span>射影したデータの分散<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3><span class="section-number">13.1.1. </span>射影したデータの分散<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">#</a></h3>
 <p>あるベクトル<span class="math notranslate nohighlight">\(\pmb{u} \in \mathbb{R}^d\)</span>でデータ点を射影したとき、<span class="math notranslate nohighlight">\(\pmb{u}\)</span>上に射影された点の分散<span class="math notranslate nohighlight">\(J\)</span>は、</p>
 <div class="margin sidebar">
 <p class="sidebar-title">データの中心化</p>
 <p>主成分分析の説明の中には、データ点が中心化されている（データ点の平均が原点にある）ことを仮定するものがある。前章の例で用いたデータ点も中心化されていた。しかし、式<a class="reference internal" href="#equation-eq-pca-ptojected-variance-derivation">(13.3)</a>の定式化では、射影後の分散を求めるときに分散共分散行列を経由する（各データ点から平均を引く）ことになるため、事前にデータ点を中心化しておかなくてもよい。</p>
 </div>
 <div class="math notranslate nohighlight" id="equation-eq-pca-ptojected-variance-derivation">
-<span class="eqno">(13.3)<a class="headerlink" href="#equation-eq-pca-ptojected-variance-derivation" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+<span class="eqno">(13.3)<a class="headerlink" href="#equation-eq-pca-ptojected-variance-derivation" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
 J &amp;= \frac{1}{N} \sum_{i=1}^N \left(\pmb{u}^\top \pmb{x}_i - \pmb{u}^\top \pmb{\bar{x}}\right)^2 \\
 &amp;= \frac{1}{N} \sum_{i=1}^N \left\{\pmb{u}^\top (\pmb{x}_i - \pmb{\bar{x}})\right\}^2 \\
@@ -598,22 +749,22 @@ u_2
 <p class="admonition-title">射影後の点の分散</p>
 <p><span class="math notranslate nohighlight">\(N\)</span>個のデータ点<span class="math notranslate nohighlight">\(\pmb{x}_1, \dots, \pmb{x}_N \in \mathbb{R}^d\)</span>をベクトル<span class="math notranslate nohighlight">\(\pmb{u} \in \mathbb{R}^d\)</span>で射影したとき、<span class="math notranslate nohighlight">\(\pmb{u}\)</span>上に射影された点の分散は、</p>
 <div class="math notranslate nohighlight" id="equation-eq-pca-projected-variance">
-<span class="eqno">(13.4)<a class="headerlink" href="#equation-eq-pca-projected-variance" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.4)<a class="headerlink" href="#equation-eq-pca-projected-variance" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \pmb{u}^\top \pmb{S} \pmb{u}
 \end{align}
 \]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\pmb{S} \in \mathbb{R}^{d \times d}\)</span>はデータの分散共分散行列である。</p>
 <div class="math notranslate nohighlight" id="equation-eq-variance-covariance-matrix">
-<span class="eqno">(13.5)<a class="headerlink" href="#equation-eq-variance-covariance-matrix" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+<span class="eqno">(13.5)<a class="headerlink" href="#equation-eq-variance-covariance-matrix" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
 \pmb{S} &amp;= \frac{1}{N} \sum_{i=1}^N (\pmb{x}_i - \pmb{\bar{x}}) (\pmb{x}_i - \pmb{\bar{x}})^\top \\
 \end{align}
 \end{split}\]</div>
 </div>
 <p>なお、分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の各要素<span class="math notranslate nohighlight">\(S_{a,b}\)</span>は、行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を用いると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-93a8d832-74d0-48c5-97dd-a212c714056d">
-<span class="eqno">(13.6)<a class="headerlink" href="#equation-93a8d832-74d0-48c5-97dd-a212c714056d" title="この数式へのパーマリンク">¶</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-14f0600b-5d3c-4c99-a276-663ebd39a805">
+<span class="eqno">(13.6)<a class="headerlink" href="#equation-14f0600b-5d3c-4c99-a276-663ebd39a805" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
 S_{a,b} = \frac{1}{N} \sum_{i=1}^N (X_{i,a} - \bar{x}_a) (X_{i,b} - \bar{x}_b) \\
 \bar{x}_a = \frac{1}{N} \sum_{i=1}^N X_{i,a}, \; \bar{x}_b = \frac{1}{N} \sum_{i=1}^N X_{i,b}
 \end{gather}\]</div>
@@ -621,28 +772,28 @@ S_{a,b} = \frac{1}{N} \sum_{i=1}^N (X_{i,a} - \bar{x}_a) (X_{i,b} - \bar{x}_b) \
 </div>
 </div>
 <div class="section" id="sec-eigen-and-pca">
-<span id="id4"></span><h2><span class="section-number">13.2. </span>固有値問題と主成分分析<a class="headerlink" href="#sec-eigen-and-pca" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id4"></span><h2><span class="section-number">13.2. </span>固有値問題と主成分分析<a class="headerlink" href="#sec-eigen-and-pca" title="このヘッドラインへのパーマリンク">#</a></h2>
 <div class="section" id="id5">
-<h3><span class="section-number">13.2.1. </span>第1主成分<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3><span class="section-number">13.2.1. </span>第1主成分<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">#</a></h3>
 <p>主成分分析では、ある単位ベクトル<span class="math notranslate nohighlight">\(\pmb{u} \in \mathbb{R}^d\)</span>でデータ点を射影したとき、射影された点の分散を最大化したい。前章で説明した通り、第1主成分<span class="math notranslate nohighlight">\(\pmb{u}_1\)</span>は、<span class="math notranslate nohighlight">\(\|\pmb{u}_1\|=1\)</span>の制約のもとで次式の目的関数を最大化する問題の解である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-03f05e23-d8b1-4eb2-a70e-740c661167c0">
-<span class="eqno">(13.7)<a class="headerlink" href="#equation-03f05e23-d8b1-4eb2-a70e-740c661167c0" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c7d3f74a-f8b8-4a15-950b-85979421fc81">
+<span class="eqno">(13.7)<a class="headerlink" href="#equation-c7d3f74a-f8b8-4a15-950b-85979421fc81" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 J = \pmb{u}_1^\top \pmb{S} \pmb{u}_1
 \end{align}\]</div>
 <p>これを制約なしの最大化問題に書き換えるため、ラグランジュの未定乗数法を用いる。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d8d7f628-b9d9-421f-a337-763662a1df20">
-<span class="eqno">(13.8)<a class="headerlink" href="#equation-d8d7f628-b9d9-421f-a337-763662a1df20" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9ad58608-35a3-44bc-ab8c-0d6ec9ddfea2">
+<span class="eqno">(13.8)<a class="headerlink" href="#equation-9ad58608-35a3-44bc-ab8c-0d6ec9ddfea2" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \mathcal{L} = \pmb{u}_1^\top \pmb{S} \pmb{u}_1 - \lambda_1 (\pmb{u}_1^\top\pmb{u}_1 - 1)
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\lambda_1\)</span>はラグランジュ乗数である。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>を最大化するため、<span class="math notranslate nohighlight">\(\pmb{u}_1\)</span>に関する偏微分を<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8fa213e7-76f2-449a-b801-042540c76bc5">
-<span class="eqno">(13.9)<a class="headerlink" href="#equation-8fa213e7-76f2-449a-b801-042540c76bc5" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-460359e0-d46a-4463-8a33-f638101667ef">
+<span class="eqno">(13.9)<a class="headerlink" href="#equation-460359e0-d46a-4463-8a33-f638101667ef" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \frac{\partial \mathcal{L}}{\partial \pmb{u}_1} = 2\pmb{S} \pmb{u}_1 - 2\lambda_1 \pmb{u}_1 &amp;= 0 \\
 \pmb{S} \pmb{u}_1 = \lambda_1 \pmb{u}_1
 \end{align}\]</div>
 <p>ゆえに、第1主成分を求める問題は分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値問題に帰着する。なお、上式の両辺に左から<span class="math notranslate nohighlight">\(\pmb{u}_1^\top\)</span>をかけると、左辺は最大化したい目的関数<span class="math notranslate nohighlight">\(J\)</span>となり、右辺は<span class="math notranslate nohighlight">\(\lambda_1\)</span>となる。</p>
 <div class="math notranslate nohighlight" id="equation-eq-j-principal-component">
-<span class="eqno">(13.10)<a class="headerlink" href="#equation-eq-j-principal-component" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.10)<a class="headerlink" href="#equation-eq-j-principal-component" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 J = \pmb{u}_1^\top \pmb{S} \pmb{u}_1 = \pmb{u}_1^\top (\pmb{S} \pmb{u}_1) = \pmb{u}_1^\top (\lambda_1 \pmb{u}_1) = \lambda_1 \pmb{u}_1^\top \pmb{u}_1 = \lambda_1
 \end{align}
@@ -653,14 +804,14 @@ J = \pmb{u}_1^\top \pmb{S} \pmb{u}_1 = \pmb{u}_1^\top (\pmb{S} \pmb{u}_1) = \pmb
 <p class="admonition-title">主成分分析の第1主成分</p>
 <p><span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\pmb{X} = \begin{pmatrix}\pmb{x}_1 &amp; \pmb{x}_2 &amp; \dots &amp; \pmb{x}_N \end{pmatrix}^\top\)</span>が与えられ、その分散共分散行列を<span class="math notranslate nohighlight">\(\pmb{S}\)</span>とする。主成分分析の第1主成分ベクトル<span class="math notranslate nohighlight">\(\pmb{u}_1\)</span>は以下の固有値問題の解である。</p>
 <div class="math notranslate nohighlight" id="equation-eq-pca1-eigenvalue">
-<span class="eqno">(13.11)<a class="headerlink" href="#equation-eq-pca1-eigenvalue" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.11)<a class="headerlink" href="#equation-eq-pca1-eigenvalue" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \pmb{S} \pmb{u}_1 = \lambda_1 \pmb{u}_1
 \end{align}
 \]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\lambda_1\)</span>は<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の最大の固有値で、<span class="math notranslate nohighlight">\(\pmb{u}_1\)</span>は<span class="math notranslate nohighlight">\(\lambda_1\)</span>に対応する固有ベクトルを正規化したものである。データの平均ベクトルを<span class="math notranslate nohighlight">\(\bar{\pmb{x}}\)</span>と書くことにすると、データ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>に含まれるある事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>の第1主成分得点は、</p>
 <div class="math notranslate nohighlight" id="equation-eq-pca1-score">
-<span class="eqno">(13.12)<a class="headerlink" href="#equation-eq-pca1-score" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.12)<a class="headerlink" href="#equation-eq-pca1-score" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \pmb{u}_1^\top (\pmb{x} - \pmb{\bar{x}})
 \end{align}
@@ -669,10 +820,10 @@ J = \pmb{u}_1^\top \pmb{S} \pmb{u}_1 = \pmb{u}_1^\top (\pmb{S} \pmb{u}_1) = \pmb
 </div>
 </div>
 <div class="section" id="id6">
-<h3><span class="section-number">13.2.2. </span>第2主成分以降<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3><span class="section-number">13.2.2. </span>第2主成分以降<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">#</a></h3>
 <p>第2主成分以降を一般的に求めるため、第<span class="math notranslate nohighlight">\(k\)</span>主成分ベクトル<span class="math notranslate nohighlight">\(\pmb{u}_1, \dots, \pmb{u}_k\)</span>までを求めてあると仮定し、第<span class="math notranslate nohighlight">\(k+1\)</span>主成分ベクトルを求める（<span class="math notranslate nohighlight">\(1 \leq k &lt; d\)</span>）。各主成分ベクトルの長さは<span class="math notranslate nohighlight">\(1\)</span>で、互いに直交するように選ぶので、主成分ベクトルは以下の制約を満たす（つまり、<span class="math notranslate nohighlight">\(\pmb{u}_1, \dots, \pmb{u}_k\)</span>は正規直交系である）。</p>
 <div class="math notranslate nohighlight" id="equation-eq-orthonormal">
-<span class="eqno">(13.13)<a class="headerlink" href="#equation-eq-orthonormal" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+<span class="eqno">(13.13)<a class="headerlink" href="#equation-eq-orthonormal" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
 \pmb{u}^\top_i \pmb{u}_j = \begin{cases}
 1 &amp; (i = j) \\
@@ -681,32 +832,32 @@ J = \pmb{u}_1^\top \pmb{S} \pmb{u}_1 = \pmb{u}_1^\top (\pmb{S} \pmb{u}_1) = \pmb
 \end{align}
 \end{split}\]</div>
 <p>第<span class="math notranslate nohighlight">\(k+1\)</span>主成分ベクトル<span class="math notranslate nohighlight">\(\pmb{u}_{k+1}\)</span>は、<span class="math notranslate nohighlight">\(\|\pmb{u}_{k+1}\|=1, \pmb{u}_1^\top \pmb{u}_{k+1} = \dots = \pmb{u}_k^\top \pmb{u}_{k+1} = 0\)</span>の制約のもとで次の目的関数を最大化する問題の解である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-95bbdaf6-def5-498e-b1ec-3056a87c4901">
-<span class="eqno">(13.14)<a class="headerlink" href="#equation-95bbdaf6-def5-498e-b1ec-3056a87c4901" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-79ff4eef-8c47-46bc-8934-5f89cbe5edfd">
+<span class="eqno">(13.14)<a class="headerlink" href="#equation-79ff4eef-8c47-46bc-8934-5f89cbe5edfd" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{align}\]</div>
 <p>これを制約なしの最大化問題に書き換えるため、ラグランジュの未定乗数法を用いる。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ef91717f-3043-4c8a-93f8-668e6afd20da">
-<span class="eqno">(13.15)<a class="headerlink" href="#equation-ef91717f-3043-4c8a-93f8-668e6afd20da" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3a65eb06-92f3-40a1-ab38-0d55132307d9">
+<span class="eqno">(13.15)<a class="headerlink" href="#equation-3a65eb06-92f3-40a1-ab38-0d55132307d9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \mathcal{L} = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1} - \lambda_{k+1} (\pmb{u}_{k+1}^\top\pmb{u}_{k+1} - 1) - \sum_{i=1}^k \alpha_i \pmb{u}_i^\top \pmb{u}_{k+1}
 \end{align}\]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(\alpha_1, \dots, \alpha_k, \lambda_{k+1}\)</span>はラグランジュ乗数である。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>を最大化するため、<span class="math notranslate nohighlight">\(\pmb{u}_{k+1}\)</span>に関する偏微分を<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
 <div class="math notranslate nohighlight" id="equation-eq-pca-lagrange">
-<span class="eqno">(13.16)<a class="headerlink" href="#equation-eq-pca-lagrange" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.16)<a class="headerlink" href="#equation-eq-pca-lagrange" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \pmb{u}_{k+1}} = 2\pmb{S} \pmb{u}_{k+1} - 2\lambda_{k+1} \pmb{u}_{k+1} - \sum_{i=1}^k \alpha_i \pmb{u}_i &amp;= 0
 \end{align}
 \]</div>
 <p>ここで、上の等式において<span class="math notranslate nohighlight">\(\pmb{u}_1^\top\)</span>を左からかけ、式<a class="reference internal" href="#equation-eq-orthonormal">(13.13)</a>に注意しながら展開すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ea74c7dc-3e29-48e2-8ed4-c88f8a6c7c66">
-<span class="eqno">(13.17)<a class="headerlink" href="#equation-ea74c7dc-3e29-48e2-8ed4-c88f8a6c7c66" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f1103fa1-8a8d-43c3-b666-912e7b1934a6">
+<span class="eqno">(13.17)<a class="headerlink" href="#equation-f1103fa1-8a8d-43c3-b666-912e7b1934a6" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 2\pmb{u}_1^\top \pmb{S} \pmb{u}_{k+1} - 2\lambda_{k+1} \pmb{u}_1^\top \pmb{u}_{k+1} - \sum_{i=1}^k \alpha_i \pmb{u}_1^\top \pmb{u}_i &amp;= 0 \\
 2\pmb{u}_1^\top \pmb{S} \pmb{u}_{k+1} - \alpha_1 &amp;= 0 \\
 \alpha_1 &amp;= 2\pmb{u}_1^\top \pmb{S} \pmb{u}_{k+1} = 2\pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_1 = 2\pmb{u}_{k+1}^\top \lambda_1 \pmb{u}_1 = 0
 \end{align}\]</div>
 <p>同様に、全ての<span class="math notranslate nohighlight">\(j \in \{1, \dots, k\}\)</span>に対して、<span class="math notranslate nohighlight">\(\pmb{u}_j^\top\)</span>を左からかけることで、<span class="math notranslate nohighlight">\(\alpha_j = 0\)</span>が示される。ゆえに、式<a class="reference internal" href="#equation-eq-pca-lagrange">(13.16)</a>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e6ef45fa-9939-44b2-9931-ed2865cc6539">
-<span class="eqno">(13.18)<a class="headerlink" href="#equation-e6ef45fa-9939-44b2-9931-ed2865cc6539" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6f38d8f2-d35c-4e83-b633-92c5c6b456b5">
+<span class="eqno">(13.18)<a class="headerlink" href="#equation-6f38d8f2-d35c-4e83-b633-92c5c6b456b5" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{S} \pmb{u}_{k+1} = \lambda_{k+1} \pmb{u}_{k+1}
 \end{align}\]</div>
 <p>と整理される。したがって、第<span class="math notranslate nohighlight">\(k+1\)</span>主成分以降を求める問題も分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値問題に帰着する。これを<span class="math notranslate nohighlight">\(k=1\)</span>から<span class="math notranslate nohighlight">\(k=d-1\)</span>まで繰り返すことで、すべての主成分ベクトルを求めることができる。</p>
@@ -715,14 +866,14 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 <p class="admonition-title">主成分分析と固有値問題</p>
 <p><span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\pmb{X} = \begin{pmatrix}\pmb{x}_1 &amp; \pmb{x}_2 &amp; \dots &amp; \pmb{x}_N \end{pmatrix}^\top\)</span>が与えられ、その分散共分散行列を<span class="math notranslate nohighlight">\(\pmb{S}\)</span>とする。<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の<span class="math notranslate nohighlight">\(d\)</span>個の固有値を大きい順に並べ、</p>
 <div class="math notranslate nohighlight" id="equation-eq-pca-lambdas">
-<span class="eqno">(13.19)<a class="headerlink" href="#equation-eq-pca-lambdas" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.19)<a class="headerlink" href="#equation-eq-pca-lambdas" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_d \geq 0
 \end{align}
 \]</div>
 <p>とする。また、<span class="math notranslate nohighlight">\(\lambda_1, \lambda_2, \dots, \lambda_d\)</span>に対応する固有ベクトルを<span class="math notranslate nohighlight">\(\pmb{u}_1, \pmb{u}_1, \dots, \pmb{u}_d\)</span>とする。ただし、固有ベクトルは、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fa053720-a919-4fd0-9de1-445e8ef55582">
-<span class="eqno">(13.20)<a class="headerlink" href="#equation-fa053720-a919-4fd0-9de1-445e8ef55582" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-29046f01-a27d-4d28-a5e6-8779819acefa">
+<span class="eqno">(13.20)<a class="headerlink" href="#equation-29046f01-a27d-4d28-a5e6-8779819acefa" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{u}^\top_i \pmb{u}_j = \begin{cases}
 1 &amp; (i = j) \\
 0 &amp; (i \neq j)
@@ -730,7 +881,7 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{align}\]</div>
 <p>を満たすように求める。すると、<span class="math notranslate nohighlight">\(\pmb{u}_1, \pmb{u}_1, \dots, \pmb{u}_d\)</span>はそれぞれ、第1主成分、第2主成分、……、第<span class="math notranslate nohighlight">\(d\)</span>主成分に対応する。データの平均ベクトルを<span class="math notranslate nohighlight">\(\bar{\pmb{x}}\)</span>と書くことにすると、データ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>に含まれるある事例<span class="math notranslate nohighlight">\(\pmb{x}\)</span>の第<span class="math notranslate nohighlight">\(i\)</span>主成分得点は（<span class="math notranslate nohighlight">\(i \in \{1, \dots, d\}\)</span>）、</p>
 <div class="math notranslate nohighlight" id="equation-eq-pcak-score">
-<span class="eqno">(13.21)<a class="headerlink" href="#equation-eq-pcak-score" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.21)<a class="headerlink" href="#equation-eq-pcak-score" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \pmb{u}_i^\top (\pmb{x} - \pmb{\bar{x}})
 \end{align}
@@ -741,10 +892,10 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 </div>
 </div>
 <div class="section" id="id7">
-<h2><span class="section-number">13.3. </span>スペクトル分解と主成分分析<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2><span class="section-number">13.3. </span>スペクトル分解と主成分分析<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">#</a></h2>
 <p>主成分分析への理解を深めるため、スペクトル分解との関連を説明する。</p>
 <div class="section" id="id8">
-<h3><span class="section-number">13.3.1. </span>スペクトル分解<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3><span class="section-number">13.3.1. </span>スペクトル分解<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">#</a></h3>
 <p>まず、スペクトル分解を復習する。一般に、実対象行列は以下の性質を持つ。</p>
 <div class="note dropdown admonition">
 <p class="admonition-title">実対称行列のすべての固有値は実数である</p>
@@ -799,7 +950,7 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 </div>
 <p>ある実対称行列<span class="math notranslate nohighlight">\(\pmb{S} \in \mathbb{R}^{d \times d}\)</span>の固有値を<span class="math notranslate nohighlight">\(\lambda_1, \lambda_2, \dots, \lambda_d\)</span>とし、対応する固有ベクトルを<span class="math notranslate nohighlight">\(\pmb{q}_1, \pmb{q}_2, \dots, \pmb{q}_d \in \mathbb{R}^d\)</span>とする。</p>
 <div class="math notranslate nohighlight" id="equation-eq-eigen-equations">
-<span class="eqno">(13.22)<a class="headerlink" href="#equation-eq-eigen-equations" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.22)<a class="headerlink" href="#equation-eq-eigen-equations" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \pmb{S} \pmb{q}_1 = \lambda_1 \pmb{q}_1, \;
 \pmb{S} \pmb{q}_2 = \lambda_2 \pmb{q}_2, \;
@@ -809,7 +960,7 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \]</div>
 <p>なお、固有ベクトルを正規直交系を構成するように選ぶことができるので、<span class="math notranslate nohighlight">\(i, j \in \{1, \dots, d\}\)</span>に関して、</p>
 <div class="math notranslate nohighlight" id="equation-eq-q-is-orthogonal">
-<span class="eqno">(13.23)<a class="headerlink" href="#equation-eq-q-is-orthogonal" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+<span class="eqno">(13.23)<a class="headerlink" href="#equation-eq-q-is-orthogonal" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
  \pmb{q}_i^\top\pmb{q}_j = \begin{cases}
 1 &amp; (i = j) \\
@@ -819,7 +970,7 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{split}\]</div>
 <p>等式<a class="reference internal" href="#equation-eq-eigen-equations">(13.22)</a>をベクトルとして横に並べると、次のように整理できる。</p>
 <div class="math notranslate nohighlight" id="equation-eq-eigen-equation">
-<span class="eqno">(13.24)<a class="headerlink" href="#equation-eq-eigen-equation" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+<span class="eqno">(13.24)<a class="headerlink" href="#equation-eq-eigen-equation" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
 \begin{pmatrix}
 \pmb{S} \pmb{q}_1 &amp;
@@ -848,8 +999,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{align}
 \end{split}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\pmb{\Lambda} \in \mathbb{R}^{d \times d}\)</span>は固有値を要素とする対角行列である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5c12f8af-0051-4186-b889-b4bd228de398">
-<span class="eqno">(13.25)<a class="headerlink" href="#equation-5c12f8af-0051-4186-b889-b4bd228de398" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9bcc2430-6fba-4235-9c7f-f253a2859226">
+<span class="eqno">(13.25)<a class="headerlink" href="#equation-9bcc2430-6fba-4235-9c7f-f253a2859226" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{\Lambda} = {\rm diag}(\lambda_1, \lambda_2, \dots, \lambda_d) = \begin{pmatrix}
 \lambda_1 &amp; 0 &amp; \ldots &amp; 0 \\
 0 &amp; \lambda_2 &amp; \ldots &amp; 0 \\
@@ -858,8 +1009,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 \end{pmatrix}
 \end{align}\]</div>
 <p>また、行列<span class="math notranslate nohighlight">\(\pmb{Q} \in \mathbb{R}^{d \times d}\)</span>は列ベクトルである固有ベクトルを横方向に配置したものである。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3dbd50b0-22d3-4875-a7a2-f80496ddbd75">
-<span class="eqno">(13.26)<a class="headerlink" href="#equation-3dbd50b0-22d3-4875-a7a2-f80496ddbd75" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2921a6a7-2e1f-448a-9ba1-d35a04b2e919">
+<span class="eqno">(13.26)<a class="headerlink" href="#equation-2921a6a7-2e1f-448a-9ba1-d35a04b2e919" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{Q} = \begin{pmatrix}
 \pmb{q}_1 &amp; \pmb{q}_2 &amp; \dots &amp; \pmb{q}_d
 \end{pmatrix}
@@ -874,7 +1025,7 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 </div>
 <p>以下に示すように、<span class="math notranslate nohighlight">\(\pmb{Q}^\top \pmb{Q} = \pmb{I}\)</span>であるから、<span class="math notranslate nohighlight">\(\pmb{Q}\)</span>は直交行列である。</p>
 <div class="math notranslate nohighlight" id="equation-eq-q-is-orthogonal-matrix">
-<span class="eqno">(13.27)<a class="headerlink" href="#equation-eq-q-is-orthogonal-matrix" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+<span class="eqno">(13.27)<a class="headerlink" href="#equation-eq-q-is-orthogonal-matrix" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
 \pmb{Q}^\top \pmb{Q} = \begin{pmatrix}
 \pmb{q}_1^\top \\ \pmb{q}_2^\top \\ \dots \\ \pmb{q}_d^\top
@@ -907,8 +1058,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 <div class="important admonition">
 <p class="admonition-title">スペクトル分解</p>
 <p>実対称行列<span class="math notranslate nohighlight">\(\pmb{S} \in \mathbb{R}^{d \times d}\)</span>は、直交行列<span class="math notranslate nohighlight">\(\pmb{Q} \in \mathbb{R}^{d \times d}\)</span>、対角行列<span class="math notranslate nohighlight">\(\pmb{\Lambda} \in \mathbb{R}^{d \times d}\)</span>、直交行列<span class="math notranslate nohighlight">\(\pmb{Q}^\top\)</span>の積に分解できる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f72ae643-5f3d-40e5-821d-6bfee03fc017">
-<span class="eqno">(13.28)<a class="headerlink" href="#equation-f72ae643-5f3d-40e5-821d-6bfee03fc017" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0af73260-aa9a-450a-a85e-9a04fe02a5fc">
+<span class="eqno">(13.28)<a class="headerlink" href="#equation-0af73260-aa9a-450a-a85e-9a04fe02a5fc" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{S} &amp;= \pmb{Q} \pmb{\Lambda} \pmb{Q}^\top \\
 &amp;= \begin{pmatrix}
 \vert &amp; \vert &amp; \ldots &amp; \vert \\
@@ -962,13 +1113,13 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 </div>
 </div>
 <div class="section" id="sec-pca-by-spectral-decomposition">
-<span id="id9"></span><h3><span class="section-number">13.3.2. </span>主成分分析の導出<a class="headerlink" href="#sec-pca-by-spectral-decomposition" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id9"></span><h3><span class="section-number">13.3.2. </span>主成分分析の導出<a class="headerlink" href="#sec-pca-by-spectral-decomposition" title="このヘッドラインへのパーマリンク">#</a></h3>
 <p>スペクトル分解に基づいて主成分分析を導出してみよう。主成分分析では、データ行列<span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{N \times d}\)</span>に対して式<a class="reference internal" href="#equation-eq-variance-covariance-matrix">(13.5)</a>で計算される分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S} \in \mathbb{R}^{d \times d}\)</span>が出発点である。以下の二つの性質により、分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値は非負である。</p>
 <div class="note dropdown admonition">
 <p class="admonition-title">分散共分散行列は半正定値対称行列である</p>
 <p>行列<span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{N \times d}\)</span>の分散共分散行列を<span class="math notranslate nohighlight">\(\pmb{S} \in \mathbb{R}^{d \times d}\)</span>とする。分散共分散行列は対称行列であるので、半正定値行列であることを示せばよい。任意のベクトル<span class="math notranslate nohighlight">\(\pmb{u}\)</span>に対して、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1b96b2a9-45bf-4421-be6f-b742c79cf556">
-<span class="eqno">(13.29)<a class="headerlink" href="#equation-1b96b2a9-45bf-4421-be6f-b742c79cf556" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e2208342-6751-414e-b11a-8193a517c1c1">
+<span class="eqno">(13.29)<a class="headerlink" href="#equation-e2208342-6751-414e-b11a-8193a517c1c1" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{u}^\top \pmb{S} \pmb{u}
 &amp;= \pmb{u}^\top \left[\frac{1}{N} \sum_{i=1}^N (\pmb{x}_i - \pmb{\bar{x})}(\pmb{x}_i - \pmb{\bar{x}})^\top\right] \pmb{u} \\
 &amp;= \frac{1}{N} \sum_{i=1}^N \left\{\pmb{u}^\top (\pmb{x}_i - \pmb{\bar{x})}\right\} \cdot \left\{(\pmb{x}_i - \pmb{\bar{x}})^\top \pmb{u}\right\} \\
@@ -982,38 +1133,38 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 <div class="note dropdown admonition">
 <p class="admonition-title">半正定値対称行列の固有値はすべて非負である</p>
 <p>半正定値対称行列を<span class="math notranslate nohighlight">\(\pmb{S}\)</span>とする。その行列のある固有値を<span class="math notranslate nohighlight">\(\lambda\)</span>、対応する固有ベクトルを<span class="math notranslate nohighlight">\(\pmb{u}\)</span>とする。すなわち、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2c399cc6-20da-4fea-96e4-98e3b5aa2667">
-<span class="eqno">(13.30)<a class="headerlink" href="#equation-2c399cc6-20da-4fea-96e4-98e3b5aa2667" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-868525df-696f-41aa-91a4-9a9d4e2c9530">
+<span class="eqno">(13.30)<a class="headerlink" href="#equation-868525df-696f-41aa-91a4-9a9d4e2c9530" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{S} \pmb{u} = \lambda \pmb{u}
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の二次形式を計算すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d86b7150-e7cb-4113-b5b9-f5234d1ec2f7">
-<span class="eqno">(13.31)<a class="headerlink" href="#equation-d86b7150-e7cb-4113-b5b9-f5234d1ec2f7" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e69e8db4-787b-4e86-abca-3139681d94ee">
+<span class="eqno">(13.31)<a class="headerlink" href="#equation-e69e8db4-787b-4e86-abca-3139681d94ee" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{u}^\top \pmb{S} \pmb{u} = \pmb{u}^\top \lambda \pmb{u} = \lambda \pmb{u}^\top \pmb{u}
 \end{align}\]</div>
 <p>分散共分散行列は半正定値対称行列であるから、左辺は非負であることが分かっている。右辺が非負となるためには、<span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>が成り立たなければならない。</p>
 </div>
 <p>分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>は実対称行列であるから、直交行列<span class="math notranslate nohighlight">\(\pmb{Q} \in \mathbb{R}^{d \times d}\)</span>と対角行列<span class="math notranslate nohighlight">\(\pmb{\Lambda} = {\rm diag}(\lambda_1, \dots, \lambda_d) \in \mathbb{R}^{d \times d}\)</span>によるスペクトル分解が存在する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7d5f198f-b0b0-42a3-831b-55ce2c21f45d">
-<span class="eqno">(13.32)<a class="headerlink" href="#equation-7d5f198f-b0b0-42a3-831b-55ce2c21f45d" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-62fbd3f4-19b5-4b2f-9c40-ad2a399aaee0">
+<span class="eqno">(13.32)<a class="headerlink" href="#equation-62fbd3f4-19b5-4b2f-9c40-ad2a399aaee0" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{S} = \pmb{Q} \pmb{\Lambda} \pmb{Q}^\top
 \end{align}\]</div>
 <p>さらに、分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>は半正定値対称行列であり、その固有値はすべて非負である。そこで、<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値を大きい順に並べておく。</p>
 <div class="math notranslate nohighlight" id="equation-eq-eigenvalue-order">
-<span class="eqno">(13.33)<a class="headerlink" href="#equation-eq-eigenvalue-order" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.33)<a class="headerlink" href="#equation-eq-eigenvalue-order" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_d \geq 0
 \end{align}
 \]</div>
 <p>また、これらの固有値に対応するように固有ベクトル<span class="math notranslate nohighlight">\(\pmb{Q} = \begin{pmatrix}\pmb{q}_1 &amp; \pmb{q}_2 &amp; \dots &amp; \pmb{q}_d\end{pmatrix}\)</span>を並び替えておく。</p>
 <p>さて、式<a class="reference internal" href="#equation-eq-pca-objective">(13.38)</a>で示したように、主成分分析における第1主成分<span class="math notranslate nohighlight">\(\pmb{u}_1 \in \mathbb{R}^d\)</span>は以下の最大化問題で求まる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e3b0c15a-f248-47c7-92a2-de452a63b6e4">
-<span class="eqno">(13.34)<a class="headerlink" href="#equation-e3b0c15a-f248-47c7-92a2-de452a63b6e4" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-05d4de72-287c-460f-84f4-a68bc2d2c017">
+<span class="eqno">(13.34)<a class="headerlink" href="#equation-05d4de72-287c-460f-84f4-a68bc2d2c017" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \pmb{u}_1 = \mathop{\rm argmax}\limits_{\|\pmb{u}\| = 1} \pmb{u}^\top \pmb{S} \pmb{u} = \mathop{\rm argmax}\limits_{\|\pmb{u}\| \neq 0} \frac{\pmb{u}^\top \pmb{S} \pmb{u}}{\pmb{u}^\top \pmb{u}}
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\({\rm argmax}\)</span>の中身、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bb100001-73a9-4a5b-b9d0-1b06c20bd8af">
-<span class="eqno">(13.35)<a class="headerlink" href="#equation-bb100001-73a9-4a5b-b9d0-1b06c20bd8af" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-44f0c0c0-eb2e-4897-b91f-829f6f7a1472">
+<span class="eqno">(13.35)<a class="headerlink" href="#equation-44f0c0c0-eb2e-4897-b91f-829f6f7a1472" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \frac{\pmb{u}^\top \pmb{S} \pmb{u}}{\pmb{u}^\top \pmb{u}}
 \end{align}\]</div>
 <p>はレイリー商（Rayleigh quotient）と呼ばる。以下で示すように、このレイリー商は<span class="math notranslate nohighlight">\(\pmb{u} = \pm \pmb{q}_1\)</span>のとき最大値<span class="math notranslate nohighlight">\(\lambda_1\)</span>をとる。すなわち、データ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を第1主成分ベクトルに射影するとき、その分散の最大値は<span class="math notranslate nohighlight">\(\lambda_1\)</span>であり、その最大値を与える第1主成分ベクトルは<span class="math notranslate nohighlight">\(\pmb{u}_1 = \pm \pmb{q}_1\)</span>である。</p>
@@ -1023,8 +1174,8 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 </div>
 <div class="note admonition">
 <p class="admonition-title">レイリー商による最大値</p>
-<div class="amsmath math notranslate nohighlight" id="equation-53320707-cfd6-4f96-b715-3df18f618345">
-<span class="eqno">(13.36)<a class="headerlink" href="#equation-53320707-cfd6-4f96-b715-3df18f618345" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-25c8d5ce-5ab2-40b2-9cc8-cb626e0309b7">
+<span class="eqno">(13.36)<a class="headerlink" href="#equation-25c8d5ce-5ab2-40b2-9cc8-cb626e0309b7" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \frac{\pmb{u}^\top \pmb{S} \pmb{u}}{\pmb{u}^\top \pmb{u}}
 &amp;= \frac{\pmb{u}^\top (\pmb{Q}\pmb{\Lambda}\pmb{Q}^\top) \pmb{u}}{\pmb{u}^\top \pmb{u}} &amp;&amp; (\because \pmb{S} = \pmb{Q}\pmb{\Lambda}\pmb{Q}^\top) \\
 &amp;= \frac{\pmb{u}^\top \pmb{Q}\pmb{\Lambda}\pmb{Q}^\top \pmb{u}}{\pmb{u}^\top\pmb{Q} \pmb{Q}^\top\pmb{u}} &amp;&amp; (\because \pmb{Q} \pmb{Q}^\top = \pmb{I}) \\
@@ -1033,18 +1184,18 @@ J = \pmb{u}_{k+1}^\top \pmb{S} \pmb{u}_{k+1}
 &amp;= \frac{\lambda_1 z_1^2 + \lambda_2 z_2^2 + \dots + \lambda_d z_d^2}{z_1^2 + z_2^2 + \dots + z_d^2} &amp;&amp; (\because \pmb{\Lambda} = {\rm diag}(\lambda_1, \lambda_2, \dots, \lambda_d))
 \end{align}\]</div>
 <p>上式は<span class="math notranslate nohighlight">\(\lambda_1, \lambda_2, \dots, \lambda_d\)</span>の<span class="math notranslate nohighlight">\(z_1^2, z_2^2, \dots, z_d^2\)</span>による重み付き平均である。したがって、その最大値は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-35147e5a-1dec-4672-a35a-09343f1d3e86">
-<span class="eqno">(13.37)<a class="headerlink" href="#equation-35147e5a-1dec-4672-a35a-09343f1d3e86" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5fdbe032-affa-496e-bba1-a411e822b2bc">
+<span class="eqno">(13.37)<a class="headerlink" href="#equation-5fdbe032-affa-496e-bba1-a411e822b2bc" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \max_{\|\pmb{u}\| \neq 0} \frac{\pmb{u}^\top \pmb{S} \pmb{u}}{\pmb{u}^\top \pmb{u}}
 = \max_{\|\pmb{z}\| \neq 0} \frac{\lambda_1 z_1^2 + \lambda_2 z_2^2 + \dots + \lambda_d z_d^2}{z_1^2 + z_2^2 + \dots + z_d^2}
 \leq \lambda_1 \\
 \end{align}\]</div>
 <p>等号が成立するのは、<span class="math notranslate nohighlight">\(z_1^2 = 1, z_2^2 = z_3^2 = \dots = z_d^2 = 0\)</span>、すなわち<span class="math notranslate nohighlight">\(\pmb{u} = \pm \pmb{q}_1\)</span>のときである。</p>
 </div>
-<p>続いて、主成分分析で第<span class="math notranslate nohighlight">\(k\)</span>主成分までデータ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を射影する場合を考える（<span class="math notranslate nohighlight">\(1 \leq k \leq d\)</span>）。<span class="math notranslate nohighlight">\(k\)</span>個の直交基底ベクトルで射影した後のデータの分散の和の最大値は<span class="math notranslate nohighlight">\(\lambda_1 + \dots + \lambda_k\)</span>であること、その最大値は<span class="math notranslate nohighlight">\(\pmb{q}_1, \dots, \pmb{q}_k\)</span>で射影した場合であることを示す <span id="id10">[<a class="reference internal" href="../reference.html#id21">Dasgupta, 2008</a>]</span>。</p>
+<p>続いて、主成分分析で第<span class="math notranslate nohighlight">\(k\)</span>主成分までデータ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を射影する場合を考える（<span class="math notranslate nohighlight">\(1 \leq k \leq d\)</span>）。<span class="math notranslate nohighlight">\(k\)</span>個の直交基底ベクトルで射影した後のデータの分散の和の最大値は<span class="math notranslate nohighlight">\(\lambda_1 + \dots + \lambda_k\)</span>であること、その最大値は<span class="math notranslate nohighlight">\(\pmb{q}_1, \dots, \pmb{q}_k\)</span>で射影した場合であることを示す <span id="id10">[<a class="reference internal" href="../reference.html#id21" title="Sanjoy Dasgupta. Cse 291: unsupervised learning: lecture 7 — spectral methods. 2008. URL: https://cseweb.ucsd.edu/~dasgupta/291-unsup/lec7.pdf.">Dasgupta, 2008</a>]</span>。</p>
 <p><span class="math notranslate nohighlight">\(k\)</span>個の直交基底ベクトルを<span class="math notranslate nohighlight">\(\pmb{u}_1, \dots, \pmb{u}_k\)</span>とおく。式<a class="reference internal" href="#equation-eq-pca-projected-variance">(13.4)</a>より、これらのベクトルでデータを射影した後の分散の和<span class="math notranslate nohighlight">\(J_k\)</span>は、分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>のスペクトル分解<span class="math notranslate nohighlight">\(\pmb{Q}\pmb{\Lambda}\pmb{Q}^\top\)</span>を用いて、次のように展開できる。</p>
 <div class="math notranslate nohighlight" id="equation-eq-pca-objective">
-<span class="eqno">(13.38)<a class="headerlink" href="#equation-eq-pca-objective" title="この数式へのパーマリンク">¶</a></span>\[\begin{split}
+<span class="eqno">(13.38)<a class="headerlink" href="#equation-eq-pca-objective" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
 J_k &amp;= \sum_{i=1}^k \pmb{u}_i^\top \pmb{S} \pmb{u}_i \\
 &amp;= \sum_{i=1}^k \pmb{u}_i^\top (\pmb{Q} \pmb{\Lambda} \pmb{Q}^\top) \pmb{u}_i &amp;&amp; (\because \pmb{S} = \pmb{Q}\pmb{\Lambda}\pmb{Q}^\top) \\
@@ -1054,19 +1205,19 @@ J_k &amp;= \sum_{i=1}^k \pmb{u}_i^\top \pmb{S} \pmb{u}_i \\
 \end{align}
 \end{split}\]</div>
 <p>ゆえに、分散の和<span class="math notranslate nohighlight">\(J_k\)</span>は<span class="math notranslate nohighlight">\(d\)</span>個の固有値<span class="math notranslate nohighlight">\(\lambda_1, \dots, \lambda_d\)</span>の<span class="math notranslate nohighlight">\(z_1, \dots, z_d\)</span>による重み付き和として表される。そこで、<span class="math notranslate nohighlight">\(j \in \{1, 2, \dots, d\}\)</span>に関して<span class="math notranslate nohighlight">\(z_j\)</span>の性質を調べる。まず、ベッセルの不等式より、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b62c1515-b9a8-4a8f-86ca-26d4ba666a22">
-<span class="eqno">(13.39)<a class="headerlink" href="#equation-b62c1515-b9a8-4a8f-86ca-26d4ba666a22" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-957eb939-4552-4a5c-b234-3a25bccbf121">
+<span class="eqno">(13.39)<a class="headerlink" href="#equation-957eb939-4552-4a5c-b234-3a25bccbf121" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 \end{align}\]</div>
 <p>さらに、<span class="math notranslate nohighlight">\(z_j\)</span>の和は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7e78637e-8420-4267-8b49-c8ba509c3369">
-<span class="eqno">(13.40)<a class="headerlink" href="#equation-7e78637e-8420-4267-8b49-c8ba509c3369" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-46f4b4cf-b470-4ec6-9853-5a68b5346315">
+<span class="eqno">(13.40)<a class="headerlink" href="#equation-46f4b4cf-b470-4ec6-9853-5a68b5346315" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \sum_{j = 1}^{d} z_j = \sum_{j = 1}^{d} \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 = \sum_{i=1}^k \sum_{j = 1}^{d} \pmb{u}_i^\top\pmb{q}_j \pmb{q}_j^\top\pmb{u}_i = \sum_{i=1}^k \pmb{u}_i^\top\pmb{Q} \pmb{Q}^\top\pmb{u}_i = \sum_{i=1}^k \pmb{u}_i^\top\pmb{u}_i = k
 \end{align}\]</div>
 <p>したがって、式<a class="reference internal" href="#equation-eq-pca-objective">(13.38)</a>は<span class="math notranslate nohighlight">\(0 \leq z_j \leq 1\)</span>かつ、<span class="math notranslate nohighlight">\(\sum_{j = 1}^{d} z_j = k\)</span>による固有値<span class="math notranslate nohighlight">\(\lambda_1, \dots, \lambda_d\)</span>の重み付き和である。式<a class="reference internal" href="#equation-eq-eigenvalue-order">(13.33)</a>のように、分散共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の固有値を大きい順に並べてある場合、式<a class="reference internal" href="#equation-eq-pca-objective">(13.38)</a>が最大となるのは、<span class="math notranslate nohighlight">\(z_1 = \dots = z_k = 1, z_{k+1} = \dots = z_d = 0\)</span>と選んだときである。<span class="math notranslate nohighlight">\(1 \leq j \leq k\)</span>に対して、<span class="math notranslate nohighlight">\(z_j = 1\)</span>を満たすには、<span class="math notranslate nohighlight">\(\pmb{u}_j = \pmb{q}_j\)</span>とすればよい。</p>
 <p>まとめると、<span class="math notranslate nohighlight">\(k\)</span>個の直交基底ベクトルでデータ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を射影した後の分散の和<span class="math notranslate nohighlight">\(J_k\)</span>の最大値は、</p>
 <div class="math notranslate nohighlight" id="equation-eq-pca-maximum-variance">
-<span class="eqno">(13.41)<a class="headerlink" href="#equation-eq-pca-maximum-variance" title="この数式へのパーマリンク">¶</a></span>\[
+<span class="eqno">(13.41)<a class="headerlink" href="#equation-eq-pca-maximum-variance" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
 \max J_k = \sum_{i=1}^k \lambda_i
 \end{align}
@@ -1076,14 +1227,14 @@ z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 </div>
 </div>
 <div class="section" id="id11">
-<h2><span class="section-number">13.4. </span>主成分分析と次元圧縮<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2><span class="section-number">13.4. </span>主成分分析と次元圧縮<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">#</a></h2>
 <div class="margin sidebar">
 <p class="sidebar-title">行列のトレース</p>
 <p>行列<span class="math notranslate nohighlight">\(\pmb{A}\)</span>の対角成分の和をトレースと呼び、<span class="math notranslate nohighlight">\(\mathrm{tr}(\pmb{A})\)</span>で表す。</p>
 </div>
 <p>データ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>の共分散行列<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の対角成分の和は、データ<span class="math notranslate nohighlight">\(\pmb{X}\)</span>の分散の和である。<span class="math notranslate nohighlight">\(\pmb{S} = \pmb{Q} \pmb{\Lambda} \pmb{Q}^\top\)</span>のスペクトル分解を用いると、<span class="math notranslate nohighlight">\(\pmb{S}\)</span>の対角成分の和は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6a392917-9632-40b8-a6fe-e8b6cd9b03cb">
-<span class="eqno">(13.42)<a class="headerlink" href="#equation-6a392917-9632-40b8-a6fe-e8b6cd9b03cb" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-763eda08-cbc0-44a3-837f-67192e620866">
+<span class="eqno">(13.42)<a class="headerlink" href="#equation-763eda08-cbc0-44a3-837f-67192e620866" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \mathrm{tr}(\pmb{S}) &amp;= \mathrm{tr}(\pmb{Q} \pmb{\Lambda} \pmb{Q}^\top) \\
 &amp;= \mathrm{tr}(\lambda_1 \pmb{q}_1 \pmb{q}_1^\top + \lambda_2 \pmb{q}_2 \pmb{q}_2^\top + \dots + \lambda_d \pmb{q}_d \pmb{q}_d^\top) \\
 &amp;= \lambda_1 \pmb{q}_1^\top \pmb{q}_1 + \lambda_2 \pmb{q}_2^\top \pmb{q}_2 + \dots + \lambda_d \pmb{q}_d^\top \pmb{q}_d \\
@@ -1093,23 +1244,23 @@ z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 <p>第<span class="math notranslate nohighlight">\(k\)</span>主成分に対応する固有値<span class="math notranslate nohighlight">\(\lambda_k\)</span>は、元のデータ<span class="math notranslate nohighlight">\(X\)</span>を第<span class="math notranslate nohighlight">\(k\)</span>主成分の軸に射影したときの分散を表す。全ての主成分における分散の総和に対し、第<span class="math notranslate nohighlight">\(k\)</span>主成分の分散が占める割合を第<span class="math notranslate nohighlight">\(k\)</span>主成分の<strong>寄与率</strong>と呼ぶ。</p>
 <div class="important admonition">
 <p class="admonition-title">寄与率</p>
-<div class="amsmath math notranslate nohighlight" id="equation-335a8498-5f7b-49da-8a0a-0337abbbc783">
-<span class="eqno">(13.43)<a class="headerlink" href="#equation-335a8498-5f7b-49da-8a0a-0337abbbc783" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-29bb9575-dfaf-47c8-bbb2-5e68bced40c1">
+<span class="eqno">(13.43)<a class="headerlink" href="#equation-29bb9575-dfaf-47c8-bbb2-5e68bced40c1" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \frac{\lambda_k}{\sum_{i=1}^d \lambda_i} = \frac{\lambda_k}{\lambda_1 + \lambda_2 + \dots + \lambda_d}
 \end{align}\]</div>
 </div>
 <p>また、第<span class="math notranslate nohighlight">\(k\)</span>主成分までに表現された分散の総和が、データ全体の分散の総和に占める割合を第<span class="math notranslate nohighlight">\(k\)</span>主成分までの<strong>累積寄与率</strong>と呼ぶ。</p>
 <div class="important admonition">
 <p class="admonition-title">累積寄与率</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6a4fc5d1-0eb8-42ea-815a-4c650c537d80">
-<span class="eqno">(13.44)<a class="headerlink" href="#equation-6a4fc5d1-0eb8-42ea-815a-4c650c537d80" title="この数式へのパーマリンク">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-54afcf4d-6fc3-45d5-b674-e396cc5c11dc">
+<span class="eqno">(13.44)<a class="headerlink" href="#equation-54afcf4d-6fc3-45d5-b674-e396cc5c11dc" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \frac{\sum_{i=1}^k \lambda_i}{\sum_{i=1}^d \lambda_i} = \frac{\lambda_1 + \lambda_2 \dots + \lambda_k}{\lambda_1 + \lambda_2 + \dots + \lambda_d}
 \end{align}\]</div>
 </div>
 <p>累積寄与率は、元々<span class="math notranslate nohighlight">\(d\)</span>次元のベクトルで表されていたデータ点を主成分分析で<span class="math notranslate nohighlight">\(k\)</span>次元に圧縮したとき、元データの分散をどの程度表現できているかを表す指標である。</p>
 </div>
 <div class="section" id="id12">
-<h2><span class="section-number">13.5. </span>応用例 (1): 麺類の支出額<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2><span class="section-number">13.5. </span>応用例 (1): 麺類の支出額<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">#</a></h2>
 <p>前章の冒頭で紹介した<a class="reference external" href="https://www.nstac.go.jp/SSDSE/">教育用標準データセット（SSDSE: Standardized Statistical Data Set for Education）</a>の「C. 都道府県庁所在市別、家計消費データ」から麺類だけを抜き出したデータを2次元平面上で可視化してみよう。まず、データを読み込んで表示する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2476,7 +2627,7 @@ z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 </div>
 </div>
 <div class="section" id="id13">
-<h2><span class="section-number">13.6. </span>応用例 (2): 手書き文字<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2><span class="section-number">13.6. </span>応用例 (2): 手書き文字<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">#</a></h2>
 <p>scikit-learnの<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html">sklearn.datasets.load_digits</a>を使い、手書き文字認識のデータセットを読み込む。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2617,7 +2768,7 @@ z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 </div>
 </div>
 <div class="section" id="id14">
-<h2><span class="section-number">13.7. </span>応用例 (3): 固有顔<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2><span class="section-number">13.7. </span>応用例 (3): 固有顔<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">#</a></h2>
 <p><a class="reference external" href="https://ja.wikipedia.org/wiki/%E5%9B%BA%E6%9C%89%E9%A1%94">固有顔</a>（Eigenface）と呼ばれる手法を体験してみよう。固有顔は顔画像のデータに対して主成分分析を行い、主成分ベクトルを求めたもので、顔認識の特徴量抽出（の次元圧縮）に用いられる。今回は、<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_lfw_people.html">sklearn.datasets.fetch_lfw_people</a>を用いて、顔画像のデータを読み込む。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2761,9 +2912,11 @@ z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="03pca.html" title="前へ ページ">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -2779,25 +2932,29 @@ z_j = \sum_{i=1}^k (\pmb{u}_i^\top\pmb{q}_j)^2 \leq \|\pmb{q}_j\|^2 = 1
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
-    
-      <div class="extra_footer">
-        © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    <div class="extra_footer">
+      © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
 
-      </div>
-  </p>
-</footer>
-</main>
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

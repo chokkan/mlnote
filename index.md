@@ -14,22 +14,18 @@
 
 機械学習帳は、**機械学習**を学ぶためのノート（**帳**）を、デジタル（**機械**）による新しいカタチの**学習帳**として実現することを目指しています。
 
-:::{panels}
-:container: +full-width
-:column: col-lg-6 px-2 py-2
-:card:
+::::{grid} 2
+:gutter: 2
 
-👩‍💻 **理論と実装を一体化した「動く」学習帳** 👨‍💻
-^^^
+:::{grid-item-card} 👩‍💻 理論と実装を一体化した「動く」学習帳 👨‍💻
 機械学習の理論と実装を一緒に説明することで、理論の実装や応用に触れるだけでなく、プログラムの実行例を通して理論への理解を深めることができます。
 
 <div style="text-align: center;">
 <video autoplay loop muted playsinline width="100%" src="sgd.mp4"></video>
 </div>
+:::
 
----
-**プログラミング言語としてPythonを採用** ✨
-^^^
+:::{grid-item-card} プログラミング言語としてPythonを採用 ✨
 機械学習や深層学習の研究開発でよく用いられる[Python](https://www.python.org/)をプログラミング言語として採用しています。[NumPy](https://numpy.org/), [Matplotlib](https://matplotlib.org/), [scikit-learn](https://scikit-learn.org/), [scipy](https://scipy.org/), [PyTorch](https://pytorch.org/)などのエコシステムとあわせて、機械学習の実装を習得できます。
 
 ```python
@@ -43,18 +39,16 @@ loss.backward()
 print(loss.item())
 print(w.grad)
 ```
-
----
-**機械学習の基礎事項を学べる** 📖
-^^^
-機械学習帳は、単回帰、重回帰、ロジスティック回帰、ニューラルネットワーク、サポートベクトルマシン、クラスタリング、主成分分析、確率的勾配降下法、正則化など、機械学習の重要事項を広くカバーしています。初学者向けに、その原理や数学的な取り扱いを丁寧に説明します。
-
----
-**オープンソース・プロジェクト** 🎁
-^^^
-機械学習帳は、[クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ja)（プログラム部分以外）および[MITライセンス](https://opensource.org/licenses/MIT)（プログラム部分）で公開されているオープンソース・プロジェクトです。不具合報告はGitHubの[issues](https://github.com/chokkan/mlnote/issues)までお願いします。
-
 :::
+
+:::{grid-item-card} 機械学習の基礎事項を学べる 📖
+機械学習帳は、単回帰、重回帰、ロジスティック回帰、ニューラルネットワーク、サポートベクトルマシン、クラスタリング、主成分分析、確率的勾配降下法、正則化など、機械学習の重要事項を広くカバーしています。初学者向けに、その原理や数学的な取り扱いを丁寧に説明します。
+:::
+
+:::{grid-item-card} オープンソース・プロジェクト 🎁
+機械学習帳は、[クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ja)（プログラム部分以外）および[MITライセンス](https://opensource.org/licenses/MIT)（プログラム部分）で公開されているオープンソース・プロジェクトです。不具合報告はGitHubの[issues](https://github.com/chokkan/mlnote/issues)までお願いします。
+:::
+::::
 
 機械学習帳は、[Jupyter Lab](https://jupyter.org/#jupyterlab)で書かれたコンテンツを[Jupyter Book](https://jupyterbook.org/)で変換することで生成されています。
 

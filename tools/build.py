@@ -33,7 +33,6 @@ title="Launch on SageMaker Studio Lab"
   <i class="fab fa-aws"></i>
 </span>
 <span class="headerbtn__text-container">SageMaker</span>
-</a>
 """
 
 def build():
@@ -65,7 +64,7 @@ def modify_html():
         # Add the button for SageMaker Studio Lab.
         if path:
             content = content.replace(
-                '<span class="headerbtn__text-container">Colab</span>\n</a>',
+                '<span class="headerbtn__text-container">Colab</span>',
                 sagemaker_studio_lab.format(path)
                 )
         

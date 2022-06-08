@@ -26,8 +26,7 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
@@ -45,6 +44,7 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/translations.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -448,28 +448,26 @@ title="Print to PDF"
 <a class="reference external" href="https://scikit-learn.org/"><img alt="made-with-scikit-learn" src="https://img.shields.io/badge/Made%20with-scikit--learn-1f425f.svg" /></a>
 <a class="reference external" href="https://pytorch.org/"><img alt="made-with-pytorch" src="https://img.shields.io/badge/Made%20with-PyTorch-1f425f.svg" /></a></p>
 <p>機械学習帳は、<strong>機械学習</strong>を学ぶためのノート（<strong>帳</strong>）を、デジタル（<strong>機械</strong>）による新しいカタチの<strong>学習帳</strong>として実現することを目指しています。</p>
-<div class="sphinx-bs container pb-4 full-width docutils">
-<div class="row docutils">
-<div class="d-flex col-lg-6 px-2 py-2 docutils">
-<div class="card w-100 docutils">
-<div class="card-header docutils">
-<p class="card-text">👩‍💻 <strong>理論と実装を一体化した「動く」学習帳</strong> 👨‍💻</p>
-</div>
-<div class="card-body docutils">
-<p class="card-text">機械学習の理論と実装を一緒に説明することで、理論の実装や応用に触れるだけでなく、プログラムの実行例を通して理論への理解を深めることができます。</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+👩‍💻 理論と実装を一体化した「動く」学習帳 👨‍💻</div>
+<p class="sd-card-text">機械学習の理論と実装を一緒に説明することで、理論の実装や応用に触れるだけでなく、プログラムの実行例を通して理論への理解を深めることができます。</p>
 <div style="text-align: center;">
 <video autoplay loop muted playsinline width="100%" src="sgd.mp4"></video>
 </div>
 </div>
 </div>
 </div>
-<div class="d-flex col-lg-6 px-2 py-2 docutils">
-<div class="card w-100 docutils">
-<div class="card-header docutils">
-<p class="card-text"><strong>プログラミング言語としてPythonを採用</strong> ✨</p>
-</div>
-<div class="card-body docutils">
-<p class="card-text">機械学習や深層学習の研究開発でよく用いられる<a class="reference external" href="https://www.python.org/">Python</a>をプログラミング言語として採用しています。<a class="reference external" href="https://numpy.org/">NumPy</a>, <a class="reference external" href="https://matplotlib.org/">Matplotlib</a>, <a class="reference external" href="https://scikit-learn.org/">scikit-learn</a>, <a class="reference external" href="https://scipy.org/">scipy</a>, <a class="reference external" href="https://pytorch.org/">PyTorch</a>などのエコシステムとあわせて、機械学習の実装を習得できます。</p>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+プログラミング言語としてPythonを採用 ✨</div>
+<p class="sd-card-text">機械学習や深層学習の研究開発でよく用いられる<a class="reference external" href="https://www.python.org/">Python</a>をプログラミング言語として採用しています。<a class="reference external" href="https://numpy.org/">NumPy</a>, <a class="reference external" href="https://matplotlib.org/">Matplotlib</a>, <a class="reference external" href="https://scikit-learn.org/">scikit-learn</a>, <a class="reference external" href="https://scipy.org/">scipy</a>, <a class="reference external" href="https://pytorch.org/">PyTorch</a>などのエコシステムとあわせて、機械学習の実装を習得できます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">])</span>
@@ -484,23 +482,21 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<div class="d-flex col-lg-6 px-2 py-2 docutils">
-<div class="card w-100 docutils">
-<div class="card-header docutils">
-<p class="card-text"><strong>機械学習の基礎事項を学べる</strong> 📖</p>
-</div>
-<div class="card-body docutils">
-<p class="card-text">機械学習帳は、単回帰、重回帰、ロジスティック回帰、ニューラルネットワーク、サポートベクトルマシン、クラスタリング、主成分分析、確率的勾配降下法、正則化など、機械学習の重要事項を広くカバーしています。初学者向けに、その原理や数学的な取り扱いを丁寧に説明します。</p>
-</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+機械学習の基礎事項を学べる 📖</div>
+<p class="sd-card-text">機械学習帳は、単回帰、重回帰、ロジスティック回帰、ニューラルネットワーク、サポートベクトルマシン、クラスタリング、主成分分析、確率的勾配降下法、正則化など、機械学習の重要事項を広くカバーしています。初学者向けに、その原理や数学的な取り扱いを丁寧に説明します。</p>
 </div>
 </div>
-<div class="d-flex col-lg-6 px-2 py-2 docutils">
-<div class="card w-100 docutils">
-<div class="card-header docutils">
-<p class="card-text"><strong>オープンソース・プロジェクト</strong> 🎁</p>
 </div>
-<div class="card-body docutils">
-<p class="card-text">機械学習帳は、<a class="reference external" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 (CC BY-NC-ND 4.0)</a>（プログラム部分以外）および<a class="reference external" href="https://opensource.org/licenses/MIT">MITライセンス</a>（プログラム部分）で公開されているオープンソース・プロジェクトです。不具合報告はGitHubの<a class="reference external" href="https://github.com/chokkan/mlnote/issues">issues</a>までお願いします。</p>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+オープンソース・プロジェクト 🎁</div>
+<p class="sd-card-text">機械学習帳は、<a class="reference external" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 (CC BY-NC-ND 4.0)</a>（プログラム部分以外）および<a class="reference external" href="https://opensource.org/licenses/MIT">MITライセンス</a>（プログラム部分）で公開されているオープンソース・プロジェクトです。不具合報告はGitHubの<a class="reference external" href="https://github.com/chokkan/mlnote/issues">issues</a>までお願いします。</p>
 </div>
 </div>
 </div>

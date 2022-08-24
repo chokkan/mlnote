@@ -2,6 +2,7 @@ name: mlnote
 
 dependencies:
   - ipython
+  - ipykernel
   - python
   - numpy
   - matplotlib

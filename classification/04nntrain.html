@@ -4,7 +4,8 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>8. ニューラルネットワーク (2) &#8212; 機械学習帳</title>
     
   <!-- Loaded before other Sphinx assets -->
@@ -34,7 +35,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
@@ -52,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/classification/04nntrain.html" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
@@ -674,8 +677,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
-<h1><span class="section-number">8. </span>ニューラルネットワーク (2)<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">8. </span>ニューラルネットワーク (2)<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -686,24 +689,24 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>前章では、多層のニューラルネットワークを一般的に表現する方法を説明した。また、論理和（OR）や論理積（AND）などの論理結合子に対応する単層ニューラルネットワーク（線形分類器）のパラメータを学習で求め、その組み合わせで排他的論理和（XOR）の入出力を再現する多層ニューラルネットワークを構成する例を示した。排他的論理和の例では、入力と出力の組み合わせの数が少ないうえ、入力を出力に対応付ける背景知識（論理）が明確であった。ところが、機械学習が用いられるシナリオは、入力を出力に対応づけるメカニズムが不明な状況において、訓練データのみを用いて入力から出力を計算する写像を獲得することである。単層ニューラルネットワークの学習方法は回帰や線形分類などで説明した通りであるが、多層ニューラルネットワークの学習はどのようにすれば良いのだろうか？</p>
+<p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>前章では、多層のニューラルネットワークを一般的に表現する方法を説明した。また、論理和（OR）や論理積（AND）などの論理結合子に対応する単層ニューラルネットワーク（線形分類器）のパラメータを学習で求め、その組み合わせで排他的論理和（XOR）の入出力を再現する多層ニューラルネットワークを構成する例を示した。排他的論理和の例では、入力と出力の組み合わせの数が少ないうえ、入力を出力に対応付ける背景知識（論理）が明確であった。ところが、機械学習が用いられるシナリオは、入力を出力に対応づけるメカニズムが不明な状況において、訓練データのみを用いて入力から出力を計算する写像を獲得することである。単層ニューラルネットワークの学習方法は回帰や線形分類などで説明した通りであるが、多層ニューラルネットワークの学習はどのようにすれば良いのだろうか？</p>
 <p>本章では、ニューラルネットワークのモデルのパラメータを確率的勾配降下法で汎用的に学習する手法として、<strong>計算グラフ</strong>（computation graph）による<strong>自動微分</strong>（automatic differentiation）を紹介する。その後、<a class="reference external" href="https://pytorch.org/">PyTorch</a>による実装を紹介する。</p>
-<p>まず、確率的勾配降下法の更新式を思い出してみたい。モデルに含まれる全てのパラメータを1次元に並べてベクトルとして一般的に表現したものを<span class="math notranslate nohighlight">\(\pmb{\theta}\)</span>と書くことにする。例えば、式<a class="reference internal" href="03nn.html#equation-eq-multi-layer-nn-example">(7.24)</a>の例では、行列<span class="math notranslate nohighlight">\(\pmb{W}^{(1)}, \pmb{W}^{(2)}\)</span>の全ての要素、ベクトル<span class="math notranslate nohighlight">\(\pmb{b}^{(1)}\)</span>の全ての要素、スカラー<span class="math notranslate nohighlight">\(b^{(2)}\)</span>を並べたベクトルが<span class="math notranslate nohighlight">\(\pmb{\theta}\)</span>である。ある訓練事例<span class="math notranslate nohighlight">\((\pmb{x}, \pmb{y})\)</span>に対する損失関数を<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta}^{(t)})\)</span>と定義する。<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータの値を<span class="math notranslate nohighlight">\(\pmb{\theta}^{(t)}\)</span>と書くことにすると、パラメータの更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b410a8cf-5153-44f7-a8f7-cfaa96adc592">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-b410a8cf-5153-44f7-a8f7-cfaa96adc592" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\pmb{\theta}^{(t+1)} = \pmb{\theta}^{(t)} - \eta_t \nabla \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta}^{(t)})
+<p>まず、確率的勾配降下法の更新式を思い出してみたい。モデルに含まれる全てのパラメータを1次元に並べてベクトルとして一般的に表現したものを<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>と書くことにする。例えば、式<a class="reference internal" href="03nn.html#equation-eq-multi-layer-nn-example">(7.24)</a>の例では、行列<span class="math notranslate nohighlight">\(\bm{W}^{(1)}, \bm{W}^{(2)}\)</span>の全ての要素、ベクトル<span class="math notranslate nohighlight">\(\bm{b}^{(1)}\)</span>の全ての要素、スカラー<span class="math notranslate nohighlight">\(b^{(2)}\)</span>を並べたベクトルが<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>である。ある訓練事例<span class="math notranslate nohighlight">\((\bm{x}, \bm{y})\)</span>に対する損失関数を<span class="math notranslate nohighlight">\(\hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}^{(t)})\)</span>と定義する。<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータの値を<span class="math notranslate nohighlight">\(\bm{\theta}^{(t)}\)</span>と書くことにすると、パラメータの更新式は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c18d03f4-97fe-4447-b866-d4a408ab69ce">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-c18d03f4-97fe-4447-b866-d4a408ab69ce" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\bm{\theta}^{(t+1)} = \bm{\theta}^{(t)} - \eta_t \nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}^{(t)})
 \end{align}\]</div>
-<p>パラメータベクトル<span class="math notranslate nohighlight">\(\pmb{\theta}\)</span>の要素数を<span class="math notranslate nohighlight">\(K\)</span>とすると、勾配<span class="math notranslate nohighlight">\(\nabla \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0544080d-596f-47ec-8329-d381e31ddcbb">
-<span class="eqno">(8.2)<a class="headerlink" href="#equation-0544080d-596f-47ec-8329-d381e31ddcbb" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\nabla \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta}) = \begin{pmatrix} \frac{\partial \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})}{\partial \theta_1} &amp; \frac{\partial \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})}{\partial \theta_2} &amp; \dots &amp; \frac{\partial \hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})}{\partial \theta_K} \end{pmatrix}
+<p>パラメータベクトル<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>の要素数を<span class="math notranslate nohighlight">\(K\)</span>とすると、勾配<span class="math notranslate nohighlight">\(\nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})\)</span>は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e867be24-43ae-4968-b19d-afb6bbbe47a6">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-e867be24-43ae-4968-b19d-afb6bbbe47a6" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}) = \begin{pmatrix} \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_1} &amp; \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_2} &amp; \dots &amp; \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_K} \end{pmatrix}
 \end{align}\]</div>
-<p>である。ゆえに、損失関数<span class="math notranslate nohighlight">\(\hat{l}_{\pmb{x}, \pmb{y}}(\pmb{\theta})\)</span>に対して、全てのパラメータ<span class="math notranslate nohighlight">\(\theta_k\)</span> (<span class="math notranslate nohighlight">\(k \in \{1, 2, \dots, K\}\)</span>) に関する偏微分を求めることができれば、確率的勾配降下法を適用できる。これまでは、損失関数の定義から合成関数の微分や連鎖律を駆使して偏微分を求め、回帰では式<a class="reference internal" href="../regression/04sgd.html#equation-eq-grad-regression">(4.32)</a>、線形二値分類では式<a class="reference internal" href="01binary.html#equation-eq-grad-logress">(5.31)</a>、線形多値分類では式<a class="reference internal" href="02multi.html#equation-eq-grad-multilogress">(6.33)</a>を得た。しかし、多層ニューラルネットワークになると損失値を計算するまでに関数の合成が何回も繰り返されるため、偏微分を手作業で求めるのは大変である。また、用いるニューラルネットワークの形状や活性化関数によって偏微分を求める式が変わってしまうため、全ての場合に対して手作業で偏微分を求めるのは現実的ではない。そこで、ニューラルネットワークの学習では損失関数を計算グラフとして表現し、自動微分で偏微分を求めるのが定石となっている。これは、ニューラルネットワークの学習方法として考案された<strong>誤差逆伝播法</strong>（backpropagation）と本質的に同じものである。</p>
-<div class="section" id="id2">
-<h2><span class="section-number">8.1. </span>計算グラフと自動微分<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">#</a></h2>
+<p>である。ゆえに、損失関数<span class="math notranslate nohighlight">\(\hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})\)</span>に対して、全てのパラメータ<span class="math notranslate nohighlight">\(\theta_k\)</span> (<span class="math notranslate nohighlight">\(k \in \{1, 2, \dots, K\}\)</span>) に関する偏微分を求めることができれば、確率的勾配降下法を適用できる。これまでは、損失関数の定義から合成関数の微分や連鎖律を駆使して偏微分を求め、回帰では式<a class="reference internal" href="../regression/04sgd.html#equation-eq-grad-regression">(4.32)</a>、線形二値分類では式<a class="reference internal" href="01binary.html#equation-eq-grad-logress">(5.31)</a>、線形多値分類では式<a class="reference internal" href="02multi.html#equation-eq-grad-multilogress">(6.33)</a>を得た。しかし、多層ニューラルネットワークになると損失値を計算するまでに関数の合成が何回も繰り返されるため、偏微分を手作業で求めるのは大変である。また、用いるニューラルネットワークの形状や活性化関数によって偏微分を求める式が変わってしまうため、全ての場合に対して手作業で偏微分を求めるのは現実的ではない。そこで、ニューラルネットワークの学習では損失関数を計算グラフとして表現し、自動微分で偏微分を求めるのが定石となっている。これは、ニューラルネットワークの学習方法として考案された<strong>誤差逆伝播法</strong>（backpropagation）と本質的に同じものである。</p>
+<section id="id2">
+<h2><span class="section-number">8.1. </span>計算グラフと自動微分<a class="headerlink" href="#id2" title="この見出しへのパーマリンク">#</a></h2>
 <p><strong>計算グラフ</strong>（computation graph）は、計算式の中にある変数や定数を葉ノード、計算を行う順番に沿って演算子を内部ノードとして配置し、ボトムアップに計算を行うことで、全体の計算結果を根ノードで得られるようにした木構造である。このように説明すると難しそうであるが、例を見れば単純明快である。</p>
-<div class="section" id="id3">
-<h3><span class="section-number">8.1.1. </span>前向き計算<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">#</a></h3>
+<section id="id3">
+<h3><span class="section-number">8.1.1. </span>前向き計算<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">#</a></h3>
 <p>以下に<span class="math notranslate nohighlight">\(y=ax+b\)</span>の計算グラフを示した。ここで、<span class="math notranslate nohighlight">\((a, b) = (-2, 4), x = 3\)</span>であるとき、<span class="math notranslate nohighlight">\(y\)</span>を計算するには計算グラフの葉からボトムアップに演算子（内部ノード）を適用し、途中の計算結果を保持しながら根ノード<span class="math notranslate nohighlight">\(y\)</span>まで計算を進めればよい。以下の図では、この計算過程をアニメーションで見ることができる。このアニメーションでは葉が左側、根が右側に配置されているため、左から右に向かって計算が進む。この計算過程を<strong>前向き計算</strong>（forward computation）と呼ぶ。</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
@@ -2178,9 +2181,9 @@ SZIkFWMAkSRJklSMAUSSJElSMf8fCV72Rlen0zoAAAAASUVORK5CYII=\
 </script>
 </div></div>
 </div>
-</div>
-<div class="section" id="id4">
-<h3><span class="section-number">8.1.2. </span>後ろ向き自動微分<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id4">
+<h3><span class="section-number">8.1.2. </span>後ろ向き自動微分<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">#</a></h3>
 <p>さて、本題はここからである。この計算グラフを使うと、根ノードを任意のノードで偏微分した値を一定の手続きに沿って求めることができる。以下のアニメーションでは、<span class="math notranslate nohighlight">\(y = ax + b\)</span>を<span class="math notranslate nohighlight">\(a, b, x\)</span>に関して偏微分した結果を求めている。</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
@@ -4866,8 +4869,8 @@ JEmSJNXm/wNA/smcBO73VQAAAABJRU5ErkJggg==\
 <p>後ろ向き自動微分では、根から葉に向かって偏微分の値を計算していく。このアニメーションでは、葉が左側、根が右側に配置されているので、右から左へと偏微分の計算が行われていく。そのため、この計算過程は<strong>後ろ向き自動微分</strong>（backward automatic differentiation）や<strong>リバースモード自動微分</strong>（reverse-mode automatic differentiation）と呼ばれている。</p>
 <p>後ろ向き自動微分では、根に対応する部分に<span class="math notranslate nohighlight">\(1\)</span>を書くことからスタートする。続けて、計算グラフ上の根（右側）から葉（左側）に向かって偏微分の値を計算していく。計算グラフ中のノードを右から左に通過するたびに、ノードの右側を左側で偏微分した値と、ノードの右側で既に計算されている偏微分値の積を計算し、左側に書き込んでいく。この手続きを再帰的に繰り返していくと、全てのノードに関する偏微分の値を計算できる。</p>
 <p>このアニメーションの各コマで求められた偏微分の計算過程を以下に示す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f0d5b1d9-7331-43e7-8f6c-4471ed18f351">
-<span class="eqno">(8.3)<a class="headerlink" href="#equation-f0d5b1d9-7331-43e7-8f6c-4471ed18f351" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a154fae9-6088-4e7c-9c73-c6cdf12adcd5">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-a154fae9-6088-4e7c-9c73-c6cdf12adcd5" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \frac{\partial y}{\partial y} &amp;=  1 \\
 \frac{\partial y}{\partial \alpha} &amp;= \frac{\partial }{\partial \alpha} (\alpha + b) = 1 \\
 \frac{\partial y}{\partial b} &amp;= \frac{\partial }{\partial b} (\alpha + b) = 1 \\
@@ -4875,19 +4878,19 @@ JEmSJNXm/wNA/smcBO73VQAAAABJRU5ErkJggg==\
 \frac{\partial y}{\partial x} &amp;= \frac{\partial y}{\partial \alpha} \frac{\partial \alpha}{\partial x} = \frac{\partial y}{\partial \alpha} \frac{\partial }{\partial x} (a) = 1 \times a = -2 \\
 \end{align}\]</div>
 <p>ここで注目して欲しいのは、<span class="math notranslate nohighlight">\(\frac{\partial y}{\partial a}\)</span>と<span class="math notranslate nohighlight">\(\frac{\partial y}{\partial x}\)</span>の計算方法（下から1行目と2行目）である。この計算方法では<span class="math notranslate nohighlight">\(y = \alpha + b, \alpha = ax\)</span>の合成関数であると考え、連鎖律を用いて求めている。このとき、<span class="math notranslate nohighlight">\(\frac{\partial y}{\partial \alpha} = 1\)</span>は2行目で求めてあるので、<span class="math notranslate nohighlight">\(\alpha = ax\)</span>の部分だけを考えればよい。<span class="math notranslate nohighlight">\(\frac{\partial \alpha}{\partial a}\)</span>と<span class="math notranslate nohighlight">\(\frac{\partial \alpha}{\partial x}\)</span>を求めたのち、<span class="math notranslate nohighlight">\(\frac{\partial y}{\partial \alpha}\)</span>との積を、それぞれ、計算している。</p>
-</div>
-<div class="section" id="id5">
-<h3><span class="section-number">8.1.3. </span>損失関数を自動微分する例<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">#</a></h3>
-<p>後ろ向き自動微分の実行過程は明確ではあるが、この単純な例ではその威力が分かりにくいかもしれない。より実践的な例として、単層ニューラルネットワーク（線形二値分類モデル）対して、二値クロスエントロピーで定義された損失関数に基づき、パラメータの勾配を求める例を考えよう。特徴ベクトルの要素数を<span class="math notranslate nohighlight">\(d\)</span>、訓練事例を<span class="math notranslate nohighlight">\((\pmb{x}, y) \in \mathbb{R}^d \times \{0, 1\}\)</span>、単層ニューラルネットワークのパラメータを<span class="math notranslate nohighlight">\(\pmb{w} \in \mathbb{R}^d\)</span>、活性化関数にシグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>を用いることにすると、損失関数は<span class="math notranslate nohighlight">\(\log \hat{l}_{\pmb{x}, y}(\pmb{w})\)</span>で表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-696a70ee-ac40-4d8c-911a-0ed987d2125d">
-<span class="eqno">(8.4)<a class="headerlink" href="#equation-696a70ee-ac40-4d8c-911a-0ed987d2125d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\hat{l}_{\pmb{x}, y}(\pmb{w}) &amp;= -y \log p - (1-y) \log (1-p) \\
-p &amp;= \sigma(\pmb{x}^\top \pmb{w}) = \frac{1}{1 + e^{-\pmb{x}^\top \pmb{w}}}
+</section>
+<section id="id5">
+<h3><span class="section-number">8.1.3. </span>損失関数を自動微分する例<a class="headerlink" href="#id5" title="この見出しへのパーマリンク">#</a></h3>
+<p>後ろ向き自動微分の実行過程は明確ではあるが、この単純な例ではその威力が分かりにくいかもしれない。より実践的な例として、単層ニューラルネットワーク（線形二値分類モデル）対して、二値クロスエントロピーで定義された損失関数に基づき、パラメータの勾配を求める例を考えよう。特徴ベクトルの要素数を<span class="math notranslate nohighlight">\(d\)</span>、訓練事例を<span class="math notranslate nohighlight">\((\bm{x}, y) \in \mathbb{R}^d \times \{0, 1\}\)</span>、単層ニューラルネットワークのパラメータを<span class="math notranslate nohighlight">\(\bm{w} \in \mathbb{R}^d\)</span>、活性化関数にシグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>を用いることにすると、損失関数は<span class="math notranslate nohighlight">\(\log \hat{l}_{\bm{x}, y}(\bm{w})\)</span>で表される。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-797f3413-42c6-4a92-b4cc-d2c63ec10fed">
+<span class="eqno">(8.4)<a class="headerlink" href="#equation-797f3413-42c6-4a92-b4cc-d2c63ec10fed" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\hat{l}_{\bm{x}, y}(\bm{w}) &amp;= -y \log p - (1-y) \log (1-p) \\
+p &amp;= \sigma(\bm{x}^\top \bm{w}) = \frac{1}{1 + e^{-\bm{x}^\top \bm{w}}}
 \end{align}\]</div>
 <p>ここでは、選ばれた訓練事例は正例（<span class="math notranslate nohighlight">\(y = 1\)</span>）とする。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8b6df4b4-cae6-4ac0-9649-40cfaf559608">
-<span class="eqno">(8.5)<a class="headerlink" href="#equation-8b6df4b4-cae6-4ac0-9649-40cfaf559608" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\hat{l}_{\pmb{x}, 1}(\pmb{w}) = -\log p = -\log \sigma(\pmb{x}^\top \pmb{w}) = -\log \frac{1}{1 + e^{-\pmb{x}^\top \pmb{w}}}
+<div class="amsmath math notranslate nohighlight" id="equation-caec0ad8-a80d-47cc-bdf0-54b0003a3084">
+<span class="eqno">(8.5)<a class="headerlink" href="#equation-caec0ad8-a80d-47cc-bdf0-54b0003a3084" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\hat{l}_{\bm{x}, 1}(\bm{w}) = -\log p = -\log \sigma(\bm{x}^\top \bm{w}) = -\log \frac{1}{1 + e^{-\bm{x}^\top \bm{w}}}
 \end{align}\]</div>
 <p>さらに、特徴ベクトルの次元数<span class="math notranslate nohighlight">\(d = 2\)</span>の場合を考えると、損失関数は、</p>
 <div class="math notranslate nohighlight" id="equation-eq-loss-function-for-autograd">
@@ -14909,9 +14912,9 @@ gg==\
 \frac{\partial \hat{l}}{\partial x_2} &amp;= \frac{\partial \hat{l}}{\partial \beta} \frac{\partial \beta}{\partial x_2} = \frac{\partial \hat{l}}{\partial \beta} \frac{\partial }{\partial x_2} (w_2x_2) = \frac{\partial \hat{l}}{\partial \beta} \times w_2 = -0.3775 \times 0.5 = -0.1887 \\
 \end{align*}\]</div>
 <p>したがって、損失関数がパラメータに関して微分可能で、その損失関数を計算グラフとして表現することが可能であれば、あらゆるニューラルネットワークのパラメータを自動微分および確率的勾配降下法で学習できる。今回は単純のために単層のニューラルネットワークの例を用いたが、多層のニューラルネットワークでも自動微分および確率的勾配降下法を用いてパラメータを学習できる。</p>
-</div>
-<div class="section" id="id6">
-<h3><span class="section-number">8.1.4. </span>自動微分の実装<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id6">
+<h3><span class="section-number">8.1.4. </span>自動微分の実装<a class="headerlink" href="#id6" title="この見出しへのパーマリンク">#</a></h3>
 <p>自動微分はニューラルネットワークを扱うライブラリの要であり、様々なフレームワークで自動微分が実行できるようになっている。ここでは、式<a class="reference internal" href="#equation-eq-loss-function-for-autograd">(8.6)</a>の損失関数をプログラムとして実装し、損失値および<span class="math notranslate nohighlight">\(w_1\)</span>と<span class="math notranslate nohighlight">\(w_2\)</span>に関する偏微分値を求める例を紹介する。</p>
 <p><a class="reference external" href="https://github.com/HIPS/autograd">Autograd</a>では、<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">autograd.numpy</span> <span class="pre">as</span> <span class="pre">np</span></code>とすることで、自動微分したい関数をNumPyのモジュールを呼び出すかのように実装できる。微分したい関数をPythonの関数として実装し、autograd.grad関数を呼び出すことで、勾配を計算する関数が導出される。</p>
 <div class="cell docutils container">
@@ -14938,7 +14941,7 @@ gg==\
 </div>
 </div>
 </div>
-<p><a class="reference external" href="https://pytorch.org/">PyTorch</a>では、<span class="math notranslate nohighlight">\(\pmb{x}\)</span>や<span class="math notranslate nohighlight">\(\pmb{w}\)</span>などの変数を<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.tensor.html">torch.tensor</a>のオブジェクトとして定義する。このとき、自動微分で勾配を計算したい変数には<code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code>という引数を付ける。行列演算の書き方がNumPyと異なるが、多くの演算が<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html">torch.Tensor</a>クラスのメソッドとして定義されており、その演算結果もtorch.Tensorのオブジェクトとして返される仕様であるため、演算内容を<code class="docutils literal notranslate"><span class="pre">.</span></code>で左から右に繋ぐ書き方が可能である。演算結果が格納されたtorch.Tensorオブジェクトに対して、<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.Tensor.backward.html#torch.Tensor.backward">backward</a>メソッドを呼び出すことで、自動微分を実行される。勾配は各変数の<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.Tensor.grad.html#torch.Tensor.grad">grad</a>属性にセットされる。</p>
+<p><a class="reference external" href="https://pytorch.org/">PyTorch</a>では、<span class="math notranslate nohighlight">\(\bm{x}\)</span>や<span class="math notranslate nohighlight">\(\bm{w}\)</span>などの変数を<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.tensor.html">torch.tensor</a>のオブジェクトとして定義する。このとき、自動微分で勾配を計算したい変数には<code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code>という引数を付ける。行列演算の書き方がNumPyと異なるが、多くの演算が<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html">torch.Tensor</a>クラスのメソッドとして定義されており、その演算結果もtorch.Tensorのオブジェクトとして返される仕様であるため、演算内容を<code class="docutils literal notranslate"><span class="pre">.</span></code>で左から右に繋ぐ書き方が可能である。演算結果が格納されたtorch.Tensorオブジェクトに対して、<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.Tensor.backward.html#torch.Tensor.backward">backward</a>メソッドを呼び出すことで、自動微分を実行される。勾配は各変数の<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.Tensor.grad.html#torch.Tensor.grad">grad</a>属性にセットされる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -15023,10 +15026,10 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 </div>
 <p>用いる深層学習フレームワークによって、プログラムの書き方に差があるが、目的関数を計算する式を実装するだけで、目的関数のパラメータに関する勾配が自動的に計算される。</p>
-</div>
-</div>
-<div class="section" id="nn">
-<h2><span class="section-number">8.2. </span>単層NNの学習<a class="headerlink" href="#nn" title="このヘッドラインへのパーマリンク">#</a></h2>
+</section>
+</section>
+<section id="nn">
+<h2><span class="section-number">8.2. </span>単層NNの学習<a class="headerlink" href="#nn" title="この見出しへのパーマリンク">#</a></h2>
 <p>このセクションでは、PyTorchを用いて単層ニューラルネットワークのモデルを実装・学習する例を紹介する（訓練データを可視化するコードは、以下のセルに隠されている）。</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
@@ -15075,7 +15078,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 </div>
 </div>
-<p>事例数<span class="math notranslate nohighlight">\(N=50\)</span>、入力<span class="math notranslate nohighlight">\(\pmb{x}\)</span>の次元数<span class="math notranslate nohighlight">\(d_{\rm in}=2\)</span>の二値分類の訓練データを用意する（このデータは線形分離可能である）。</p>
+<p>事例数<span class="math notranslate nohighlight">\(N=50\)</span>、入力<span class="math notranslate nohighlight">\(\bm{x}\)</span>の次元数<span class="math notranslate nohighlight">\(d_{\rm in}=2\)</span>の二値分類の訓練データを用意する（このデータは線形分離可能である）。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
@@ -15133,16 +15136,16 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 </div>
 </div>
-<p>以降では、<span class="math notranslate nohighlight">\(2\)</span>次元の入力<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^2\)</span>を受け取り、<span class="math notranslate nohighlight">\(1\)</span>次元の値<span class="math notranslate nohighlight">\(\hat{y}\)</span>を出力する1層のニューラルネットワーク（パラメータ<span class="math notranslate nohighlight">\(\pmb{w} \in \mathbb{R}^{2}\)</span>と<span class="math notranslate nohighlight">\(b \in \mathbb{R}\)</span>）</p>
+<p>以降では、<span class="math notranslate nohighlight">\(2\)</span>次元の入力<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^2\)</span>を受け取り、<span class="math notranslate nohighlight">\(1\)</span>次元の値<span class="math notranslate nohighlight">\(\hat{y}\)</span>を出力する1層のニューラルネットワーク（パラメータ<span class="math notranslate nohighlight">\(\bm{w} \in \mathbb{R}^{2}\)</span>と<span class="math notranslate nohighlight">\(b \in \mathbb{R}\)</span>）</p>
 <div class="math notranslate nohighlight" id="equation-eq-single-layer-nn-example">
 <span class="eqno">(8.7)<a class="headerlink" href="#equation-eq-single-layer-nn-example" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
-\hat{y} = \sigma(\pmb{x} \cdot \pmb{w} + b)
+\hat{y} = \sigma(\bm{x} \cdot \bm{w} + b)
 \end{align}
 \]</div>
 <p>を学習するプログラムの実装例を複数紹介する。</p>
-<div class="section" id="id7">
-<h3><span class="section-number">8.2.1. </span>原始的な実装<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">#</a></h3>
+<section id="id7">
+<h3><span class="section-number">8.2.1. </span>原始的な実装<a class="headerlink" href="#id7" title="この見出しへのパーマリンク">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a data loader with batch size of 4.</span>
@@ -15192,10 +15195,10 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_hat</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>ミニバッチ処理のため、式<a class="reference internal" href="#equation-eq-single-layer-nn-example">(8.7)</a>の<span class="math notranslate nohighlight">\(\pmb{x}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\pmb{X}\)</span>を用い、<span class="math notranslate nohighlight">\(\hat{y}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\hat{\pmb{y}}\)</span>を計算する。<a class="reference external" href="https://pytorch.org/docs/stable/notes/broadcasting.html">ブロードキャスト</a>により、スカラである<code class="docutils literal notranslate"><span class="pre">b</span></code>はベクトルに拡張され、計算が行われる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c7e203ae-4bd1-41b2-af78-a5c61f93e08d">
-<span class="eqno">(8.8)<a class="headerlink" href="#equation-c7e203ae-4bd1-41b2-af78-a5c61f93e08d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\hat{\pmb{y}} &amp;= \sigma(\pmb{X}\pmb{w} + \pmb{b}) \\
+<p>ミニバッチ処理のため、式<a class="reference internal" href="#equation-eq-single-layer-nn-example">(8.7)</a>の<span class="math notranslate nohighlight">\(\bm{x}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\bm{X}\)</span>を用い、<span class="math notranslate nohighlight">\(\hat{y}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\hat{\bm{y}}\)</span>を計算する。<a class="reference external" href="https://pytorch.org/docs/stable/notes/broadcasting.html">ブロードキャスト</a>により、スカラである<code class="docutils literal notranslate"><span class="pre">b</span></code>はベクトルに拡張され、計算が行われる。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-da4a849f-2210-40d9-96f5-6e252b3ad066">
+<span class="eqno">(8.8)<a class="headerlink" href="#equation-da4a849f-2210-40d9-96f5-6e252b3ad066" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\hat{\bm{y}} &amp;= \sigma(\bm{X}\bm{w} + \bm{b}) \\
 \begin{pmatrix}
 \hat{y}_1 \\
 \hat{y}_2 \\
@@ -15225,9 +15228,9 @@ b
 </pre></div>
 </div>
 <p>事例ごとに尤度を計算して、<code class="docutils literal notranslate"><span class="pre">l</span></code>に格納する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3f097b46-943f-42d3-a53b-e93f012932c4">
-<span class="eqno">(8.9)<a class="headerlink" href="#equation-3f097b46-943f-42d3-a53b-e93f012932c4" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\pmb{l} &amp;= \pmb{y} \odot \hat{\pmb{y}} + (1 - \pmb{y}) \cdot (1 - \hat{\pmb{y}}) \\
+<div class="amsmath math notranslate nohighlight" id="equation-53c5feb9-2df4-4ee4-be37-b396019283d7">
+<span class="eqno">(8.9)<a class="headerlink" href="#equation-53c5feb9-2df4-4ee4-be37-b396019283d7" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\bm{l} &amp;= \bm{y} \odot \hat{\bm{y}} + (1 - \bm{y}) \cdot (1 - \hat{\bm{y}}) \\
 \begin{pmatrix}
 l_1 \\
 l_2 \\
@@ -15302,7 +15305,7 @@ y_4 \hat{y}_4
 </div>
 </div>
 </div>
-<p><span class="math notranslate nohighlight">\(\pmb{x} \cdot \pmb{w} + b\)</span>の値とともに、訓練データを描画する。正例と負例を正しく分類できることが分かる。</p>
+<p><span class="math notranslate nohighlight">\(\bm{x} \cdot \bm{w} + b\)</span>の値とともに、訓練データを描画する。正例と負例を正しく分類できることが分かる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -15319,9 +15322,9 @@ y_4 \hat{y}_4
 <img alt="../_images/04nntrain_37_0.png" src="../_images/04nntrain_37_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="sequential">
-<h3><span class="section-number">8.2.2. </span>Sequentialによる実装<a class="headerlink" href="#sequential" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="sequential">
+<h3><span class="section-number">8.2.2. </span>Sequentialによる実装<a class="headerlink" href="#sequential" title="この見出しへのパーマリンク">#</a></h3>
 <p>以下は<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html">torch.nn.Sequential</a>を用いて、単層のニューラルネットワークを実装する例である。「2次元から1次元への線形変換（バイアス項あり）」といったレベルの記述だけで、ニューラルネットワークのパラメータが定義され、入力に対応した出力の値を計算できる。さらに、二値クロスエントロピー損失関数を自前で実装せずに、<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html">torch.nn.BCEWithLogitsLoss</a>を用いる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15394,9 +15397,9 @@ y_4 \hat{y}_4
 <img alt="../_images/04nntrain_46_0.png" src="../_images/04nntrain_46_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id8">
-<h3><span class="section-number">8.2.3. </span>最適化アルゴリズムの利用<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id8">
+<h3><span class="section-number">8.2.3. </span>最適化アルゴリズムの利用<a class="headerlink" href="#id8" title="この見出しへのパーマリンク">#</a></h3>
 <p>さらに、確率的勾配降下法を自前で実装せずに、<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.optim.SGD.html">torch.optim.SGD</a>を利用する実装例である。プログラムがかなりシンプルになった。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15431,9 +15434,9 @@ y_4 \hat{y}_4
 <img alt="../_images/04nntrain_49_0.png" src="../_images/04nntrain_49_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id9">
-<h3><span class="section-number">8.2.4. </span>NNのクラスを定義・実装する<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id9">
+<h3><span class="section-number">8.2.4. </span>NNのクラスを定義・実装する<a class="headerlink" href="#id9" title="この見出しへのパーマリンク">#</a></h3>
 <p><a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html">torch.nn.Module</a>クラスを継承してニューラルネットワークのクラスを自前で定義する例である。入力から出力を計算する処理をforwardメソッドに実装する。Sequentialでは定義できないような複雑なニューラルネットワークを実装できる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15488,11 +15491,11 @@ y_4 \hat{y}_4
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="id10">
-<h2><span class="section-number">8.3. </span>多層NNの実装<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">#</a></h2>
-<p>事例数<span class="math notranslate nohighlight">\(N=100\)</span>、入力<span class="math notranslate nohighlight">\(\pmb{x}\)</span>の次元数<span class="math notranslate nohighlight">\(d_{\rm in}=2\)</span>の二値分類の訓練データを用意する（このデータは線形分離不能である）。</p>
+</section>
+</section>
+<section id="id10">
+<h2><span class="section-number">8.3. </span>多層NNの実装<a class="headerlink" href="#id10" title="この見出しへのパーマリンク">#</a></h2>
+<p>事例数<span class="math notranslate nohighlight">\(N=100\)</span>、入力<span class="math notranslate nohighlight">\(\bm{x}\)</span>の次元数<span class="math notranslate nohighlight">\(d_{\rm in}=2\)</span>の二値分類の訓練データを用意する（このデータは線形分離不能である）。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -15515,8 +15518,8 @@ y_4 \hat{y}_4
 <img alt="../_images/04nntrain_56_0.png" src="../_images/04nntrain_56_0.png" />
 </div>
 </div>
-<div class="section" id="id11">
-<h3><span class="section-number">8.3.1. </span>単層NN<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">#</a></h3>
+<section id="id11">
+<h3><span class="section-number">8.3.1. </span>単層NN<a class="headerlink" href="#id11" title="この見出しへのパーマリンク">#</a></h3>
 <p>手始めに、Sequentialで単層のニューラルネットワークを学習してみる。正例と負例を分離できる平面を引くことができない。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15551,9 +15554,9 @@ y_4 \hat{y}_4
 <img alt="../_images/04nntrain_58_0.png" src="../_images/04nntrain_58_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id12">
-<h3><span class="section-number">8.3.2. </span>多層NN<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id12">
+<h3><span class="section-number">8.3.2. </span>多層NN<a class="headerlink" href="#id12" title="この見出しへのパーマリンク">#</a></h3>
 <p>中間層のユニット数を<span class="math notranslate nohighlight">\(4\)</span>とした2層のニューラルネットワークをSequentialで定義する。先ほどの実装から変更すべき箇所は、以下の部分だけである。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">(),</span>
@@ -15596,27 +15599,27 @@ y_4 \hat{y}_4
 <img alt="../_images/04nntrain_60_0.png" src="../_images/04nntrain_60_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="id13">
-<h2><span class="section-number">8.4. </span>確認問題: 自動微分<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">#</a></h2>
-<p>2次元の入力<span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^{2}\)</span>を受け取り、2次元の中間層<span class="math notranslate nohighlight">\(\pmb{h} \in \mathbb{R}^{2}\)</span>を介して、<span class="math notranslate nohighlight">\(\hat{y} \in \mathbb{R}\)</span>を出力する2層のニューラルネットワークを次式で定義する。</p>
+</section>
+</section>
+<section id="id13">
+<h2><span class="section-number">8.4. </span>確認問題: 自動微分<a class="headerlink" href="#id13" title="この見出しへのパーマリンク">#</a></h2>
+<p>2次元の入力<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^{2}\)</span>を受け取り、2次元の中間層<span class="math notranslate nohighlight">\(\bm{h} \in \mathbb{R}^{2}\)</span>を介して、<span class="math notranslate nohighlight">\(\hat{y} \in \mathbb{R}\)</span>を出力する2層のニューラルネットワークを次式で定義する。</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-\hat{y} = \sigma(\pmb{h}^{\top}\pmb{q}+c), \; \pmb{h}=\mathrm{ReLU}(\pmb{W}\pmb{x} + \pmb{b})
+\hat{y} = \sigma(\bm{h}^{\top}\bm{q}+c), \; \bm{h}=\mathrm{ReLU}(\bm{W}\bm{x} + \bm{b})
 \end{align*}\]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\sigma(.)\)</span>はシグモイド関数であり、<span class="math notranslate nohighlight">\(\mathrm{ReLU}(a) = \max(a, 0)\)</span>である。また、<span class="math notranslate nohighlight">\(\pmb{W} \in \mathbb{R}^{2 \times 2}, \pmb{q} \in \mathbb{R}^{2}, b \in \mathbb{R}^2, c \in \mathbb{R}\)</span>はモデルのパラメータであり、以下に示す値に設定されているとする。</p>
+<p>ただし、<span class="math notranslate nohighlight">\(\sigma(.)\)</span>はシグモイド関数であり、<span class="math notranslate nohighlight">\(\mathrm{ReLU}(a) = \max(a, 0)\)</span>である。また、<span class="math notranslate nohighlight">\(\bm{W} \in \mathbb{R}^{2 \times 2}, \bm{q} \in \mathbb{R}^{2}, b \in \mathbb{R}^2, c \in \mathbb{R}\)</span>はモデルのパラメータであり、以下に示す値に設定されているとする。</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-\pmb{W} = \begin{pmatrix}1 &amp; 1 \\ -1 &amp; -1\end{pmatrix}, \; \pmb{q} = \begin{pmatrix}1 \\ 1\end{pmatrix}, \; \pmb{b} = \begin{pmatrix}-0.5 \\ 1.5\end{pmatrix}, \; c = -1.5
+\bm{W} = \begin{pmatrix}1 &amp; 1 \\ -1 &amp; -1\end{pmatrix}, \; \bm{q} = \begin{pmatrix}1 \\ 1\end{pmatrix}, \; \bm{b} = \begin{pmatrix}-0.5 \\ 1.5\end{pmatrix}, \; c = -1.5
 \end{align*}\]</div>
 <p><strong>(1) 出力の計算</strong></p>
-<p>このモデルに入力<span class="math notranslate nohighlight">\(\pmb{x}=\begin{pmatrix}0 \\ 0\end{pmatrix}\)</span>が与えられたとき、中間層の値<span class="math notranslate nohighlight">\(\pmb{h}\)</span>と出力値<span class="math notranslate nohighlight">\(\hat{y}\)</span>を求めよ。</p>
+<p>このモデルに入力<span class="math notranslate nohighlight">\(\bm{x}=\begin{pmatrix}0 \\ 0\end{pmatrix}\)</span>が与えられたとき、中間層の値<span class="math notranslate nohighlight">\(\bm{h}\)</span>と出力値<span class="math notranslate nohighlight">\(\hat{y}\)</span>を求めよ。</p>
 <p><strong>(2) 勾配の計算</strong></p>
-<p>ある学習事例<span class="math notranslate nohighlight">\((\pmb{x}, y) = \left(\begin{pmatrix}1 \\ 1 \end{pmatrix}, 0\right)\)</span>に対して、このニューラルネットワークをクロスエントロピー損失関数の値、および損失関数の<span class="math notranslate nohighlight">\(\pmb{W}\)</span>, <span class="math notranslate nohighlight">\(\pmb{q}\)</span>, <span class="math notranslate nohighlight">\(\pmb{b}\)</span>, <span class="math notranslate nohighlight">\(c\)</span>に関する勾配の値を求めよ。</p>
-</div>
-<div class="section" id="id14">
-<h2><span class="section-number">8.5. </span>確認問題: NNの学習<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">#</a></h2>
+<p>ある学習事例<span class="math notranslate nohighlight">\((\bm{x}, y) = \left(\begin{pmatrix}1 \\ 1 \end{pmatrix}, 0\right)\)</span>に対して、このニューラルネットワークをクロスエントロピー損失関数の値、および損失関数の<span class="math notranslate nohighlight">\(\bm{W}\)</span>, <span class="math notranslate nohighlight">\(\bm{q}\)</span>, <span class="math notranslate nohighlight">\(\bm{b}\)</span>, <span class="math notranslate nohighlight">\(c\)</span>に関する勾配の値を求めよ。</p>
+</section>
+<section id="id14">
+<h2><span class="section-number">8.5. </span>確認問題: NNの学習<a class="headerlink" href="#id14" title="この見出しへのパーマリンク">#</a></h2>
 <p>深層学習フレームワークを用いて、手書き数字認識を行うニューラルネットワークを学習したい。</p>
 <p><strong>(1) モデルの学習</strong></p>
 <p>MNISTの訓練データを用いて単層のニューラルネットワークを学習せよ。このとき、各エポック毎に以下の評価値を計算し、グラフとして表示せよ。</p>
@@ -15639,8 +15642,8 @@ y_4 \hat{y}_4
 <p>このようにして見つけた6件の評価事例のそれぞれに対して、<span class="math notranslate nohighlight">\(y_i\)</span>, <span class="math notranslate nohighlight">\(p(y_i | x_i)\)</span>, <span class="math notranslate nohighlight">\(\hat{y}_i\)</span>, <span class="math notranslate nohighlight">\(p(\hat{y}_i | x_i)\)</span>とその事例の画像を表示せよ。</p>
 <p><strong>(5) 多層ニューラルネットワーク</strong></p>
 <p>多層ニューラルネットワークを適当に構成し、(1)の実験を再度実行せよ。どのようなネットワーク構成にするかは任意である。</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

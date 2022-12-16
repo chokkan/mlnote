@@ -4,7 +4,8 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>表記 &#8212; 機械学習帳</title>
     
   <!-- Loaded before other Sphinx assets -->
@@ -34,7 +35,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
@@ -52,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/notation.html" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="索引" href="genindex.html" />
@@ -402,9 +405,9 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
-<h1>表記<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">#</a></h1>
-<p>機械学習帳では，以下の数学の記法を採用しています．</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>表記<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
+<p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>機械学習帳では，以下の数学の記法を採用しています．</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:center head"><p>表記</p></th>
@@ -415,46 +418,49 @@ title="Print to PDF"
 <tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(a\)</span></p></td>
 <td class="text-align:left"><p>スカラー</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{a}\)</span></p></td>
-<td class="text-align:left"><p>ベクトル</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{a}\)</span></p></td>
+<td class="text-align:left"><p>ベクトル（断りがない限り列ベクトル）</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(a_i\)</span></p></td>
-<td class="text-align:left"><p>ベクトル<span class="math notranslate nohighlight">\(\pmb{a}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>番目の要素（先頭の要素は<span class="math notranslate nohighlight">\(1\)</span>番目）</p></td>
+<td class="text-align:left"><p>ベクトル<span class="math notranslate nohighlight">\(\bm{a}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>番目の要素（先頭の要素は<span class="math notranslate nohighlight">\(1\)</span>番目）</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{A}\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{A}\)</span></p></td>
 <td class="text-align:left"><p>行列</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(A_{i,j}\)</span></p></td>
-<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\pmb{A}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>行<span class="math notranslate nohighlight">\(j\)</span>列の要素</p></td>
+<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\bm{A}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>行<span class="math notranslate nohighlight">\(j\)</span>列の要素</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{A}_{i,:}\)</span> または <span class="math notranslate nohighlight">\(\pmb{A}_{i}\)</span></p></td>
-<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\pmb{A}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>行ベクトル</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{A}_{i,:}\)</span> または <span class="math notranslate nohighlight">\(\bm{A}_{i}\)</span></p></td>
+<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\bm{A}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>行ベクトル</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{A}_{:,j}\)</span></p></td>
-<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\pmb{A}\)</span>の<span class="math notranslate nohighlight">\(j\)</span>列ベクトル</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{A}_{:,j}\)</span></p></td>
+<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\bm{A}\)</span>の<span class="math notranslate nohighlight">\(j\)</span>列ベクトル</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{I}_n\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{I}_n\)</span></p></td>
 <td class="text-align:left"><p><span class="math notranslate nohighlight">\(n \times n\)</span>の単位行列</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{I}\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{I}\)</span></p></td>
 <td class="text-align:left"><p>単位行列（大きさは文脈から推測する）</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{A}^\top\)</span></p></td>
-<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\pmb{A}\)</span>の転置</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{A}^\top\)</span></p></td>
+<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\bm{A}\)</span>の転置</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{A}^{-1}\)</span></p></td>
-<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\pmb{A}\)</span>の逆行列</p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{A}^{-1}\)</span></p></td>
+<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\bm{A}\)</span>の逆行列</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{A}^{+}\)</span></p></td>
-<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\pmb{A}\)</span>のムーア・ペンローズの疑似逆行列</p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{A}^{+}\)</span></p></td>
+<td class="text-align:left"><p>行列<span class="math notranslate nohighlight">\(\bm{A}\)</span>のムーア・ペンローズの疑似逆行列</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\mathbb{R}\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\({\rm diag}(\bm{a})\)</span></p></td>
+<td class="text-align:left"><p>対角成分が<span class="math notranslate nohighlight">\(\bm{a}\)</span>で構成される対角行列</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\mathbb{R}\)</span></p></td>
 <td class="text-align:left"><p>実数の集合</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\mathbb{C}\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\mathbb{C}\)</span></p></td>
 <td class="text-align:left"><p>複素数の集合</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\mathbb{N}_n\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\mathbb{N}_n\)</span></p></td>
 <td class="text-align:left"><p>自然数の集合<span class="math notranslate nohighlight">\(\{1, 2, \dots, n\}\)</span></p></td>
 </tr>
 </tbody>
@@ -479,19 +485,19 @@ title="Print to PDF"
 <tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
 <td class="text-align:left"><p>入力変数（説明変数の数は一つ）</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{x} \in \mathbb{R}^d\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^d\)</span></p></td>
 <td class="text-align:left"><p>入力ベクトル（説明変数の数は<span class="math notranslate nohighlight">\(d\)</span>個）</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{X} \in \mathbb{R}^{N \times d}\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{X} \in \mathbb{R}^{N \times d}\)</span></p></td>
 <td class="text-align:left"><p>入力ベクトルを縦に積んで行列にしたもの</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(y\)</span></p></td>
 <td class="text-align:left"><p>出力変数（目的変数の数は一つ）</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{y} \in \mathbb{R}^K\)</span></p></td>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{y} \in \mathbb{R}^K\)</span></p></td>
 <td class="text-align:left"><p>出力ベクトル（目的変数の数は<span class="math notranslate nohighlight">\(K\)</span>個）</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\pmb{Y} \in \mathbb{R}^{N \times K}\)</span></p></td>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\bm{Y} \in \mathbb{R}^{N \times K}\)</span></p></td>
 <td class="text-align:left"><p>出力ベクトルを縦に積んで行列にしたもの</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\mathcal{D}\)</span></p></td>
@@ -499,7 +505,7 @@ title="Print to PDF"
 </tr>
 </tbody>
 </table>
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {

@@ -4,7 +4,8 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>11. 階層的クラスタリング &#8212; 機械学習帳</title>
     
   <!-- Loaded before other Sphinx assets -->
@@ -34,7 +35,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
@@ -52,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/unsupervised/02hac.html" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
@@ -718,8 +721,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
-<h1><span class="section-number">11. </span>階層的クラスタリング<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">11. </span>階層的クラスタリング<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -731,7 +734,7 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>日本の行政区画は<span class="math notranslate nohighlight">\(47\)</span>の都道府県から構成され、その下に市町村や区が置かれている。また、<span class="math notranslate nohighlight">\(47\)</span>の都道府県も、北海道地方や東北地方など、いくつかのグループにまとめて語られることがある。これをクラスタ分析の用語で説明すると、市町村の上に都道府県のクラスタが作られ、都道府県の上に地方のクラスタ、地方のクラスタの上に「日本」というクラスタがあり、日本のクラスタの上に「アジア」のクラスタ……、といった具合で、クラスタに上下関係が存在している。</p>
+<p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>日本の行政区画は<span class="math notranslate nohighlight">\(47\)</span>の都道府県から構成され、その下に市町村や区が置かれている。また、<span class="math notranslate nohighlight">\(47\)</span>の都道府県も、北海道地方や東北地方など、いくつかのグループにまとめて語られることがある。これをクラスタ分析の用語で説明すると、市町村の上に都道府県のクラスタが作られ、都道府県の上に地方のクラスタ、地方のクラスタの上に「日本」というクラスタがあり、日本のクラスタの上に「アジア」のクラスタ……、といった具合で、クラスタに上下関係が存在している。</p>
 <p>生物の<a class="reference external" href="https://ja.wikipedia.org/wiki/%E5%88%86%E9%A1%9E%E5%AD%A6">分類学</a>、<a class="reference external" href="https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E5%8D%81%E9%80%B2%E5%88%86%E9%A1%9E%E6%B3%95">日本十進分類法</a>（図書館の本の分類）、会社の組織図、オブジェクト指向言語のクラスの階層など、階層構造は世の中の至るところで用いられる。モノを階層構造で表現することのメリットは、モノを見る細かさを階層のレベルで調整できることや、モノを探しやすくすることであろう。</p>
 <p><strong>階層的クラスタリング</strong>（hierarchical clustering）は、データからクラスタの階層構造を抽出する手法である。階層的クラスタリングは、凝集型と分割型に大別される。</p>
 <ul class="simple">
@@ -739,20 +742,20 @@ title="Print to PDF"
 <li><p><strong>分割型</strong>（トップダウン型）： 全事例を一つの大きなクラスタに格納し、クラスタを繰り返し分割していく方法</p></li>
 </ul>
 <p>ここでは、凝集型の階層的クラスタリングを取り上げる。</p>
-<div class="section" id="id2">
-<h2><span class="section-number">11.1. </span>具体例<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">#</a></h2>
-<div class="section" id="id3">
-<h3><span class="section-number">11.1.1. </span>データと距離行列<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">#</a></h3>
+<section id="id2">
+<h2><span class="section-number">11.1. </span>具体例<a class="headerlink" href="#id2" title="この見出しへのパーマリンク">#</a></h2>
+<section id="id3">
+<h3><span class="section-number">11.1.1. </span>データと距離行列<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">#</a></h3>
 <p>ここでは、凝集型クラスタリングの動作を具体例で示す。単純な例として、1次元（スカラー）の事例<span class="math notranslate nohighlight">\(5\)</span>件からなるデータ <span class="math notranslate nohighlight">\(X = (x_1, x_2, x_3, x_4, x_5) = (2, 11, 5, 1, 7)\)</span> を考える。事例数を<span class="math notranslate nohighlight">\(N\)</span>で表すことにすると、<span class="math notranslate nohighlight">\(N=5\)</span>である。</p>
 <p>２つの事例<span class="math notranslate nohighlight">\(x_i\)</span>と<span class="math notranslate nohighlight">\(x_j\)</span>の距離を<span class="math notranslate nohighlight">\(d_{i,j}\)</span>で表す。ここでは、<span class="math notranslate nohighlight">\(d_{i,j} = |x_i - x_j|\)</span>と定義する。例えば、<span class="math notranslate nohighlight">\(x_1\)</span>と<span class="math notranslate nohighlight">\(x_3\)</span>の距離は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-776b63c6-c10a-46ac-bf0b-d5bf4e22b7fb">
-<span class="eqno">(11.1)<a class="headerlink" href="#equation-776b63c6-c10a-46ac-bf0b-d5bf4e22b7fb" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-239176a0-da43-4e42-baed-079c78c9042f">
+<span class="eqno">(11.1)<a class="headerlink" href="#equation-239176a0-da43-4e42-baed-079c78c9042f" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 d_{1,3} = |x_1 - x_3| = |2 - 5| = 3
 \end{align}\]</div>
-<p>さて、データ中の全ての事例の組に対して距離を計算し、<span class="math notranslate nohighlight">\(N \times N\)</span>の行列<span class="math notranslate nohighlight">\(\pmb{D} = (d_{i,j})\)</span>で表現する。データ<span class="math notranslate nohighlight">\(X\)</span>に対しては、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e65b9151-0e48-4c28-9508-21b7e7ac7994">
-<span class="eqno">(11.2)<a class="headerlink" href="#equation-e65b9151-0e48-4c28-9508-21b7e7ac7994" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\pmb{D} &amp;= \begin{pmatrix}
+<p>さて、データ中の全ての事例の組に対して距離を計算し、<span class="math notranslate nohighlight">\(N \times N\)</span>の行列<span class="math notranslate nohighlight">\(\bm{D} = (d_{i,j})\)</span>で表現する。データ<span class="math notranslate nohighlight">\(X\)</span>に対しては、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-741ab86e-af23-453c-be7b-c9f0c73b016e">
+<span class="eqno">(11.2)<a class="headerlink" href="#equation-741ab86e-af23-453c-be7b-c9f0c73b016e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\bm{D} &amp;= \begin{pmatrix}
 |x_1 - x_1| &amp; |x_1 - x_2| &amp; |x_1 - x_3| &amp; |x_1 - x_4| &amp; |x_1 - x_5| \\
 |x_2 - x_1| &amp; |x_2 - x_2| &amp; |x_2 - x_3| &amp; |x_2 - x_4| &amp; |x_2 - x_5| \\
 |x_3 - x_1| &amp; |x_3 - x_2| &amp; |x_3 - x_3| &amp; |x_3 - x_4| &amp; |x_3 - x_5| \\
@@ -774,10 +777,10 @@ d_{1,3} = |x_1 - x_3| = |2 - 5| = 3
 5 &amp; 4 &amp; 2 &amp; 6 &amp; 0 \\
 \end{pmatrix}
 \end{align}\]</div>
-<p>なお、<span class="math notranslate nohighlight">\(\pmb{D}\)</span>は<strong>距離行列</strong>（distance matrix）と呼ばれる。<span class="math notranslate nohighlight">\(d_{i,j} = d_{j,i}\)</span>であることから、距離行列は<span class="math notranslate nohighlight">\(N \times N\)</span>の対称行列である。また、自分自身との距離は<span class="math notranslate nohighlight">\(0\)</span>であることから、距離行列の対角成分は<span class="math notranslate nohighlight">\(0\)</span>である。</p>
-</div>
-<div class="section" id="id4">
-<h3><span class="section-number">11.1.2. </span>実行例<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">#</a></h3>
+<p>なお、<span class="math notranslate nohighlight">\(\bm{D}\)</span>は<strong>距離行列</strong>（distance matrix）と呼ばれる。<span class="math notranslate nohighlight">\(d_{i,j} = d_{j,i}\)</span>であることから、距離行列は<span class="math notranslate nohighlight">\(N \times N\)</span>の対称行列である。また、自分自身との距離は<span class="math notranslate nohighlight">\(0\)</span>であることから、距離行列の対角成分は<span class="math notranslate nohighlight">\(0\)</span>である。</p>
+</section>
+<section id="id4">
+<h3><span class="section-number">11.1.2. </span>実行例<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">#</a></h3>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jinja2</span>
@@ -994,14 +997,14 @@ d_{1,3} = |x_1 - x_3| = |2 - 5| = 3
 </div>
 <p>この表の非対角要素の中で、もっとも値が小さいものを下線および赤色で示した。これによると、<span class="math notranslate nohighlight">\(\{2\}\)</span>と<span class="math notranslate nohighlight">\(\{1\}\)</span>のクラスタ間の距離<span class="math notranslate nohighlight">\(1\)</span>が最小である。そこで、この２つのクラスタを併合し、<span class="math notranslate nohighlight">\(\{1,2\}\)</span>を要素にもつクラスタを作成したい。</p>
 <p>ここで、新しく作成するクラスタ<span class="math notranslate nohighlight">\(\{1,2\}\)</span>とその他のクラスタ<span class="math notranslate nohighlight">\(\{11\}, \{5\}, \{7\}\)</span>との距離をどのように定義するか、検討しなければいけない。今回は、２つのクラスタ間の距離は、双方のクラスタに属する要素で総当りで距離を求め、その最小値と定義することにする（後で説明するが、これは最短距離法と呼ばれる）。すなわち、２つのクラスタを集合<span class="math notranslate nohighlight">\(A\)</span>と<span class="math notranslate nohighlight">\(B\)</span>で表現したとき、そのクラスタ間の距離<span class="math notranslate nohighlight">\(\mathrm{dist}(A, B)\)</span>を次式で定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bfc99224-d2c8-4532-a609-3bf30c8f719c">
-<span class="eqno">(11.3)<a class="headerlink" href="#equation-bfc99224-d2c8-4532-a609-3bf30c8f719c" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7ad13519-04f2-49dc-bf64-a79a39a0f85c">
+<span class="eqno">(11.3)<a class="headerlink" href="#equation-7ad13519-04f2-49dc-bf64-a79a39a0f85c" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \mathrm{dist}(A, B) = \min_{a \in A,\; b \in B} d(a, b)
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(d(a,b)\)</span>は要素<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>の距離で、距離行列<span class="math notranslate nohighlight">\(D\)</span>の対応する要素を参照することで求める（<span class="math notranslate nohighlight">\(d_{ab}\)</span>と説明したいところであるが、<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>は行列におけるインデックス番号ではなく、データ中の要素そのものである）。</p>
 <p>要素<span class="math notranslate nohighlight">\(i\)</span>と<span class="math notranslate nohighlight">\(j\)</span>を統合してクラスタ<span class="math notranslate nohighlight">\(\{i,j\}\)</span>を作成した時、それ以外の要素<span class="math notranslate nohighlight">\(h\)</span> (<span class="math notranslate nohighlight">\(h \neq i\)</span>かつ<span class="math notranslate nohighlight">\(h \neq j\)</span>) との距離は次式で与えられる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-506b7c5e-29b0-4e31-b17c-49b2c9e3b45e">
-<span class="eqno">(11.4)<a class="headerlink" href="#equation-506b7c5e-29b0-4e31-b17c-49b2c9e3b45e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a820efb7-f41a-464e-a11f-a6ea0ed376a7">
+<span class="eqno">(11.4)<a class="headerlink" href="#equation-a820efb7-f41a-464e-a11f-a6ea0ed376a7" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \mathrm{dist}[\{i,j\}, \{h\}] = \min_{a \in \{i,j\},\; b=h} d(a, b) = \min \{ d(i,h), d(j,h) \}
 \end{align}\]</div>
 <p>ゆえに、</p>
@@ -1124,8 +1127,8 @@ d_{1,3} = |x_1 - x_3| = |2 - 5| = 3
 </div></div>
 </div>
 <p>この表から、次に距離が近いのは<span class="math notranslate nohighlight">\(\{5\}\)</span>と<span class="math notranslate nohighlight">\(\{7\}\)</span>のクラスタで、その距離は<span class="math notranslate nohighlight">\(2\)</span>である。そこで、この２つのクラスタを併合し、<span class="math notranslate nohighlight">\(\{5,7\}\)</span>を要素にもつクラスタを作成する。先ほどと同様に、新しく作成するクラスタと、それ以外のクラスタとの距離を求める。ここで、クラスタ<span class="math notranslate nohighlight">\(A\)</span>と<span class="math notranslate nohighlight">\(B\)</span>を併合したクラスタを<span class="math notranslate nohighlight">\(A \cup B\)</span>で表すと、<span class="math notranslate nohighlight">\(A \cup B\)</span>とそれ以外のクラスタ<span class="math notranslate nohighlight">\(C\)</span>との距離は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d4840581-b28f-42ad-b089-fcd9763e2b51">
-<span class="eqno">(11.5)<a class="headerlink" href="#equation-d4840581-b28f-42ad-b089-fcd9763e2b51" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-aa64df57-daf4-4345-9c41-e0f447a0c374">
+<span class="eqno">(11.5)<a class="headerlink" href="#equation-aa64df57-daf4-4345-9c41-e0f447a0c374" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \mathrm{dist}(A \cup B, C) = \min \{ \mathrm{dist}(A, C), \mathrm{dist}(B, C)\}
 \end{align}\]</div>
 <p>ゆえに、</p>
@@ -1301,9 +1304,9 @@ d_{1,3} = |x_1 - x_3| = |2 - 5| = 3
 <li><p><span class="math notranslate nohighlight">\(\{1,2\}\)</span>と<span class="math notranslate nohighlight">\(\{5,7\}\)</span>のクラスタ（距離=<span class="math notranslate nohighlight">\(3\)</span>）をまとめる</p></li>
 <li><p><span class="math notranslate nohighlight">\(\{1,2,5,7\}\)</span>と<span class="math notranslate nohighlight">\(\{11\}\)</span>のクラスタ（距離=<span class="math notranslate nohighlight">\(4\)</span>）をまとめる</p></li>
 </ol>
-</div>
-<div class="section" id="id5">
-<h3><span class="section-number">11.1.3. </span>デンドログラム<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id5">
+<h3><span class="section-number">11.1.3. </span>デンドログラム<a class="headerlink" href="#id5" title="この見出しへのパーマリンク">#</a></h3>
 <p>このクラスタ形成のプロセスを<strong>デンドログラム</strong>（樹形図）として可視化すると分かりやすい。</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
@@ -1345,45 +1348,45 @@ d_{1,3} = |x_1 - x_3| = |2 - 5| = 3
 <img alt="../_images/02hac_18_0.png" src="../_images/02hac_18_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="id6">
-<h2><span class="section-number">11.2. </span>距離関数<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">#</a></h2>
+</section>
+</section>
+<section id="id6">
+<h2><span class="section-number">11.2. </span>距離関数<a class="headerlink" href="#id6" title="この見出しへのパーマリンク">#</a></h2>
 <p>先ほどの例では、数値の差の絶対値を要素間の距離として定義した。クラスタリングでは他にも様々な距離関数が用いられる。なお、<span class="math notranslate nohighlight">\(m\)</span>次元上のベクトルで定義された距離関数<span class="math notranslate nohighlight">\(d: \mathbb{R}^m \times \mathbb{R}^m \mapsto \mathbb{R}\)</span>は以下の性質を満たす。</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\forall \pmb{x}, \pmb{y} \in \mathbb{R}^m: d(\pmb{x}, \pmb{y}) \geq 0\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\forall \pmb{x}, \pmb{y} \in \mathbb{R}^m: \pmb{x} = \pmb{y} \Rightarrow d(\pmb{x}, \pmb{y}) = 0\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\forall \pmb{x}, \pmb{y} \in \mathbb{R}^m: d(\pmb{x}, \pmb{y}) = d(\pmb{y}, \pmb{x})\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\forall \pmb{x}, \pmb{y}, \pmb{z} \in \mathbb{R}^m: d(\pmb{x}, \pmb{y}) + d(\pmb{y}, \pmb{z}) \geq d(\pmb{x}, \pmb{z})\)</span>　（三角不等式）</p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall \bm{x}, \bm{y} \in \mathbb{R}^m: d(\bm{x}, \bm{y}) \geq 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall \bm{x}, \bm{y} \in \mathbb{R}^m: \bm{x} = \bm{y} \Rightarrow d(\bm{x}, \bm{y}) = 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall \bm{x}, \bm{y} \in \mathbb{R}^m: d(\bm{x}, \bm{y}) = d(\bm{y}, \bm{x})\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall \bm{x}, \bm{y}, \bm{z} \in \mathbb{R}^m: d(\bm{x}, \bm{y}) + d(\bm{y}, \bm{z}) \geq d(\bm{x}, \bm{z})\)</span>　（三角不等式）</p></li>
 </ul>
-<div class="section" id="id7">
-<h3><span class="section-number">11.2.1. </span>ユークリッド距離<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">#</a></h3>
-<p>ユークリッド距離（<span class="math notranslate nohighlight">\(L_2\)</span>距離）は、ベクトル間の距離関数として最も基本的なものである。２つのベクトル<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{y} \in \mathbb{R}^m\)</span>に対して、次式で定義される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-193db1dd-659a-462a-be42-403a46c78db3">
-<span class="eqno">(11.6)<a class="headerlink" href="#equation-193db1dd-659a-462a-be42-403a46c78db3" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-d(\pmb{x}, \pmb{y}) = \|\pmb{x} - \pmb{y}\|_2 = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \dots + (x_m - y_m)^2}
+<section id="id7">
+<h3><span class="section-number">11.2.1. </span>ユークリッド距離<a class="headerlink" href="#id7" title="この見出しへのパーマリンク">#</a></h3>
+<p>ユークリッド距離（<span class="math notranslate nohighlight">\(L_2\)</span>距離）は、ベクトル間の距離関数として最も基本的なものである。２つのベクトル<span class="math notranslate nohighlight">\(\bm{x}, \bm{y} \in \mathbb{R}^m\)</span>に対して、次式で定義される。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b116db06-7f53-4a26-941f-17af42de6740">
+<span class="eqno">(11.6)<a class="headerlink" href="#equation-b116db06-7f53-4a26-941f-17af42de6740" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+d(\bm{x}, \bm{y}) = \|\bm{x} - \bm{y}\|_2 = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \dots + (x_m - y_m)^2}
 \end{align}\]</div>
-</div>
-<div class="section" id="id8">
-<h3><span class="section-number">11.2.2. </span>マンハッタン距離<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">#</a></h3>
-<p>マンハッタン距離（<span class="math notranslate nohighlight">\(L_1\)</span>距離）は、２つのベクトル<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{y} \in \mathbb{R}^m\)</span>に対して、次式で定義される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-072e0302-abe5-4575-af2f-64f8c9a303e9">
-<span class="eqno">(11.7)<a class="headerlink" href="#equation-072e0302-abe5-4575-af2f-64f8c9a303e9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-d(\pmb{x}, \pmb{y}) = \|\pmb{x} - \pmb{y}\|_1 = |x_1 - y_1| + |x_2 - y_2| + \dots + |x_d - y_d|
+</section>
+<section id="id8">
+<h3><span class="section-number">11.2.2. </span>マンハッタン距離<a class="headerlink" href="#id8" title="この見出しへのパーマリンク">#</a></h3>
+<p>マンハッタン距離（<span class="math notranslate nohighlight">\(L_1\)</span>距離）は、２つのベクトル<span class="math notranslate nohighlight">\(\bm{x}, \bm{y} \in \mathbb{R}^m\)</span>に対して、次式で定義される。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0410c894-8705-4d6c-b8f8-89611a16bdd7">
+<span class="eqno">(11.7)<a class="headerlink" href="#equation-0410c894-8705-4d6c-b8f8-89611a16bdd7" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+d(\bm{x}, \bm{y}) = \|\bm{x} - \bm{y}\|_1 = |x_1 - y_1| + |x_2 - y_2| + \dots + |x_d - y_d|
 \end{align}\]</div>
 <p>なお、冒頭の例で用いた距離関数は<span class="math notranslate nohighlight">\(m=1\)</span>次元のときのマンハッタン距離である。</p>
-</div>
-<div class="section" id="id9">
-<h3><span class="section-number">11.2.3. </span>コサイン類似度<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">#</a></h3>
-<p>２つのベクトル<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{y} \in \mathbb{R}^m\)</span>があり、そのなす各を<span class="math notranslate nohighlight">\(\theta\)</span>とする。このとき、<span class="math notranslate nohighlight">\(\cos \theta\)</span>を<span class="math notranslate nohighlight">\(\pmb{x}\)</span>と<span class="math notranslate nohighlight">\(\pmb{y}\)</span>のコサイン類似度と呼ぶ。ベクトルの内積の公式より、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e82ad573-1ef4-44bb-bb6b-2093ece7d362">
-<span class="eqno">(11.8)<a class="headerlink" href="#equation-e82ad573-1ef4-44bb-bb6b-2093ece7d362" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\cos \theta = \frac{\pmb{x} \cdot \pmb{y}}{\|\pmb{x}\| \|\pmb{y}\|}
+</section>
+<section id="id9">
+<h3><span class="section-number">11.2.3. </span>コサイン類似度<a class="headerlink" href="#id9" title="この見出しへのパーマリンク">#</a></h3>
+<p>２つのベクトル<span class="math notranslate nohighlight">\(\bm{x}, \bm{y} \in \mathbb{R}^m\)</span>があり、そのなす各を<span class="math notranslate nohighlight">\(\theta\)</span>とする。このとき、<span class="math notranslate nohighlight">\(\cos \theta\)</span>を<span class="math notranslate nohighlight">\(\bm{x}\)</span>と<span class="math notranslate nohighlight">\(\bm{y}\)</span>のコサイン類似度と呼ぶ。ベクトルの内積の公式より、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9e3eac65-1a88-4f34-9e5e-7673e74d0eae">
+<span class="eqno">(11.8)<a class="headerlink" href="#equation-9e3eac65-1a88-4f34-9e5e-7673e74d0eae" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\cos \theta = \frac{\bm{x} \cdot \bm{y}}{\|\bm{x}\| \|\bm{y}\|}
 \end{align}\]</div>
 <p>コサイン類似度は２つのベクトルの「似ている度合い」を<span class="math notranslate nohighlight">\(-1\)</span>（似ていない）から<span class="math notranslate nohighlight">\(1\)</span>（似ている）までの数値で表す。クラスタリングで距離として用いるときは、「似ていない度合い」、すなわち非類似度にするために<span class="math notranslate nohighlight">\(1\)</span>から引くことが多い（他の変換方法もあり得る）。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-be40b5d4-3b63-4337-83d3-a820b17ebc4a">
-<span class="eqno">(11.9)<a class="headerlink" href="#equation-be40b5d4-3b63-4337-83d3-a820b17ebc4a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-d(\pmb{x}, \pmb{y}) = 1 - \frac{\pmb{x} \cdot \pmb{y}}{\|\pmb{x}\| \|\pmb{y}\|} = 1 - \cos \theta
+<div class="amsmath math notranslate nohighlight" id="equation-b0fc886c-a0e1-43bc-b22c-792c4b7544ea">
+<span class="eqno">(11.9)<a class="headerlink" href="#equation-b0fc886c-a0e1-43bc-b22c-792c4b7544ea" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+d(\bm{x}, \bm{y}) = 1 - \frac{\bm{x} \cdot \bm{y}}{\|\bm{x}\| \|\bm{y}\|} = 1 - \cos \theta
 \end{align}\]</div>
 <p>なお、コサイン（非）類似度は三角不等式を満たさないため、厳密には距離関数と呼べないが、クラスタリングで用いられることがある。</p>
 <div class="cell tag_hide-input docutils container">
@@ -1398,17 +1401,17 @@ d(\pmb{x}, \pmb{y}) = 1 - \frac{\pmb{x} \cdot \pmb{y}}{\|\pmb{x}\| \|\pmb{y}\|} 
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="id10">
-<h2><span class="section-number">11.3. </span>凝集型クラスタリング<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">#</a></h2>
-<p>クラスタ分析の対象となるデータ<span class="math notranslate nohighlight">\(X = (\pmb{x}_1, \pmb{x}_2, \dots, \pmb{x}_N)\)</span>が与えられる。凝集型クラスタリングでは、各事例がそれぞれ１つのクラスタを構成する状態を出発点とする。そして、クラスタ間距離関数（後述）で測定した距離が最も短い２つのクラスタを併合する、という操作を<span class="math notranslate nohighlight">\(N-1\)</span>回繰り返し、最終的に一つのクラスタにまとめ上げる。凝集型クラスタリング手法によって、異なるクラスタ間距離関数が用いられる。</p>
-<div class="section" id="id11">
-<h3><span class="section-number">11.3.1. </span>最短距離法<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">#</a></h3>
-<p>冒頭の例で紹介したクラスタリング手法は<strong>最短距離法</strong>（nearest neighbour clustering）または<strong>単連結法</strong>（single-linkage clustering）と呼ばれる。<span class="math notranslate nohighlight">\(m\)</span>次元の事例ベクトル<span class="math notranslate nohighlight">\(\pmb{x}, \pmb{y} \in \mathbb{R}^m\)</span>の任意の距離関数を<span class="math notranslate nohighlight">\(d(\pmb{x}, \pmb{y})\)</span>とする。２つのクラスタ<span class="math notranslate nohighlight">\(C_a\)</span>と<span class="math notranslate nohighlight">\(C_b\)</span>があるとき、そのクラスタ間距離関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a9daeb29-254a-4710-aef0-e48f3e730e09">
-<span class="eqno">(11.10)<a class="headerlink" href="#equation-a9daeb29-254a-4710-aef0-e48f3e730e09" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\mathrm{dist}_{\textrm{single}}(C_a, C_b) = \min_{\pmb{x} \in C_a,\; \pmb{y} \in C_b} d(\pmb{x}, \pmb{y})
+</section>
+</section>
+<section id="id10">
+<h2><span class="section-number">11.3. </span>凝集型クラスタリング<a class="headerlink" href="#id10" title="この見出しへのパーマリンク">#</a></h2>
+<p>クラスタ分析の対象となるデータ<span class="math notranslate nohighlight">\(X = (\bm{x}_1, \bm{x}_2, \dots, \bm{x}_N)\)</span>が与えられる。凝集型クラスタリングでは、各事例がそれぞれ１つのクラスタを構成する状態を出発点とする。そして、クラスタ間距離関数（後述）で測定した距離が最も短い２つのクラスタを併合する、という操作を<span class="math notranslate nohighlight">\(N-1\)</span>回繰り返し、最終的に一つのクラスタにまとめ上げる。凝集型クラスタリング手法によって、異なるクラスタ間距離関数が用いられる。</p>
+<section id="id11">
+<h3><span class="section-number">11.3.1. </span>最短距離法<a class="headerlink" href="#id11" title="この見出しへのパーマリンク">#</a></h3>
+<p>冒頭の例で紹介したクラスタリング手法は<strong>最短距離法</strong>（nearest neighbour clustering）または<strong>単連結法</strong>（single-linkage clustering）と呼ばれる。<span class="math notranslate nohighlight">\(m\)</span>次元の事例ベクトル<span class="math notranslate nohighlight">\(\bm{x}, \bm{y} \in \mathbb{R}^m\)</span>の任意の距離関数を<span class="math notranslate nohighlight">\(d(\bm{x}, \bm{y})\)</span>とする。２つのクラスタ<span class="math notranslate nohighlight">\(C_a\)</span>と<span class="math notranslate nohighlight">\(C_b\)</span>があるとき、そのクラスタ間距離関数は、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ee9290e4-df38-4486-b714-1e4073d5b653">
+<span class="eqno">(11.10)<a class="headerlink" href="#equation-ee9290e4-df38-4486-b714-1e4073d5b653" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\mathrm{dist}_{\textrm{single}}(C_a, C_b) = \min_{\bm{x} \in C_a,\; \bm{y} \in C_b} d(\bm{x}, \bm{y})
 \end{align}\]</div>
 <p>これは、クラスタ<span class="math notranslate nohighlight">\(C_a\)</span>と<span class="math notranslate nohighlight">\(C_b\)</span>に所属する事例同士の距離を総当りで求めた時、その最小値である。以下の図は、丸印と四角印のクラスタ間の最短距離を求める例である。</p>
 <div class="cell tag_hide-input docutils container">
@@ -1446,13 +1449,13 @@ d(\pmb{x}, \pmb{y}) = 1 - \frac{\pmb{x} \cdot \pmb{y}}{\|\pmb{x}\| \|\pmb{y}\|} 
 </div>
 </div>
 <p>なお、最短距離法はクラスタが最も近い点を経由して連結されていくため、鎖状に連結されやすい。この現象は<strong>連鎖</strong>（chaining）と呼ばれる。その結果、距離がかなり離れている要素同士でもひとつのクラスタにまとめられてしまうことがある。クラスタ内の要素間の距離の最大値をクラスタの<strong>直径</strong>と呼ぶことにすると、最短距離法は直径の大きいクラスタを生成してしまうことがある。例えば、上のデンドログラムの例ではクラスタ<span class="math notranslate nohighlight">\(\{1,2\}\)</span>と<span class="math notranslate nohighlight">\(\{5,7\}\)</span>が併合されるときの距離は<span class="math notranslate nohighlight">\(3\)</span>であったが、距離が最も遠い要素の組の距離は<span class="math notranslate nohighlight">\(6\)</span>であるから、直径の大きいクラスタが生成されていることが分かる。</p>
-</div>
-<div class="section" id="id12">
-<h3><span class="section-number">11.3.2. </span>最長距離法<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id12">
+<h3><span class="section-number">11.3.2. </span>最長距離法<a class="headerlink" href="#id12" title="この見出しへのパーマリンク">#</a></h3>
 <p>最短距離法と対極にあるのが、<strong>最長距離法</strong>（furthest neighbour clustering）または<strong>完全連結法</strong>（complete-linkage clustering）である。２つのクラスタ<span class="math notranslate nohighlight">\(C_a\)</span>と<span class="math notranslate nohighlight">\(C_b\)</span>があるとき、そのクラスタ間距離関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a4a3f2d9-8b2b-424b-bc77-61e4ce5a29a9">
-<span class="eqno">(11.11)<a class="headerlink" href="#equation-a4a3f2d9-8b2b-424b-bc77-61e4ce5a29a9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\mathrm{dist}_{\textrm{complete}}(C_a, C_b) = \max_{\pmb{x} \in C_a,\; \pmb{y} \in C_b} d(\pmb{x}, \pmb{y})
+<div class="amsmath math notranslate nohighlight" id="equation-8e1c3c77-d023-45e4-a0e8-bb2a32fe988a">
+<span class="eqno">(11.11)<a class="headerlink" href="#equation-8e1c3c77-d023-45e4-a0e8-bb2a32fe988a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\mathrm{dist}_{\textrm{complete}}(C_a, C_b) = \max_{\bm{x} \in C_a,\; \bm{y} \in C_b} d(\bm{x}, \bm{y})
 \end{align}\]</div>
 <p>これは、クラスタ<span class="math notranslate nohighlight">\(C_a\)</span>と<span class="math notranslate nohighlight">\(C_b\)</span>に所属する事例同士の距離を総当りで求めた時、その最大値である。以下の図は、丸印と四角印のクラスタ間の最遠距離を求める例である。</p>
 <div class="cell tag_hide-input docutils container">
@@ -1490,13 +1493,13 @@ d(\pmb{x}, \pmb{y}) = 1 - \frac{\pmb{x} \cdot \pmb{y}}{\|\pmb{x}\| \|\pmb{y}\|} 
 </div>
 </div>
 <p>最長距離法は全ての要素同士の距離が短い２つのクラスタを併合していく傾向にあるため、直径の小さいクラスタが生成されやすい。一方で、距離が近い要素同士を含む２つのクラスタがなかなか併合されない状況が生まれる。例えば、上のデンドログラムの例ではクラスタ<span class="math notranslate nohighlight">\(\{1,2\}\)</span>と<span class="math notranslate nohighlight">\(\{5,7\}\)</span>は<span class="math notranslate nohighlight">\(2\)</span>と<span class="math notranslate nohighlight">\(5\)</span>の距離が<span class="math notranslate nohighlight">\(3\)</span>で近そうに見えるが、最遠の組である<span class="math notranslate nohighlight">\(\{1,7\}\)</span>の距離<span class="math notranslate nohighlight">\(6\)</span>が考慮されるため、この2つのクラスタの併合は先延ばしにされてしまう。</p>
-</div>
-<div class="section" id="id13">
-<h3><span class="section-number">11.3.3. </span>群平均法<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id13">
+<h3><span class="section-number">11.3.3. </span>群平均法<a class="headerlink" href="#id13" title="この見出しへのパーマリンク">#</a></h3>
 <p>群平均法（group averaging method）は、最短距離法と最長距離法を織り交ぜたような手法である。２つのクラスタ<span class="math notranslate nohighlight">\(C_a\)</span>と<span class="math notranslate nohighlight">\(C_b\)</span>があるとき、そのクラスタ間距離関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a0a6b737-1866-4584-be13-8e7102f33313">
-<span class="eqno">(11.12)<a class="headerlink" href="#equation-a0a6b737-1866-4584-be13-8e7102f33313" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\mathrm{dist}_{\textrm{average}}(C_a, C_b) = \frac{1}{|C_a||C_b|}\sum_{\pmb{x} \in C_a,\; \pmb{y} \in C_b} d(\pmb{x}, \pmb{y})
+<div class="amsmath math notranslate nohighlight" id="equation-1901be02-a330-49df-842e-a980e48aa137">
+<span class="eqno">(11.12)<a class="headerlink" href="#equation-1901be02-a330-49df-842e-a980e48aa137" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\mathrm{dist}_{\textrm{average}}(C_a, C_b) = \frac{1}{|C_a||C_b|}\sum_{\bm{x} \in C_a,\; \bm{y} \in C_b} d(\bm{x}, \bm{y})
 \end{align}\]</div>
 <p>最短距離法や最長距離法では、２つのクラスタに属する１組の事例間の距離でクラスタ間の距離が定義されていたが、群平均法ではクラスタ間の事例組の全ての距離の平均を用いる（下図参照）。</p>
 <div class="cell tag_hide-input docutils container">
@@ -1533,13 +1536,13 @@ d(\pmb{x}, \pmb{y}) = 1 - \frac{\pmb{x} \cdot \pmb{y}}{\|\pmb{x}\| \|\pmb{y}\|} 
 <img alt="../_images/02hac_34_0.png" src="../_images/02hac_34_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id14">
-<h3><span class="section-number">11.3.4. </span>重心法<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id14">
+<h3><span class="section-number">11.3.4. </span>重心法<a class="headerlink" href="#id14" title="この見出しへのパーマリンク">#</a></h3>
 <p>重心法は、各クラスタをそのクラスタに属する事例ベクトルの重心で代表させ、その重心間のユークリッド距離でクラスタ間の距離を定義する。２つのクラスタ<span class="math notranslate nohighlight">\(C_a\)</span>と<span class="math notranslate nohighlight">\(C_b\)</span>があるとき、クラスタ間距離は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-814c7c5f-648c-4f2e-a48f-5d8206b2811e">
-<span class="eqno">(11.13)<a class="headerlink" href="#equation-814c7c5f-648c-4f2e-a48f-5d8206b2811e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\mathrm{dist}_{\mathrm{centroid}}(C_a, C_b) = \|\pmb{\mu}_{C_a} - \pmb{\mu}_{C_b}\|,\; \pmb{\mu}_{C_a} = \frac{1}{|C_a|}\sum_{\pmb{x} \in C_a} \pmb{x},\; \pmb{\mu}_{C_b} = \frac{1}{|C_b|}\sum_{\pmb{y} \in C_b} \pmb{y}
+<div class="amsmath math notranslate nohighlight" id="equation-f8ea0fca-c730-432d-a887-05c88c08a2e2">
+<span class="eqno">(11.13)<a class="headerlink" href="#equation-f8ea0fca-c730-432d-a887-05c88c08a2e2" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\mathrm{dist}_{\mathrm{centroid}}(C_a, C_b) = \|\bm{\mu}_{C_a} - \bm{\mu}_{C_b}\|,\; \bm{\mu}_{C_a} = \frac{1}{|C_a|}\sum_{\bm{x} \in C_a} \bm{x},\; \bm{\mu}_{C_b} = \frac{1}{|C_b|}\sum_{\bm{y} \in C_b} \bm{y}
 \end{align}\]</div>
 <p>以下の図では、丸印と四角印のクラスタ間の重心をx印で示した。この重心間のユークリッド距離がクラスタ間距離として採用される。</p>
 <div class="cell tag_hide-input docutils container">
@@ -1576,20 +1579,20 @@ d(\pmb{x}, \pmb{y}) = 1 - \frac{\pmb{x} \cdot \pmb{y}}{\|\pmb{x}\| \|\pmb{y}\|} 
 </div>
 </div>
 <p>重心法のデンドログラムの例を示した。クラスタ<span class="math notranslate nohighlight">\(\{1,2\}\)</span>の重心は<span class="math notranslate nohighlight">\(1.5\)</span>、<span class="math notranslate nohighlight">\(\{5,7\}\)</span>の重心は<span class="math notranslate nohighlight">\(6\)</span>であるから、<span class="math notranslate nohighlight">\(\{1,2\}\)</span>と<span class="math notranslate nohighlight">\(\{5,7\}\)</span>の２つのクラスタは距離<span class="math notranslate nohighlight">\(6 - 1.5 = 4.5\)</span>で併合されている。</p>
-</div>
-<div class="section" id="id15">
-<h3><span class="section-number">11.3.5. </span>ウォード法<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id15">
+<h3><span class="section-number">11.3.5. </span>ウォード法<a class="headerlink" href="#id15" title="この見出しへのパーマリンク">#</a></h3>
 <p><strong>ウォード法</strong>（Ward's method）はこれまでの凝集型クラスタリングとは異なり、クラスタ間距離ではなく、クラスタ内平方和に基づいたクラスタリング手法である。まず、あるクラスタ<span class="math notranslate nohighlight">\(C\)</span>のクラスタ内変動を定義する。</p>
 <div class="math notranslate nohighlight" id="equation-eq-ward-variance">
 <span class="eqno">(11.14)<a class="headerlink" href="#equation-eq-ward-variance" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
-V(C) = \sum_{\pmb{x} \in C} \|\pmb{x} - \pmb{\mu}_C\|^2, \; \pmb{\mu}_C = \frac{1}{|C|}\sum_{\pmb{x} \in C} \pmb{x}
+V(C) = \sum_{\bm{x} \in C} \|\bm{x} - \bm{\mu}_C\|^2, \; \bm{\mu}_C = \frac{1}{|C|}\sum_{\bm{x} \in C} \bm{x}
 \end{align}
 \]</div>
 <p>いま、データが<span class="math notranslate nohighlight">\(K\)</span>個のクラスタ<span class="math notranslate nohighlight">\(C_1, C_2, \dots, C_K\)</span>に分けられているとき、全てのクラスタのクラスタ内変動の和、すなわちクラスタ内平方和は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2e2a94f9-184f-4714-af4b-f07934e04764">
-<span class="eqno">(11.15)<a class="headerlink" href="#equation-2e2a94f9-184f-4714-af4b-f07934e04764" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-V(C_1) + V(C_2) + \dots + V(C_K) = \sum_{k=1}^K V(C_k) = \sum_{k=1}^K \sum_{\pmb{x} \in C_k} \|\pmb{x} - \pmb{\mu}_{C_k}\|^2
+<div class="amsmath math notranslate nohighlight" id="equation-b3e5cd7e-a221-4cf9-a5e3-526eda5ada5c">
+<span class="eqno">(11.15)<a class="headerlink" href="#equation-b3e5cd7e-a221-4cf9-a5e3-526eda5ada5c" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+V(C_1) + V(C_2) + \dots + V(C_K) = \sum_{k=1}^K V(C_k) = \sum_{k=1}^K \sum_{\bm{x} \in C_k} \|\bm{x} - \bm{\mu}_{C_k}\|^2
 \end{align}\]</div>
 <p>このクラスタ内平方和はK-meansの目的関数と同じであるが、ウォード法は凝集型クラスタリングの手順でクラスタ内平方和の最小化を目指す。</p>
 <p>凝集型クラスタリングでは、各事例がそれぞれ１つのクラスタを構成する状態が出発点であり、その時のクラスタ内平方和は<span class="math notranslate nohighlight">\(0\)</span>である。その後、クラスタを併合していくにつれて、クラスタ内平方和が上昇していく。そこで、クラスタ内平方和の上昇が少ない２つのクラスタを選び、併合していく。ある２つのクラスタ<span class="math notranslate nohighlight">\(C_a\)</span>と<span class="math notranslate nohighlight">\(C_b\)</span>を併合してクラスタ<span class="math notranslate nohighlight">\(C_a \cup C_b\)</span>を作ったとき、クラスタ内平方和の上昇分<span class="math notranslate nohighlight">\(\Delta (C_a, C_b)\)</span>は、次式で計算できる（この式の証明は後回しにする）。</p>
@@ -1597,23 +1600,23 @@ V(C_1) + V(C_2) + \dots + V(C_K) = \sum_{k=1}^K V(C_k) = \sum_{k=1}^K \sum_{\pmb
 <span class="eqno">(11.16)<a class="headerlink" href="#equation-eq-ward-delta" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
 \Delta (C_a, C_b) &amp;= V(C_a \cup C_b) - V(C_a) - V(C_b) \\
-&amp;= \frac{|C_a||C_b|}{|C_a| + |C_b|} \|\pmb{\mu}_{C_a} - \pmb{\mu}_{C_b}\|^2
+&amp;= \frac{|C_a||C_b|}{|C_a| + |C_b|} \|\bm{\mu}_{C_a} - \bm{\mu}_{C_b}\|^2
 \end{align}
 \end{split}\]</div>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title">2倍して平方根を取る理由</p>
-<p>全クラスタがそれぞれ要素を１つ保有する状態（クラスタリングの開始時点）を考える。2つのクラスタ<span class="math notranslate nohighlight">\(C_i = \{\pmb{x}_i\},\; C_j = \{\pmb{x}_j\}\)</span>を併合するとき、クラスタ内平方和の上昇分より、</p>
+<p>全クラスタがそれぞれ要素を１つ保有する状態（クラスタリングの開始時点）を考える。2つのクラスタ<span class="math notranslate nohighlight">\(C_i = \{\bm{x}_i\},\; C_j = \{\bm{x}_j\}\)</span>を併合するとき、クラスタ内平方和の上昇分より、</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-\Delta (C_i, C_j) &amp;= \frac{1 \cdot 1}{1 + 1} \|\pmb{x}_i - \pmb{y}_j\|^2 \\
-\|\pmb{x}_i - \pmb{y}_j\| &amp;= \sqrt{2 \Delta (C_i, C_j)}
+\Delta (C_i, C_j) &amp;= \frac{1 \cdot 1}{1 + 1} \|\bm{x}_i - \bm{y}_j\|^2 \\
+\|\bm{x}_i - \bm{y}_j\| &amp;= \sqrt{2 \Delta (C_i, C_j)}
 \end{align*}\]</div>
-</div>
+</aside>
 <p>ウォード法は、クラスタ内平方和の上昇が最も低い２つのクラスタを併合する、という操作を<span class="math notranslate nohighlight">\(N-1\)</span>回繰り返す。これにより、クラスタ内変動の小さいコンパクトなクラスタを形成することを目指す。式<a class="reference internal" href="#equation-eq-ward-delta">(11.16)</a>を用いてクラスタを求めてもよいが、クラスタ間の距離をユークリッド距離に相当させる場合、クラスタ間距離として次式が用いられる。</p>
 <div class="math notranslate nohighlight" id="equation-eq-ward-dist">
 <span class="eqno">(11.17)<a class="headerlink" href="#equation-eq-ward-dist" title="この数式へのパーマリンク">#</a></span>\[
 \begin{align}
-\mathrm{dist}_{\mathrm{ward}}(C_a, C_b) = \sqrt{2 \Delta (C_a, C_b)} = \sqrt{\frac{2|C_a||C_b|}{|C_a| + |C_b|}}\|\pmb{\mu}_{C_a} - \pmb{\mu}_{C_b}\|
+\mathrm{dist}_{\mathrm{ward}}(C_a, C_b) = \sqrt{2 \Delta (C_a, C_b)} = \sqrt{\frac{2|C_a||C_b|}{|C_a| + |C_b|}}\|\bm{\mu}_{C_a} - \bm{\mu}_{C_b}\|
 \end{align}
 \]</div>
 <div class="cell tag_hide-input docutils container">
@@ -1637,49 +1640,49 @@ V(C_1) + V(C_2) + \dots + V(C_K) = \sum_{k=1}^K V(C_k) = \sum_{k=1}^K \sum_{\pmb
 <span class="eqno">(11.18)<a class="headerlink" href="#equation-eq-ward-delta-ab" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
 \begin{align}
 \Delta (A, B) &amp;= V(A \cup B) - V(A) - V(B) \\
-&amp;= \sum_{\pmb{x} \in {A \cup B}} \|\pmb{x} - \pmb{\mu}_{A \cup B}\|^2 - \sum_{\pmb{x} \in A} \|\pmb{x} - \pmb{\mu}_A\|^2 - \sum_{\pmb{x} \in B} \|\pmb{x} - \pmb{\mu}_B\|^2 \\
-&amp;= \sum_{\pmb{x} \in A} \left(\|\pmb{x} - \pmb{\mu}_{A \cup B}\|^2 - \|\pmb{x} - \pmb{\mu}_A\|^2\right) + \sum_{\pmb{x} \in B} \left(\|\pmb{x} - \pmb{\mu}_{A \cup B}\|^2 - \|\pmb{x} - \pmb{\mu}_B\|^2\right)
+&amp;= \sum_{\bm{x} \in {A \cup B}} \|\bm{x} - \bm{\mu}_{A \cup B}\|^2 - \sum_{\bm{x} \in A} \|\bm{x} - \bm{\mu}_A\|^2 - \sum_{\bm{x} \in B} \|\bm{x} - \bm{\mu}_B\|^2 \\
+&amp;= \sum_{\bm{x} \in A} \left(\|\bm{x} - \bm{\mu}_{A \cup B}\|^2 - \|\bm{x} - \bm{\mu}_A\|^2\right) + \sum_{\bm{x} \in B} \left(\|\bm{x} - \bm{\mu}_{A \cup B}\|^2 - \|\bm{x} - \bm{\mu}_B\|^2\right)
 \end{align}
 \end{split}\]</div>
 <p>ここで、式<a class="reference internal" href="#equation-eq-ward-delta-ab">(11.18)</a>の第1項は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e04228b4-b42f-4d9d-bec8-3b744e52f0c4">
-<span class="eqno">(11.19)<a class="headerlink" href="#equation-e04228b4-b42f-4d9d-bec8-3b744e52f0c4" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-&amp; \sum_{\pmb{x} \in A} \left(\|\pmb{x} - \pmb{\mu}_{A \cup B}\|^2 - \|\pmb{x} - \pmb{\mu}_A\|^2\right) \\
-=&amp; \sum_{\pmb{x} \in A} \left\{ \|\pmb{x}\|^2 -2\pmb{x}\cdot\pmb{\mu}_{A \cup B} + \|\pmb{\mu}_{A \cup B}\|^2 - \left(\|\pmb{x}\|^2 - 2\pmb{x}\cdot\pmb{\mu}_A + \|\pmb{\mu}_A\|^2\right) \right\} \\
-=&amp; \sum_{\pmb{x} \in A} \left(-2\pmb{x}\cdot\pmb{\mu}_{A \cup B} + \|\pmb{\mu}_{A \cup B}\|^2 + 2\pmb{x}\cdot\pmb{\mu}_A - \|\pmb{\mu}_A\|^2 \right) \\
-=&amp; -2(|A|\pmb{\mu}_A)\cdot\pmb{\mu}_{A \cup B} + |A|\cdot\|\pmb{\mu}_{A \cup B}\|^2 + 2(|A|\pmb{\mu}_A)\cdot\pmb{\mu}_A - |A|\cdot\|\pmb{\mu}_A\|^2 \\
-=&amp; -2(|A|\pmb{\mu}_A)\cdot\pmb{\mu}_{A \cup B} + |A|\cdot\|\pmb{\mu}_{A \cup B}\|^2 + |A|\cdot\|\pmb{\mu}_A\|^2 \\
-=&amp; |A|\cdot \|\pmb{\mu}_A - \pmb{\mu}_{A \cup B}\|^2
+<div class="amsmath math notranslate nohighlight" id="equation-8b8f6b53-35c8-497f-a48e-ee20ee92793a">
+<span class="eqno">(11.19)<a class="headerlink" href="#equation-8b8f6b53-35c8-497f-a48e-ee20ee92793a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+&amp; \sum_{\bm{x} \in A} \left(\|\bm{x} - \bm{\mu}_{A \cup B}\|^2 - \|\bm{x} - \bm{\mu}_A\|^2\right) \\
+=&amp; \sum_{\bm{x} \in A} \left\{ \|\bm{x}\|^2 -2\bm{x}\cdot\bm{\mu}_{A \cup B} + \|\bm{\mu}_{A \cup B}\|^2 - \left(\|\bm{x}\|^2 - 2\bm{x}\cdot\bm{\mu}_A + \|\bm{\mu}_A\|^2\right) \right\} \\
+=&amp; \sum_{\bm{x} \in A} \left(-2\bm{x}\cdot\bm{\mu}_{A \cup B} + \|\bm{\mu}_{A \cup B}\|^2 + 2\bm{x}\cdot\bm{\mu}_A - \|\bm{\mu}_A\|^2 \right) \\
+=&amp; -2(|A|\bm{\mu}_A)\cdot\bm{\mu}_{A \cup B} + |A|\cdot\|\bm{\mu}_{A \cup B}\|^2 + 2(|A|\bm{\mu}_A)\cdot\bm{\mu}_A - |A|\cdot\|\bm{\mu}_A\|^2 \\
+=&amp; -2(|A|\bm{\mu}_A)\cdot\bm{\mu}_{A \cup B} + |A|\cdot\|\bm{\mu}_{A \cup B}\|^2 + |A|\cdot\|\bm{\mu}_A\|^2 \\
+=&amp; |A|\cdot \|\bm{\mu}_A - \bm{\mu}_{A \cup B}\|^2
 \end{align}\]</div>
 <p>同様に、式<a class="reference internal" href="#equation-eq-ward-delta-ab">(11.18)</a>の第2項は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9452112b-cc70-4ec5-8736-d592af44bf6c">
-<span class="eqno">(11.20)<a class="headerlink" href="#equation-9452112b-cc70-4ec5-8736-d592af44bf6c" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\sum_{\pmb{x} \in B} \left(\|\pmb{x} - \pmb{\mu}_{A \cup B}\|^2 - \|\pmb{x} - \pmb{\mu}_B\|^2\right) = |B|\cdot \|\pmb{\mu}_B - \pmb{\mu}_{A \cup B}\|^2
+<div class="amsmath math notranslate nohighlight" id="equation-63d6871e-7b63-4fda-a6d9-8e9f9d2f5e70">
+<span class="eqno">(11.20)<a class="headerlink" href="#equation-63d6871e-7b63-4fda-a6d9-8e9f9d2f5e70" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\sum_{\bm{x} \in B} \left(\|\bm{x} - \bm{\mu}_{A \cup B}\|^2 - \|\bm{x} - \bm{\mu}_B\|^2\right) = |B|\cdot \|\bm{\mu}_B - \bm{\mu}_{A \cup B}\|^2
 \end{align}\]</div>
-<p>ところで、クラスタ<span class="math notranslate nohighlight">\(A \cup B\)</span>の中心<span class="math notranslate nohighlight">\(\pmb{\mu}_{A \cup B}\)</span>は、<span class="math notranslate nohighlight">\((|A|\pmb{\mu}_{A} + |B|\pmb{\mu}_{B})\)</span>を<span class="math notranslate nohighlight">\(|A| + |B|\)</span>で割ったものであるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-001a8dcf-3dec-4071-8856-fe8ab6993202">
-<span class="eqno">(11.21)<a class="headerlink" href="#equation-001a8dcf-3dec-4071-8856-fe8ab6993202" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\pmb{\mu}_{A \cup B} &amp;= \frac{|A|\pmb{\mu}_{A} + |B|\pmb{\mu}_{B}}{|A| + |B|} \\
-&amp;= \pmb{\mu}_{A} - \frac{|A| + |B|}{|A| + |B|}\pmb{\mu}_{A} + \frac{|A|\pmb{\mu}_{A} + |B|\pmb{\mu}_{B}}{|A| + |B|} = \pmb{\mu}_{A} - \frac{|B|}{|A| + |B|}(\pmb{\mu}_{B} - \pmb{\mu}_{A}) \\
-&amp;= \pmb{\mu}_{B} - \frac{|A| + |B|}{|A| + |B|}\pmb{\mu}_{B} + \frac{|A|\pmb{\mu}_{A} + |B|\pmb{\mu}_{B}}{|A| + |B|} = \pmb{\mu}_{B} - \frac{|A|}{|A| + |B|}(\pmb{\mu}_{A} - \pmb{\mu}_{B})
+<p>ところで、クラスタ<span class="math notranslate nohighlight">\(A \cup B\)</span>の中心<span class="math notranslate nohighlight">\(\bm{\mu}_{A \cup B}\)</span>は、<span class="math notranslate nohighlight">\((|A|\bm{\mu}_{A} + |B|\bm{\mu}_{B})\)</span>を<span class="math notranslate nohighlight">\(|A| + |B|\)</span>で割ったものであるから、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-dd83d845-99e1-45c3-9bba-d0c92bb37e4c">
+<span class="eqno">(11.21)<a class="headerlink" href="#equation-dd83d845-99e1-45c3-9bba-d0c92bb37e4c" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\bm{\mu}_{A \cup B} &amp;= \frac{|A|\bm{\mu}_{A} + |B|\bm{\mu}_{B}}{|A| + |B|} \\
+&amp;= \bm{\mu}_{A} - \frac{|A| + |B|}{|A| + |B|}\bm{\mu}_{A} + \frac{|A|\bm{\mu}_{A} + |B|\bm{\mu}_{B}}{|A| + |B|} = \bm{\mu}_{A} - \frac{|B|}{|A| + |B|}(\bm{\mu}_{B} - \bm{\mu}_{A}) \\
+&amp;= \bm{\mu}_{B} - \frac{|A| + |B|}{|A| + |B|}\bm{\mu}_{B} + \frac{|A|\bm{\mu}_{A} + |B|\bm{\mu}_{B}}{|A| + |B|} = \bm{\mu}_{B} - \frac{|A|}{|A| + |B|}(\bm{\mu}_{A} - \bm{\mu}_{B})
 \end{align}\]</div>
 <p>ゆえに、式<a class="reference internal" href="#equation-eq-ward-delta-ab">(11.18)</a>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ca73c9b1-5eac-4e24-90e0-92f3e5d1d383">
-<span class="eqno">(11.22)<a class="headerlink" href="#equation-ca73c9b1-5eac-4e24-90e0-92f3e5d1d383" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9ed64920-eb6f-467b-9ebe-a4840a155a18">
+<span class="eqno">(11.22)<a class="headerlink" href="#equation-9ed64920-eb6f-467b-9ebe-a4840a155a18" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \Delta (A, B) &amp;= V(A \cup B) - V(A) - V(B) \\
-&amp;= \sum_{\pmb{x} \in A} \left(\|\pmb{x} - \pmb{\mu}_{A \cup B}\|^2 - \|\pmb{x} - \pmb{\mu}_A\|^2\right) + \sum_{\pmb{x} \in B} \left(\|\pmb{x} - \pmb{\mu}_{A \cup B}\|^2 - \|\pmb{x} - \pmb{\mu}_B\|^2\right) \\
-&amp;= |A|\cdot \|\pmb{\mu}_A - \pmb{\mu}_{A \cup B}\|^2 + |B|\cdot \|\pmb{\mu}_B - \pmb{\mu}_{A \cup B}\|^2 \\
-&amp;= |A|\cdot \left\|\frac{|B|}{|A| + |B|}(\pmb{\mu}_{B} - \pmb{\mu}_{A})\right\|^2 + |B|\cdot\left\|\frac{|A|}{|A| + |B|}(\pmb{\mu}_{A} - \pmb{\mu}_{B})\right\|^2 \\
-&amp;= |A|\cdot \frac{|B|^2}{(|A| + |B|)^2}\|\pmb{\mu}_{B} - \pmb{\mu}_{A}\|^2 + |B|\cdot\frac{|A|^2}{(|A| + |B|)^2}\|\pmb{\mu}_{A} - \pmb{\mu}_{B}\|^2 \\
-&amp;= \left(\frac{|A||B|^2}{(|A| + |B|)^2} + \frac{|A|^2|B|}{(|A| + |B|)^2}\right) \|\pmb{\mu}_{A} - \pmb{\mu}_{B}\|^2 \\
-&amp;= \frac{|A||B|(|A| + |B|)}{(|A| + |B|)^2}\|\pmb{\mu}_{A} - \pmb{\mu}_{B}\|^2 \\
-&amp;= \frac{|A||B|}{|A| + |B|}\|\pmb{\mu}_{A} - \pmb{\mu}_{B}\|^2
+&amp;= \sum_{\bm{x} \in A} \left(\|\bm{x} - \bm{\mu}_{A \cup B}\|^2 - \|\bm{x} - \bm{\mu}_A\|^2\right) + \sum_{\bm{x} \in B} \left(\|\bm{x} - \bm{\mu}_{A \cup B}\|^2 - \|\bm{x} - \bm{\mu}_B\|^2\right) \\
+&amp;= |A|\cdot \|\bm{\mu}_A - \bm{\mu}_{A \cup B}\|^2 + |B|\cdot \|\bm{\mu}_B - \bm{\mu}_{A \cup B}\|^2 \\
+&amp;= |A|\cdot \left\|\frac{|B|}{|A| + |B|}(\bm{\mu}_{B} - \bm{\mu}_{A})\right\|^2 + |B|\cdot\left\|\frac{|A|}{|A| + |B|}(\bm{\mu}_{A} - \bm{\mu}_{B})\right\|^2 \\
+&amp;= |A|\cdot \frac{|B|^2}{(|A| + |B|)^2}\|\bm{\mu}_{B} - \bm{\mu}_{A}\|^2 + |B|\cdot\frac{|A|^2}{(|A| + |B|)^2}\|\bm{\mu}_{A} - \bm{\mu}_{B}\|^2 \\
+&amp;= \left(\frac{|A||B|^2}{(|A| + |B|)^2} + \frac{|A|^2|B|}{(|A| + |B|)^2}\right) \|\bm{\mu}_{A} - \bm{\mu}_{B}\|^2 \\
+&amp;= \frac{|A||B|(|A| + |B|)}{(|A| + |B|)^2}\|\bm{\mu}_{A} - \bm{\mu}_{B}\|^2 \\
+&amp;= \frac{|A||B|}{|A| + |B|}\|\bm{\mu}_{A} - \bm{\mu}_{B}\|^2
 \end{align}\]</div>
 <p>（証明終）</p>
-</div>
-</div>
-<div class="section" id="scipy">
-<h2><span class="section-number">11.4. </span>SciPyでの実装例<a class="headerlink" href="#scipy" title="このヘッドラインへのパーマリンク">#</a></h2>
+</section>
+</section>
+<section id="scipy">
+<h2><span class="section-number">11.4. </span>SciPyでの実装例<a class="headerlink" href="#scipy" title="この見出しへのパーマリンク">#</a></h2>
 <p>冒頭のデータ <span class="math notranslate nohighlight">\(X = (2, 11, 5, 1, 7)\)</span> を例に、最短距離法の実装を紹介する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1706,8 +1709,8 @@ V(C_1) + V(C_2) + \dots + V(C_K) = \sum_{k=1}^K V(C_k) = \sum_{k=1}^K \sum_{\pmb
 </div>
 </div>
 </div>
-<div class="section" id="id16">
-<h3><span class="section-number">11.4.1. </span>距離行列を求める<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">#</a></h3>
+<section id="id16">
+<h3><span class="section-number">11.4.1. </span>距離行列を求める<a class="headerlink" href="#id16" title="この見出しへのパーマリンク">#</a></h3>
 <p>データから距離行列を得るには、<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html">scipy.spatial.distance.pdist</a>を使えばよい。以下のコードは都市ブロック距離（cityblock distance）、つまりマンハッタン距離を求めるものである。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1739,9 +1742,9 @@ V(C_1) + V(C_2) + \dots + V(C_K) = \sum_{k=1}^K V(C_k) = \sum_{k=1}^K \sum_{\pmb
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="id17">
-<h3><span class="section-number">11.4.2. </span>クラスタリングの実行<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">#</a></h3>
+</section>
+<section id="id17">
+<h3><span class="section-number">11.4.2. </span>クラスタリングの実行<a class="headerlink" href="#id17" title="この見出しへのパーマリンク">#</a></h3>
 <p>condensed形式の距離行列を引数として<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html">scipy.cluster.hierarchy.linkage</a>を呼び出すと、階層的クラスタリングが実行される。以下では<code class="docutils literal notranslate"><span class="pre">method='single'</span></code>とすることで、最短距離法を指定している。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1888,10 +1891,10 @@ V(C_1) + V(C_2) + \dots + V(C_K) = \sum_{k=1}^K V(C_k) = \sum_{k=1}^K \sum_{\pmb
 <img alt="../_images/02hac_68_0.png" src="../_images/02hac_68_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="id18">
-<h2><span class="section-number">11.5. </span>自前で実装<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">#</a></h2>
+</section>
+</section>
+<section id="id18">
+<h2><span class="section-number">11.5. </span>自前で実装<a class="headerlink" href="#id18" title="この見出しへのパーマリンク">#</a></h2>
 <p>クラスタリングを行うデータを再掲する（<span class="math notranslate nohighlight">\(N \times 1\)</span>の行列形式である）。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2136,12 +2139,12 @@ argmin = (1, 7)
 <img alt="../_images/02hac_83_0.png" src="../_images/02hac_83_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id19">
-<h2><span class="section-number">11.6. </span>確認問題<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">#</a></h2>
+</section>
+<section id="id19">
+<h2><span class="section-number">11.6. </span>確認問題<a class="headerlink" href="#id19" title="この見出しへのパーマリンク">#</a></h2>
 <p><a class="reference external" href="https://www.nstac.go.jp/SSDSE/">教育用標準データセット（SSDSE）</a>に収録されている都道府県庁所在市別・家計消費データ（SSDSE-C）に対してクラスタ分析を適用し、消費行動が類似している都道府県のクラスタを作りたい。最短距離法、最長距離法、Ward法を用いて都道府県をクラスタリングし、デンドログラムをそれぞれ描画せよ。ただし、クラスタの各要素がどの都道府県であるか分かるようにせよ。</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

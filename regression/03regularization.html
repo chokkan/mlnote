@@ -4,7 +4,8 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>3. モデル選択と正則化 &#8212; 機械学習帳</title>
     
   <!-- Loaded before other Sphinx assets -->
@@ -34,7 +35,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
@@ -52,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/regression/03regularization.html" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
@@ -560,8 +563,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
-<h1><span class="section-number">3. </span>モデル選択と正則化<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">3. </span>モデル選択と正則化<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -571,9 +574,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<div class="section" id="id2">
-<h2><span class="section-number">3.1. </span>汎化と過学習<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">#</a></h2>
-<p>ここでは、以下の<code class="docutils literal notranslate"><span class="pre">X</span></code>を説明変数、<code class="docutils literal notranslate"><span class="pre">Y</span></code>を目的変数として多項式にフィッティングすることを考える。</p>
+<section id="id2">
+<h2><span class="section-number">3.1. </span>汎化と過学習<a class="headerlink" href="#id2" title="この見出しへのパーマリンク">#</a></h2>
+<p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>ここでは、以下の<code class="docutils literal notranslate"><span class="pre">X</span></code>を説明変数、<code class="docutils literal notranslate"><span class="pre">Y</span></code>を目的変数として多項式にフィッティングすることを考える。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.</span>  <span class="p">,</span>  <span class="mf">0.16</span><span class="p">,</span>  <span class="mf">0.22</span><span class="p">,</span>  <span class="mf">0.34</span><span class="p">,</span>  <span class="mf">0.44</span><span class="p">,</span>  <span class="mf">0.5</span> <span class="p">,</span>  <span class="mf">0.67</span><span class="p">,</span>  <span class="mf">0.73</span><span class="p">,</span>  <span class="mf">0.9</span> <span class="p">,</span>  <span class="mf">1.</span>  <span class="p">])</span>
@@ -729,12 +732,12 @@ title="Print to PDF"
 <img alt="../_images/03regularization_18_0.png" src="../_images/03regularization_18_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="id3">
-<h2><span class="section-number">3.2. </span>モデル選択<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">#</a></h2>
+</section>
+<section id="id3">
+<h2><span class="section-number">3.2. </span>モデル選択<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">#</a></h2>
 <p>データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>に対して汎化性能の高いモデルを獲得するにはどのようにすればよいか。素朴なアイディアとして、<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>のプロットを見ながら多項式の次数<span class="math notranslate nohighlight">\(d\)</span>を（ひらめきで）調整することを思いつくかもしれない。例えば、「データ<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>をプロットした形状から、３次関数にフィッティングするのが適切かもしれない」といった具合である。</p>
 <p>ただ、３次の多項式が本当に適切なのか疑問が残る。９次関数でフィッティングするのは行き過ぎだとしても、４次関数から８次関数の中に３次関数よりも適切なものがあるかもしれない。ここで、次元数<span class="math notranslate nohighlight">\(d\)</span>は多項式モデルのパラメータではあるが、学習によって（目的関数の最小化によって）求めるものではなく、学習に先立って与えておくものであるから、<strong>ハイパーパラメータ</strong>（hypterparameter）と呼ばれる。ハイパーパラメータを変えることによって、同じ学習データから異なるモデルが得られる。今回の例では、次元数を<span class="math notranslate nohighlight">\(d=3, 4, \dots, 9\)</span>と変えながらモデルを学習することで7個のモデルが得られる。さて、この中で汎化性能の高いモデルを選択するにはどのようにすればよいか？</p>
-<p>３次関数と９次関数の学習データ上の平均二乗残差（MSR）を比較したとき、９次関数の平均二乗残差の方が小さくなった。一般に、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>上のモデルの損失<span class="math notranslate nohighlight">\(\hat{L}_\mathcal{D}(\pmb{W})\)</span>は、モデルを複雑にする（例えば、多項式の次数を高くする）ことによって低下するため、汎化性能を測定する指標として用いることができない。</p>
+<p>３次関数と９次関数の学習データ上の平均二乗残差（MSR）を比較したとき、９次関数の平均二乗残差の方が小さくなった。一般に、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>上のモデルの損失<span class="math notranslate nohighlight">\(\hat{L}_\mathcal{D}(\bm{W})\)</span>は、モデルを複雑にする（例えば、多項式の次数を高くする）ことによって低下するため、汎化性能を測定する指標として用いることができない。</p>
 <p>モデルの汎化性能を定量化する基本的なアイディアは、訓練データとは異なるデータを準備してモデルの性能を評価することである。訓練データで学習したモデルの汎化性能を測定するためのデータは、<strong>評価データ</strong>（evaluation data）や<strong>テストデータ</strong>（test data）と呼ばれる。</p>
 <p>訓練データと評価データを分ける理由を端的に説明する例として、学校の期末試験の話をしてみたい。ある先生は学生のモチベーションを高めるために、期末試験対策の演習問題プリント（訓練データ）を学生に配布している。演習問題は修得してほしい内容の典型例を示すものであり、学生はその問題に取り組むことで、より一般的な問題の解き方を身に付けていく（汎化）。ただ、期末試験では、学生が問題の解決法を修得したのか、問題の答えを丸覚え（過学習）したのか区別する必要がある。したがって、期末試験の問題（評価データ）は演習プリント（訓練データ）のものと異なるのが通常である。</p>
 <p>さて、汎化性能の高いモデルを選択する場合は、評価データの他に<strong>検証データ</strong>（validation data）を用意する。検証データと評価データの内容には本質的な差はなく、検証用データはモデルの選択（ハイパーパラメータを決定など）に用いられるのに対し、評価データはモデルの最終的な性能を評価するために用いられる。なお、訓練データに含まれる事例が検証データや評価データに混じってしまうと、モデルの汎化性能を測定したことにならないので、訓練データに含まれる事例が検証データや評価データに混じってはいけない。データ分析のコンペティションなどでは、訓練データ、検証データ、評価データが予め用意されていることがあるが、これらが分離されていないときは、自分でデータを適当な比率（例えば8:1:1など）で訓練データ、検証データ、評価データに分けておく。なお、検証データは<strong>開発データ</strong>（development data）と呼ばれることもある。</p>
@@ -814,10 +817,10 @@ d = 9: MSR = 0.0000000000 (training), 1.9813186074 (validation)
 <img alt="../_images/03regularization_25_0.png" src="../_images/03regularization_25_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="l-2">
-<h2><span class="section-number">3.3. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化（リッジ回帰）<a class="headerlink" href="#l-2" title="このヘッドラインへのパーマリンク">#</a></h2>
-<p>ところで、モデルの過学習が起こるとき、パラメータはどのような値を取るのだろうか。以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、実際に求められた重みベクトル<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の値を表示するものである。</p>
+</section>
+<section id="l-2">
+<h2><span class="section-number">3.3. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化（リッジ回帰）<a class="headerlink" href="#l-2" title="この見出しへのパーマリンク">#</a></h2>
+<p>ところで、モデルの過学習が起こるとき、パラメータはどのような値を取るのだろうか。以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、実際に求められた重みベクトル<span class="math notranslate nohighlight">\(\bm{w}\)</span>の値を表示するものである。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
@@ -842,21 +845,21 @@ d = 9: [-6.0e-02  2.2e+02 -4.3e+03  3.6e+04 -1.6e+05  4.3e+05 -7.0e+05  6.7e+05 
 </div>
 </div>
 </div>
-<p>次元数<span class="math notranslate nohighlight">\(d\)</span>が増加するにつれて、多項式の係数の値が急激に増加し、極端な曲線でデータをフィッティングしようとしている傾向が見受けられる。そこで、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の「複雑さ」を何らかの関数<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>で測定すれば、過学習の検出に役立つ。また、学習の過程において、複雑すぎるパラメータ対してペナルティ（罰則）を与えながら、パラメータの学習を行うことができれば、過学習の抑制につながる。パラメータの訓練データへの適合度合いとパラメータの複雑さのバランスを取りながら学習する方法は、<strong>正則化</strong>（regularization）と呼ばれる。</p>
-<p>具体的には、訓練データの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\pmb{w})\)</span>に加えて、パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の複雑さを表現する関数<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>
-に関するペナルティ項を追加した目的関数<span class="math notranslate nohighlight">\(\hat{J}(\pmb{w})\)</span>を採用することで、両者のバランスを自動的に保ちながらパラメータを求めることを考える。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-34deee7c-75c2-4c9d-ae84-a5ded90b605f">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-34deee7c-75c2-4c9d-ae84-a5ded90b605f" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\hat{J}(\pmb{w}) = \hat{L}(\pmb{w}) + \alpha R(\pmb{w})
+<p>次元数<span class="math notranslate nohighlight">\(d\)</span>が増加するにつれて、多項式の係数の値が急激に増加し、極端な曲線でデータをフィッティングしようとしている傾向が見受けられる。そこで、パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の「複雑さ」を何らかの関数<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>で測定すれば、過学習の検出に役立つ。また、学習の過程において、複雑すぎるパラメータ対してペナルティ（罰則）を与えながら、パラメータの学習を行うことができれば、過学習の抑制につながる。パラメータの訓練データへの適合度合いとパラメータの複雑さのバランスを取りながら学習する方法は、<strong>正則化</strong>（regularization）と呼ばれる。</p>
+<p>具体的には、訓練データの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\bm{w})\)</span>に加えて、パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の複雑さを表現する関数<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>
+に関するペナルティ項を追加した目的関数<span class="math notranslate nohighlight">\(\hat{J}(\bm{w})\)</span>を採用することで、両者のバランスを自動的に保ちながらパラメータを求めることを考える。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d4a140ad-a7c4-4b88-9af9-147d5f2d43e0">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-d4a140ad-a7c4-4b88-9af9-147d5f2d43e0" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\hat{J}(\bm{w}) = \hat{L}(\bm{w}) + \alpha R(\bm{w})
 \end{align}\]</div>
-<p>ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> <span class="math notranslate nohighlight">\((\geq 0)\)</span>は正則化の効果を指定するハイパーパラメータである。<span class="math notranslate nohighlight">\(\alpha\)</span>を大きく設定すると、パラメータの複雑さ<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>が目的関数に与える影響が大きくなるので、過学習が抑制される。ただし、<span class="math notranslate nohighlight">\(\alpha\)</span>を大きくしすぎるとモデルのデータへの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\pmb{w})\)</span>を軽視することになるため、<strong>過少適合</strong>（アンダーフィッティング）となる。逆に<span class="math notranslate nohighlight">\(\alpha\)</span>を小さく設定すると、モデルへのデータへの適合度合いを重視することになるが、過学習を抑制する効果が薄れる。このように、<span class="math notranslate nohighlight">\(\alpha\)</span>の設定はモデルのデータへの適合度合いと複雑さのトレードオフの関係にある。モデル選択の時と同様に、正則化の重み係数<span class="math notranslate nohighlight">\(\alpha\)</span>はハイパーパラメータとして検証データ上でチューニングする。</p>
-<p>パラメータ<span class="math notranslate nohighlight">\(\pmb{w}\)</span>の複雑さを定量化する方法はいくつかある。ここでは、最も取り扱いが簡単なパラメータベクトルの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムの二乗を用いる。すなわち、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fbcae694-1d5a-43d4-90f7-ad3e61ee0013">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-fbcae694-1d5a-43d4-90f7-ad3e61ee0013" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-R(\pmb{w}) = \|\pmb{w}\|^2
+<p>ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> <span class="math notranslate nohighlight">\((\geq 0)\)</span>は正則化の効果を指定するハイパーパラメータである。<span class="math notranslate nohighlight">\(\alpha\)</span>を大きく設定すると、パラメータの複雑さ<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>が目的関数に与える影響が大きくなるので、過学習が抑制される。ただし、<span class="math notranslate nohighlight">\(\alpha\)</span>を大きくしすぎるとモデルのデータへの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\bm{w})\)</span>を軽視することになるため、<strong>過少適合</strong>（アンダーフィッティング）となる。逆に<span class="math notranslate nohighlight">\(\alpha\)</span>を小さく設定すると、モデルへのデータへの適合度合いを重視することになるが、過学習を抑制する効果が薄れる。このように、<span class="math notranslate nohighlight">\(\alpha\)</span>の設定はモデルのデータへの適合度合いと複雑さのトレードオフの関係にある。モデル選択の時と同様に、正則化の重み係数<span class="math notranslate nohighlight">\(\alpha\)</span>はハイパーパラメータとして検証データ上でチューニングする。</p>
+<p>パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の複雑さを定量化する方法はいくつかある。ここでは、最も取り扱いが簡単なパラメータベクトルの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムの二乗を用いる。すなわち、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e401924c-fe86-4d84-8d96-9e9fb89224a6">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-e401924c-fe86-4d84-8d96-9e9fb89224a6" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+R(\bm{w}) = \|\bm{w}\|^2
 \end{align}\]</div>
 <p>とする。</p>
-<p>以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、実際に求められた重みベクトルの<span class="math notranslate nohighlight">\(R(\pmb{w})\)</span>を表示する。次元数が高い場合のパラメータベクトルは、このままでは非常に大きなペナルティを受けると想像できる。</p>
+<p>以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、実際に求められた重みベクトルの<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>を表示する。次元数が高い場合のパラメータベクトルは、このままでは非常に大きなペナルティを受けると想像できる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
@@ -883,32 +886,32 @@ d = 9: |W|_2^2 = 1291698590072.5356
 <p>目的関数の正則化項としてパラメータの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムを用いる回帰を、<strong>リッジ回帰</strong>（<span class="math notranslate nohighlight">\(L_2\)</span>正則化付き回帰）と呼ぶ。リッジ回帰の目的関数は、通常の回帰の目的関数にモデルの複雑さを表すペナルティ項を付与したもので、次式で表される。</p>
 <div class="important admonition">
 <p class="admonition-title">リッジ回帰の目的関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ab9bd266-e364-4858-a7db-119cc929db5d">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-ab9bd266-e364-4858-a7db-119cc929db5d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\hat{J}(\pmb{w}) &amp;= \hat{L}(\pmb{w}) + \alpha R(\pmb{w}) \\
-&amp;= \|\pmb{y} - \pmb{X}\pmb{w}\|^2 + \alpha \|\pmb{w}\|^2
+<div class="amsmath math notranslate nohighlight" id="equation-3d737b11-968c-40f9-b28e-583d36a08b20">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-3d737b11-968c-40f9-b28e-583d36a08b20" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\hat{J}(\bm{w}) &amp;= \hat{L}(\bm{w}) + \alpha R(\bm{w}) \\
+&amp;= \|\bm{y} - \bm{X}\bm{w}\|^2 + \alpha \|\bm{w}\|^2
 \end{align}\]</div>
 </div>
-<p>リッジ回帰のパラメータ推定は通常の回帰と同様である。目的関数<span class="math notranslate nohighlight">\(J(\pmb{w})\)</span>を最小化する<span class="math notranslate nohighlight">\(\pmb{w}\)</span>を求めるために、その勾配<span class="math notranslate nohighlight">\(\nabla \hat{J}(\pmb{w})\)</span>を求める。重回帰の時に求めた偏微分の結果を用いると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d662ded5-e9f4-45e1-8a64-7e85b062389e">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-d662ded5-e9f4-45e1-8a64-7e85b062389e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\nabla \hat{J}(\pmb{w}) &amp;= \frac{\partial}{\partial \pmb{w}} \left(\hat{L}(\pmb{w}) + \alpha R(\pmb{w})\right) \\
-  &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + \frac{\partial}{\partial \pmb{w}} \left(\alpha \|\pmb{w}\|^2\right) \\
-  &amp;= 2\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + 2 \alpha \pmb{w} \\
+<p>リッジ回帰のパラメータ推定は通常の回帰と同様である。目的関数<span class="math notranslate nohighlight">\(J(\bm{w})\)</span>を最小化する<span class="math notranslate nohighlight">\(\bm{w}\)</span>を求めるために、その勾配<span class="math notranslate nohighlight">\(\nabla \hat{J}(\bm{w})\)</span>を求める。重回帰の時に求めた偏微分の結果を用いると、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2fba377c-f85b-4e7c-9387-d2b095c74c8e">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-2fba377c-f85b-4e7c-9387-d2b095c74c8e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\nabla \hat{J}(\bm{w}) &amp;= \frac{\partial}{\partial \bm{w}} \left(\hat{L}(\bm{w}) + \alpha R(\bm{w})\right) \\
+  &amp;= 2\bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + \frac{\partial}{\partial \bm{w}} \left(\alpha \|\bm{w}\|^2\right) \\
+  &amp;= 2\bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + 2 \alpha \bm{w} \\
 \end{align}\]</div>
-<p>これを<span class="math notranslate nohighlight">\(0\)</span>とおき、<span class="math notranslate nohighlight">\(\pmb{w}\)</span>について解くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f70b98f9-9613-4e7f-8e3a-86e1e2b2b2e8">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-f70b98f9-9613-4e7f-8e3a-86e1e2b2b2e8" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
-\pmb{X}^\top (\pmb{X}\pmb{w} - \pmb{y}) + \alpha \pmb{w} &amp;= 0 \\
-\pmb{X}^\top \pmb{X}\pmb{w} - \pmb{X}^\top \pmb{y} + \alpha \pmb{w} &amp;= 0 \\
-(\pmb{X}^\top \pmb{X} + \alpha \pmb{I})\pmb{w} &amp;= \pmb{X}^\top \pmb{y} \\
-\pmb{w} &amp;= (\pmb{X}^\top \pmb{X} + \alpha \pmb{I})^{-1}\pmb{X}^\top \pmb{y}
+<p>これを<span class="math notranslate nohighlight">\(0\)</span>とおき、<span class="math notranslate nohighlight">\(\bm{w}\)</span>について解くと、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e2218ab0-8e7d-4d45-96af-148841604710">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-e2218ab0-8e7d-4d45-96af-148841604710" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+\bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + \alpha \bm{w} &amp;= 0 \\
+\bm{X}^\top \bm{X}\bm{w} - \bm{X}^\top \bm{y} + \alpha \bm{w} &amp;= 0 \\
+(\bm{X}^\top \bm{X} + \alpha \bm{I})\bm{w} &amp;= \bm{X}^\top \bm{y} \\
+\bm{w} &amp;= (\bm{X}^\top \bm{X} + \alpha \bm{I})^{-1}\bm{X}^\top \bm{y}
 \end{align}\]</div>
 <p>このように、パラメータ推定の式を少し変更するだけで、リッジ回帰を実現することができる。</p>
 <p>モデルの過学習を抑制し、汎化性能を改善したいとき、モデルに与える特徴ベクトルの要素を手作業で厳選し、過学習をコントロールすることを考えるかもしれない。例えば、先ほどの多項式フィッティングの例では、検証データを用いながら多項式の次元数<span class="math notranslate nohighlight">\(d\)</span>を決定できた。ところが、実際に機械学習を用いる局面では、特徴空間の次元数が膨大（例えば<span class="math notranslate nohighlight">\(1,000,000\)</span>次元以上）となることがある。この場合、探索すべき特徴量の組み合わせは爆発的に増えるため、検証データを用いながら汎化性能が高い特徴量の組み合わせを選ぶのは困難となる。これに対し、リッジ回帰は、モデルパラメータの重みの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムが大きくなりすぎないようにコントロールしながらパラメータ推定を行うため、過学習の抑制を比較的容易に行える（ただし、正則化の係数<span class="math notranslate nohighlight">\(\alpha\)</span>を検証データ上で調整する必要がある）。</p>
-</div>
-<div class="section" id="id4">
-<h2><span class="section-number">3.4. </span>確認問題<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">#</a></h2>
+</section>
+<section id="id4">
+<h2><span class="section-number">3.4. </span>確認問題<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">#</a></h2>
 <p><strong>(1) 9次関数によるリッジ回帰</strong></p>
 <p>例として用いてきた以下の学習データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>に対してリッジ回帰を行い、回帰曲線をプロットせよ。
 ただし、正則化のハイパー・パラメータは<span class="math notranslate nohighlight">\(\alpha = 10^{-9}, 10^{-6}, 10^{-3}, 1\)</span>の4通りを試し、すべての回帰曲線と学習データの各点を一つのグラフ上にプロットせよ。</p>
@@ -933,8 +936,8 @@ d = 9: |W|_2^2 = 1291698590072.5356
 </div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

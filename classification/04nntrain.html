@@ -692,13 +692,13 @@ title="Print to PDF"
 <p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>前章では、多層のニューラルネットワークを一般的に表現する方法を説明した。また、論理和（OR）や論理積（AND）などの論理結合子に対応する単層ニューラルネットワーク（線形分類器）のパラメータを学習で求め、その組み合わせで排他的論理和（XOR）の入出力を再現する多層ニューラルネットワークを構成する例を示した。排他的論理和の例では、入力と出力の組み合わせの数が少ないうえ、入力を出力に対応付ける背景知識（論理）が明確であった。ところが、機械学習が用いられるシナリオは、入力を出力に対応づけるメカニズムが不明な状況において、訓練データのみを用いて入力から出力を計算する写像を獲得することである。単層ニューラルネットワークの学習方法は回帰や線形分類などで説明した通りであるが、多層ニューラルネットワークの学習はどのようにすれば良いのだろうか？</p>
 <p>本章では、ニューラルネットワークのモデルのパラメータを確率的勾配降下法で汎用的に学習する手法として、<strong>計算グラフ</strong>（computation graph）による<strong>自動微分</strong>（automatic differentiation）を紹介する。その後、<a class="reference external" href="https://pytorch.org/">PyTorch</a>による実装を紹介する。</p>
 <p>まず、確率的勾配降下法の更新式を思い出してみたい。モデルに含まれる全てのパラメータを1次元に並べてベクトルとして一般的に表現したものを<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>と書くことにする。例えば、式<a class="reference internal" href="03nn.html#equation-eq-multi-layer-nn-example">(7.24)</a>の例では、行列<span class="math notranslate nohighlight">\(\bm{W}^{(1)}, \bm{W}^{(2)}\)</span>の全ての要素、ベクトル<span class="math notranslate nohighlight">\(\bm{b}^{(1)}\)</span>の全ての要素、スカラー<span class="math notranslate nohighlight">\(b^{(2)}\)</span>を並べたベクトルが<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>である。ある訓練事例<span class="math notranslate nohighlight">\((\bm{x}, \bm{y})\)</span>に対する損失関数を<span class="math notranslate nohighlight">\(\hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}^{(t)})\)</span>と定義する。<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータの値を<span class="math notranslate nohighlight">\(\bm{\theta}^{(t)}\)</span>と書くことにすると、パラメータの更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c18d03f4-97fe-4447-b866-d4a408ab69ce">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-c18d03f4-97fe-4447-b866-d4a408ab69ce" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-17ab3ea4-6970-4f44-89b0-1a2e7133b985">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-17ab3ea4-6970-4f44-89b0-1a2e7133b985" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \bm{\theta}^{(t+1)} = \bm{\theta}^{(t)} - \eta_t \nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}^{(t)})
 \end{align}\]</div>
 <p>パラメータベクトル<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>の要素数を<span class="math notranslate nohighlight">\(K\)</span>とすると、勾配<span class="math notranslate nohighlight">\(\nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e867be24-43ae-4968-b19d-afb6bbbe47a6">
-<span class="eqno">(8.2)<a class="headerlink" href="#equation-e867be24-43ae-4968-b19d-afb6bbbe47a6" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b81cbd4a-dfff-4c75-ad85-5c47a71c8268">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-b81cbd4a-dfff-4c75-ad85-5c47a71c8268" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}) = \begin{pmatrix} \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_1} &amp; \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_2} &amp; \dots &amp; \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_K} \end{pmatrix}
 \end{align}\]</div>
 <p>である。ゆえに、損失関数<span class="math notranslate nohighlight">\(\hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})\)</span>に対して、全てのパラメータ<span class="math notranslate nohighlight">\(\theta_k\)</span> (<span class="math notranslate nohighlight">\(k \in \{1, 2, \dots, K\}\)</span>) に関する偏微分を求めることができれば、確率的勾配降下法を適用できる。これまでは、損失関数の定義から合成関数の微分や連鎖律を駆使して偏微分を求め、回帰では式<a class="reference internal" href="../regression/04sgd.html#equation-eq-grad-regression">(4.32)</a>、線形二値分類では式<a class="reference internal" href="01binary.html#equation-eq-grad-logress">(5.31)</a>、線形多値分類では式<a class="reference internal" href="02multi.html#equation-eq-grad-multilogress">(6.33)</a>を得た。しかし、多層ニューラルネットワークになると損失値を計算するまでに関数の合成が何回も繰り返されるため、偏微分を手作業で求めるのは大変である。また、用いるニューラルネットワークの形状や活性化関数によって偏微分を求める式が変わってしまうため、全ての場合に対して手作業で偏微分を求めるのは現実的ではない。そこで、ニューラルネットワークの学習では損失関数を計算グラフとして表現し、自動微分で偏微分を求めるのが定石となっている。これは、ニューラルネットワークの学習方法として考案された<strong>誤差逆伝播法</strong>（backpropagation）と本質的に同じものである。</p>
@@ -4869,8 +4869,8 @@ JEmSJNXm/wNA/smcBO73VQAAAABJRU5ErkJggg==\
 <p>後ろ向き自動微分では、根から葉に向かって偏微分の値を計算していく。このアニメーションでは、葉が左側、根が右側に配置されているので、右から左へと偏微分の計算が行われていく。そのため、この計算過程は<strong>後ろ向き自動微分</strong>（backward automatic differentiation）や<strong>リバースモード自動微分</strong>（reverse-mode automatic differentiation）と呼ばれている。</p>
 <p>後ろ向き自動微分では、根に対応する部分に<span class="math notranslate nohighlight">\(1\)</span>を書くことからスタートする。続けて、計算グラフ上の根（右側）から葉（左側）に向かって偏微分の値を計算していく。計算グラフ中のノードを右から左に通過するたびに、ノードの右側を左側で偏微分した値と、ノードの右側で既に計算されている偏微分値の積を計算し、左側に書き込んでいく。この手続きを再帰的に繰り返していくと、全てのノードに関する偏微分の値を計算できる。</p>
 <p>このアニメーションの各コマで求められた偏微分の計算過程を以下に示す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a154fae9-6088-4e7c-9c73-c6cdf12adcd5">
-<span class="eqno">(8.3)<a class="headerlink" href="#equation-a154fae9-6088-4e7c-9c73-c6cdf12adcd5" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9cc6774b-a934-4ebd-a40a-d5f8a378e05a">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-9cc6774b-a934-4ebd-a40a-d5f8a378e05a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \frac{\partial y}{\partial y} &amp;=  1 \\
 \frac{\partial y}{\partial \alpha} &amp;= \frac{\partial }{\partial \alpha} (\alpha + b) = 1 \\
 \frac{\partial y}{\partial b} &amp;= \frac{\partial }{\partial b} (\alpha + b) = 1 \\
@@ -4882,14 +4882,14 @@ JEmSJNXm/wNA/smcBO73VQAAAABJRU5ErkJggg==\
 <section id="id5">
 <h3><span class="section-number">8.1.3. </span>損失関数を自動微分する例<a class="headerlink" href="#id5" title="この見出しへのパーマリンク">#</a></h3>
 <p>後ろ向き自動微分の実行過程は明確ではあるが、この単純な例ではその威力が分かりにくいかもしれない。より実践的な例として、単層ニューラルネットワーク（線形二値分類モデル）対して、二値クロスエントロピーで定義された損失関数に基づき、パラメータの勾配を求める例を考えよう。特徴ベクトルの要素数を<span class="math notranslate nohighlight">\(d\)</span>、訓練事例を<span class="math notranslate nohighlight">\((\bm{x}, y) \in \mathbb{R}^d \times \{0, 1\}\)</span>、単層ニューラルネットワークのパラメータを<span class="math notranslate nohighlight">\(\bm{w} \in \mathbb{R}^d\)</span>、活性化関数にシグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>を用いることにすると、損失関数は<span class="math notranslate nohighlight">\(\log \hat{l}_{\bm{x}, y}(\bm{w})\)</span>で表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-797f3413-42c6-4a92-b4cc-d2c63ec10fed">
-<span class="eqno">(8.4)<a class="headerlink" href="#equation-797f3413-42c6-4a92-b4cc-d2c63ec10fed" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0604111b-b247-463d-a101-eaca5d436b8d">
+<span class="eqno">(8.4)<a class="headerlink" href="#equation-0604111b-b247-463d-a101-eaca5d436b8d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \hat{l}_{\bm{x}, y}(\bm{w}) &amp;= -y \log p - (1-y) \log (1-p) \\
 p &amp;= \sigma(\bm{x}^\top \bm{w}) = \frac{1}{1 + e^{-\bm{x}^\top \bm{w}}}
 \end{align}\]</div>
 <p>ここでは、選ばれた訓練事例は正例（<span class="math notranslate nohighlight">\(y = 1\)</span>）とする。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-caec0ad8-a80d-47cc-bdf0-54b0003a3084">
-<span class="eqno">(8.5)<a class="headerlink" href="#equation-caec0ad8-a80d-47cc-bdf0-54b0003a3084" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6d946f0b-9946-4266-ade9-0e50b5b7c457">
+<span class="eqno">(8.5)<a class="headerlink" href="#equation-6d946f0b-9946-4266-ade9-0e50b5b7c457" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \hat{l}_{\bm{x}, 1}(\bm{w}) = -\log p = -\log \sigma(\bm{x}^\top \bm{w}) = -\log \frac{1}{1 + e^{-\bm{x}^\top \bm{w}}}
 \end{align}\]</div>
 <p>さらに、特徴ベクトルの次元数<span class="math notranslate nohighlight">\(d = 2\)</span>の場合を考えると、損失関数は、</p>
@@ -15196,8 +15196,8 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </pre></div>
 </div>
 <p>ミニバッチ処理のため、式<a class="reference internal" href="#equation-eq-single-layer-nn-example">(8.7)</a>の<span class="math notranslate nohighlight">\(\bm{x}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\bm{X}\)</span>を用い、<span class="math notranslate nohighlight">\(\hat{y}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\hat{\bm{y}}\)</span>を計算する。<a class="reference external" href="https://pytorch.org/docs/stable/notes/broadcasting.html">ブロードキャスト</a>により、スカラである<code class="docutils literal notranslate"><span class="pre">b</span></code>はベクトルに拡張され、計算が行われる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-da4a849f-2210-40d9-96f5-6e252b3ad066">
-<span class="eqno">(8.8)<a class="headerlink" href="#equation-da4a849f-2210-40d9-96f5-6e252b3ad066" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5a69af37-c143-4500-8c4d-30c1e6e91612">
+<span class="eqno">(8.8)<a class="headerlink" href="#equation-5a69af37-c143-4500-8c4d-30c1e6e91612" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \hat{\bm{y}} &amp;= \sigma(\bm{X}\bm{w} + \bm{b}) \\
 \begin{pmatrix}
 \hat{y}_1 \\
@@ -15228,8 +15228,8 @@ b
 </pre></div>
 </div>
 <p>事例ごとに尤度を計算して、<code class="docutils literal notranslate"><span class="pre">l</span></code>に格納する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-53c5feb9-2df4-4ee4-be37-b396019283d7">
-<span class="eqno">(8.9)<a class="headerlink" href="#equation-53c5feb9-2df4-4ee4-be37-b396019283d7" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9382eaa6-c782-408f-848c-534c9a9c32e0">
+<span class="eqno">(8.9)<a class="headerlink" href="#equation-9382eaa6-c782-408f-848c-534c9a9c32e0" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \bm{l} &amp;= \bm{y} \odot \hat{\bm{y}} + (1 - \bm{y}) \cdot (1 - \hat{\bm{y}}) \\
 \begin{pmatrix}
 l_1 \\

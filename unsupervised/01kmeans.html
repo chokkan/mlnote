@@ -755,26 +755,26 @@ title="Print to PDF"
 <section id="k-means">
 <h2><span class="section-number">10.2. </span>K-meansクラスタリング<a class="headerlink" href="#k-means" title="この見出しへのパーマリンク">#</a></h2>
 <p><span class="math notranslate nohighlight">\(d\)</span>次元のベクトル<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^d\)</span>で表された事例を<span class="math notranslate nohighlight">\(N\)</span>件集めたデータがある。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d9f9bd46-5327-4c7f-917e-6590db5dd6f2">
-<span class="eqno">(10.1)<a class="headerlink" href="#equation-d9f9bd46-5327-4c7f-917e-6590db5dd6f2" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-02949591-ab58-4b6c-97de-a1cfbb596152">
+<span class="eqno">(10.1)<a class="headerlink" href="#equation-02949591-ab58-4b6c-97de-a1cfbb596152" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \mathcal{D} = \{\bm{x}_1, \bm{x}_2, \dots, \bm{x}_N\} = \{\bm{x}_i\}_{i=1}^N
 \end{align}\]</div>
 <p>このデータ中の事例を<span class="math notranslate nohighlight">\(K\)</span>個のクラスタに分割したい。なお、実際にクラスタリングを行うときは、クラスタの数<span class="math notranslate nohighlight">\(K\)</span>をどのように決定するかが重要な問題となるが、当面は<span class="math notranslate nohighlight">\(K\)</span>を事前に決定してあるものとする。</p>
 <p>ここで、<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(N\)</span>までの自然数の集合を<span class="math notranslate nohighlight">\(\mathbb{N}_N\)</span>と書くことにする。各クラスタに所属する事例を集合<span class="math notranslate nohighlight">\(C_1, C_2, \dots, C_K\)</span>で表す。<span class="math notranslate nohighlight">\(k\)</span>番目のクラスタを表す集合<span class="math notranslate nohighlight">\(C_k\)</span>は、そのクラスタに属する事例のインデックス番号を集めたものであると定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-57f542fb-e76a-4645-b1b6-cf4ebda0c0ac">
-<span class="eqno">(10.2)<a class="headerlink" href="#equation-57f542fb-e76a-4645-b1b6-cf4ebda0c0ac" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d379a129-3824-443e-94fe-dd74155064d2">
+<span class="eqno">(10.2)<a class="headerlink" href="#equation-d379a129-3824-443e-94fe-dd74155064d2" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 C_k = \{i \in \mathbb{N}_N \mid \text{事例$\bm{x}_i$が$k$番目のクラスタに属する}\}
 \end{align}\]</div>
 <p>各事例は<span class="math notranslate nohighlight">\(C_1\)</span>から<span class="math notranslate nohighlight">\(C_K\)</span>までのいずれかのクラスタに必ず属することとする。すなわち、任意の異なる<span class="math notranslate nohighlight">\(k, k' \in \mathbb{N}_K\)</span>に対して、<span class="math notranslate nohighlight">\(C_k \cap C_{k'} = \emptyset\)</span>を満たし、かつ<span class="math notranslate nohighlight">\(\bigcup\limits_{k = 1}^K C_k = \mathbb{N}_N\)</span>である。あるいは、集合族<span class="math notranslate nohighlight">\(\{C_1, C_2, \dots, C_K\}\)</span>は<span class="math notranslate nohighlight">\(\mathbb{N}_N\)</span>の分割と説明することもできる。</p>
 <p>例えば、事例数が<span class="math notranslate nohighlight">\(4\)</span>（<span class="math notranslate nohighlight">\(N=4\)</span>）のデータを<span class="math notranslate nohighlight">\(2\)</span>個のクラスタ（<span class="math notranslate nohighlight">\(K=2\)</span>）に分割するとき、<span class="math notranslate nohighlight">\(\bm{x}_1, \bm{x}_2, \bm{x}_4\)</span>が<span class="math notranslate nohighlight">\(1\)</span>番目のクラスタに属し、<span class="math notranslate nohighlight">\(\bm{x}_3\)</span>が<span class="math notranslate nohighlight">\(2\)</span>番目のクラスタに属する状況を、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-65860559-db48-44d1-9541-c54ee67027db">
-<span class="eqno">(10.3)<a class="headerlink" href="#equation-65860559-db48-44d1-9541-c54ee67027db" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e12a1c8f-b306-493a-a703-7da733a6c3e5">
+<span class="eqno">(10.3)<a class="headerlink" href="#equation-e12a1c8f-b306-493a-a703-7da733a6c3e5" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 C_1 = \{1, 2, 4\}, C_2 = \{3\}
 \end{align}\]</div>
 <p>として表す。</p>
 <p>さて、クラスタリングの基本的な考え方は、同じクラスタ内に属する事例間の距離が近く、異なるクラスタ間に属する事例間の距離が遠くなるように、クラスタの割り当てを決定することである。あるクラスタ割り当てが与えられたとき、<strong>K-meansクラスタリング</strong>（K平均クラスタリング）では、各クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>を中心ベクトル<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>で代表させる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e66caf0e-8116-4c5e-82e8-a44ecfbd3765">
-<span class="eqno">(10.4)<a class="headerlink" href="#equation-e66caf0e-8116-4c5e-82e8-a44ecfbd3765" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fc778103-28d2-4e96-973e-0f2b8b979d8e">
+<span class="eqno">(10.4)<a class="headerlink" href="#equation-fc778103-28d2-4e96-973e-0f2b8b979d8e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \bm{\mu}_k = \frac{1}{|C_k|} \sum_{i \in C_k} \bm{x}_i
 \end{align}\]</div>
 <p>例えば、以下の8個の点が同じクラスタに属する場合、そのクラスタを中心ベクトル（×印）で代表させる。</p>
@@ -797,8 +797,8 @@ C_1 = \{1, 2, 4\}, C_2 = \{3\}
 </div>
 </div>
 <p>そして、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>のまとまり具合を計測する尺度として、そのクラスタに属する事例ベクトルと中心ベクトルとの二乗距離の和を用いる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ab94d382-8f22-4126-ab3d-0179d8664ece">
-<span class="eqno">(10.5)<a class="headerlink" href="#equation-ab94d382-8f22-4126-ab3d-0179d8664ece" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8bf567cc-627d-4901-8615-120d8dd15b1b">
+<span class="eqno">(10.5)<a class="headerlink" href="#equation-8bf567cc-627d-4901-8615-120d8dd15b1b" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \sum_{i \in C_k} \|\bm{x}_i - \bm{\mu}_k\|^2
 \end{align}\]</div>
 <p>これは、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>に属する事例の分散の<span class="math notranslate nohighlight">\(|C_k|\)</span>倍であるから、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>内のデータのばらつきを表していると解釈できる。先ほどの例を用いると、各事例（点）と中心ベクトル（×印）とのユークリッド距離（下図点線）の二乗和である。</p>
@@ -4263,20 +4263,20 @@ CwAAwGEULAAAAIdRsAAAABz2/wDkiPD20fcgIQAAAABJRU5ErkJggg==\
 <h2><span class="section-number">10.4. </span>K-meansの目的関数の最小化<a class="headerlink" href="#id14" title="この見出しへのパーマリンク">#</a></h2>
 <p>Lloydのアルゴリズムがジャーナル論文として出版されたのは1982年であるが、Lloydのアルゴリズムそのものは1950年代後半から知られるようになっていた。K-meansという名前が使われるようになったのは、<span id="id15">MacQueen [<a class="reference internal" href="../reference.html#id11" title="James B. MacQueen. Some methods for classification and analysis of multivariate observations. In Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability, volume 1, 281–297. 1967.">1967</a>]</span> の論文によると言われている。そこで、K-meansの目的関数<span class="math notranslate nohighlight">\(J\)</span>とLloydのアルゴリズムがそのように関係するのか説明しておく。</p>
 <p>クラスタの割り当てを決める際、学習データ<span class="math notranslate nohighlight">\(\mathcal{D} = \{\bm{x}_i\}_{i=1}^N\)</span>は不変であるので、K-meansクラスタリングの目的関数（式<a class="reference internal" href="#equation-eq-kmeans-objective">(10.6)</a>）は<span class="math notranslate nohighlight">\(C_1, \dots, C_K, \bm{\mu}_1, \dots, \bm{\mu}_K\)</span>の関数である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b1a759e1-f51e-49b5-9e60-0d8f0da12eb0">
-<span class="eqno">(10.9)<a class="headerlink" href="#equation-b1a759e1-f51e-49b5-9e60-0d8f0da12eb0" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-02a9f915-5af6-4c25-9d21-403c2001eaec">
+<span class="eqno">(10.9)<a class="headerlink" href="#equation-02a9f915-5af6-4c25-9d21-403c2001eaec" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 J = \sum_{k=1}^{K} \sum_{i \in C_k} \|\bm{x}_i - \bm{\mu}_k\|^2
 \end{align}\]</div>
 <p>この目的関数を最小化するため、<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>と<span class="math notranslate nohighlight">\(\bm{\mu}_1, \dots, \bm{\mu}_K\)</span>を交互に更新していくことを考える。</p>
 <p>まず、<span class="math notranslate nohighlight">\(\bm{\mu}_1, \dots, \bm{\mu}_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小化するクラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を求めることを考える。全ての事例はいずれかのクラスタに属しなければならないが、<span class="math notranslate nohighlight">\(\bm{\mu}_1, \dots, \bm{\mu}_K\)</span>が固定されている状況では、ある事例のクラスタ割り当てが別の事例のクラスタ割り当てに影響を及ぼしたり、目的関数<span class="math notranslate nohighlight">\(J\)</span>の値を変化させてしまうことはない。したがって、事例<span class="math notranslate nohighlight">\(\bm{x}_i\)</span>ごとに距離が最小となる中心<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>を選べばよい。すなわち、事例<span class="math notranslate nohighlight">\(\bm{x}_i\)</span>を次式で求まる番号のクラスタに所属させればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c7a8f77c-38ea-4fd0-b8e6-e0001625831b">
-<span class="eqno">(10.10)<a class="headerlink" href="#equation-c7a8f77c-38ea-4fd0-b8e6-e0001625831b" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f177d8ce-d3a3-4878-9176-269534111459">
+<span class="eqno">(10.10)<a class="headerlink" href="#equation-f177d8ce-d3a3-4878-9176-269534111459" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\bm{x}_i - \bm{\mu}_k\|^2
 \end{align}\]</div>
 <p>これにより、Lloydのアルゴリズムの式<a class="reference internal" href="#equation-eq-kmeans-cluster-assignment">(10.7)</a>を導出できた。</p>
 <p>次に、クラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小にする<span class="math notranslate nohighlight">\(\bm{\mu}_1, \dots, \bm{\mu}_K\)</span>を求める。目的関数<span class="math notranslate nohighlight">\(J\)</span>の計算において、各<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>の間に依存関係はないので、全ての<span class="math notranslate nohighlight">\(k \in \mathbb{N}_K\)</span>に対して、目的関数を最小とする<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>を求めればよい。そこで、目的関数<span class="math notranslate nohighlight">\(J\)</span>を<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>で偏微分して<span class="math notranslate nohighlight">\(0\)</span>とおく。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8bdaa47f-5f30-4833-ac80-e50fc1e02682">
-<span class="eqno">(10.11)<a class="headerlink" href="#equation-8bdaa47f-5f30-4833-ac80-e50fc1e02682" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-544cf1fc-0f19-42c7-80c2-cbe8acc8b51e">
+<span class="eqno">(10.11)<a class="headerlink" href="#equation-544cf1fc-0f19-42c7-80c2-cbe8acc8b51e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
 \frac{\partial J}{\partial \bm{\mu}_k} = \frac{\partial}{\partial \bm{\mu}_k} \left(\sum_{i \in C_k} \|\bm{x}_i - \bm{\mu}_k\|^2\right) = 2 \sum_{i \in C_k} (\bm{x}_i - \bm{\mu}_k) &amp;= 0 \\
 \sum_{i \in C_k} \bm{x}_i - \sum_{i \in C_k} \bm{\mu}_k &amp;= 0 \\
 \sum_{i \in C_k} \bm{x}_i - |C_k| \bm{\mu}_k &amp;= 0 \\

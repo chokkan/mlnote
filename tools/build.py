@@ -11,28 +11,24 @@ twitter_card = """
     <meta name="twitter:title" content="機械学習帳">
     <meta name="twitter:description" content="機械学習帳は、機械学習を学ぶためのノート（帳）を、デジタル（機械）による新しいカタチの学習帳として実現することを目指しています。">
     <meta name="twitter:image" content="https://chokkan.github.io/mlnote/_static/mlnote.png">
-
-    <!-- Google Analytics -->
+    </head>
 """
 
 sagemaker_studio_lab = """
-<span class="headerbtn__text-container">Colab</span>
+<span class="btn__text-container">Colab</span>
 </a>
+</li>
 
-      </li>
+<li>
+    <a href="https://studiolab.sagemaker.aws/import/github/chokkan/python/blob/main/{}"
+       class="btn btn-sm dropdown-item"
+       title="Launch on SageMaker Studio Lab"
+       data-bs-placement="left" data-bs-toggle="tooltip">
 
-      <li>
-        <a href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/{}"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on SageMaker Studio Lab"
->
-
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fab fa-aws"></i>
 </span>
-<span class="headerbtn__text-container">SageMaker</span>
+<span class="btn__text-container">SageMaker</span>
 """
 
 def build():
@@ -42,7 +38,7 @@ def build():
 def modify_html():
     # Copy the Twitter card.
     shutil.copyfile('./material/mlnote.png', './_build/html/_static/mlnote.png')
-    
+
     # Modify the generated HTML files.
     for src in glob.glob('_build/html/**/*.html', recursive=True):
         print(f'Updating: {src}')
@@ -59,12 +55,12 @@ def modify_html():
             print(f'    path: {path}')
         
         # Add meta tags for Twitter card.
-        content = content.replace('<!-- Google Analytics -->', twitter_card)
+        content = content.replace('</head>', twitter_card)
         
         # Add the button for SageMaker Studio Lab.
         if path:
             content = content.replace(
-                '<span class="headerbtn__text-container">Colab</span>',
+                '<span class="btn__text-container">Colab</span>',
                 sagemaker_studio_lab.format(path)
                 )
         
@@ -72,6 +68,16 @@ def modify_html():
         with open(src, 'w') as fo:
             fo.write(content)
 
+def update_license():
+    for src in glob.glob('*/*.ipynb'):
+        print('Updating:', src)
+        with open(src) as fi:
+            content = fi.read()
+            content = content.replace('Copyright 2020-2022', 'Copyright 2020-2024')
+        with open(src, 'w') as fo:
+            fo.write(content)
+
 if __name__ == '__main__':
+    #update_license()
     build()
     modify_html()

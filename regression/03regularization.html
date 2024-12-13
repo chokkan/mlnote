@@ -1,570 +1,497 @@
 
 <!DOCTYPE html>
 
-<html lang="ja">
+
+<html lang="ja" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>3. モデル選択と正則化 &#8212; 機械学習帳</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
-    <script src="../_static/translations.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/translations.js?v=91613774"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regression/03regularization';</script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/regression/03regularization.html" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="4. 勾配法によるパラメータ推定" href="04sgd.html" />
     <link rel="prev" title="2. 重回帰" href="02mra.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="ja">
-    
-
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ja"/>
+  <meta name="docsearch:version" content="" />
+  
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@chokkanorg">
     <meta name="twitter:title" content="機械学習帳">
     <meta name="twitter:description" content="機械学習帳は、機械学習を学ぶためのノート（帳）を、デジタル（機械）による新しいカタチの学習帳として実現することを目指しています。">
     <meta name="twitter:image" content="https://chokkan.github.io/mlnote/_static/mlnote.png">
+    </head>
 
-    <!-- Google Analytics -->
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
     
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-5R9M0GR7MW');
-                </script>
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
 
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">機械学習帳</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  回帰
- </span>
-</p>
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習帳</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">検索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">回帰</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01sra.html">
-   1. 単回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02mra.html">
-   2. 重回帰
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   3. モデル選択と正則化
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04sgd.html">
-   4. 勾配法によるパラメータ推定
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01sra.html">1. 単回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02mra.html">2. 重回帰</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. モデル選択と正則化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04sgd.html">4. 勾配法によるパラメータ推定</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  分類
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/01binary.html">
-   5. 線形二値分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/02multi.html">
-   6. 線形多クラス分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/03nn.html">
-   7. ニューラルネットワーク (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/04nntrain.html">
-   8. ニューラルネットワーク (2)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/05svm.html">
-   9. サポートベクトルマシン
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/01binary.html">5. 線形二値分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/02multi.html">6. 線形多クラス分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/03nn.html">7. ニューラルネットワーク (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/04nntrain.html">8. ニューラルネットワーク (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/05svm.html">9. サポートベクトルマシン</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  教師無し学習
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教師無し学習</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/01kmeans.html">
-   10. 非階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/02hac.html">
-   11. 階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/03pca.html">
-   12. 主成分分析 (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/04pca2.html">
-   13. 主成分分析 (2)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/01kmeans.html">10. 非階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/02hac.html">11. 階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/03pca.html">12. 主成分分析 (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/04pca2.html">13. 主成分分析 (2)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  付録
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">付録</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../notation.html">
-   表記
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../reference.html">
-   参考文献・謝辞
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../notation.html">表記</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考文献・謝辞</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
-
-
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/regression/03regularization.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
   
-
-<span class="headerbtn__icon-container">
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
   
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
+  <div id="rtd-footer-container"></div>
 
-      </li>
+
+      </div>
       
-      <li>
-        <a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/regression/03regularization.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/regression/03regularization.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/regression/03regularization.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 
-<span class="headerbtn__text-container">Colab</span>
+<span class="btn__text-container">Colab</span>
 </a>
+</li>
 
-      </li>
+<li>
+    <a href="https://studiolab.sagemaker.aws/import/github/chokkan/python/blob/main/regression/03regularization.ipynb"
+       class="btn btn-sm dropdown-item"
+       title="Launch on SageMaker Studio Lab"
+       data-bs-placement="left" data-bs-toggle="tooltip">
 
-      <li>
-        <a href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/regression/03regularization.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on SageMaker Studio Lab"
->
-
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fab fa-aws"></i>
 </span>
-<span class="headerbtn__text-container">SageMaker</span>
+<span class="btn__text-container">SageMaker</span>
 
 </a>
-
-      </li>
+</li>
+      
+      
+      
       
       <li>
-        
 <button onclick="initThebeSBT()"
-  class="headerbtn headerbtn-launch-thebe"
-  data-toggle="tooltip"
-data-placement="left"
-title="Launch Thebe"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-play"></i>
   </span>
-<span class="headerbtn__text-container">Live Code</span>
+<span class="btn__text-container">Live Code</span>
 </button>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="ソースリポジトリ"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fregression/03regularization.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="問題を報告"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="このページをダウンロード">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/regression/03regularization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="ソースファイルをダウンロード"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDFに印刷"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全画面モード"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/chokkan/mlnote"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
 
-      </li>
-      
-      <li>
-        <a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fregression/03regularization.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/regression/03regularization.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
-      </li>
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
       
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
+    </div>
   
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
-    </div>
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   3.1. 汎化と過学習
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   3.2. モデル選択
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#l-2">
-   3.3.
-   <span class="math notranslate nohighlight">
-    \(L_2\)
-   </span>
-   正則化（リッジ回帰）
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   3.4. 確認問題
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>モデル選択と正則化</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   3.1. 汎化と過学習
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   3.2. モデル選択
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#l-2">
-   3.3.
-   <span class="math notranslate nohighlight">
-    \(L_2\)
-   </span>
-   正則化（リッジ回帰）
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   3.4. 確認問題
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>モデル選択と正則化</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目次 </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.1. 汎化と過学習</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.2. モデル選択</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-2">3.3. <span class="math notranslate nohighlight">\(L_2\)</span>正則化（リッジ回帰）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.4. 確認問題</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1><span class="section-number">3. </span>モデル選択と正則化<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
+<h1><span class="section-number">3. </span>モデル選択と正則化<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -575,7 +502,7 @@ title="Print to PDF"
 </div>
 </div>
 <section id="id2">
-<h2><span class="section-number">3.1. </span>汎化と過学習<a class="headerlink" href="#id2" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">3.1. </span>汎化と過学習<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>ここでは、以下の<code class="docutils literal notranslate"><span class="pre">X</span></code>を説明変数、<code class="docutils literal notranslate"><span class="pre">Y</span></code>を目的変数として多項式にフィッティングすることを考える。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -586,6 +513,11 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
@@ -595,8 +527,9 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03regularization_4_0.png" src="../_images/03regularization_4_0.png" />
+<img alt="../_images/25c36135613e56956bf2e4b49e27d1949f25beb0e7a5b7c6c5a320ee77188425.png" src="../_images/25c36135613e56956bf2e4b49e27d1949f25beb0e7a5b7c6c5a320ee77188425.png" />
 </div>
 </div>
 <p>３次関数でデータ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>をフィッティングしてみる。ここでは、多項式フィッティングを簡単に実現する<a class="reference external" href="https://numpy.org/doc/stable/reference/routines.polynomials.html">numpy.polynomial</a>を用いる。</p>
@@ -626,7 +559,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03regularization_7_0.png" src="../_images/03regularization_7_0.png" />
+<img alt="../_images/40b20c36799d4c29fb91e2da12a68f9a2a9c2608a76b4321662ae183572e836a.png" src="../_images/40b20c36799d4c29fb91e2da12a68f9a2a9c2608a76b4321662ae183572e836a.png" />
 </div>
 </div>
 <p>学習された３次関数のモデルの平均二乗残差は、おおよそ<span class="math notranslate nohighlight">\(6.17 \times 10^{-3}\)</span>である。</p>
@@ -672,7 +605,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03regularization_12_0.png" src="../_images/03regularization_12_0.png" />
+<img alt="../_images/fbca6aa9f7aa7665b04064d47093bf2faa38b8d583dde57207e3375f19c7de2c.png" src="../_images/fbca6aa9f7aa7665b04064d47093bf2faa38b8d583dde57207e3375f19c7de2c.png" />
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>の全ての点を絶妙に通過する曲線を描くことができたが、曲線がグラフの中に収まりきらなくなってしまった。そこで、<span class="math notranslate nohighlight">\(0 \leq x \leq 1\)</span>の範囲で曲線の全体が表示されるようにグラフを描きなおす。</p>
@@ -689,7 +622,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03regularization_14_0.png" src="../_images/03regularization_14_0.png" />
+<img alt="../_images/28cfa28e4b28675221bdc4615a4439c64a7f6ca2f320ceb98c87e03eebcc8c6d.png" src="../_images/28cfa28e4b28675221bdc4615a4439c64a7f6ca2f320ceb98c87e03eebcc8c6d.png" />
 </div>
 </div>
 <p>与えたデータの目的変数<code class="docutils literal notranslate"><span class="pre">Y</span></code>の最大値は<span class="math notranslate nohighlight">\(0.97\)</span>、最小値は<span class="math notranslate nohighlight">\(-0.93\)</span>であるが、求めた９次多項式の出力はその範囲を逸脱している。とはいえ、学習された９次関数のモデルの平均二乗残差を求めると、おおよそ<span class="math notranslate nohighlight">\(2.03 \times 10^{-20}\)</span>であるから、３次関数のモデルの平均二乗残差（<span class="math notranslate nohighlight">\(6.17 \times 10^{-3}\)</span>）よりも小さい。つまり、３次関数のモデルよりも９次関数のモデルの方が、与えられたデータをよく再現できているのである。</p>
@@ -709,6 +642,11 @@ title="Print to PDF"
 <p>もし、データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>が９次関数から生成されており、かつその正確な値が<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>に記録されていることを事前に知っているのであれば、９次関数によるフィッティングの方が適切と言える。しかし、実際にデータ分析を行うときは、目的変数と説明変数を関連付けるメカニズム（関数の形）が分からないことの方が多い（冒頭で用いた最高気温とアイスクリーム・シャーベットの支出額の関係を思い出して欲しい）。また、観測された説明変数や目的変数には、様々な要因により外乱（ノイズ）が混入することが珍しくない。実際、今回の例で用いている<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>は正弦関数<span class="math notranslate nohighlight">\(\sin\)</span>の入出力にノイズを加えたものであり、３次関数でも９次関数でもない。ということになると、３次関数によるフィッティングの方が真のデータをよく反映しており、汎化能力が高いと言えるのかもしれない。</p>
 <p>この状況をグラフとして可視化した。黒の実線は<span class="math notranslate nohighlight">\(y=\sin(2\pi x)\)</span>の正弦曲線である。正弦曲線上で10点をランダムに選び、<span class="math notranslate nohighlight">\(x\)</span>軸方向と<span class="math notranslate nohighlight">\(y\)</span>軸方向にノイズを加えたものが、青い点で示されたデータ<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>である。このデータに対して、３次関数をフィッティングしたものが青色の点線、９次関数をフィッティングしたものが橙色の破線である。データ<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>が正弦関数から作られていることを知っているのであれば、３次関数のモデルのほうが汎化性能が高いことになる。９次関数のフィッティング結果のように、データを厳密に再現しようとしすぎた結果、汎化性能が低いモデルが学習されてしまう状況を<strong>過学習</strong>（過剰適合、オーバーフィッティング）と呼ぶ。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">W3</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">W9</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
@@ -728,13 +666,14 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03regularization_18_0.png" src="../_images/03regularization_18_0.png" />
+<img alt="../_images/ae0617723483943ee5ad410f909f929f4f29893090d664fff25ab025dda2af74.png" src="../_images/ae0617723483943ee5ad410f909f929f4f29893090d664fff25ab025dda2af74.png" />
 </div>
 </div>
 </section>
 <section id="id3">
-<h2><span class="section-number">3.2. </span>モデル選択<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">3.2. </span>モデル選択<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
 <p>データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>に対して汎化性能の高いモデルを獲得するにはどのようにすればよいか。素朴なアイディアとして、<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>のプロットを見ながら多項式の次数<span class="math notranslate nohighlight">\(d\)</span>を（ひらめきで）調整することを思いつくかもしれない。例えば、「データ<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">Y</span></code>をプロットした形状から、３次関数にフィッティングするのが適切かもしれない」といった具合である。</p>
 <p>ただ、３次の多項式が本当に適切なのか疑問が残る。９次関数でフィッティングするのは行き過ぎだとしても、４次関数から８次関数の中に３次関数よりも適切なものがあるかもしれない。ここで、次元数<span class="math notranslate nohighlight">\(d\)</span>は多項式モデルのパラメータではあるが、学習によって（目的関数の最小化によって）求めるものではなく、学習に先立って与えておくものであるから、<strong>ハイパーパラメータ</strong>（hypterparameter）と呼ばれる。ハイパーパラメータを変えることによって、同じ学習データから異なるモデルが得られる。今回の例では、次元数を<span class="math notranslate nohighlight">\(d=3, 4, \dots, 9\)</span>と変えながらモデルを学習することで7個のモデルが得られる。さて、この中で汎化性能の高いモデルを選択するにはどのようにすればよいか？</p>
 <p>３次関数と９次関数の学習データ上の平均二乗残差（MSR）を比較したとき、９次関数の平均二乗残差の方が小さくなった。一般に、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>上のモデルの損失<span class="math notranslate nohighlight">\(\hat{L}_\mathcal{D}(\bm{W})\)</span>は、モデルを複雑にする（例えば、多項式の次数を高くする）ことによって低下するため、汎化性能を測定する指標として用いることができない。</p>
@@ -764,7 +703,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03regularization_21_0.png" src="../_images/03regularization_21_0.png" />
+<img alt="../_images/529f48bc214803f09e21d8bb547c963c6eccba4e326c8938b0d72ff3825b9f98.png" src="../_images/529f48bc214803f09e21d8bb547c963c6eccba4e326c8938b0d72ff3825b9f98.png" />
 </div>
 </div>
 <p>以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、訓練データ上のMSRと検証データ上のMSRを計測・表示する。この結果によると、訓練データ上では次元数<span class="math notranslate nohighlight">\(d\)</span>を増やすことでMSRを下げることができ、<span class="math notranslate nohighlight">\(d=9\)</span>ではMSRがほぼ<span class="math notranslate nohighlight">\(0\)</span>になっていることが分かる。一方で、検証データ上のMSRは<span class="math notranslate nohighlight">\(d=9\)</span>の時が明らかに悪く、深刻な過学習が起こっていることを示唆している。また、検証データ上のMSRは<span class="math notranslate nohighlight">\(d=5\)</span>で最小（MSR=0.0052849468）となることが分かる。この実験結果から<span class="math notranslate nohighlight">\(d=5\)</span>のモデルが最も高い汎化性能を示すと判断し、多項式フィッティングの次元数は<span class="math notranslate nohighlight">\(d=5\)</span>が最適と決定するのが、検証データによるハイパーパラメータの調整（チューニング）である。</p>
@@ -814,12 +753,12 @@ d = 9: MSR = 0.0000000000 (training), 1.9813186074 (validation)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03regularization_25_0.png" src="../_images/03regularization_25_0.png" />
+<img alt="../_images/7002f8509b52bb3fc1eaab4662f9d2c70d2e0661195f19c277a9f7f68ea8b3d0.png" src="../_images/7002f8509b52bb3fc1eaab4662f9d2c70d2e0661195f19c277a9f7f68ea8b3d0.png" />
 </div>
 </div>
 </section>
 <section id="l-2">
-<h2><span class="section-number">3.3. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化（リッジ回帰）<a class="headerlink" href="#l-2" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">3.3. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化（リッジ回帰）<a class="headerlink" href="#l-2" title="Link to this heading">#</a></h2>
 <p>ところで、モデルの過学習が起こるとき、パラメータはどのような値を取るのだろうか。以下のプログラムは、次元数<span class="math notranslate nohighlight">\(d\)</span>を<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(9\)</span>まで変化させて多項式フィッティングを行ったとき、実際に求められた重みベクトル<span class="math notranslate nohighlight">\(\bm{w}\)</span>の値を表示するものである。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -848,14 +787,14 @@ d = 9: [-6.0e-02  2.2e+02 -4.3e+03  3.6e+04 -1.6e+05  4.3e+05 -7.0e+05  6.7e+05 
 <p>次元数<span class="math notranslate nohighlight">\(d\)</span>が増加するにつれて、多項式の係数の値が急激に増加し、極端な曲線でデータをフィッティングしようとしている傾向が見受けられる。そこで、パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の「複雑さ」を何らかの関数<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>で測定すれば、過学習の検出に役立つ。また、学習の過程において、複雑すぎるパラメータ対してペナルティ（罰則）を与えながら、パラメータの学習を行うことができれば、過学習の抑制につながる。パラメータの訓練データへの適合度合いとパラメータの複雑さのバランスを取りながら学習する方法は、<strong>正則化</strong>（regularization）と呼ばれる。</p>
 <p>具体的には、訓練データの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\bm{w})\)</span>に加えて、パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の複雑さを表現する関数<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>
 に関するペナルティ項を追加した目的関数<span class="math notranslate nohighlight">\(\hat{J}(\bm{w})\)</span>を採用することで、両者のバランスを自動的に保ちながらパラメータを求めることを考える。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-97dc0d1e-ac03-4f71-be0a-6c07ed65b57a">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-97dc0d1e-ac03-4f71-be0a-6c07ed65b57a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d58e1901-a285-4c59-8cf7-7963be5ae332">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-d58e1901-a285-4c59-8cf7-7963be5ae332" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{J}(\bm{w}) = \hat{L}(\bm{w}) + \alpha R(\bm{w})
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> <span class="math notranslate nohighlight">\((\geq 0)\)</span>は正則化の効果を指定するハイパーパラメータである。<span class="math notranslate nohighlight">\(\alpha\)</span>を大きく設定すると、パラメータの複雑さ<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>が目的関数に与える影響が大きくなるので、過学習が抑制される。ただし、<span class="math notranslate nohighlight">\(\alpha\)</span>を大きくしすぎるとモデルのデータへの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\bm{w})\)</span>を軽視することになるため、<strong>過少適合</strong>（アンダーフィッティング）となる。逆に<span class="math notranslate nohighlight">\(\alpha\)</span>を小さく設定すると、モデルへのデータへの適合度合いを重視することになるが、過学習を抑制する効果が薄れる。このように、<span class="math notranslate nohighlight">\(\alpha\)</span>の設定はモデルのデータへの適合度合いと複雑さのトレードオフの関係にある。モデル選択の時と同様に、正則化の重み係数<span class="math notranslate nohighlight">\(\alpha\)</span>はハイパーパラメータとして検証データ上でチューニングする。</p>
 <p>パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の複雑さを定量化する方法はいくつかある。ここでは、最も取り扱いが簡単なパラメータベクトルの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムの二乗を用いる。すなわち、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-32b2ab10-c7e8-44d7-ad2f-6cf75efe60a9">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-32b2ab10-c7e8-44d7-ad2f-6cf75efe60a9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-50b37e94-a1e1-4823-9278-35989c3f4106">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-50b37e94-a1e1-4823-9278-35989c3f4106" title="Permalink to this equation">#</a></span>\[\begin{align}
 R(\bm{w}) = \|\bm{w}\|^2
 \end{align}\]</div>
 <p>とする。</p>
@@ -886,22 +825,22 @@ d = 9: |W|_2^2 = 1291698590072.5356
 <p>目的関数の正則化項としてパラメータの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムを用いる回帰を、<strong>リッジ回帰</strong>（<span class="math notranslate nohighlight">\(L_2\)</span>正則化付き回帰）と呼ぶ。リッジ回帰の目的関数は、通常の回帰の目的関数にモデルの複雑さを表すペナルティ項を付与したもので、次式で表される。</p>
 <div class="important admonition">
 <p class="admonition-title">リッジ回帰の目的関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5816e12f-19d1-495b-871b-fa54e1b88081">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-5816e12f-19d1-495b-871b-fa54e1b88081" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a81d9bf2-7ec1-49ec-8659-3a2b15777738">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-a81d9bf2-7ec1-49ec-8659-3a2b15777738" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{J}(\bm{w}) &amp;= \hat{L}(\bm{w}) + \alpha R(\bm{w}) \\
 &amp;= \|\bm{y} - \bm{X}\bm{w}\|^2 + \alpha \|\bm{w}\|^2
 \end{align}\]</div>
 </div>
 <p>リッジ回帰のパラメータ推定は通常の回帰と同様である。目的関数<span class="math notranslate nohighlight">\(J(\bm{w})\)</span>を最小化する<span class="math notranslate nohighlight">\(\bm{w}\)</span>を求めるために、その勾配<span class="math notranslate nohighlight">\(\nabla \hat{J}(\bm{w})\)</span>を求める。重回帰の時に求めた偏微分の結果を用いると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a567d729-877b-4ea5-a132-ee250c77f67d">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-a567d729-877b-4ea5-a132-ee250c77f67d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-93d93d5b-b084-4097-8351-b966bb3a789c">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-93d93d5b-b084-4097-8351-b966bb3a789c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla \hat{J}(\bm{w}) &amp;= \frac{\partial}{\partial \bm{w}} \left(\hat{L}(\bm{w}) + \alpha R(\bm{w})\right) \\
   &amp;= 2\bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + \frac{\partial}{\partial \bm{w}} \left(\alpha \|\bm{w}\|^2\right) \\
   &amp;= 2\bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + 2 \alpha \bm{w} \\
 \end{align}\]</div>
 <p>これを<span class="math notranslate nohighlight">\(0\)</span>とおき、<span class="math notranslate nohighlight">\(\bm{w}\)</span>について解くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-de0b0b64-48c0-4bd2-95fa-b2aaf5ceb48a">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-de0b0b64-48c0-4bd2-95fa-b2aaf5ceb48a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1e4bbb76-7e69-4a5d-902c-824669d9b52c">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-1e4bbb76-7e69-4a5d-902c-824669d9b52c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + \alpha \bm{w} &amp;= 0 \\
 \bm{X}^\top \bm{X}\bm{w} - \bm{X}^\top \bm{y} + \alpha \bm{w} &amp;= 0 \\
 (\bm{X}^\top \bm{X} + \alpha \bm{I})\bm{w} &amp;= \bm{X}^\top \bm{y} \\
@@ -911,7 +850,7 @@ d = 9: |W|_2^2 = 1291698590072.5356
 <p>モデルの過学習を抑制し、汎化性能を改善したいとき、モデルに与える特徴ベクトルの要素を手作業で厳選し、過学習をコントロールすることを考えるかもしれない。例えば、先ほどの多項式フィッティングの例では、検証データを用いながら多項式の次元数<span class="math notranslate nohighlight">\(d\)</span>を決定できた。ところが、実際に機械学習を用いる局面では、特徴空間の次元数が膨大（例えば<span class="math notranslate nohighlight">\(1,000,000\)</span>次元以上）となることがある。この場合、探索すべき特徴量の組み合わせは爆発的に増えるため、検証データを用いながら汎化性能が高い特徴量の組み合わせを選ぶのは困難となる。これに対し、リッジ回帰は、モデルパラメータの重みの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムが大きくなりすぎないようにコントロールしながらパラメータ推定を行うため、過学習の抑制を比較的容易に行える（ただし、正則化の係数<span class="math notranslate nohighlight">\(\alpha\)</span>を検証データ上で調整する必要がある）。</p>
 </section>
 <section id="id4">
-<h2><span class="section-number">3.4. </span>確認問題<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">3.4. </span>確認問題<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p><strong>(1) 9次関数によるリッジ回帰</strong></p>
 <p>例として用いてきた以下の学習データ<code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>に対してリッジ回帰を行い、回帰曲線をプロットせよ。
 ただし、正則化のハイパー・パラメータは<span class="math notranslate nohighlight">\(\alpha = 10^{-9}, 10^{-6}, 10^{-3}, 1\)</span>の4通りを試し、すべての回帰曲線と学習データの各点を一つのグラフ上にプロットせよ。</p>
@@ -951,7 +890,7 @@ d = 9: |W|_2^2 = 1291698590072.5356
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./regression"
         },
         predefinedOutput: true
@@ -959,51 +898,100 @@ d = 9: |W|_2^2 = 1291698590072.5356
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="02mra.html" title="前へ ページ">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">前へ</p>
-            <p class="prev-next-title"><span class="section-number">2. </span>重回帰</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02mra.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">前へ</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>重回帰</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="04sgd.html" title="次へ ページ">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="04sgd.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">4. </span>勾配法によるパラメータ推定</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目次
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.1. 汎化と過学習</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.2. モデル選択</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-2">3.3. <span class="math notranslate nohighlight">\(L_2\)</span>正則化（リッジ回帰）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.4. 確認問題</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    <div class="extra_footer">
-      © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
-
-    </div>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © Copyright 2020-2024 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+
 </div>
+  </div>
+  
+</div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

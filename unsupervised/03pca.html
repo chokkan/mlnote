@@ -1,592 +1,500 @@
 
 <!DOCTYPE html>
 
-<html lang="ja">
+
+<html lang="ja" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>12. 主成分分析 (1) &#8212; 機械学習帳</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
-    <script src="../_static/translations.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/translations.js?v=91613774"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'unsupervised/03pca';</script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/unsupervised/03pca.html" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="13. 主成分分析 (2)" href="04pca2.html" />
     <link rel="prev" title="11. 階層的クラスタリング" href="02hac.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="ja">
-    
-
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ja"/>
+  <meta name="docsearch:version" content="" />
+  
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@chokkanorg">
     <meta name="twitter:title" content="機械学習帳">
     <meta name="twitter:description" content="機械学習帳は、機械学習を学ぶためのノート（帳）を、デジタル（機械）による新しいカタチの学習帳として実現することを目指しています。">
     <meta name="twitter:image" content="https://chokkan.github.io/mlnote/_static/mlnote.png">
+    </head>
 
-    <!-- Google Analytics -->
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
     
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-5R9M0GR7MW');
-                </script>
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
 
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">機械学習帳</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  回帰
- </span>
-</p>
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習帳</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">検索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">回帰</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/01sra.html">
-   1. 単回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/02mra.html">
-   2. 重回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/03regularization.html">
-   3. モデル選択と正則化
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/04sgd.html">
-   4. 勾配法によるパラメータ推定
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/01sra.html">1. 単回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/02mra.html">2. 重回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/03regularization.html">3. モデル選択と正則化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/04sgd.html">4. 勾配法によるパラメータ推定</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  分類
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/01binary.html">
-   5. 線形二値分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/02multi.html">
-   6. 線形多クラス分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/03nn.html">
-   7. ニューラルネットワーク (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/04nntrain.html">
-   8. ニューラルネットワーク (2)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/05svm.html">
-   9. サポートベクトルマシン
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/01binary.html">5. 線形二値分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/02multi.html">6. 線形多クラス分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/03nn.html">7. ニューラルネットワーク (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/04nntrain.html">8. ニューラルネットワーク (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classification/05svm.html">9. サポートベクトルマシン</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  教師無し学習
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教師無し学習</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01kmeans.html">
-   10. 非階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02hac.html">
-   11. 階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   12. 主成分分析 (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04pca2.html">
-   13. 主成分分析 (2)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01kmeans.html">10. 非階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02hac.html">11. 階層的クラスタリング</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">12. 主成分分析 (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04pca2.html">13. 主成分分析 (2)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  付録
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">付録</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../notation.html">
-   表記
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../reference.html">
-   参考文献・謝辞
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../notation.html">表記</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考文献・謝辞</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
-
-
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/unsupervised/03pca.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
   
-
-<span class="headerbtn__icon-container">
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
   
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
+  <div id="rtd-footer-container"></div>
 
-      </li>
+
+      </div>
       
-      <li>
-        <a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/unsupervised/03pca.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/unsupervised/03pca.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/unsupervised/03pca.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 
-<span class="headerbtn__text-container">Colab</span>
+<span class="btn__text-container">Colab</span>
 </a>
+</li>
 
-      </li>
+<li>
+    <a href="https://studiolab.sagemaker.aws/import/github/chokkan/python/blob/main/unsupervised/03pca.ipynb"
+       class="btn btn-sm dropdown-item"
+       title="Launch on SageMaker Studio Lab"
+       data-bs-placement="left" data-bs-toggle="tooltip">
 
-      <li>
-        <a href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/unsupervised/03pca.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on SageMaker Studio Lab"
->
-
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fab fa-aws"></i>
 </span>
-<span class="headerbtn__text-container">SageMaker</span>
+<span class="btn__text-container">SageMaker</span>
 
 </a>
-
-      </li>
+</li>
+      
+      
+      
       
       <li>
-        
 <button onclick="initThebeSBT()"
-  class="headerbtn headerbtn-launch-thebe"
-  data-toggle="tooltip"
-data-placement="left"
-title="Launch Thebe"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-play"></i>
   </span>
-<span class="headerbtn__text-container">Live Code</span>
+<span class="btn__text-container">Live Code</span>
 </button>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="ソースリポジトリ"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Funsupervised/03pca.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="問題を報告"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="このページをダウンロード">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/unsupervised/03pca.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="ソースファイルをダウンロード"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDFに印刷"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全画面モード"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/chokkan/mlnote"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
 
-      </li>
-      
-      <li>
-        <a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Funsupervised/03pca.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/unsupervised/03pca.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
-      </li>
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
       
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
+    </div>
   
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
-    </div>
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   12.1. ２次元データの例
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   12.2. データ点を直線へ射影
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   12.3. 近似の良さの定量化
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   12.4. 第１主成分を求める
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   12.5. 第２主成分を求める
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
-   12.6. 実装
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
-   12.7. 確認問題
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>主成分分析 (1)</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   12.1. ２次元データの例
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   12.2. データ点を直線へ射影
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   12.3. 近似の良さの定量化
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   12.4. 第１主成分を求める
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   12.5. 第２主成分を求める
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
-   12.6. 実装
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
-   12.7. 確認問題
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>主成分分析 (1)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目次 </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">12.1. ２次元データの例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">12.2. データ点を直線へ射影</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">12.3. 近似の良さの定量化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">12.4. 第１主成分を求める</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">12.5. 第２主成分を求める</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">12.6. 実装</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">12.7. 確認問題</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1><span class="section-number">12. </span>主成分分析 (1)<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
+<h1><span class="section-number">12. </span>主成分分析 (1)<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -600,6 +508,11 @@ title="Print to PDF"
 </div>
 <p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>以下は、<a class="reference external" href="https://www.nstac.go.jp/SSDSE/">教育用標準データセット（SSDSE: Standardized Statistical Data Set for Education）</a>の「C. 都道府県庁所在市別、家計消費データ」から麺類に関する部分を抜き出したものである（多いので冒頭の15行だけを表示した）。SSDSE-Cは、<a class="reference external" href="https://www.stat.go.jp/data/kakei/index.html">総務省統計局「家計調査」</a>から、二人以上の世帯の１世帯当たりの年間支出金額を都道府県庁所在市別・品目別に表形式で収録したものである。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;https://www.nstac.go.jp/SSDSE/data/2021/SSDSE-C-2021.xlsx&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;都道府県&#39;</span><span class="p">,</span> <span class="s1">&#39;生うどん・そば&#39;</span><span class="p">,</span> <span class="s2">&quot;乾うどん・そば&quot;</span><span class="p">,</span> <span class="s2">&quot;パスタ&quot;</span><span class="p">,</span> <span class="s2">&quot;中華麺&quot;</span><span class="p">,</span> <span class="s2">&quot;カップ麺&quot;</span><span class="p">,</span> <span class="s2">&quot;即席麺&quot;</span><span class="p">,</span> <span class="s2">&quot;他の麺類&quot;</span><span class="p">]]</span>
@@ -608,6 +521,7 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output text_html"><div>
 <style scoped>
@@ -812,9 +726,14 @@ title="Print to PDF"
 <p>本章では、このような分析に役立つ手法として、<strong>主成分分析</strong>（principal component analysis）を紹介する。主成分分析は、データの情報をできるだけ豊富に表現できるように配慮しながら、もとの特徴量の線形結合で表現される新しい「軸」を導き出す手法である。元データの情報量を最も豊富に表現できる軸は<strong>第１主成分</strong>（first principal component）と呼ばれる。その第１主成分と直交し、かつ２番目に情報量が豊富な軸を第２主成分、第１主成分と第２主成分に直交し、かつ３番目に情報量が豊富な軸を第３主成分、･･･という形で、元データを表現する情報量の多い順にお互いに直交する複数の軸を求めることができる。</p>
 <p>元のデータの各事例は、主成分分析で求められた新しい軸に射影される。主成分分析で求められた全ての軸を用いることで、元のデータを完全に再現することができる。また、元データを第１主成分、第２主成分といった主要な軸だけで表現することで、元データよりも少ない軸に要約することができる。このため、主成分分析はデータの次元圧縮やノイズ除去、可視化等に用いられる。</p>
 <section id="id2">
-<h2><span class="section-number">12.1. </span>２次元データの例<a class="headerlink" href="#id2" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">12.1. </span>２次元データの例<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>いきなり3次元以上のデータで考えるのは難しいので、まずは2次元のデータの場合を考える。簡単な例として、以下のグラフで示されたデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を考える。このデータは<span class="math notranslate nohighlight">\(xy\)</span>平面上の<span class="math notranslate nohighlight">\(4\)</span>点<span class="math notranslate nohighlight">\((-7,-2),(-3,-3),(4,1),(6,4)\)</span>で構成されている。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
 <span class="n">C</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">]</span>
@@ -831,32 +750,38 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03pca_6_0.png" src="../_images/03pca_6_0.png" />
+<img alt="../_images/b4a41716e49a12f044d3ae7c922925f48b1539f6e4dc522111ea2b8ddd400ff4.png" src="../_images/b4a41716e49a12f044d3ae7c922925f48b1539f6e4dc522111ea2b8ddd400ff4.png" />
 </div>
 </div>
 <p>このデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を次のように表すことにする（<span class="math notranslate nohighlight">\(i \in \{1, 2, 3, 4\}\)</span>は事例に対するインデックスである）。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f68d3917-65c5-4b08-b2db-ed75e4426b03">
-<span class="eqno">(12.1)<a class="headerlink" href="#equation-f68d3917-65c5-4b08-b2db-ed75e4426b03" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9992ca35-4939-4332-974c-d1e4f53bfa22">
+<span class="eqno">(12.1)<a class="headerlink" href="#equation-9992ca35-4939-4332-974c-d1e4f53bfa22" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D}_s = \{(x_i, y_i)\}_{i=1}^{4} = \{(-7,-2),(-3,-3),(4,1),(6,4)\}
 \end{align}\]</div>
 <p>なお、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-29fe75d7-9d26-49a3-8e3a-d545690871be">
-<span class="eqno">(12.2)<a class="headerlink" href="#equation-29fe75d7-9d26-49a3-8e3a-d545690871be" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f660c60a-7760-4442-ba40-f51d7dfcb1bd">
+<span class="eqno">(12.2)<a class="headerlink" href="#equation-f660c60a-7760-4442-ba40-f51d7dfcb1bd" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{1}{4}\left(-7 -3 + 4 + 6\right) = 0,\; \frac{1}{4}\left(-2 -3 + 1 + 4\right) = 0 \\
 \end{align}\]</div>
 <p>であるから、この４点の重心は原点<span class="math notranslate nohighlight">\((0,0)\)</span>である（データの重心が原点にない場合の取り扱いは次章で説明する）。</p>
 </section>
 <section id="id3">
-<h2><span class="section-number">12.2. </span>データ点を直線へ射影<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">12.2. </span>データ点を直線へ射影<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
 <p>さて、各点<span class="math notranslate nohighlight">\((x_i, y_i) \in \mathbb{R}^2\)</span>を<span class="math notranslate nohighlight">\(xy\)</span>平面上で原点を通る直線に射影し、その直線上の点<span class="math notranslate nohighlight">\((\hat{x}_i, \hat{y}_i)\)</span>で近似的に表現したい。原点を通る直線は、長さ<span class="math notranslate nohighlight">\(1\)</span>の方向ベクトル<span class="math notranslate nohighlight">\(\bm{u} \in \mathbb{R}^2\)</span>と媒介変数<span class="math notranslate nohighlight">\(a \in \mathbb{R}\)</span>を用いて、<span class="math notranslate nohighlight">\(a \bm{u}\)</span>で表される。したがって、点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を射影した点<span class="math notranslate nohighlight">\((\hat{x}_i, \hat{y}_i)\)</span>は、<span class="math notranslate nohighlight">\(a_i \in \mathbb{R}\)</span>を用いて次式で表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-80ae5bdc-dcb1-4cf2-ab9d-61c7d00e6ad0">
-<span class="eqno">(12.3)<a class="headerlink" href="#equation-80ae5bdc-dcb1-4cf2-ab9d-61c7d00e6ad0" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ec9ff4c1-8d79-49f1-813d-73976cf28b7f">
+<span class="eqno">(12.3)<a class="headerlink" href="#equation-ec9ff4c1-8d79-49f1-813d-73976cf28b7f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \begin{pmatrix}\hat{x}_i \\ \hat{y}_i\end{pmatrix} = a_i \bm{u}
 \end{align}\]</div>
 <p>なお、<span class="math notranslate nohighlight">\(|a_i|\)</span>は射影された点<span class="math notranslate nohighlight">\((\hat{x}_i, \hat{y}_i)\)</span>の原点からの距離を表す。射影された点が方向ベクトルと同じ向きにあるときは<span class="math notranslate nohighlight">\(a_i\)</span>は正の値、反対の向きにあるときは<span class="math notranslate nohighlight">\(a_i\)</span>は負の値をとることとし、<span class="math notranslate nohighlight">\(a_i\)</span>を直線上の位置と呼ぶ。以上の定式化により、元のデータ点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>は<span class="math notranslate nohighlight">\(\bm{u}\)</span>が定める（１次元の）数直線上の位置<span class="math notranslate nohighlight">\(a_i\)</span>として近似的に表現される。</p>
 <p>例えば、直線<span class="math notranslate nohighlight">\(y=\frac{1}{2}x\)</span>を考えると、元のデータ点（丸印）は射影された点（データ点から降ろした垂線の足、四角印）で近似的に表現される。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">draw_projections</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_a</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">show_e</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">show_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">artist</span> <span class="o">=</span> <span class="p">[]</span>
@@ -910,33 +835,34 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03pca_9_0.png" src="../_images/03pca_9_0.png" />
+<img alt="../_images/8f30e237f508f0d38b5407c0366fb6d657fef50e63012bb3ee45e75f1d8eee3c.png" src="../_images/8f30e237f508f0d38b5407c0366fb6d657fef50e63012bb3ee45e75f1d8eee3c.png" />
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(a_i\)</span>を求めるため、直線<span class="math notranslate nohighlight">\(y=\frac{1}{2}x\)</span>に対応する長さ<span class="math notranslate nohighlight">\(1\)</span>の方向ベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>を求める。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dc7b77a5-d7e9-4ef9-b667-36885a6d9d59">
-<span class="eqno">(12.4)<a class="headerlink" href="#equation-dc7b77a5-d7e9-4ef9-b667-36885a6d9d59" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2f703ea6-6500-4c9c-bcad-45b0ed393c13">
+<span class="eqno">(12.4)<a class="headerlink" href="#equation-2f703ea6-6500-4c9c-bcad-45b0ed393c13" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{u} = \frac{1}{\sqrt{2^2 + 1^2}}\begin{pmatrix}2 \\ 1\end{pmatrix} = \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix}
 \end{align}\]</div>
 <p>ある点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を方向ベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>上に射影したとき、その位置<span class="math notranslate nohighlight">\(a_i\)</span>は、</p>
 <div class="math notranslate nohighlight" id="equation-eq-definition-of-a">
-<span class="eqno">(12.5)<a class="headerlink" href="#equation-eq-definition-of-a" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(12.5)<a class="headerlink" href="#equation-eq-definition-of-a" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{align}
 a_i = \left\|\begin{pmatrix}x_i \\ y_i\end{pmatrix}\right\| \cos \theta = \left\|\begin{pmatrix}x_i \\ y_i\end{pmatrix}\right\| \frac{\begin{pmatrix}x_i \\ y_i\end{pmatrix}^\top \bm{u}}{\left\|\begin{pmatrix}x_i \\ y_i\end{pmatrix}\right\| \|\bm{u}\|} = \begin{pmatrix}x_i \\ y_i\end{pmatrix}^\top \bm{u}
 \end{align}
 \end{split}\]</div>
 <p>と求めることができる。ここで、<span class="math notranslate nohighlight">\(\theta\)</span>は位置ベクトル<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>と方向ベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>のなす角である。ゆえに、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-de2cb456-a6b5-46b3-a3b8-f1e8f6ae270b">
-<span class="eqno">(12.6)<a class="headerlink" href="#equation-de2cb456-a6b5-46b3-a3b8-f1e8f6ae270b" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7704aa33-f7f3-48f9-9e6b-22519e1d95e4">
+<span class="eqno">(12.6)<a class="headerlink" href="#equation-7704aa33-f7f3-48f9-9e6b-22519e1d95e4" title="Permalink to this equation">#</a></span>\[\begin{align}
 a_1 &amp;= \begin{pmatrix}-7 &amp; -2\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} \approx -7.16 \\
 a_2 &amp;= \begin{pmatrix}-3 &amp; -3\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} \approx -4.02 \\
 a_3 &amp;= \begin{pmatrix}4 &amp; 1\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} \approx 4.02 \\
 a_4 &amp;= \begin{pmatrix}6 &amp; 4\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} \approx 7.16 \\
 \end{align}\]</div>
 <p>以上により、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の各事例<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を方向ベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>と、位置<span class="math notranslate nohighlight">\(a_i\)</span>で近似的に表現したことになる。各事例<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を射影した点<span class="math notranslate nohighlight">\((\hat{x}_i, \hat{y}_i)\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c814c21e-51e4-4a35-938a-c34f3fcd9a41">
-<span class="eqno">(12.7)<a class="headerlink" href="#equation-c814c21e-51e4-4a35-938a-c34f3fcd9a41" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7a0e6b32-889b-4755-9c25-90172ed2c1be">
+<span class="eqno">(12.7)<a class="headerlink" href="#equation-7a0e6b32-889b-4755-9c25-90172ed2c1be" title="Permalink to this equation">#</a></span>\[\begin{align}
 \begin{pmatrix}\hat{x}_1 \\ \hat{y}_1\end{pmatrix} &amp;= -7.16 \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} = \begin{pmatrix}-6.4 \\ -3.2 \end{pmatrix}\\
 \begin{pmatrix}\hat{x}_2 \\ \hat{y}_2\end{pmatrix} &amp;= -4.02 \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} = \begin{pmatrix}-3.6 \\ -1.8 \end{pmatrix}\\
 \begin{pmatrix}\hat{x}_3 \\ \hat{y}_3\end{pmatrix} &amp;= 4.02 \begin{pmatrix}\frac{2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}}\end{pmatrix} = \begin{pmatrix}3.6 \\ 1.8 \end{pmatrix} \\
@@ -944,10 +870,10 @@ a_4 &amp;= \begin{pmatrix}6 &amp; 4\end{pmatrix} \begin{pmatrix}\frac{2}{\sqrt{5
 \end{align}\]</div>
 </section>
 <section id="id4">
-<h2><span class="section-number">12.3. </span>近似の良さの定量化<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">12.3. </span>近似の良さの定量化<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p>直線への射影による近似の良さを定量化するため、元データの各点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>から直線上に垂線を降ろしたときの長さを<span class="math notranslate nohighlight">\(\epsilon_i\)</span>とし、これを残差と呼ぶ。三平方の定理（ピタゴラスの定理）より、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-064d25a5-14df-4174-b781-b100a19c158a">
-<span class="eqno">(12.8)<a class="headerlink" href="#equation-064d25a5-14df-4174-b781-b100a19c158a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fe5c9091-53cf-4db5-ae1c-a2ca460b2b48">
+<span class="eqno">(12.8)<a class="headerlink" href="#equation-fe5c9091-53cf-4db5-ae1c-a2ca460b2b48" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_i^2 + y_i^2 = a_i^2 + \epsilon_i^2
 \end{align}\]</div>
 <p>が成り立つ。以下のグラフでは、各事例に関して直角三角形を色付けして描いている。直線<span class="math notranslate nohighlight">\(y=\frac{1}{2}x\)</span>上の面を底辺、垂線を高さとすると、</p>
@@ -958,6 +884,11 @@ x_i^2 + y_i^2 = a_i^2 + \epsilon_i^2
 </ul>
 <p>と整理できる。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">uy</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -976,18 +907,24 @@ x_i^2 + y_i^2 = a_i^2 + \epsilon_i^2
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03pca_11_0.png" src="../_images/03pca_11_0.png" />
+<img alt="../_images/096ab10fd3d55f7a6af7e6dead9eca4eda7b219124a8b47979038546f27de87e.png" src="../_images/096ab10fd3d55f7a6af7e6dead9eca4eda7b219124a8b47979038546f27de87e.png" />
 </div>
 </div>
 <p>これまでの議論では、データ点を射影する直線（方向ベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>）を固定していたが、以降は射影された点の良さを考慮しながら様々な直線を検討したい。今回のデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の重心は原点であるため、直線の切片は<span class="math notranslate nohighlight">\(0\)</span>に固定し、直線の傾きだけを変更する。回帰分析と同様に、方向ベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>で元のデータ点を射影したときの「良さ」を、全てのデータ点の残差の二乗和で定量化する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9b89560a-661b-45bc-98f8-a910d9b62ce4">
-<span class="eqno">(12.9)<a class="headerlink" href="#equation-9b89560a-661b-45bc-98f8-a910d9b62ce4" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d0059547-f556-4ba5-958c-f6e2d2181716">
+<span class="eqno">(12.9)<a class="headerlink" href="#equation-d0059547-f556-4ba5-958c-f6e2d2181716" title="Permalink to this equation">#</a></span>\[\begin{align}
 \sum_{i=1}^{N} \epsilon_i^2
 \end{align}\]</div>
 <p>なお、2次元のデータにおいて、線形回帰では<span class="math notranslate nohighlight">\(y\)</span>軸に関する実際の値と近似値の値の差<span class="math notranslate nohighlight">\(\epsilon = y - \hat{y}\)</span>を残差として定義したのに対し、主成分分析では事例を直線に射影したときの垂線の長さ<span class="math notranslate nohighlight">\(\epsilon = \sqrt{(x - \hat{x})^2 + (y - \hat{y})^2}\)</span>を残差として定義する所が異なる。</p>
 <p>さて、直線の傾きを変えながら射影された点をプロットするアニメーションを示す。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)])</span>
@@ -1019,6 +956,7 @@ x_i^2 + y_i^2 = a_i^2 + \epsilon_i^2
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output text_html">
 <link rel="stylesheet"
@@ -1254,7 +1192,7 @@ input[type=range].anim-slider {
     var slider_id = "_anim_slider9ab1b9a80cc4423d8d162632dfa02085";
     var loop_select_id = "_anim_loop_select9ab1b9a80cc4423d8d162632dfa02085";
     var frames = new Array(99);
-
+    
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAJYCAYAAAC+ZpjcAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
 bGliIHZlcnNpb24zLjQuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8rg+JYAAAACXBIWXMAAA9h\
 AAAPYQGoP6dpAAA6AUlEQVR4nO3de5hdZX2w//ubyTBJhgFDOCQg5SxSpSqIWhURMP60aCnSgsZD\
@@ -38718,70 +38656,70 @@ zwAAAABJRU5ErkJggg==\
 </div></div>
 </div>
 <p>このアニメーションを注意深く観察すると、残差の二乗和が小さくなる、すなわち各三角形の高さ<span class="math notranslate nohighlight">\(\epsilon_i\)</span>が短くなるとき、各三角形の底辺の長さ<span class="math notranslate nohighlight">\(a_i\)</span>が大きくなり、三角形が直線方向に大きく広がることが分かる。各点について三平方の定理を適用すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c2fd7c04-867e-4f22-8241-912c37551262">
-<span class="eqno">(12.10)<a class="headerlink" href="#equation-c2fd7c04-867e-4f22-8241-912c37551262" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2a27beef-0bba-4502-bf7a-1d93b68ed048">
+<span class="eqno">(12.10)<a class="headerlink" href="#equation-2a27beef-0bba-4502-bf7a-1d93b68ed048" title="Permalink to this equation">#</a></span>\[\begin{align}
 a_1^2 + \epsilon_1^2 &amp;= x_1^2 + y_1^2 \\
 a_2^2 + \epsilon_2^2 &amp;= x_2^2 + y_2^2 \\
 a_3^2 + \epsilon_3^2 &amp;= x_3^2 + y_3^2 \\
 a_4^2 + \epsilon_4^2 &amp;= x_4^2 + y_4^2 \\
 \end{align}\]</div>
 <p>この４つの式の両辺を足すと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9f08045c-aac4-49d6-be21-0b25f3dacc77">
-<span class="eqno">(12.11)<a class="headerlink" href="#equation-9f08045c-aac4-49d6-be21-0b25f3dacc77" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-90e26e72-c7b5-4f50-bd0d-ae438d1a580f">
+<span class="eqno">(12.11)<a class="headerlink" href="#equation-90e26e72-c7b5-4f50-bd0d-ae438d1a580f" title="Permalink to this equation">#</a></span>\[\begin{align}
 a_1^2 + \epsilon_1^2 + a_2^2 + \epsilon_2^2 + a_3^2 + \epsilon_3^2 + a_4^2 + \epsilon_4^2 &amp;= x_1^2 + y_1^2 + x_2^2 + y_2^2 + x_3^2 + y_3^2 + x_4^2 + y_4^2 \\
 \left(a_1^2 + a_2^2 + a_3^2 + a_4^2\right) + \left(\epsilon_1^2 + \epsilon_2^2 + \epsilon_3^2 + \epsilon_4^2\right) &amp;= x_1^2 + y_1^2 + x_2^2 + y_2^2 + x_3^2 + y_3^2 + x_4^2 + y_4^2
 \end{align}\]</div>
 <p>左辺の<span class="math notranslate nohighlight">\(\left(a_1^2 + a_2^2 + a_3^2 + a_4^2\right)\)</span>は「直線に射影した各点の原点からの距離の二乗和」、<span class="math notranslate nohighlight">\(\left(\epsilon_1^2 + \epsilon_2^2 + \epsilon_3^2 + \epsilon_4^2\right)\)</span>は「直線に射影した各点の残差の二乗和」である。右辺はデータが与えられると直線の傾きに依らず計算できる定数であり、今回のデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>では<span class="math notranslate nohighlight">\(140\)</span>である。</p>
 <p>一般に、以下の関係が成り立つ。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4153d479-8661-4afe-a3e2-1d2fd498cb82">
-<span class="eqno">(12.12)<a class="headerlink" href="#equation-4153d479-8661-4afe-a3e2-1d2fd498cb82" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-aac3fc94-0319-4247-a643-141a438eb606">
+<span class="eqno">(12.12)<a class="headerlink" href="#equation-aac3fc94-0319-4247-a643-141a438eb606" title="Permalink to this equation">#</a></span>\[\begin{align}
 \sum_{i=1}^N a_i^2 + \sum_{i=1}^N \epsilon_i^2 &amp;= \sum_{i=1}^N \left(x_i^2 + y_i^2\right)
 \end{align}\]</div>
 <p>ゆえに、残差の二乗和を最小にする方向ベクトル<span class="math notranslate nohighlight">\(\bm{u}^*\)</span>を求めることは、<span class="math notranslate nohighlight">\(a_i\)</span>の二乗和を最大にする単位ベクトル<span class="math notranslate nohighlight">\(\bm{u}^*\)</span>を求めることと等価である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dcc3c595-c5c9-4726-bff8-b0150e5dea1b">
-<span class="eqno">(12.13)<a class="headerlink" href="#equation-dcc3c595-c5c9-4726-bff8-b0150e5dea1b" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5ce9b321-f312-496f-a0bc-415fa9ab80cf">
+<span class="eqno">(12.13)<a class="headerlink" href="#equation-5ce9b321-f312-496f-a0bc-415fa9ab80cf" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{u}^* &amp;= \mathop{\rm argmin}\limits_{\|\bm{u}\|=1} \sum_{i=1}^N \epsilon_i^2 \\
 &amp;= \mathop{\rm argmin}\limits_{\|\bm{u}\|=1} \left\{ \sum_{i=1}^N \left(x_i^2 + y_i^2\right) - \sum_{i=1}^N a_i^2 \right\} \\
 &amp;= \mathop{\rm argmin}\limits_{\|\bm{u}\|=1} \left\{ (\mbox{$\bm{u}$によらない定数}) - \sum_{i=1}^N a_i^2 \right\} \\
 &amp;= \mathop{\rm argmax}\limits_{\|\bm{u}\|=1} \sum_{i=1}^N a_i^2
 \end{align}\]</div>
 <p>ところで、元のデータの重心が原点にあるとき、<span class="math notranslate nohighlight">\(a_i\)</span>の和も<span class="math notranslate nohighlight">\(0\)</span>になる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1de4f3c2-45e9-4e3d-899d-2ff0ec87b317">
-<span class="eqno">(12.14)<a class="headerlink" href="#equation-1de4f3c2-45e9-4e3d-899d-2ff0ec87b317" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-58446efb-a5e4-41e8-a06e-57813fd2e2ee">
+<span class="eqno">(12.14)<a class="headerlink" href="#equation-58446efb-a5e4-41e8-a06e-57813fd2e2ee" title="Permalink to this equation">#</a></span>\[\begin{align}
 \sum_{i=1}^N a_i = \sum_{i=1}^N \begin{pmatrix}x_i \\ y_i\end{pmatrix}^\top \bm{u}
 = \begin{pmatrix}\sum_{i=1}^N x_i \\ \sum_{i=1}^N y_i\end{pmatrix}^\top \bm{u}
 = \begin{pmatrix}0 \\ 0\end{pmatrix}^\top \bm{u}
 = 0
 \end{align}\]</div>
 <p>これは、<span class="math notranslate nohighlight">\(a_i\)</span>の平均<span class="math notranslate nohighlight">\(\bar{a}\)</span>が<span class="math notranslate nohighlight">\(0\)</span>であることを意味する。すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6911e992-4eca-4ad1-9bf3-f9433bffabe2">
-<span class="eqno">(12.15)<a class="headerlink" href="#equation-6911e992-4eca-4ad1-9bf3-f9433bffabe2" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dc51b547-56a4-46ca-b5e4-8920b66efc44">
+<span class="eqno">(12.15)<a class="headerlink" href="#equation-dc51b547-56a4-46ca-b5e4-8920b66efc44" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathrm{Var}[\bm{a}] = \frac{1}{N}\sum_{i=1}^N (a_i - \bar{a})^2 = \frac{1}{N}\sum_{i=1}^N a_i^2
 \end{align}\]</div>
 <p>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-75d09772-aff4-4e5d-aca0-bf76430b6d15">
-<span class="eqno">(12.16)<a class="headerlink" href="#equation-75d09772-aff4-4e5d-aca0-bf76430b6d15" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a8d0d77c-0963-41f0-ba3a-eadc667371cd">
+<span class="eqno">(12.16)<a class="headerlink" href="#equation-a8d0d77c-0963-41f0-ba3a-eadc667371cd" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{u}^* = \mathop{\rm argmax}\limits_{\|\bm{u}\|=1} \sum_{i=1}^N a_i^2 = \mathop{\rm argmax}\limits_{\|\bm{u}\|=1} N \cdot \mathrm{Var}[\bm{a}] = \mathop{\rm argmax}\limits_{\|\bm{u}\|=1} \mathrm{Var}[\bm{a}]
 \end{align}\]</div>
 <p>したがって、データ点を直線に射影し、近似的に表現するとき、その<strong>残差の二乗和を最小化する</strong>ようにベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>を選ぶことと、<strong>射影された点の分散を最大化する</strong>ようにベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>を選ぶことは<strong>等価</strong>である。後者は射影された点の分散を大きくとることで、元のデータ点の情報をできるだけ保存しようとしていると解釈できる。主成分分析は「元データを写像したときの分散が大きくなるような軸を見つける」と説明されることがあるが、これは「元データの情報をできるだけ豊富に表現できるような軸を見つける」や「元データを射影したときの残差ができるだけ小さくなるような軸を見つける」という動機に基づいている。</p>
 </section>
 <section id="id5">
-<h2><span class="section-number">12.4. </span>第１主成分を求める<a class="headerlink" href="#id5" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">12.4. </span>第１主成分を求める<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
 <p>これまでの議論により、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を「よく」射影するベクトル<span class="math notranslate nohighlight">\(\bm{u}\)</span>を求めることは、<span class="math notranslate nohighlight">\(\|\bm{u}\|=1\)</span>の制約下で、以下の目的関数<span class="math notranslate nohighlight">\(J\)</span>を最大化する問題に帰着した。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b73f32ab-e162-4c9c-9f02-28f846cac590">
-<span class="eqno">(12.17)<a class="headerlink" href="#equation-b73f32ab-e162-4c9c-9f02-28f846cac590" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a20c4a5a-6aab-4c61-9803-2bfca86fbb16">
+<span class="eqno">(12.17)<a class="headerlink" href="#equation-a20c4a5a-6aab-4c61-9803-2bfca86fbb16" title="Permalink to this equation">#</a></span>\[\begin{align}
 J = \sum_{i=1}^4 a_i^2
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\bm{a} = \begin{pmatrix}a_1 &amp; a_2 &amp; a_3 &amp; a_4\end{pmatrix}^\top\)</span>と表すことにすると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2900a84f-853a-43cd-9bf2-3d675a6ce0d0">
-<span class="eqno">(12.18)<a class="headerlink" href="#equation-2900a84f-853a-43cd-9bf2-3d675a6ce0d0" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-caa83563-4b03-4c83-9de3-aebc0677c8ce">
+<span class="eqno">(12.18)<a class="headerlink" href="#equation-caa83563-4b03-4c83-9de3-aebc0677c8ce" title="Permalink to this equation">#</a></span>\[\begin{align}
 J = \sum_{i=1}^4 a_i^2
   = \begin{pmatrix}a_1 &amp; a_2 &amp; a_3 &amp; a_4\end{pmatrix} \begin{pmatrix}a_1 \\ a_2 \\ a_3 \\ a_4\end{pmatrix}
   = \bm{a}^\top \bm{a}
 \end{align}\]</div>
 <p>そこで、式<a class="reference internal" href="#equation-eq-definition-of-a">(12.5)</a>の<span class="math notranslate nohighlight">\(\bm{a}\)</span>の定義に立ち返って整理してみる。</p>
 <div class="math notranslate nohighlight" id="equation-eq-definition-of-vector-a">
-<span class="eqno">(12.19)<a class="headerlink" href="#equation-eq-definition-of-vector-a" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(12.19)<a class="headerlink" href="#equation-eq-definition-of-vector-a" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{align}
 \bm{a} = \begin{pmatrix}a_1 \\ a_2 \\ a_3 \\ a_4\end{pmatrix}
 = \begin{pmatrix}\begin{pmatrix}x_1 &amp; y_1\end{pmatrix} \bm{u} \\ \begin{pmatrix}x_2 &amp; y_2\end{pmatrix} \bm{u} \\ \begin{pmatrix}x_3 &amp; y_3\end{pmatrix} \bm{u} \\ \begin{pmatrix}x_4 &amp; y_4\end{pmatrix} \bm{u}\end{pmatrix}
@@ -38790,13 +38728,13 @@ J = \sum_{i=1}^4 a_i^2
 \end{align}
 \end{split}\]</div>
 <p>なお、行列<span class="math notranslate nohighlight">\(\bm{X} = \mathbb{R}^{4 \times 2}\)</span>はデータ点（事例）のベクトルを並べたものである。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d339018c-d42c-4b39-a33a-385379e3d3fc">
-<span class="eqno">(12.20)<a class="headerlink" href="#equation-d339018c-d42c-4b39-a33a-385379e3d3fc" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6c63263f-2efc-491b-a667-037876d55cb1">
+<span class="eqno">(12.20)<a class="headerlink" href="#equation-6c63263f-2efc-491b-a667-037876d55cb1" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{X} = \begin{pmatrix}x_1 &amp; y_1 \\ x_2 &amp; y_2 \\ x_3 &amp; y_3 \\ x_4 &amp; y_4\end{pmatrix}
 \end{align}\]</div>
 <p>すると、目的関数<span class="math notranslate nohighlight">\(J\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3ff1c511-3f1a-44b5-9b05-2915868ae3db">
-<span class="eqno">(12.21)<a class="headerlink" href="#equation-3ff1c511-3f1a-44b5-9b05-2915868ae3db" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0e0c6621-3b76-4b85-8c7c-e3abceccaa04">
+<span class="eqno">(12.21)<a class="headerlink" href="#equation-0e0c6621-3b76-4b85-8c7c-e3abceccaa04" title="Permalink to this equation">#</a></span>\[\begin{align}
 J = \bm{a}^\top \bm{a}
 = \left(\bm{X} \bm{u}\right)^\top \left(\bm{X} \bm{u}\right)
 = \left(\bm{u}^\top \bm{X}^\top\right)\left(\bm{X} \bm{u}\right)
@@ -38804,65 +38742,65 @@ J = \bm{a}^\top \bm{a}
 = \bm{u}^\top \bm{S} \bm{u}
 \end{align}\]</div>
 <p>と整理できる。<span class="math notranslate nohighlight">\(\bm{S} = \bm{X}^\top \bm{X}\)</span>は対称行列である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1410191a-e61a-4ef4-a4e1-35cff643710e">
-<span class="eqno">(12.22)<a class="headerlink" href="#equation-1410191a-e61a-4ef4-a4e1-35cff643710e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5cb0c7e7-ba81-4840-aebd-bf1a779e45f3">
+<span class="eqno">(12.22)<a class="headerlink" href="#equation-5cb0c7e7-ba81-4840-aebd-bf1a779e45f3" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{S} = \bm{X}^\top \bm{X} &amp;= \begin{pmatrix}x_1 &amp; x_2 &amp; x_3 &amp; x_4 \\ y_1 &amp; y_2 &amp; y_3 &amp; y_4\end{pmatrix} \begin{pmatrix}x_1 &amp; y_1 \\ x_2 &amp; y_2 \\ x_3 &amp; y_3 \\ x_4 &amp; y_4\end{pmatrix} \\
 &amp;= \begin{pmatrix}x_1^2 + x_2^2 + x_3^2 + x_4^2 &amp; x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4 \\ x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4 &amp; y_1^2 + y_2^2 + y_3^2 + y_4^2\end{pmatrix} 
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(\bm{u}\)</span>を求めることは、制約<span class="math notranslate nohighlight">\(\|\bm{u}\|=1\)</span>のもとで目的関数<span class="math notranslate nohighlight">\(J\)</span>を最大化する問題であるので、ラグランジュの未定乗数法で制約なしの問題に書き換える。すると、<span class="math notranslate nohighlight">\(\lambda\)</span>をラグランジュ乗数として、以下のラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\bm{u}, \lambda)\)</span>を最大化する問題に帰着する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-aae79590-56d3-4325-a19a-b5847cf02776">
-<span class="eqno">(12.23)<a class="headerlink" href="#equation-aae79590-56d3-4325-a19a-b5847cf02776" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-45e2c258-da22-4aa3-bc6e-77b6be7c226f">
+<span class="eqno">(12.23)<a class="headerlink" href="#equation-45e2c258-da22-4aa3-bc6e-77b6be7c226f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{L}(\bm{u}, \lambda) &amp;= \bm{u}^\top \bm{S} \bm{u} - \lambda (\bm{u}^\top\bm{u} - 1)
 \end{align}\]</div>
 <p>ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\bm{u}, \lambda)\)</span>を<span class="math notranslate nohighlight">\(\bm{u}\)</span>で偏微分すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2236963c-c9ce-481d-bdcd-1b451c7ee369">
-<span class="eqno">(12.24)<a class="headerlink" href="#equation-2236963c-c9ce-481d-bdcd-1b451c7ee369" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f992ae21-ab0a-4bdc-8802-a27e1341a4fa">
+<span class="eqno">(12.24)<a class="headerlink" href="#equation-f992ae21-ab0a-4bdc-8802-a27e1341a4fa" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial \mathcal{L}(\bm{u}, \lambda)}{\partial \bm{u}} &amp;= \frac{\partial}{\partial \bm{u}} \left(\bm{u}^\top \bm{S} \bm{u}\right) - \frac{\partial}{\partial \bm{u}} \lambda (\bm{u}^\top\bm{u} - 1) \\
 &amp;= (\bm{S} + \bm{S}^\top)\bm{u} - 2\lambda\bm{u} \\
 &amp;= 2(\bm{S} \bm{u} - \lambda \bm{u}) \\
 \end{align}\]</div>
 <p>これを<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3c72fdb4-cb23-476a-9c22-26ab13054bf4">
-<span class="eqno">(12.25)<a class="headerlink" href="#equation-3c72fdb4-cb23-476a-9c22-26ab13054bf4" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-72d3cf34-c147-4037-a4fb-c722ddb4b32d">
+<span class="eqno">(12.25)<a class="headerlink" href="#equation-72d3cf34-c147-4037-a4fb-c722ddb4b32d" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial \mathcal{L}(\bm{u}, \lambda)}{\partial \bm{u}} = 2(\bm{S} \bm{u} - \lambda\bm{u}) &amp;= 0 \\
 \bm{S} \bm{u} &amp;= \lambda\bm{u} \\
 (\bm{S} - \lambda \bm{I}) \bm{u} &amp;= 0
 \end{align}\]</div>
 <p>ゆえに、<span class="math notranslate nohighlight">\(\bm{S} = \bm{X}^\top \bm{X}\)</span>の固有値問題に帰着した。<span class="math notranslate nohighlight">\(\lambda\)</span>が<span class="math notranslate nohighlight">\(\bm{S}\)</span>の固有値であるので、特性方程式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a7630fd4-04a6-406f-8e39-4c58431ef174">
-<span class="eqno">(12.26)<a class="headerlink" href="#equation-a7630fd4-04a6-406f-8e39-4c58431ef174" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-17bd34bf-3f0d-4a80-b5fb-9b32034e3bea">
+<span class="eqno">(12.26)<a class="headerlink" href="#equation-17bd34bf-3f0d-4a80-b5fb-9b32034e3bea" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathrm{det}|\bm{S} - \lambda \bm{I}| &amp;= 0 \\
 \mathrm{det}\begin{vmatrix}S_{1,1} - \lambda &amp; S_{1,2} \\ S_{2,1} &amp; S_{2,2} - \lambda \end{vmatrix} &amp;= 0 \\
 (S_{1,1} - \lambda) (S_{2,2} - \lambda) - S_{1,2} S_{2,1} &amp;= 0
 \end{align}\]</div>
 <p>さて、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の例で実際に計算を進める。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6d97c877-e4d3-41c6-a336-8a22a5ebe2f4">
-<span class="eqno">(12.27)<a class="headerlink" href="#equation-6d97c877-e4d3-41c6-a336-8a22a5ebe2f4" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-722f4043-c599-4b3a-a662-dcfcae9259c6">
+<span class="eqno">(12.27)<a class="headerlink" href="#equation-722f4043-c599-4b3a-a662-dcfcae9259c6" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{S} &amp;= \bm{X}^\top \bm{X} = \begin{pmatrix}-7 &amp; -3 &amp; 4 &amp; 6 \\-2 &amp; -3 &amp; 1 &amp; 4\end{pmatrix}\begin{pmatrix}-7 &amp; -2 \\ -3 &amp; -3 \\ 4 &amp; 1 \\ 6 &amp; 4\end{pmatrix} = \begin{pmatrix}110 &amp; 51 \\ 51 &amp; 30\end{pmatrix}
 \end{align}\]</div>
 <p>であるから、特性方程式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1d521403-cf16-4718-af09-eeb9d857df3f">
-<span class="eqno">(12.28)<a class="headerlink" href="#equation-1d521403-cf16-4718-af09-eeb9d857df3f" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-13a5bc0a-a9aa-49ee-a690-82e0be2844f0">
+<span class="eqno">(12.28)<a class="headerlink" href="#equation-13a5bc0a-a9aa-49ee-a690-82e0be2844f0" title="Permalink to this equation">#</a></span>\[\begin{align}
 (110 - \lambda)(30 - \lambda) - 51^2 &amp;= 0 \\
 \lambda^2 - 140x + 699 &amp;=0 \\
 \lambda &amp;= 70 \pm \sqrt{4201} \\
 \lambda &amp;\approx 134.8, 5.185 
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(J\)</span>を最大化する解として、<span class="math notranslate nohighlight">\(\lambda \approx 134.8\)</span>と<span class="math notranslate nohighlight">\(\lambda \approx 5.185\)</span>のどちらを選べばよいのか？　<span class="math notranslate nohighlight">\(\bm{S} \bm{u} = \lambda\bm{u}\)</span>の両辺に左から<span class="math notranslate nohighlight">\(\bm{u}^\top\)</span>をかけると、左辺は目的関数<span class="math notranslate nohighlight">\(J\)</span>に一致する。右辺は<span class="math notranslate nohighlight">\(\|\bm{u}\|=1\)</span>であることに注意すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-58a7573e-df21-41e7-b95b-4ca91117115d">
-<span class="eqno">(12.29)<a class="headerlink" href="#equation-58a7573e-df21-41e7-b95b-4ca91117115d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-20c448c7-40c5-4d83-b5ca-8b1ca3dc6508">
+<span class="eqno">(12.29)<a class="headerlink" href="#equation-20c448c7-40c5-4d83-b5ca-8b1ca3dc6508" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{u}^\top\bm{S} \bm{u} &amp;= \bm{u}^\top \lambda \bm{u} \\
 J &amp;= \lambda \bm{u}^\top \bm{u} = \lambda
 \end{align}\]</div>
 <p>したがって、求めた固有値<span class="math notranslate nohighlight">\(\lambda\)</span>が目的関数の値となる。そこで、固有値のうち大きい方を<span class="math notranslate nohighlight">\(\lambda_1\)</span>と書くことにして、<span class="math notranslate nohighlight">\(\lambda_1 = 134.8\)</span>とする。<span class="math notranslate nohighlight">\(\bm{S}\)</span>の固有値問題の等式に<span class="math notranslate nohighlight">\(\lambda = 134.8\)</span>を代入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a124ee34-95a0-4242-9bbc-a3329cb1a54e">
-<span class="eqno">(12.30)<a class="headerlink" href="#equation-a124ee34-95a0-4242-9bbc-a3329cb1a54e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1a87ae57-194e-4a45-b3bb-7b23f7d51a90">
+<span class="eqno">(12.30)<a class="headerlink" href="#equation-1a87ae57-194e-4a45-b3bb-7b23f7d51a90" title="Permalink to this equation">#</a></span>\[\begin{align}
 (\bm{S} - 134.8 \bm{I}) \bm{u} &amp;= 0 \\
 \begin{pmatrix}-24.8 &amp; 51 \\ 51 &amp; -104.8\end{pmatrix} \bm{u} &amp;= 0 \\
 \end{align}\]</div>
 <p>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7b84ea09-a472-45dc-bcd8-08b8893abade">
-<span class="eqno">(12.31)<a class="headerlink" href="#equation-7b84ea09-a472-45dc-bcd8-08b8893abade" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-56a7c143-fd9a-400e-bfe6-2d21dfaf1cb3">
+<span class="eqno">(12.31)<a class="headerlink" href="#equation-56a7c143-fd9a-400e-bfe6-2d21dfaf1cb3" title="Permalink to this equation">#</a></span>\[\begin{align}
 \begin{cases}
 -24.8 u_1 + 51 u_2 &amp;= 0 \\
 51 u_1 - 104.8 u_2 &amp;= 0
@@ -38874,22 +38812,27 @@ J &amp;= \lambda \bm{u}^\top \bm{u} = \lambda
 \end{cases}
 \end{align}\]</div>
 <p>したがって、<span class="math notranslate nohighlight">\(c\)</span>をスカラー値の定数として、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e7878c07-0cdd-4f14-8bac-8b8b60417222">
-<span class="eqno">(12.32)<a class="headerlink" href="#equation-e7878c07-0cdd-4f14-8bac-8b8b60417222" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-12167998-7b26-498a-8c4d-635d3c8722fc">
+<span class="eqno">(12.32)<a class="headerlink" href="#equation-12167998-7b26-498a-8c4d-635d3c8722fc" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{u} = c\begin{pmatrix}1 \\ 0.486\end{pmatrix}
 \end{align}\]</div>
 <p>と表される。さらに制約<span class="math notranslate nohighlight">\(\|\bm{u}\|=1\)</span>を満たすように<span class="math notranslate nohighlight">\(\bm{u}\)</span>を求めると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-39f7384a-dcb1-47a3-a048-723f8a24e6a7">
-<span class="eqno">(12.33)<a class="headerlink" href="#equation-39f7384a-dcb1-47a3-a048-723f8a24e6a7" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-81d39f92-b5ee-427b-b8c2-6ca90021d7bd">
+<span class="eqno">(12.33)<a class="headerlink" href="#equation-81d39f92-b5ee-427b-b8c2-6ca90021d7bd" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{u} = \begin{pmatrix}0.899 \\ 0.437\end{pmatrix}
 \end{align}\]</div>
 <p>このように求めた<span class="math notranslate nohighlight">\(\bm{u}\)</span>を<strong>第１主成分</strong>（the first principal component）と呼ぶ。<span class="math notranslate nohighlight">\(\lambda_1\)</span>は目的関数の値そのものであるから、データを第１主成分の軸に写像したときの分散は<span class="math notranslate nohighlight">\(\lambda_1 = 134.8\)</span>である。各データ点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>を第１主成分の直線上に写像したときの位置<span class="math notranslate nohighlight">\(a_i\)</span>を<strong>第１主成分得点</strong>（the first principal component score）と呼ぶ。式<a class="reference internal" href="#equation-eq-definition-of-vector-a">(12.19)</a>を用いて実際に主成分得点を求めてみると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f0d7e339-5404-41b8-9c1d-66987e57a728">
-<span class="eqno">(12.34)<a class="headerlink" href="#equation-f0d7e339-5404-41b8-9c1d-66987e57a728" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-eae54ca7-2cab-4237-9133-7b07491447b1">
+<span class="eqno">(12.34)<a class="headerlink" href="#equation-eae54ca7-2cab-4237-9133-7b07491447b1" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{a} = \bm{X}\bm{u} = \begin{pmatrix}-7 &amp; -2 \\ -3 &amp; -3 \\ 4 &amp; 1 \\ 6 &amp; 4\end{pmatrix} \begin{pmatrix}0.899 \\ 0.437\end{pmatrix} \approx \begin{pmatrix}-7.17 \\ -4.01 \\ 4.03 \\ 7.15\end{pmatrix}
 \end{align}\]</div>
 <p>実際に求めた<span class="math notranslate nohighlight">\(\bm{u}\)</span>を可視化した（おおよそ、これまで例に用いていた<span class="math notranslate nohighlight">\(y=\frac{1}{2}x\)</span>に近いが、それよりも少しずれた直線が解であった）。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.89920519</span><span class="p">,</span> <span class="mf">0.43752718</span><span class="p">])</span>
 <span class="n">uy</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -38908,70 +38851,71 @@ J &amp;= \lambda \bm{u}^\top \bm{u} = \lambda
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03pca_22_0.png" src="../_images/03pca_22_0.png" />
+<img alt="../_images/ae30727498f45b15015960b1766e670dd47bdb4a1531672cb76c3fbcab01590a.png" src="../_images/ae30727498f45b15015960b1766e670dd47bdb4a1531672cb76c3fbcab01590a.png" />
 </div>
 </div>
 </section>
 <section id="id6">
-<h2><span class="section-number">12.5. </span>第２主成分を求める<a class="headerlink" href="#id6" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">12.5. </span>第２主成分を求める<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
 <p>先ほど求めた第１主成分の軸は元データを近似的によく表現しているが、残差<span class="math notranslate nohighlight">\(\epsilon_i\)</span>が残っている。残差は各データ点から第１主成分の直線に降ろした垂線の長さであるから、この残差を表現するには第１主成分のベクトルと直交するベクトルを求めればよい。すなわち、残差を表現する直線の方向ベクトルを<span class="math notranslate nohighlight">\(\bm{v}\)</span>とおき、<span class="math notranslate nohighlight">\(\|\bm{v}\|=1\)</span>かつ<span class="math notranslate nohighlight">\(\bm{u}^\top\bm{v}=0\)</span>を満たすベクトル<span class="math notranslate nohighlight">\(\bm{v}\)</span>を求めればよい。<span class="math notranslate nohighlight">\(u_1 v_1 + u_2 v_2 = 0\)</span>であるから、</p>
 <div class="math notranslate nohighlight" id="equation-eq-second-pc">
-<span class="eqno">(12.35)<a class="headerlink" href="#equation-eq-second-pc" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(12.35)<a class="headerlink" href="#equation-eq-second-pc" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{align}
 \bm{v} = \begin{pmatrix}-0.437 \\ 0.899\end{pmatrix}
 \end{align}
 \end{split}\]</div>
 <p>と求めることができる。この<span class="math notranslate nohighlight">\(\bm{v}\)</span>が<strong>第２主成分</strong>（the second principal component）である。例として用いている<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>は2次元のデータであるので、第３成分以降の軸を求める必要はない。</p>
 <p>ただ、この求め方では2次元以上のデータに対応できないので、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最大化しても<span class="math notranslate nohighlight">\(\bm{v}\)</span>が求まることを説明する。データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を２番目に「よく」射影するベクトル<span class="math notranslate nohighlight">\(\bm{v}\)</span>を求めることは、<span class="math notranslate nohighlight">\(\|\bm{v}\|=1\)</span>および<span class="math notranslate nohighlight">\(\bm{u}^\top \bm{v}=0\)</span>の制約下で、以下の目的関数<span class="math notranslate nohighlight">\(J\)</span>を最大化すればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e2279f17-4e8e-4087-b8a8-31f94bc6bd4a">
-<span class="eqno">(12.36)<a class="headerlink" href="#equation-e2279f17-4e8e-4087-b8a8-31f94bc6bd4a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3296b8ce-d9c9-43f2-915a-97e4bccafe5b">
+<span class="eqno">(12.36)<a class="headerlink" href="#equation-3296b8ce-d9c9-43f2-915a-97e4bccafe5b" title="Permalink to this equation">#</a></span>\[\begin{align}
 J = \bm{v}^\top \bm{S} \bm{v}
 \end{align}\]</div>
 <p>これは、以下のラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\bm{v}, \lambda, \alpha)\)</span>を最大化する問題に帰着する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7bc03cc4-c80c-48e4-8b18-3c07c355a097">
-<span class="eqno">(12.37)<a class="headerlink" href="#equation-7bc03cc4-c80c-48e4-8b18-3c07c355a097" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1328aaec-9604-498a-bb20-25edd9acc966">
+<span class="eqno">(12.37)<a class="headerlink" href="#equation-1328aaec-9604-498a-bb20-25edd9acc966" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{L}(\bm{v}, \lambda, \alpha) &amp;= \bm{v}^\top \bm{S} \bm{v} - \lambda (\bm{v}^\top\bm{v} - 1) - \alpha \bm{u}^\top \bm{v}
 \end{align}\]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(\lambda\)</span>と<span class="math notranslate nohighlight">\(\alpha\)</span>はラグランジュ乗数である。ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\bm{v}, \lambda, \alpha)\)</span>を<span class="math notranslate nohighlight">\(\bm{v}\)</span>で偏微分すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7810871e-f5b6-4011-a929-5690d3fcf746">
-<span class="eqno">(12.38)<a class="headerlink" href="#equation-7810871e-f5b6-4011-a929-5690d3fcf746" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-09da51e5-8b07-4c94-8f09-fbbf2490e1dc">
+<span class="eqno">(12.38)<a class="headerlink" href="#equation-09da51e5-8b07-4c94-8f09-fbbf2490e1dc" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial \mathcal{L}(\bm{v}, \lambda, \alpha)}{\partial \bm{v}} &amp;= \frac{\partial}{\partial \bm{v}} \left(\bm{v}^\top \bm{S} \bm{v}\right) - \frac{\partial}{\partial \bm{v}}  \left(\lambda (\bm{v}^\top\bm{v} - 1)\right)  - \frac{\partial}{\partial \bm{v}} \left(\alpha \bm{u}^\top \bm{v}\right) \\
 &amp;= (\bm{S} + \bm{S}^\top)\bm{v} - 2\bm{v} - \alpha \bm{u} \\
 &amp;= 2\bm{S} \bm{v} - 2\lambda\bm{v}  - \alpha \bm{u} \\
 \end{align}\]</div>
 <p>これを<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-815cefe3-02f0-4720-b500-744389f4d0b9">
-<span class="eqno">(12.39)<a class="headerlink" href="#equation-815cefe3-02f0-4720-b500-744389f4d0b9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ff09861b-22d9-4899-a1fd-afcd9b3701c3">
+<span class="eqno">(12.39)<a class="headerlink" href="#equation-ff09861b-22d9-4899-a1fd-afcd9b3701c3" title="Permalink to this equation">#</a></span>\[\begin{align}
 2\bm{S} \bm{v} - 2\lambda\bm{v}  - \alpha \bm{u} &amp;= 0
 \end{align}\]</div>
 <p>ここで、左から<span class="math notranslate nohighlight">\(\bm{u}^\top\)</span>をかけ、<span class="math notranslate nohighlight">\(\bm{u}^\top\bm{v}=0\)</span>と<span class="math notranslate nohighlight">\(\bm{u}^\top\bm{u}=1\)</span>であることに注意すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5cb21201-a59a-4713-9b1b-780202d6b614">
-<span class="eqno">(12.40)<a class="headerlink" href="#equation-5cb21201-a59a-4713-9b1b-780202d6b614" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3315eb1b-9df7-435e-8453-ba84c6a8211c">
+<span class="eqno">(12.40)<a class="headerlink" href="#equation-3315eb1b-9df7-435e-8453-ba84c6a8211c" title="Permalink to this equation">#</a></span>\[\begin{align}
 2\bm{u}^\top \bm{S} \bm{v} - 2\lambda\bm{u}^\top\bm{v}  - \alpha \bm{u}^\top\bm{u} &amp;= 0 \\
 2\bm{u}^\top\bm{S} \bm{v} - \alpha &amp;= 0 \\
 \alpha &amp;= 2\bm{u}^\top\bm{S} \bm{v} = 2\bm{v}^\top\bm{S} \bm{u} \\
 \end{align}\]</div>
 <p>なお、最終行の式変形では、<span class="math notranslate nohighlight">\(\bm{u}^\top\bm{S} \bm{v}\)</span>がスカラーであるから、<span class="math notranslate nohighlight">\((\bm{u}^\top\bm{S} \bm{v})^\top = \bm{v}^\top\bm{S} \bm{u}\)</span>が成り立つことを用いた。ここで、第１主成分を求めたときの固有値問題により、<span class="math notranslate nohighlight">\(\bm{S} \bm{u} = \lambda_1 \bm{u}\)</span>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-99c2faaa-5abe-4cec-a20c-03053bb7a6a9">
-<span class="eqno">(12.41)<a class="headerlink" href="#equation-99c2faaa-5abe-4cec-a20c-03053bb7a6a9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2b5e09b6-1293-46a4-b4dc-a1e7eb1c300b">
+<span class="eqno">(12.41)<a class="headerlink" href="#equation-2b5e09b6-1293-46a4-b4dc-a1e7eb1c300b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \alpha &amp;= 2\bm{v}^\top (\bm{S} \bm{u}) = 2\bm{v}^\top (\lambda_1 \bm{u}) = 2 \lambda_1 \bm{v}^\top \bm{u} = 0
 \end{align}\]</div>
 <p>したがって、<span class="math notranslate nohighlight">\(\alpha = 0\)</span>であるから、ラグランジュ関数<span class="math notranslate nohighlight">\(\mathcal{L}(\bm{v}, \lambda, \alpha)\)</span>を<span class="math notranslate nohighlight">\(\bm{v}\)</span>で偏微分して<span class="math notranslate nohighlight">\(0\)</span>とおいた式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7d842ab8-79e2-4f01-bd01-dd25b92a89a9">
-<span class="eqno">(12.42)<a class="headerlink" href="#equation-7d842ab8-79e2-4f01-bd01-dd25b92a89a9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-24645aea-be9d-42f8-9f6c-47f43aebd353">
+<span class="eqno">(12.42)<a class="headerlink" href="#equation-24645aea-be9d-42f8-9f6c-47f43aebd353" title="Permalink to this equation">#</a></span>\[\begin{align}
 2\bm{S} \bm{v} - 2\lambda\bm{v}  &amp;= 0 \\
 \bm{S} \bm{v} &amp;= \lambda\bm{v}
 \end{align}\]</div>
 <p>となり、再び<span class="math notranslate nohighlight">\(\bm{S}\)</span>の固有値問題に帰着した。そこで、先ほど求めた固有値のうち小さい方を<span class="math notranslate nohighlight">\(\lambda_2\)</span>と書くことにして、<span class="math notranslate nohighlight">\(\lambda_2 = 5.185\)</span>とする。<span class="math notranslate nohighlight">\(\bm{S}\)</span>の固有値問題の等式に<span class="math notranslate nohighlight">\(\lambda = 5.185\)</span>を代入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-aaaadec2-3e53-4375-9239-bc7896ea5bf4">
-<span class="eqno">(12.43)<a class="headerlink" href="#equation-aaaadec2-3e53-4375-9239-bc7896ea5bf4" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4b2c8ed0-5901-4ed1-90f3-31128b11ddf4">
+<span class="eqno">(12.43)<a class="headerlink" href="#equation-4b2c8ed0-5901-4ed1-90f3-31128b11ddf4" title="Permalink to this equation">#</a></span>\[\begin{align}
 (\bm{S} - 5.185 \bm{I}) \bm{v} &amp;= 0 \\
 \begin{pmatrix}104.8 &amp; 51 \\ 51 &amp; 24.82\end{pmatrix} \bm{v} &amp;= 0 \\
 \end{align}\]</div>
 <p>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-40e760ae-1811-486f-9024-cf3eab23880e">
-<span class="eqno">(12.44)<a class="headerlink" href="#equation-40e760ae-1811-486f-9024-cf3eab23880e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-50c0a437-66f6-4ba0-b0cd-c82dcabcab5d">
+<span class="eqno">(12.44)<a class="headerlink" href="#equation-50c0a437-66f6-4ba0-b0cd-c82dcabcab5d" title="Permalink to this equation">#</a></span>\[\begin{align}
 \begin{cases}
 104.8 v_1 + 51 v_2 &amp;= 0 \\
 51 v_1 + 24.82 v_2 &amp;= 0
@@ -38983,22 +38927,27 @@ J = \bm{v}^\top \bm{S} \bm{v}
 \end{cases}
 \end{align}\]</div>
 <p>したがって、<span class="math notranslate nohighlight">\(c\)</span>をスカラー値の定数として、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e63d7cca-f770-41a4-b937-d9024eb09b6a">
-<span class="eqno">(12.45)<a class="headerlink" href="#equation-e63d7cca-f770-41a4-b937-d9024eb09b6a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-846f3346-49b7-4928-b6e6-56b7d27f8781">
+<span class="eqno">(12.45)<a class="headerlink" href="#equation-846f3346-49b7-4928-b6e6-56b7d27f8781" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{v} = c\begin{pmatrix}1 \\ -2.055\end{pmatrix}
 \end{align}\]</div>
 <p>と表される。さらに制約<span class="math notranslate nohighlight">\(\|\bm{v}\|=1\)</span>を満たすように<span class="math notranslate nohighlight">\(\bm{v}\)</span>を求めると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0e252f68-d229-46e0-9dac-2a3708e741f1">
-<span class="eqno">(12.46)<a class="headerlink" href="#equation-0e252f68-d229-46e0-9dac-2a3708e741f1" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9f7c7dd0-a63b-491e-9878-02a8da1a149f">
+<span class="eqno">(12.46)<a class="headerlink" href="#equation-9f7c7dd0-a63b-491e-9878-02a8da1a149f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{v} = \begin{pmatrix}0.438 \\ -0.899\end{pmatrix} 
 \end{align}\]</div>
 <p>このように求めた<span class="math notranslate nohighlight">\(\bm{v}\)</span>を第２主成分と呼ぶ。式<a class="reference internal" href="#equation-eq-second-pc">(12.35)</a>で求めた<span class="math notranslate nohighlight">\(\bm{v}\)</span>と逆向きであるが、固有値問題の解から同じ第２主成分が求まった。<span class="math notranslate nohighlight">\(\lambda_2\)</span>も目的関数の値そのものであるから、データを第２主成分の軸に写像したときの分散は<span class="math notranslate nohighlight">\(\lambda_2 = 5.185\)</span>である。式<a class="reference internal" href="#equation-eq-definition-of-vector-a">(12.19)</a>を用いて第２主成分得点を求めてみると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8272bccf-d5bc-4ab3-a3b6-a4a1880d064f">
-<span class="eqno">(12.47)<a class="headerlink" href="#equation-8272bccf-d5bc-4ab3-a3b6-a4a1880d064f" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f42a547d-ff28-4754-8823-7365e81a2e43">
+<span class="eqno">(12.47)<a class="headerlink" href="#equation-f42a547d-ff28-4754-8823-7365e81a2e43" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{a} = \bm{X}\bm{v} = \begin{pmatrix}-7 &amp; -2 \\ -3 &amp; -3 \\ 4 &amp; 1 \\ 6 &amp; 4\end{pmatrix} \begin{pmatrix}0.438 \\ -0.899\end{pmatrix} \approx \begin{pmatrix}1.26 \\ -1.39 \\ -0.85 \\ 0.97\end{pmatrix}
 \end{align}\]</div>
 <p>このデータに対する主成分分析の締めくくりとして、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の第１主成分<span class="math notranslate nohighlight">\(\bm{u}\)</span>と第２主成分<span class="math notranslate nohighlight">\(\bm{v}\)</span>を可視化した。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.89920519</span><span class="p">,</span> <span class="mf">0.43752718</span><span class="p">])</span>
 <span class="n">uy</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -39023,13 +38972,14 @@ J = \bm{v}^\top \bm{S} \bm{v}
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03pca_24_0.png" src="../_images/03pca_24_0.png" />
+<img alt="../_images/5ebe3fa872c0e3ff0a2db4ec5ff421a30f6d439bbd98e4bc0031f20306bb9328.png" src="../_images/5ebe3fa872c0e3ff0a2db4ec5ff421a30f6d439bbd98e4bc0031f20306bb9328.png" />
 </div>
 </div>
 </section>
 <section id="id7">
-<h2><span class="section-number">12.6. </span>実装<a class="headerlink" href="#id7" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">12.6. </span>実装<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
 <p>例として用いてきたデータ<span class="math notranslate nohighlight">\(\bm{X}\)</span>に対して、主成分分析を行う。</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -39102,7 +39052,7 @@ J = \bm{v}^\top \bm{S} \bm{v}
 </div>
 </section>
 <section id="id8">
-<h2><span class="section-number">12.7. </span>確認問題<a class="headerlink" href="#id8" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">12.7. </span>確認問題<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
 <p>先ほどの実装では、<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">sklearn.decomposition.PCA</a>を用いて主成分分析を行ったが、行列<span class="math notranslate nohighlight">\(\bm{S} = \bm{X}^\top \bm{X}\)</span>に対して固有値問題を解くことで、主成分分析が得られることを確認したい。</p>
 <p><strong>(1) <span class="math notranslate nohighlight">\(\bm{S}\)</span>の計算</strong></p>
 <p><span class="math notranslate nohighlight">\(\bm{X}\)</span>に対して、行列<span class="math notranslate nohighlight">\(\bm{S} = \bm{X}^\top \bm{X}\)</span>を求めよ。</p>
@@ -39131,7 +39081,7 @@ J = \bm{v}^\top \bm{S} \bm{v}
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./unsupervised"
         },
         predefinedOutput: true
@@ -39139,51 +39089,103 @@ J = \bm{v}^\top \bm{S} \bm{v}
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="02hac.html" title="前へ ページ">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">前へ</p>
-            <p class="prev-next-title"><span class="section-number">11. </span>階層的クラスタリング</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02hac.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">前へ</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>階層的クラスタリング</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="04pca2.html" title="次へ ページ">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="04pca2.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">13. </span>主成分分析 (2)</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目次
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">12.1. ２次元データの例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">12.2. データ点を直線へ射影</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">12.3. 近似の良さの定量化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">12.4. 第１主成分を求める</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">12.5. 第２主成分を求める</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">12.6. 実装</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">12.7. 確認問題</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    <div class="extra_footer">
-      © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
-
-    </div>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © Copyright 2020-2024 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+
 </div>
+  </div>
+  
+</div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

@@ -1,796 +1,526 @@
 
 <!DOCTYPE html>
 
-<html lang="ja">
+
+<html lang="ja" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>7. ニューラルネットワーク (1) &#8212; 機械学習帳</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
-    <script src="../_static/translations.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/translations.js?v=91613774"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classification/03nn';</script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/classification/03nn.html" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="8. ニューラルネットワーク (2)" href="04nntrain.html" />
     <link rel="prev" title="6. 線形多クラス分類" href="02multi.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="ja">
-    
-
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ja"/>
+  <meta name="docsearch:version" content="" />
+  
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@chokkanorg">
     <meta name="twitter:title" content="機械学習帳">
     <meta name="twitter:description" content="機械学習帳は、機械学習を学ぶためのノート（帳）を、デジタル（機械）による新しいカタチの学習帳として実現することを目指しています。">
     <meta name="twitter:image" content="https://chokkan.github.io/mlnote/_static/mlnote.png">
+    </head>
 
-    <!-- Google Analytics -->
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
     
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-5R9M0GR7MW');
-                </script>
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
 
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">機械学習帳</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  回帰
- </span>
-</p>
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習帳</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">検索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">回帰</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/01sra.html">
-   1. 単回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/02mra.html">
-   2. 重回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/03regularization.html">
-   3. モデル選択と正則化
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/04sgd.html">
-   4. 勾配法によるパラメータ推定
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/01sra.html">1. 単回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/02mra.html">2. 重回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/03regularization.html">3. モデル選択と正則化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/04sgd.html">4. 勾配法によるパラメータ推定</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  分類
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01binary.html">
-   5. 線形二値分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02multi.html">
-   6. 線形多クラス分類
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   7. ニューラルネットワーク (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04nntrain.html">
-   8. ニューラルネットワーク (2)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05svm.html">
-   9. サポートベクトルマシン
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01binary.html">5. 線形二値分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02multi.html">6. 線形多クラス分類</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. ニューラルネットワーク (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04nntrain.html">8. ニューラルネットワーク (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05svm.html">9. サポートベクトルマシン</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  教師無し学習
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教師無し学習</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/01kmeans.html">
-   10. 非階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/02hac.html">
-   11. 階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/03pca.html">
-   12. 主成分分析 (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/04pca2.html">
-   13. 主成分分析 (2)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/01kmeans.html">10. 非階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/02hac.html">11. 階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/03pca.html">12. 主成分分析 (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/04pca2.html">13. 主成分分析 (2)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  付録
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">付録</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../notation.html">
-   表記
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../reference.html">
-   参考文献・謝辞
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../notation.html">表記</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考文献・謝辞</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
-
-
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/classification/03nn.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
   
-
-<span class="headerbtn__icon-container">
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
   
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
+  <div id="rtd-footer-container"></div>
 
-      </li>
+
+      </div>
       
-      <li>
-        <a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/classification/03nn.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/classification/03nn.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/classification/03nn.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 
-<span class="headerbtn__text-container">Colab</span>
+<span class="btn__text-container">Colab</span>
 </a>
+</li>
 
-      </li>
+<li>
+    <a href="https://studiolab.sagemaker.aws/import/github/chokkan/python/blob/main/classification/03nn.ipynb"
+       class="btn btn-sm dropdown-item"
+       title="Launch on SageMaker Studio Lab"
+       data-bs-placement="left" data-bs-toggle="tooltip">
 
-      <li>
-        <a href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/classification/03nn.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on SageMaker Studio Lab"
->
-
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fab fa-aws"></i>
 </span>
-<span class="headerbtn__text-container">SageMaker</span>
+<span class="btn__text-container">SageMaker</span>
 
 </a>
-
-      </li>
+</li>
+      
+      
+      
       
       <li>
-        
 <button onclick="initThebeSBT()"
-  class="headerbtn headerbtn-launch-thebe"
-  data-toggle="tooltip"
-data-placement="left"
-title="Launch Thebe"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-play"></i>
   </span>
-<span class="headerbtn__text-container">Live Code</span>
+<span class="btn__text-container">Live Code</span>
 </button>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="ソースリポジトリ"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fclassification/03nn.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="問題を報告"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="このページをダウンロード">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/classification/03nn.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="ソースファイルをダウンロード"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDFに印刷"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全画面モード"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/chokkan/mlnote"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
 
-      </li>
-      
-      <li>
-        <a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fclassification/03nn.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/classification/03nn.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
-      </li>
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
       
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
+    </div>
   
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
-    </div>
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sec-tlu">
-   7.1. 閾値論理ユニット
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     7.1.1. 論理積
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     7.1.2. 論理和
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     7.1.3. 否定
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
-     7.1.4. 否定論理積
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     7.1.5. 排他的論理和
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
-     7.1.6. 線形分離可能・不能
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
-     7.1.7. 線形二値分類を多段にする
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id10">
-     7.1.8. 線形二値分類器の表現力
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id11">
-   7.2. ニューラルネットワーク
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id12">
-     7.2.1. 単層ニューラルネットワーク
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id13">
-       7.2.1.1. 活性化関数
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id14">
-       7.2.1.2. 人工ニューラルネットワーク
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id15">
-       7.2.1.3. 単回帰、重回帰、線形二値分類、線形多クラス分類との関連
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id16">
-       7.2.1.4. 損失関数
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id17">
-     7.2.2. 多層ニューラルネットワーク
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#xor2">
-       7.2.2.1. XORを実現する2層のニューラルネットワークの構成例
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id18">
-   7.3. 万能近似定理
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#w">
-     7.3.1.
-     <span class="math notranslate nohighlight">
-      \(w\)
-     </span>
-     を動かす
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#b">
-     7.3.2.
-     <span class="math notranslate nohighlight">
-      \(b\)
-     </span>
-     を動かす
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#v">
-     7.3.3.
-     <span class="math notranslate nohighlight">
-      \(v\)
-     </span>
-     を動かす
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id20">
-     7.3.4. 矩形の合成
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id21">
-   7.4. 確認問題
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>ニューラルネットワーク (1)</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sec-tlu">
-   7.1. 閾値論理ユニット
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     7.1.1. 論理積
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     7.1.2. 論理和
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     7.1.3. 否定
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
-     7.1.4. 否定論理積
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     7.1.5. 排他的論理和
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
-     7.1.6. 線形分離可能・不能
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
-     7.1.7. 線形二値分類を多段にする
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id10">
-     7.1.8. 線形二値分類器の表現力
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id11">
-   7.2. ニューラルネットワーク
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id12">
-     7.2.1. 単層ニューラルネットワーク
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id13">
-       7.2.1.1. 活性化関数
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id14">
-       7.2.1.2. 人工ニューラルネットワーク
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id15">
-       7.2.1.3. 単回帰、重回帰、線形二値分類、線形多クラス分類との関連
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id16">
-       7.2.1.4. 損失関数
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id17">
-     7.2.2. 多層ニューラルネットワーク
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#xor2">
-       7.2.2.1. XORを実現する2層のニューラルネットワークの構成例
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id18">
-   7.3. 万能近似定理
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#w">
-     7.3.1.
-     <span class="math notranslate nohighlight">
-      \(w\)
-     </span>
-     を動かす
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#b">
-     7.3.2.
-     <span class="math notranslate nohighlight">
-      \(b\)
-     </span>
-     を動かす
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#v">
-     7.3.3.
-     <span class="math notranslate nohighlight">
-      \(v\)
-     </span>
-     を動かす
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id20">
-     7.3.4. 矩形の合成
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id21">
-   7.4. 確認問題
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ニューラルネットワーク (1)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目次 </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sec-tlu">7.1. 閾値論理ユニット</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">7.1.1. 論理積</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">7.1.2. 論理和</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">7.1.3. 否定</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">7.1.4. 否定論理積</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">7.1.5. 排他的論理和</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">7.1.6. 線形分離可能・不能</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7.1.7. 線形二値分類を多段にする</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">7.1.8. 線形二値分類器の表現力</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">7.2. ニューラルネットワーク</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">7.2.1. 単層ニューラルネットワーク</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">7.2.1.1. 活性化関数</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">7.2.1.2. 人工ニューラルネットワーク</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">7.2.1.3. 単回帰、重回帰、線形二値分類、線形多クラス分類との関連</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">7.2.1.4. 損失関数</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">7.2.2. 多層ニューラルネットワーク</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#xor2">7.2.2.1. XORを実現する2層のニューラルネットワークの構成例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">7.3. 万能近似定理</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#w">7.3.1. <span class="math notranslate nohighlight">\(w\)</span>を動かす</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b">7.3.2. <span class="math notranslate nohighlight">\(b\)</span>を動かす</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#v">7.3.3. <span class="math notranslate nohighlight">\(v\)</span>を動かす</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">7.3.4. 矩形の合成</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">7.4. 確認問題</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1><span class="section-number">7. </span>ニューラルネットワーク (1)<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
+<h1><span class="section-number">7. </span>ニューラルネットワーク (1)<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -807,10 +537,10 @@ title="Print to PDF"
 <p>深層学習は、<strong>ニューラルネットワーク</strong>（neural network）と呼ばれるアーキテクチャで実現される。実は、これまでに説明した単回帰、重回帰、線形分類モデルは、一つの層から構成されるニューラルネットワーク、すなわち<strong>単層ニューラルネットワーク</strong>（single-layer neural network）と見なすことができる。また、ニューラルネットワークの学習には確率的勾配降下法（SGD）、およびその亜種（RMSPropやAdamなど）が用いられる。したがって、これまでの章で説明した内容で、ニューラルネットワークの基礎事項の半分以上はカバーされていると考えてよい。</p>
 <p>本章では、複数の線形二値分類モデルを積み重ねることを通して、<strong>多層ニューラルネットワーク</strong>（multi-layer neural network）および<strong>順伝播型ニューラルネットワーク</strong>（feedforward neural network）を導入する。さらに、多層ニューラルネットワークは任意のブール関数や連続関数を近似的に表現する能力を持つことを説明する。なお、内容が盛り沢山となってしまったため、ニューラルネットワークの学習に関する話題は次章で説明する。</p>
 <section id="sec-tlu">
-<span id="id2"></span><h2><span class="section-number">7.1. </span>閾値論理ユニット<a class="headerlink" href="#sec-tlu" title="この見出しへのパーマリンク">#</a></h2>
+<span id="id2"></span><h2><span class="section-number">7.1. </span>閾値論理ユニット<a class="headerlink" href="#sec-tlu" title="Link to this heading">#</a></h2>
 <p>線形二値分類は、<span class="math notranslate nohighlight">\(d\)</span>次元ベクトルの入力<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^{d}\)</span>からラベル<span class="math notranslate nohighlight">\(\hat{y} \in \{0, 1\}\)</span>を計算するモデルである。ここで<span class="math notranslate nohighlight">\(d = 2\)</span>とし、2個のブール変数<span class="math notranslate nohighlight">\(x_1, x_2 \in \{0, 1\}\)</span>から1個の出力<span class="math notranslate nohighlight">\(\hat{y} \in \{0, 1\}\)</span>を得るモデルを考えたい。モデルのパラメータとして、2個の入力に対する重みを<span class="math notranslate nohighlight">\(w_1, w_2 \in \mathbb{R}\)</span>、バイアスを<span class="math notranslate nohighlight">\(b \in \mathbb{R}\)</span>とおくと、ラベル<span class="math notranslate nohighlight">\(\hat{y}\)</span>は次式で計算される。</p>
 <div class="math notranslate nohighlight" id="equation-eq-binary-decision">
-<span class="eqno">(7.1)<a class="headerlink" href="#equation-eq-binary-decision" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(7.1)<a class="headerlink" href="#equation-eq-binary-decision" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{gather}
     \hat{y} = \begin{cases}
         1 &amp; \left(w_1 x_1 + w_2 x_2 + b &gt; 0\right) \\
@@ -821,47 +551,55 @@ title="Print to PDF"
 <p>教師あり学習は、入力と出力の組に対応する訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>が与えられたとき、その入力と出力を結びつける写像を学習で求める枠組みであった。本節では、どのような訓練データであってもそれを再現する線形二値分類モデルを学習できるのか、もし再現できない場合は訓練データがどのような性質を持つのか、掘り下げていきたい。</p>
 <p>なお、訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>にはすべての入出力の組み合わせが収録されていると仮定する。今回の場合は、入力変数が2つあり、それぞれが<span class="math notranslate nohighlight">\(0\)</span>または<span class="math notranslate nohighlight">\(1\)</span>の値を取り得るので、入力として<span class="math notranslate nohighlight">\(2 \times 2 = 4\)</span>通りの組み合わせが存在する。ゆえに、訓練データの事例数は<span class="math notranslate nohighlight">\(4\)</span>である。訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は論理関数<span class="math notranslate nohighlight">\(f: \{0, 1\}^2 \longmapsto \{0, 1\}\)</span>の真理値表と見なすこともできる。したがって、本節で取り扱いたい問いは、2入力1出力の論理関数の真理値表が与えられたとき、対応する論理関数を線形二値分類モデルの学習で自動的に求めることができるか、ということになる。</p>
 <section id="id3">
-<h3><span class="section-number">7.1.1. </span>論理積<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.1.1. </span>論理積<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <p>最初に、線形二値分類モデルで論理積（AND）の入出力を学習できるかを確認する。二つの入力<span class="math notranslate nohighlight">\(x_1\)</span>と<span class="math notranslate nohighlight">\(x_2\)</span>に対して、その論理積をとったものを出力<span class="math notranslate nohighlight">\(y\)</span>とすると、<span class="math notranslate nohighlight">\(y = x_1 \wedge x_2\)</span>である。論理回路では以下の記号で表される。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logicparse</span><span class="p">(</span><span class="s1">&#39;$x_1$ and $x_2$&#39;</span><span class="p">,</span> <span class="n">outlabel</span><span class="o">=</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_5_0.svg" src="../_images/03nn_5_0.svg" /></div>
+<img alt="../_images/82f3328b0b4f39bf74829749a5d33f305b433c6dffd9178f275b737e81ce8a7c.svg" src="../_images/82f3328b0b4f39bf74829749a5d33f305b433c6dffd9178f275b737e81ce8a7c.svg" />
+</div>
 </div>
 <p>論理積の真理値表は以下の通りである。</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
+<tr class="row-odd"><th class="head text-center"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-even"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-odd"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-even"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-odd"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b14268e5-4403-4534-9cbb-92c901a27fb9">
-<span class="eqno">(7.2)<a class="headerlink" href="#equation-b14268e5-4403-4534-9cbb-92c901a27fb9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3fdcc9ac-ab3d-44d9-8b90-fc15a67dd629">
+<span class="eqno">(7.2)<a class="headerlink" href="#equation-3fdcc9ac-ab3d-44d9-8b90-fc15a67dd629" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \{((0, 0), 0), ((0, 1), 0), ((1, 0), 0), ((1, 1), 1)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -895,6 +633,11 @@ title="Print to PDF"
 </div>
 <p><span class="math notranslate nohighlight">\(x_1\)</span>を横軸、<span class="math notranslate nohighlight">\(x_2\)</span>を縦軸として、学習した線形二値分類モデルの出力を可視化する。モデルが<span class="math notranslate nohighlight">\(\hat{y}=0\)</span>と予測する領域は点（青色）で、<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測する領域は○印（赤色）で塗りつぶした。<span class="math notranslate nohighlight">\((x_1, x_2) = (0, 0), (0, 1), (1, 0), (1, 1)\)</span>などの入力に対して、<span class="math notranslate nohighlight">\(y=0\)</span>となるべき点は－印、<span class="math notranslate nohighlight">\(y=1\)</span>となるべき点を＋印で示している。<span class="math notranslate nohighlight">\((0, 0), (0, 1), (1, 0)\)</span>などの入力では<span class="math notranslate nohighlight">\(0\)</span>を出力し、<span class="math notranslate nohighlight">\((1, 1)\)</span>の入力では<span class="math notranslate nohighlight">\(1\)</span>を出力することを確認できる。したがって、線形二値分類モデルは論理積の入出力を再現できる。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">draw_decision_area</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">):</span>
     <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -933,8 +676,9 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_11_0.png" src="../_images/03nn_11_0.png" />
+<img alt="../_images/4b3a8723b2747cb1c7792c52f50af945e5b3d37ed38a442813f5f65311835e06.png" src="../_images/4b3a8723b2747cb1c7792c52f50af945e5b3d37ed38a442813f5f65311835e06.png" />
 </div>
 </div>
 <p>学習で自動的に求められた線形二値分類モデルのパラメータ<span class="math notranslate nohighlight">\(w_1, w_2, b\)</span>は以下の通りである。</p>
@@ -952,47 +696,55 @@ title="Print to PDF"
 </div>
 </section>
 <section id="id4">
-<h3><span class="section-number">7.1.2. </span>論理和<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.1.2. </span>論理和<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <p>続いて、線形二値分類モデルで論理和（OR）の入出力を学習できるかを確認する。二つの入力<span class="math notranslate nohighlight">\(x_1\)</span>と<span class="math notranslate nohighlight">\(x_2\)</span>に対して、その論理和をとったものを出力<span class="math notranslate nohighlight">\(y\)</span>とすると、<span class="math notranslate nohighlight">\(y = x_1 \vee x_2\)</span>である。論理回路では以下の記号で表される。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logicparse</span><span class="p">(</span><span class="s1">&#39;$x_1$ or $x_2$&#39;</span><span class="p">,</span> <span class="n">outlabel</span><span class="o">=</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_15_0.svg" src="../_images/03nn_15_0.svg" /></div>
+<img alt="../_images/5c458992fc28512451eee81a412940b11187dde1b139db2a119a7a1247169b1b.svg" src="../_images/5c458992fc28512451eee81a412940b11187dde1b139db2a119a7a1247169b1b.svg" />
+</div>
 </div>
 <p>論理和の真理値表は以下の通りである。</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
+<tr class="row-odd"><th class="head text-center"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-even"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-odd"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-even"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-odd"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cd50a7db-0fb9-4dc2-980d-0f8af3df1494">
-<span class="eqno">(7.3)<a class="headerlink" href="#equation-cd50a7db-0fb9-4dc2-980d-0f8af3df1494" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-07131e5c-3cda-41bb-a469-e01295472285">
+<span class="eqno">(7.3)<a class="headerlink" href="#equation-07131e5c-3cda-41bb-a469-e01295472285" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \{((0, 0), 0), ((0, 1), 1), ((1, 0), 1), ((1, 1), 1)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -1026,13 +778,19 @@ title="Print to PDF"
 </div>
 <p><span class="math notranslate nohighlight">\(x_1\)</span>を横軸、<span class="math notranslate nohighlight">\(x_2\)</span>を縦軸として、学習した線形二値分類モデルの出力を可視化する。<span class="math notranslate nohighlight">\((0, 0)\)</span>の入力では<span class="math notranslate nohighlight">\(0\)</span>を出力し、<span class="math notranslate nohighlight">\((0, 1), (1, 0), (1, 1)\)</span>などの入力では<span class="math notranslate nohighlight">\(1\)</span>を出力することを確認できる。したがって、線形二値分類モデルは論理和の入出力を再現できる。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_decisions</span><span class="p">(</span><span class="n">mOR</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_21_0.png" src="../_images/03nn_21_0.png" />
+<img alt="../_images/8ee3d9162ed757ff01ba377ff8502a412cf8c7981db333c74337cfa382dc6f4c.png" src="../_images/8ee3d9162ed757ff01ba377ff8502a412cf8c7981db333c74337cfa382dc6f4c.png" />
 </div>
 </div>
 <p>学習で自動的に求められた線形二値分類モデルのパラメータ<span class="math notranslate nohighlight">\(w_1, w_2, b\)</span>は以下の通りである。</p>
@@ -1050,36 +808,44 @@ title="Print to PDF"
 </div>
 </section>
 <section id="id5">
-<h3><span class="section-number">7.1.3. </span>否定<a class="headerlink" href="#id5" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.1.3. </span>否定<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>さらに、線形二値分類モデルで否定（NOT）の入出力を学習できるかを確認する。論理積や論理和では入力が二つあったが、否定の入力は一つである。入力<span class="math notranslate nohighlight">\(x\)</span>に対して、その否定をとったものを出力<span class="math notranslate nohighlight">\(y\)</span>とすると、<span class="math notranslate nohighlight">\(y = \lnot x\)</span>である。論理回路では以下の記号で表される。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logicparse</span><span class="p">(</span><span class="s1">&#39;not $x$&#39;</span><span class="p">,</span> <span class="n">outlabel</span><span class="o">=</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_25_0.svg" src="../_images/03nn_25_0.svg" /></div>
+<img alt="../_images/3b055d95491967f5fc3f05279af4de4f764322cddb21121286d52aca3a567b59.svg" src="../_images/3b055d95491967f5fc3f05279af4de4f764322cddb21121286d52aca3a567b59.svg" />
+</div>
 </div>
 <p>否定の真理値表は以下の通りである。</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
+<tr class="row-odd"><th class="head text-center"><p><span class="math notranslate nohighlight">\(x\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-even"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-odd"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c73898ad-e11f-4687-83ea-86727e9cc719">
-<span class="eqno">(7.4)<a class="headerlink" href="#equation-c73898ad-e11f-4687-83ea-86727e9cc719" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-02efbbf6-3e34-41d0-934c-e6e9f2a60e8e">
+<span class="eqno">(7.4)<a class="headerlink" href="#equation-02efbbf6-3e34-41d0-934c-e6e9f2a60e8e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \{(0, 1), (1, 0)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -1113,6 +879,11 @@ title="Print to PDF"
 </div>
 <p>入力を横軸、出力を縦軸としてプロットする。<span class="math notranslate nohighlight">\(0\)</span>の入力では<span class="math notranslate nohighlight">\(1\)</span>を出力し、<span class="math notranslate nohighlight">\(1\)</span>の入力では<span class="math notranslate nohighlight">\(0\)</span>を出力することを確認できる。したがって、線形二値分類モデルは否定の入出力を再現できる。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -1127,8 +898,9 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_31_0.png" src="../_images/03nn_31_0.png" />
+<img alt="../_images/c17f57a6ad6723084e78338fb9b188272d59dffb988ba11a2ff1604f97015497.png" src="../_images/c17f57a6ad6723084e78338fb9b188272d59dffb988ba11a2ff1604f97015497.png" />
 </div>
 </div>
 <p>学習で自動的に求められた線形二値分類モデルの重みとバイアスは以下の通りである。</p>
@@ -1146,47 +918,55 @@ title="Print to PDF"
 </div>
 </section>
 <section id="id6">
-<h3><span class="section-number">7.1.4. </span>否定論理積<a class="headerlink" href="#id6" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.1.4. </span>否定論理積<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>ついでに、線形二値分類モデルで否定論理積（NAND）の入出力を学習できるかを確認する。二つの入力<span class="math notranslate nohighlight">\(x_1\)</span>と<span class="math notranslate nohighlight">\(x_2\)</span>に対して、その否定論理積をとったものを出力<span class="math notranslate nohighlight">\(y\)</span>とすると、<span class="math notranslate nohighlight">\(y = \lnot (x_1 \wedge x_2)\)</span>である。論理回路では以下の記号で表される</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logicparse</span><span class="p">(</span><span class="s1">&#39;$x_1$ nand $x_2$&#39;</span><span class="p">,</span> <span class="n">outlabel</span><span class="o">=</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_35_0.svg" src="../_images/03nn_35_0.svg" /></div>
+<img alt="../_images/9fbdfde510cd91bc59cfe5a14f70aa6f8cacd047c9469b35d9a73f4f4f5ae432.svg" src="../_images/9fbdfde510cd91bc59cfe5a14f70aa6f8cacd047c9469b35d9a73f4f4f5ae432.svg" />
+</div>
 </div>
 <p>否定論理積の真理値表は以下の通りである。</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
+<tr class="row-odd"><th class="head text-center"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-even"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-odd"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-even"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-odd"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d9c08f77-be21-4243-83a9-1f7011e04173">
-<span class="eqno">(7.5)<a class="headerlink" href="#equation-d9c08f77-be21-4243-83a9-1f7011e04173" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c38ae07a-9b15-4345-bc6b-aeb07f35ead2">
+<span class="eqno">(7.5)<a class="headerlink" href="#equation-c38ae07a-9b15-4345-bc6b-aeb07f35ead2" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \{((0, 0), 1), ((0, 1), 1), ((1, 0), 1), ((1, 1), 0)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -1220,13 +1000,19 @@ title="Print to PDF"
 </div>
 <p><span class="math notranslate nohighlight">\(x_1\)</span>を横軸、<span class="math notranslate nohighlight">\(x_2\)</span>を縦軸として、学習した線形二値分類モデルの出力を可視化する。<span class="math notranslate nohighlight">\((0, 0)\)</span>の入力では<span class="math notranslate nohighlight">\(1\)</span>を出力し、<span class="math notranslate nohighlight">\((0, 1), (1, 0), (1, 1)\)</span>の入力では<span class="math notranslate nohighlight">\(0\)</span>を出力することを確認できる。したがって、線形二値分類モデルは否定論理積の入出力を再現できる。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_decisions</span><span class="p">(</span><span class="n">mNAND</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_41_0.png" src="../_images/03nn_41_0.png" />
+<img alt="../_images/7c338c071485bdd3047bf1a2709489efbaf4c6f20fa945c1daf2c1f931a0856a.png" src="../_images/7c338c071485bdd3047bf1a2709489efbaf4c6f20fa945c1daf2c1f931a0856a.png" />
 </div>
 </div>
 <p>学習で自動的に求められた線形二値分類モデルのパラメータ<span class="math notranslate nohighlight">\(w_1, w_2, b\)</span>は以下の通りである。</p>
@@ -1244,7 +1030,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="id7">
-<h3><span class="section-number">7.1.5. </span>排他的論理和<a class="headerlink" href="#id7" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.1.5. </span>排他的論理和<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>では、排他的論理和（XOR）はどうであろうか。二つの入力<span class="math notranslate nohighlight">\(x_1\)</span>と<span class="math notranslate nohighlight">\(x_2\)</span>に対して、その排他的論理和をとったものを出力<span class="math notranslate nohighlight">\(y\)</span>とすると、<span class="math notranslate nohighlight">\(y = x_1 \oplus x_2\)</span>である。論理回路では以下の記号で表される。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1253,39 +1039,41 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_45_0.svg" src="../_images/03nn_45_0.svg" /></div>
+<img alt="../_images/ff235bde20ab9659750363a1fcf1cb7e35ea1d4c516313dfb4f096c5c8f73752.svg" src="../_images/ff235bde20ab9659750363a1fcf1cb7e35ea1d4c516313dfb4f096c5c8f73752.svg" />
+</div>
 </div>
 <p>排他的論理和の真理値表は以下の通りである。</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
+<tr class="row-odd"><th class="head text-center"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(y\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-even"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-odd"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-even"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-odd"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>論理和との差は、<span class="math notranslate nohighlight">\(x_1 = 1, x_2 = 1\)</span>のときに<span class="math notranslate nohighlight">\(y=0\)</span>となる点である。両方の入力が等しいときに<span class="math notranslate nohighlight">\(0\)</span>、異なるときに<span class="math notranslate nohighlight">\(1\)</span>を返すことから「排他的」と呼ばれる。</p>
 <p>これを訓練データに変換すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-76d19911-968a-4b73-8692-997d1c3cc4a9">
-<span class="eqno">(7.6)<a class="headerlink" href="#equation-76d19911-968a-4b73-8692-997d1c3cc4a9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ede05b53-cb5d-47a5-a705-5e45cbe1f56e">
+<span class="eqno">(7.6)<a class="headerlink" href="#equation-ede05b53-cb5d-47a5-a705-5e45cbe1f56e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \{((0, 0), 0), ((0, 1), 1), ((1, 0), 1), ((1, 1), 0)\}
 \end{align}\]</div>
 <p>である。この訓練データに対して、線形二値分類モデルを<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>で学習する。</p>
@@ -1319,13 +1107,19 @@ title="Print to PDF"
 </div>
 <p><span class="math notranslate nohighlight">\(x_1\)</span>を横軸、<span class="math notranslate nohighlight">\(x_2\)</span>を縦軸として、学習した線形二値分類モデルの出力を可視化する。この可視化結果からも、学習した線形二値分類モデルが排他的論理和の入出力を再現できていないことが分かる。したがって、線形二値分類モデルは排他的論理和を表現することができない。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_decisions</span><span class="p">(</span><span class="n">mXOR</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_51_0.png" src="../_images/03nn_51_0.png" />
+<img alt="../_images/ffa7d7fdf6ae7090769ec77e1881550f52b6ac338439f65a3d17dd60cad3a4cd.png" src="../_images/ffa7d7fdf6ae7090769ec77e1881550f52b6ac338439f65a3d17dd60cad3a4cd.png" />
 </div>
 </div>
 <p>参考までに、学習で自動的に求められた線形二値分類モデルのパラメータ<span class="math notranslate nohighlight">\(w_1, w_2, b\)</span>を示す。</p>
@@ -1343,15 +1137,20 @@ title="Print to PDF"
 </div>
 </section>
 <section id="id8">
-<h3><span class="section-number">7.1.6. </span>線形分離可能・不能<a class="headerlink" href="#id8" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.1.6. </span>線形分離可能・不能<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <p>なぜ線形二値分類モデルでは排他的論理和を表現できないのか？　その答えは、式<a class="reference internal" href="#equation-eq-binary-decision">(7.1)</a>の条件式から導くことができる。式<a class="reference internal" href="#equation-eq-binary-decision">(7.1)</a>より、入力<span class="math notranslate nohighlight">\(x_1, x_2\)</span>が<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>に分類される条件は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c79a6c03-c82c-485a-b67d-5810eede859d">
-<span class="eqno">(7.7)<a class="headerlink" href="#equation-c79a6c03-c82c-485a-b67d-5810eede859d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dd0e3f92-318d-4756-81cd-cc9cbbe7f78f">
+<span class="eqno">(7.7)<a class="headerlink" href="#equation-dd0e3f92-318d-4756-81cd-cc9cbbe7f78f" title="Permalink to this equation">#</a></span>\[\begin{align}
 w_1 x_1 + w_2 x_2 + b &amp;&gt; 0 \\
 x_2 &amp;&gt; -\frac{w_1}{w_2}x_1 -\frac{b}{w_2}
 \end{align}\]</div>
 <p>この条件を<span class="math notranslate nohighlight">\(x_1\)</span>－<span class="math notranslate nohighlight">\(x_2\)</span>平面上で図示する。訓練データでモデルのパラメータを学習すると、パラメータ<span class="math notranslate nohighlight">\(w_1, w_2, b\)</span>が決まる。これらのパラメータの値に基づき、<span class="math notranslate nohighlight">\(x_1\)</span>－<span class="math notranslate nohighlight">\(x_2\)</span>平面上に直線<span class="math notranslate nohighlight">\(x_2 = -\frac{w_1}{w_2}x_1 -\frac{b}{w_2}\)</span>を引く。モデルへの入力<span class="math notranslate nohighlight">\(x_1, x_2\)</span>を点<span class="math notranslate nohighlight">\((x_1, x_2)\)</span>で表現したとき、その点が直線よりも上側にあるときは<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>、下側にあるときは<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>に分類される。このように、<span class="math notranslate nohighlight">\(x_1\)</span>と<span class="math notranslate nohighlight">\(x_2\)</span>の2入力の線形二値分類モデルを学習することは、<span class="math notranslate nohighlight">\(x_1\)</span>－<span class="math notranslate nohighlight">\(x_2\)</span>平面上で出力を分離する直線を求めることに相当する。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Model</span><span class="p">:</span> <span class="k">pass</span>
 
@@ -1378,12 +1177,18 @@ x_2 &amp;&gt; -\frac{w_1}{w_2}x_1 -\frac{b}{w_2}
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_55_0.png" src="../_images/03nn_55_0.png" />
+<img alt="../_images/d7ad1cb405028952c2ca9bbb20aa8894a93fcef911b34413d74752bf14237169.png" src="../_images/d7ad1cb405028952c2ca9bbb20aa8894a93fcef911b34413d74752bf14237169.png" />
 </div>
 </div>
 <p>ここから、線形二値分類モデルが排他的論理和を表現できないことを簡単に示すことができる。排他的論理和の入出力を<span class="math notranslate nohighlight">\(x_1\)</span>－<span class="math notranslate nohighlight">\(x_2\)</span>平面上で図示すると、次のようになる。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">Y</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="n">X</span> <span class="o">+</span> <span class="mf">0.7</span>
@@ -1404,85 +1209,92 @@ x_2 &amp;&gt; -\frac{w_1}{w_2}x_1 -\frac{b}{w_2}
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_57_0.png" src="../_images/03nn_57_0.png" />
+<img alt="../_images/381a2b32825b9aab3511ccf35a515a6da4b392e8ced0cdcca859b01891339fd0.png" src="../_images/381a2b32825b9aab3511ccf35a515a6da4b392e8ced0cdcca859b01891339fd0.png" />
 </div>
 </div>
 <p>このとき、いかなる直線を考えても<span class="math notranslate nohighlight">\(y=0\)</span>の点の集合と<span class="math notranslate nohighlight">\(y=1\)</span>の点の集合を分けることができない（実際に上のグラフ内で赤と青の点を分ける一本の直線を引くことができるか検討せよ）。言い換えれば、線形二値分類モデルは排他的論理和のすべての訓練事例を正しく再現することができない。このように、線形分類モデルで正しく再現できない訓練事例があるとき、その訓練データは<strong>線形分離不能</strong>（linearly inseparable）という。</p>
 <p>これまでは2入力の線形二値分類モデルについて議論してきたが、より一般的な線形二値分類モデルに対しても同様の議論が成り立つ。式<a class="reference internal" href="01binary.html#equation-eq-binary-classification">(5.1)</a>より、<span class="math notranslate nohighlight">\(d\)</span>次元ベクトル<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^d\)</span>を入力とする線形二値分類モデルが出力を<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>と<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>に分離する境界条件は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a47f42ec-2961-47f0-aa63-575b1c141b6b">
-<span class="eqno">(7.8)<a class="headerlink" href="#equation-a47f42ec-2961-47f0-aa63-575b1c141b6b" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-daabe107-683b-4990-a432-3c5c2e36d25f">
+<span class="eqno">(7.8)<a class="headerlink" href="#equation-daabe107-683b-4990-a432-3c5c2e36d25f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{x}^{\top} \bm{w} = 0
 \end{align}\]</div>
 <p>ゆえに、各事例はパラメータベクトル<span class="math notranslate nohighlight">\(\bm{w}\)</span>と直交する<strong>分離超平面</strong>（separating hyperplane）で分類される。先ほどの2入力の例では、分離超平面は直線であった。</p>
 <p>訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>を正しく分類する分離超平面を作ることができないとき、その訓練データは線形分離不能と言われる。より厳密には、二値分類の訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>を<span class="math notranslate nohighlight">\(y=0\)</span>の事例を集めた集合<span class="math notranslate nohighlight">\(\mathcal{D}_0\)</span>と、<span class="math notranslate nohighlight">\(y=1\)</span>の事例を集めた集合<span class="math notranslate nohighlight">\(\mathcal{D}_1\)</span>に分割したとき、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d20ef51c-76ea-43ff-9048-572d21be1ecb">
-<span class="eqno">(7.9)<a class="headerlink" href="#equation-d20ef51c-76ea-43ff-9048-572d21be1ecb" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e2e3b30b-e188-4d61-b352-caac7db75342">
+<span class="eqno">(7.9)<a class="headerlink" href="#equation-e2e3b30b-e188-4d61-b352-caac7db75342" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D}_0 = \{(\bm{x}, y) \in \mathcal{D} \mid y = 0\} \\
 \mathcal{D}_1 = \{(\bm{x}, y) \in \mathcal{D} \mid y = 1\} \\
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(\mathcal{D}_0\)</span>と<span class="math notranslate nohighlight">\(\mathcal{D}_1\)</span>に関して、以下の条件を同時に満たすパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>が存在しないとき、訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は線形分離不能である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a0a573b3-ed69-4586-83df-21cec34b5c7a">
-<span class="eqno">(7.10)<a class="headerlink" href="#equation-a0a573b3-ed69-4586-83df-21cec34b5c7a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e8322e69-d667-4708-95bf-13f9eab7e41e">
+<span class="eqno">(7.10)<a class="headerlink" href="#equation-e8322e69-d667-4708-95bf-13f9eab7e41e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \forall (\bm{x}, y) \in \mathcal{D}_0: \bm{x}^{\top} \bm{w} \leq 0 \\
 \forall (\bm{x}, y) \in \mathcal{D}_1: \bm{x}^{\top} \bm{w} &gt; 0
 \end{align}\]</div>
 <p>逆に、以上の条件をすべて満たすパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>が存在するとき、その訓練データは<strong>線形分離可能</strong>（linearly separable）である。</p>
 </section>
 <section id="id9">
-<h3><span class="section-number">7.1.7. </span>線形二値分類を多段にする<a class="headerlink" href="#id9" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.1.7. </span>線形二値分類を多段にする<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <p>線形二値分類モデルで排他的論理和を表現できないことが分かったが、排他的論理和の入出力を線形二値分類器で再現する方法は無いのだろうか？　ここで、排他的論理和はAND, OR, NANDの組み合わせで</p>
 <div class="math notranslate nohighlight" id="equation-eq-xor-composition">
-<span class="eqno">(7.11)<a class="headerlink" href="#equation-eq-xor-composition" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(7.11)<a class="headerlink" href="#equation-eq-xor-composition" title="Link to this equation">#</a></span>\[
 \begin{align}
 y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 \end{align}
 \]</div>
 <p>として記述できることに着目する。この論理式は、<span class="math notranslate nohighlight">\(x_1\)</span>と<span class="math notranslate nohighlight">\(x_2\)</span>の論理和に対して、両方が真である場合を除外するものである。以下のように論理式を分解して考えてみてもよい。</p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>入力に対して論理和をとる: <span class="math notranslate nohighlight">\(h_1 = x_1 \vee x_2\)</span></p></li>
 <li><p>入力に対して否定論理積をとる: <span class="math notranslate nohighlight">\(h_2 = \lnot (x_1 \wedge x_2)\)</span></p></li>
 <li><p><span class="math notranslate nohighlight">\(h_1\)</span>と<span class="math notranslate nohighlight">\(h_2\)</span>の論理積をとる: <span class="math notranslate nohighlight">\(y = h_1 \wedge h_2\)</span></p></li>
 </ol>
 <p>真理値表を書くと次のようになる。</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(h_1 = x_1 \vee x_2\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(h_2 = \lnot (x_1 \wedge x_2)\)</span></p></th>
-<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(h_1 \wedge h_2\)</span></p></th>
+<tr class="row-odd"><th class="head text-center"><p><span class="math notranslate nohighlight">\(x_1\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(x_2\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(h_1 = x_1 \vee x_2\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(h_2 = \lnot (x_1 \wedge x_2)\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(h_1 \wedge h_2\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-even"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-odd"><td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-even"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
+<tr class="row-even"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
+<tr class="row-odd"><td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>また、これを論理回路として記述したものは以下の通りである。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">schemdraw</span> <span class="kn">import</span> <span class="n">logic</span><span class="p">,</span> <span class="n">Drawing</span>
 
@@ -1508,8 +1320,10 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_61_0.svg" src="../_images/03nn_61_0.svg" /></div>
+<img alt="../_images/ee28cc6d86dcf4948306256b0cb7b88ee63f64b641295927db0733ab2e1adbc7.svg" src="../_images/ee28cc6d86dcf4948306256b0cb7b88ee63f64b641295927db0733ab2e1adbc7.svg" />
+</div>
 </div>
 <p>これまでの議論により、線形二値分類モデルは論理積（AND）、論理和（OR）、否定論理積（NAND）を表現できることが分かっている。したがって、これらの分類器を組み合わせることにより、排他的論理和を表現できるかもしれない。式<a class="reference internal" href="#equation-eq-xor-composition">(7.11)</a>をそのままプログラムとして実装すると、確かに排他的論理和の出力パターンが得られる。</p>
 <div class="cell docutils container">
@@ -1544,6 +1358,11 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 </div>
 <p><span class="math notranslate nohighlight">\(x_1\)</span>を横軸、<span class="math notranslate nohighlight">\(x_2\)</span>を縦軸として、分類器の組み合わせから得られた出力を可視化してみると、確かに排他的論理和の入出力を再現できていることが分かる。これまでの可視化結果とは異なり、<span class="math notranslate nohighlight">\(y=0\)</span>と<span class="math notranslate nohighlight">\(y=1\)</span>を分離する直線が２本現れている所も興味深い。このように、線形二値分類器を多段にすることで、排他的論理和を表現することができた。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">400</span>
 <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.05</span>
@@ -1576,13 +1395,14 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_67_0.png" src="../_images/03nn_67_0.png" />
+<img alt="../_images/b6f03dbc0d089b8acd59cc711598297515eeffe6ad656897a2aab2623bfbef5f.png" src="../_images/b6f03dbc0d089b8acd59cc711598297515eeffe6ad656897a2aab2623bfbef5f.png" />
 </div>
 </div>
 </section>
 <section id="id10">
-<h3><span class="section-number">7.1.8. </span>線形二値分類器の表現力<a class="headerlink" href="#id10" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.1.8. </span>線形二値分類器の表現力<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
 <p>これまでに分かったこと、そこから導かれることを以下にまとめる。</p>
 <div class="important admonition">
 <p class="admonition-title">線形二値分類器の表現力のまとめ</p>
@@ -1599,9 +1419,9 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 </div></blockquote>
 <p>なぜ完全性が成立するのか、ここでは厳密な証明を行わず、積和標準形による説明を行いたい。
 以下の手続きにより、あらゆる真偽値表をAND, OR, NOTによる論理式（積和標準形）に変換できる。</p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>真理値表の中で出力が真（1）の行に関して、以下の手続きで論理変数を取り出し、ANDで結合した論理式を得る</p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>入力（列）が真（1）ならば、その入力変数をそのまま使う</p></li>
 <li><p>入力（列）が偽（0）ならば、その入力変数の前に否定を付ける</p></li>
 </ol>
@@ -1613,6 +1433,11 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 <p>このように、いかなる真理値表も積和標準形の論理式に変換することができる。この過程で必要だった論理結合子はAND, OR, NOTだけである。したがって、AND、OR、NOTは完全性を持つことが言える。AND, OR, NOTは線形二値分類モデルで表現できることが分かっているので、線形二値分類モデルを多段構成にしたものは、あらゆる真理値表を表現する能力がある。真理値表はブール関数の入出力を記述したもの見なすと、線形二値分類モデルを多段構成にしたものはあらゆるブール関数を表現できることが分かる。</p>
 <p>例えば、以下に示すような半加算器も線形二値分類モデルの組み合わせとして表現できる。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">schemdraw</span> <span class="kn">import</span> <span class="n">logic</span><span class="p">,</span> <span class="n">Drawing</span>
 
@@ -1632,16 +1457,18 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_69_0.svg" src="../_images/03nn_69_0.svg" /></div>
+<img alt="../_images/a42d7776ec5a1c47456df18a2a786aa7936876c39d9ee5e7f9f3b4fdd568fd48.svg" src="../_images/a42d7776ec5a1c47456df18a2a786aa7936876c39d9ee5e7f9f3b4fdd568fd48.svg" />
+</div>
 </div>
 </section>
 </section>
 <section id="id11">
-<h2><span class="section-number">7.2. </span>ニューラルネットワーク<a class="headerlink" href="#id11" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">7.2. </span>ニューラルネットワーク<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
 <p>前章までに説明した単回帰モデル、重回帰モデル、線形二値分類モデル、線形多クラス分類モデルはニューラルネットワークの特殊形と位置付けることができる。そこで、本節ではニューラルネットワークに関する一般的な説明を行う。用語や数式の説明が多くなるため退屈かもしれないが、いずれも重要な概念であるので、頭の片隅に留めておいて欲しい。</p>
 <section id="id12">
-<h3><span class="section-number">7.2.1. </span>単層ニューラルネットワーク<a class="headerlink" href="#id12" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.2.1. </span>単層ニューラルネットワーク<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
 <aside class="margin sidebar">
 <p class="sidebar-title">単層パーセプトロン</p>
 <p>単層のニューラルネットワークのことを単層パーセプトロン（SLP: single-layer perceptron）や単純パーセプトロン（simple perceptron）と同義のように呼ぶことがある。パーセプトロンは、活性化関数にステップ関数を採用したニューラルネットワークの特殊形であり、パーセプトロンよりもニューラルネットワークの方が広い概念である。</p>
@@ -1650,7 +1477,7 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 <div class="important admonition">
 <p class="admonition-title">単層ニューラルネットワーク</p>
 <div class="math notranslate nohighlight" id="equation-eq-single-layer-nn">
-<span class="eqno">(7.12)<a class="headerlink" href="#equation-eq-single-layer-nn" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(7.12)<a class="headerlink" href="#equation-eq-single-layer-nn" title="Link to this equation">#</a></span>\[
 \begin{align}
 \bm{y} = g(\bm{x}\bm{W} + \bm{b})
 \end{align}
@@ -1674,15 +1501,15 @@ y = (x_1 \vee x_2) \wedge \lnot (x_1 \wedge x_2)
 </ul>
 <p>である。なお、これまでの章では、「ベクトル」は値が縦に並んだ列ベクトルを採用していたが、この章の以降では値が横に並んだ行ベクトルを採用する。</p>
 <p>式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>は、出力ベクトル<span class="math notranslate nohighlight">\(\bm{y}\)</span>の<span class="math notranslate nohighlight">\(j\)</span>番目の要素の値<span class="math notranslate nohighlight">\(y_j\)</span>を計算する式としても表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5e6c4ad7-479f-49bf-b6d1-79332dee3588">
-<span class="eqno">(7.13)<a class="headerlink" href="#equation-5e6c4ad7-479f-49bf-b6d1-79332dee3588" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-49ad3f80-d1b4-44f6-8e5a-5f70e5cc382a">
+<span class="eqno">(7.13)<a class="headerlink" href="#equation-49ad3f80-d1b4-44f6-8e5a-5f70e5cc382a" title="Permalink to this equation">#</a></span>\[\begin{align}
 y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 \end{align}\]</div>
 <p>この式からも明らかなように、行列<span class="math notranslate nohighlight">\(\bm{W}\)</span>の<span class="math notranslate nohighlight">\(i\)</span>行<span class="math notranslate nohighlight">\(j\)</span>列の要素<span class="math notranslate nohighlight">\(W_{i,j}\)</span>は入力値<span class="math notranslate nohighlight">\(x_i\)</span>から出力値<span class="math notranslate nohighlight">\(y_j\)</span>を計算するときの重み、ベクトル<span class="math notranslate nohighlight">\(\bm{b}\)</span>の<span class="math notranslate nohighlight">\(j\)</span>番目の要素<span class="math notranslate nohighlight">\(b_j\)</span>は出力値<span class="math notranslate nohighlight">\(y_j\)</span>を計算するときのバイアスを表している。</p>
 <p>入力<span class="math notranslate nohighlight">\(\bm{x}\)</span>と行列<span class="math notranslate nohighlight">\(\bm{W}\)</span>の積<span class="math notranslate nohighlight">\(\bm{x}\bm{W}\)</span>は、ベクトル<span class="math notranslate nohighlight">\(\bm{x}\)</span>を行列<span class="math notranslate nohighlight">\(\bm{W}\)</span>で<strong>線形変換</strong>（linear transformation）することを表す。これにバイアスベクトル<span class="math notranslate nohighlight">\(\bm{b}\)</span>を加えた<span class="math notranslate nohighlight">\(\bm{x}\bm{W} + \bm{b}\)</span>は、数学の世界では線形変換ではなく、厳密には<strong>アフィン変換</strong>（affine transformation）である。ただ、ニューラルネットワークの分野では（バイアスベクトルの加算も含めて）線形変換と呼ぶことがある。線形変換に用いる行列のサイズ<span class="math notranslate nohighlight">\(d_{\rm in} \times d_{\rm out}\)</span>やバイアスベクトルのサイズ<span class="math notranslate nohighlight">\(1 \times d_{\rm out}\)</span>は、入力と出力のベクトルの要素数<span class="math notranslate nohighlight">\(d_{\rm in}, d_{\rm out}\)</span>に合わせて決定する。</p>
 <p>式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>は一つの入力<span class="math notranslate nohighlight">\(\bm{x}\)</span>に対して出力を計算する式であった。<span class="math notranslate nohighlight">\(B\)</span>個の入力<span class="math notranslate nohighlight">\(\bm{x}_1, \dots, \bm{x}_B\)</span>に対して、式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>を同時に適用するときは、<span class="math notranslate nohighlight">\(B\)</span>個の入力ベクトルを縦に積んだ入力行列<span class="math notranslate nohighlight">\(\bm{X} \in \mathbb{R}^{B \times d_{\rm in}}\)</span>を定義し、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-65ba4f42-8570-467f-be68-313791330ba4">
-<span class="eqno">(7.14)<a class="headerlink" href="#equation-65ba4f42-8570-467f-be68-313791330ba4" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-480e34ba-7808-40b7-b4d2-a72748622066">
+<span class="eqno">(7.14)<a class="headerlink" href="#equation-480e34ba-7808-40b7-b4d2-a72748622066" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{X} = \begin{pmatrix}
 \bm{x}_1 \\
 \dots \\
@@ -1690,26 +1517,26 @@ y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 \end{pmatrix}
 \end{align}\]</div>
 <p>式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>の入力ベクトル<span class="math notranslate nohighlight">\(\bm{x}\)</span>の箇所を入力行列<span class="math notranslate nohighlight">\(\bm{X}\)</span>に置き換えるだけでよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a3aead28-15e9-483c-9952-8a6f565d0e21">
-<span class="eqno">(7.15)<a class="headerlink" href="#equation-a3aead28-15e9-483c-9952-8a6f565d0e21" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8d17bc54-4566-4b02-9c48-21a5f552bf91">
+<span class="eqno">(7.15)<a class="headerlink" href="#equation-8d17bc54-4566-4b02-9c48-21a5f552bf91" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{Y} = g(\bm{X}\bm{W} + \bm{b})
 \end{align}\]</div>
 <p>このとき、出力もサイズ<span class="math notranslate nohighlight">\(d_{\rm out}\)</span>の実ベクトル<span class="math notranslate nohighlight">\(\bm{y}\)</span>から<span class="math notranslate nohighlight">\(B \times d_{\rm out}\)</span>の実行列<span class="math notranslate nohighlight">\(\bm{Y}\)</span>に拡張される。このように、複数の入力をまとめて処理することはミニバッチ処理と呼ばれる。ミニバッチ処理は、GPUなどのハードウェアでニューラルネットワークの計算を並列に実行するときによく用いられるテクニックである。</p>
 <section id="id13">
-<h4><span class="section-number">7.2.1.1. </span>活性化関数<a class="headerlink" href="#id13" title="この見出しへのパーマリンク">#</a></h4>
+<h4><span class="section-number">7.2.1.1. </span>活性化関数<a class="headerlink" href="#id13" title="Link to this heading">#</a></h4>
 <p>入力を線形変換したのち、<strong>活性化関数</strong>（activation function）を通して出力が得られる。活性化関数により、出力を特定の値域に抑えたり、入力に対して非線形な出力を得ることができる。非線形な活性化関数としては、シグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>の他、双曲線関数（<span class="math notranslate nohighlight">\(\tanh\)</span>）やReLU、ステップ関数などがよく用いられる。</p>
 <div class="important admonition">
 <p class="admonition-title">活性化関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-111f5afe-ae13-4d4e-aa0d-1e065109d1cc">
-<span class="eqno">(7.16)<a class="headerlink" href="#equation-111f5afe-ae13-4d4e-aa0d-1e065109d1cc" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-90ae7bd5-81f3-4ad1-b7e9-a4337796dcde">
+<span class="eqno">(7.16)<a class="headerlink" href="#equation-90ae7bd5-81f3-4ad1-b7e9-a4337796dcde" title="Permalink to this equation">#</a></span>\[\begin{align}
 \tanh a = \frac{e^a - e^{-a}}{e^a + e^{-a}} = 2\sigma(2a) - 1 \\
 \end{align}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-a849edc8-89d5-435c-9d39-e20a3fadd3b1">
-<span class="eqno">(7.17)<a class="headerlink" href="#equation-a849edc8-89d5-435c-9d39-e20a3fadd3b1" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-82a7ed31-b6b2-4e2c-8a1c-2938d87083bb">
+<span class="eqno">(7.17)<a class="headerlink" href="#equation-82a7ed31-b6b2-4e2c-8a1c-2938d87083bb" title="Permalink to this equation">#</a></span>\[\begin{align}
 {\rm ReLU}(a) = \max(0, a)
 \end{align}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-6e0d702b-98e6-4ab2-aaa0-afa6101e7032">
-<span class="eqno">(7.18)<a class="headerlink" href="#equation-6e0d702b-98e6-4ab2-aaa0-afa6101e7032" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fc7be5dd-999c-4dd1-9bc6-783a5c14cfeb">
+<span class="eqno">(7.18)<a class="headerlink" href="#equation-fc7be5dd-999c-4dd1-9bc6-783a5c14cfeb" title="Permalink to this equation">#</a></span>\[\begin{align}
 {\rm step}(a) = \begin{cases}
 1 &amp; (0 &lt; a) \\
 0 &amp; (a \leq 0)
@@ -1717,6 +1544,11 @@ y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 \end{align}\]</div>
 </div>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
@@ -1734,17 +1566,18 @@ y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_71_0.png" src="../_images/03nn_71_0.png" />
+<img alt="../_images/386f4d3275178cc7225604843bbc2e70be724814e34603997129b2eb28e5e5c1.png" src="../_images/386f4d3275178cc7225604843bbc2e70be724814e34603997129b2eb28e5e5c1.png" />
 </div>
 </div>
 <p>双曲線関数はシグモイド関数と形状が似ているが、出力値の範囲が<span class="math notranslate nohighlight">\((-1, 1)\)</span>となる。ReLUは入力値が負ならば<span class="math notranslate nohighlight">\(0\)</span>を出力し、正ならばその値を出力する活性化関数である。<span class="math notranslate nohighlight">\(0 &lt; x\)</span>ならば微分値が常に<span class="math notranslate nohighlight">\(1\)</span>になるという特徴を持ち、多層のニューラルネットワークの学習でよく用いられる。ステップ関数は出力値が<span class="math notranslate nohighlight">\(0\)</span>または<span class="math notranslate nohighlight">\(1\)</span>であるので、線形二値分類モデルで出力ラベルを予測するときに用いられるが、<span class="math notranslate nohighlight">\(a \neq 0\)</span>において微分値が常に<span class="math notranslate nohighlight">\(0\)</span>となるためモデルの学習には用いられない。活性化関数にステップ関数を採用した単層ニューあっるネットワークは、単層パーセプトロン（SLP: single-layer perceptron）や単純パーセプトロン（simple perceptron）と呼ばれる。</p>
 <p>なお、非線形な変換を省略する場合は、活性化関数として恒等写像<span class="math notranslate nohighlight">\(g(a) = a\)</span>を採用したと考えればよい。</p>
 </section>
 <section id="id14">
-<h4><span class="section-number">7.2.1.2. </span>人工ニューラルネットワーク<a class="headerlink" href="#id14" title="この見出しへのパーマリンク">#</a></h4>
+<h4><span class="section-number">7.2.1.2. </span>人工ニューラルネットワーク<a class="headerlink" href="#id14" title="Link to this heading">#</a></h4>
 <p>式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>は、以下のような図で表されることがある（<span class="math notranslate nohighlight">\(d_{\rm in} = 2\)</span>, <span class="math notranslate nohighlight">\(d_{\rm out} = 3\)</span>である）。</p>
-<a class="reference internal image-reference" href="../_images/slnn.svg"><img alt="../_images/slnn.svg" src="../_images/slnn.svg" width="480px" /></a>
+<a class="reference internal image-reference" href="../_images/slnn.svg"><img alt="../_images/slnn.svg" src="../_images/slnn.svg" style="width: 480px;" /></a>
 <p>ニューラルネットワークの起源は1943年にMcCullochとPittsが発表した論文と言われている。その論文の冒頭に、次のような記述がある。</p>
 <blockquote>
 <div><p>神経系はニューロンのネットワークで、細胞体と軸索から構成されている。あるニューロンの軸索と別のニューロンの細胞体の間には、シナプスがある。ニューロンには閾値があり、パルスを出すには神経的興奮が閾値を超えなければならない。</p>
@@ -1752,7 +1585,7 @@ y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 <p>先ほどの図において活性化関数にステップ関数を用いると、ニューロンの活性値（活動電位）が<span class="math notranslate nohighlight">\(x_i\)</span>や<span class="math notranslate nohighlight">\(y_j\)</span>に、あるニューロンと別のニューロンを結ぶ軸索の重みが<span class="math notranslate nohighlight">\(W_{i,j}\)</span>に、閾値を調整するパラメータが<span class="math notranslate nohighlight">\(b_j\)</span>に対応する。入力や出力の一つの変数を一つのニューロンに対応付け、その間をつなぐネットワークを人工的に模擬しているので、<strong>人工ニューラルネットワーク</strong>（artificial neural network）とも呼ばれる。入力や出力のベクトル<span class="math notranslate nohighlight">\(\bm{x}, \bm{y}\)</span>は、複数の人工ニューロンの活性値をまとめて表現したものと考えればよい。なお、McCullochとPittsの論文で論じられていたニューラルネットワークモデルは閾値論理ユニット（threshold logic unit）と呼ばれる。</p>
 </section>
 <section id="id15">
-<h4><span class="section-number">7.2.1.3. </span>単回帰、重回帰、線形二値分類、線形多クラス分類との関連<a class="headerlink" href="#id15" title="この見出しへのパーマリンク">#</a></h4>
+<h4><span class="section-number">7.2.1.3. </span>単回帰、重回帰、線形二値分類、線形多クラス分類との関連<a class="headerlink" href="#id15" title="Link to this heading">#</a></h4>
 <p>これまでに説明した単回帰モデル、重回帰モデル、線形二値分類モデル、線形多クラス分類モデルは、式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>を以下のように特殊化したものである。</p>
 <ul class="simple">
 <li><p>単回帰: <span class="math notranslate nohighlight">\(d_{\rm in} = d_{\rm out}=1\)</span>, <span class="math notranslate nohighlight">\(g\)</span>は恒等写像</p></li>
@@ -1763,7 +1596,7 @@ y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 <p>異なるタスクを解くモデルに対して統一的な定式化や学習方法を見出すことができることは、ニューラルネットワークの魅力の一つである。</p>
 </section>
 <section id="id16">
-<h4><span class="section-number">7.2.1.4. </span>損失関数<a class="headerlink" href="#id16" title="この見出しへのパーマリンク">#</a></h4>
+<h4><span class="section-number">7.2.1.4. </span>損失関数<a class="headerlink" href="#id16" title="Link to this heading">#</a></h4>
 <p>単層ニューラルネットワークのパラメータ、すなわち式<a class="reference internal" href="#equation-eq-single-layer-nn">(7.12)</a>の行列<span class="math notranslate nohighlight">\(\bm{W}\)</span>とベクトル<span class="math notranslate nohighlight">\(\bm{b}\)</span>を教師有り学習で推定するには、訓練事例の目的値（正解）とモデルの予測値の間に損失関数（loss function）を定義し、訓練データ全体の損失値を最小にするパラメータを確率的勾配降下法で求めるのが一般的である。確率的勾配降下法により損失関数を最小化する方法は、単回帰モデル、重回帰モデル、線形二値分類モデル、線形多クラス分類モデルに対して詳説した通りである。用いる損失関数もこれまでに説明した通りであるが、以下にまとめる。</p>
 <aside class="margin sidebar">
 <p class="sidebar-title">誤差と残差</p>
@@ -1773,7 +1606,7 @@ y_j = g\left(\sum_{i=1}^{d_{\rm in}} x_i W_{i,j} + b_j\right)
 <div class="important admonition">
 <p class="admonition-title">二乗誤差</p>
 <div class="math notranslate nohighlight" id="equation-eq-loss-mse">
-<span class="eqno">(7.19)<a class="headerlink" href="#equation-eq-loss-mse" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(7.19)<a class="headerlink" href="#equation-eq-loss-mse" title="Link to this equation">#</a></span>\[
 \begin{align}
 l_{\rm MSE}(y, \hat{y}) = (y - \hat{y})^2
 \end{align}
@@ -1784,7 +1617,7 @@ l_{\rm MSE}(y, \hat{y}) = (y - \hat{y})^2
 <div class="important admonition">
 <p class="admonition-title">二値クロスエントロピー</p>
 <div class="math notranslate nohighlight" id="equation-eq-loss-binary-cross-entropy">
-<span class="eqno">(7.20)<a class="headerlink" href="#equation-eq-loss-binary-cross-entropy" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(7.20)<a class="headerlink" href="#equation-eq-loss-binary-cross-entropy" title="Link to this equation">#</a></span>\[
 \begin{align}
 l_{\rm BCE}(y, \hat{y}) = - y \log \hat{y} - (1-y)\log(1-\hat{y})
 \end{align}
@@ -1795,7 +1628,7 @@ l_{\rm BCE}(y, \hat{y}) = - y \log \hat{y} - (1-y)\log(1-\hat{y})
 <div class="important admonition">
 <p class="admonition-title">クロスエントロピー</p>
 <div class="math notranslate nohighlight" id="equation-eq-loss-cross-entropy">
-<span class="eqno">(7.21)<a class="headerlink" href="#equation-eq-loss-cross-entropy" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(7.21)<a class="headerlink" href="#equation-eq-loss-cross-entropy" title="Link to this equation">#</a></span>\[
 \begin{align}
 l_{\rm CE}(\bm{y}, \hat{\bm{y}}) = - \sum_{k=1}^{K} y_k \log \hat{y}_k
 \end{align}
@@ -1803,23 +1636,23 @@ l_{\rm CE}(\bm{y}, \hat{\bm{y}}) = - \sum_{k=1}^{K} y_k \log \hat{y}_k
 </div>
 <p>線形多クラス分類の章では、<span class="math notranslate nohighlight">\(\hat{y} \in \{1, 2, \dots, K\}\)</span>をモデルが予測したラベルと定義しており、モデルがラベルを予測する確率分布を<span class="math notranslate nohighlight">\(\bm{p} \in [0, 1]^K\)</span>で表していた。その定義の差を吸収し、損失は負の対数尤度で定義されることを考慮すれば、式<a class="reference internal" href="#equation-eq-loss-cross-entropy">(7.21)</a>と式<a class="reference internal" href="02multi.html#equation-eq-multi-log-likelihood">(6.31)</a>は等価である。</p>
 <p>二値分類モデルおよび多値分類モデルの損失関数がクロスエントロピー（交差エントロピー）と呼ばれる理由を補足しておく。クロスエントロピーは2つの確率分布<span class="math notranslate nohighlight">\(p(x)\)</span>と<span class="math notranslate nohighlight">\(q(x)\)</span>の近さを測定する指標で、次式で定義される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c02a2d6b-4680-4473-96ef-32b318f11800">
-<span class="eqno">(7.22)<a class="headerlink" href="#equation-c02a2d6b-4680-4473-96ef-32b318f11800" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7f7c5724-0c4f-41e7-a866-4267731a4fb0">
+<span class="eqno">(7.22)<a class="headerlink" href="#equation-7f7c5724-0c4f-41e7-a866-4267731a4fb0" title="Permalink to this equation">#</a></span>\[\begin{align}
 H(p, q) = -\sum_{x} p(x) \log q(x)
 \end{align}\]</div>
 <p>分類モデルの定式化では、<span class="math notranslate nohighlight">\(p(x)\)</span>は真のラベルの確率分布、<span class="math notranslate nohighlight">\(q(x)\)</span>はモデルが予測したラベルの確率分布と考えればよい。<span class="math notranslate nohighlight">\(K\)</span>クラス分類の場合、その2つの確率分布のクロスエントロピーは、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2e7eb815-e344-4639-934e-64b89e037be9">
-<span class="eqno">(7.23)<a class="headerlink" href="#equation-2e7eb815-e344-4639-934e-64b89e037be9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-91dbc454-eeaf-4f11-b74e-c522f5e11865">
+<span class="eqno">(7.23)<a class="headerlink" href="#equation-91dbc454-eeaf-4f11-b74e-c522f5e11865" title="Permalink to this equation">#</a></span>\[\begin{align}
 H(p, q) = -\sum_{k=1}^K p(k) \log q(k)
 \end{align}\]</div>
 <p>であり、これは式<a class="reference internal" href="#equation-eq-loss-binary-cross-entropy">(7.20)</a>や式<a class="reference internal" href="#equation-eq-loss-cross-entropy">(7.21)</a>と整合する。</p>
 </section>
 </section>
 <section id="id17">
-<h3><span class="section-number">7.2.2. </span>多層ニューラルネットワーク<a class="headerlink" href="#id17" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.2.2. </span>多層ニューラルネットワーク<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
 <p><a class="reference internal" href="#sec-tlu"><span class="std std-ref">閾値論理ユニット</span></a>の節では、XORの入出力を再現するために、ある線形二値分類器の出力を別の線形二値分類器の入力に接続した。線形二値分類器は単層ニューラルネットワークの一種であるので、ある単層ニューラルネットワークの出力を別の単層ニューラルネットワークの入力に接続し、二つのニューラルネットワークを連結したことになる。このように、複数の単層ニューラルネットワークを連結して構成されたニューラルネットワークを<strong>多層ニューラルネットワーク</strong>と呼ぶ。例えば、2次元のベクトルを入力として受け取り、第1層で2次元のベクトルに変換し、第2層で1次元の値に変換する多層ニューラルネットワークは次式で記述される。</p>
 <div class="math notranslate nohighlight" id="equation-eq-multi-layer-nn-example">
-<span class="eqno">(7.24)<a class="headerlink" href="#equation-eq-multi-layer-nn-example" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(7.24)<a class="headerlink" href="#equation-eq-multi-layer-nn-example" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{align}
 \bm{h} &amp;= g^{(1)}(\bm{x}\bm{W}^{(1)} + \bm{b}^{(1)}) \\
 y &amp;= g^{(2)}(\bm{h}\bm{W}^{(2)} + b^{(2)}) \\
@@ -1838,19 +1671,19 @@ y &amp;= g^{(2)}(\bm{h}\bm{W}^{(2)} + b^{(2)}) \\
 <li><p><span class="math notranslate nohighlight">\(g^{(2)}\)</span>: 第2層の活性化関数</p></li>
 </ul>
 <p>である。このニューラルネットワークを図示したものを示す（バイアスは省略した）。</p>
-<a class="reference internal image-reference" href="../_images/mlnn.svg"><img alt="../_images/mlnn.svg" src="../_images/mlnn.svg" width="720px" /></a>
+<a class="reference internal image-reference" href="../_images/mlnn.svg"><img alt="../_images/mlnn.svg" src="../_images/mlnn.svg" style="width: 720px;" /></a>
 <p>ここに示した例は、2個の入力<span class="math notranslate nohighlight">\(x_1, x_2\)</span>から2個の中間的な値<span class="math notranslate nohighlight">\(h_1, h_2\)</span>を作り、その中間的な値から1個の値<span class="math notranslate nohighlight">\(y\)</span>を出力するニューラルネットワークである。1層目の入力をサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトル<span class="math notranslate nohighlight">\(\bm{x} = \begin{pmatrix}x_1 &amp; x_2\end{pmatrix}\)</span>で表し、出力をサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトル<span class="math notranslate nohighlight">\(\bm{h} = \begin{pmatrix}h_1 &amp; h_2\end{pmatrix}\)</span>で表すことにすると、1層目はサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトルからサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトルへの写像と考えられる。この写像は、<span class="math notranslate nohighlight">\(2 \times 2\)</span>の線形変換行列<span class="math notranslate nohighlight">\(\bm{W}^{(1)}\)</span>と、サイズ<span class="math notranslate nohighlight">\(2\)</span>のバイアスベクトル<span class="math notranslate nohighlight">\(\bm{b}^{(1)}\)</span>、活性化関数<span class="math notranslate nohighlight">\(g^{(1)}\)</span>で構成される。この第1層のように、入力に一番近い層を<strong>入力層</strong>と呼ぶ。続いて、2層目はサイズ<span class="math notranslate nohighlight">\(2\)</span>のベクトルからサイズ<span class="math notranslate nohighlight">\(1\)</span>のベクトル（スカラー）への写像と考えられる。この写像は、<span class="math notranslate nohighlight">\(2 \times 1\)</span>の線形変換行列（ベクトル）<span class="math notranslate nohighlight">\(\bm{W}^{(2)}\)</span>と、バイアス<span class="math notranslate nohighlight">\(b^{(2)}\)</span>、活性化関数<span class="math notranslate nohighlight">\(g^{(2)}\)</span>で構成される。この第2層のように、出力に一番近い層を<strong>出力層</strong>と呼ぶ。なお、ベクトル<span class="math notranslate nohighlight">\(\bm{h}\)</span>は、入力や出力として直接与えるものではなく、中間的に計算されるものであるため、<strong>中間層</strong>、<strong>隠れ状態ベクトル</strong>、<strong>隠れ層</strong>、隠れユニットなどと呼ばれる。</p>
 <p>ニューラルネットワークの層数の数え方には若干の混乱がある。<span class="math notranslate nohighlight">\(\bm{x}, \bm{h}, y\)</span>を層として数えることにして、先ほどのニューラルネットワークを<span class="math notranslate nohighlight">\(3\)</span>層と数えることもある。しかし、この資料では入力<span class="math notranslate nohighlight">\(\bm{x}\)</span>はカウントしないことにして、このニューラルネットワークを<span class="math notranslate nohighlight">\(2\)</span>層と数える。これは、写像の数やパラメータ・セットの数である<span class="math notranslate nohighlight">\(2\)</span>に一致する。また、出力層から数えたネットワークの深さ<span class="math notranslate nohighlight">\(2\)</span>とも一致する。</p>
 <p>一般的に、<span class="math notranslate nohighlight">\(L\)</span>層のニューラルネットワークの第<span class="math notranslate nohighlight">\(l \in \{1, \dots, L\}\)</span>層の写像<span class="math notranslate nohighlight">\(f^{(l)}\)</span>で表すことにする。入力<span class="math notranslate nohighlight">\(\bm{x}\)</span>に対して<span class="math notranslate nohighlight">\(L\)</span>層のニューラルネットワークを通して得られた出力<span class="math notranslate nohighlight">\(\bm{y}\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f2c6d8eb-c153-41f6-ab4c-569ced387bf9">
-<span class="eqno">(7.25)<a class="headerlink" href="#equation-f2c6d8eb-c153-41f6-ab4c-569ced387bf9" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d8a1aa28-6336-4767-8530-873692869268">
+<span class="eqno">(7.25)<a class="headerlink" href="#equation-d8a1aa28-6336-4767-8530-873692869268" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{y} = f^{(L)}\left(f^{(L-1)}\left( \dots \left(f^{(1)}(\bm{x})\right) \dots \right)\right)
 \end{align}\]</div>
 <p>と表すことができる。<span class="math notranslate nohighlight">\(l\)</span>層目の写像<span class="math notranslate nohighlight">\(f^{(l)}\)</span>は次式で表すことができる。</p>
 <div class="important admonition">
 <p class="admonition-title">多層ニューラルネットワーク</p>
 <div class="math notranslate nohighlight" id="equation-eq-multi-layer-nn">
-<span class="eqno">(7.26)<a class="headerlink" href="#equation-eq-multi-layer-nn" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(7.26)<a class="headerlink" href="#equation-eq-multi-layer-nn" title="Link to this equation">#</a></span>\[
 \begin{align}
 \bm{h}^{(l)} &amp;= f^{(l)}(\bm{h}^{(l-1)}) = g^{(l)}(\bm{h}^{(l-1)}\bm{W}^{(l)} + \bm{b}^{(l)})
 \end{align}
@@ -1865,28 +1698,28 @@ y &amp;= g^{(2)}(\bm{h}\bm{W}^{(2)} + b^{(2)}) \\
 <li><p><span class="math notranslate nohighlight">\(g^{(l)}\)</span>: 第<span class="math notranslate nohighlight">\(l\)</span>層の活性化関数</p></li>
 </ul>
 <p>である。また、<span class="math notranslate nohighlight">\(\bm{h}^{(0)} = \bm{x}, \bm{h}^{(L)} = \bm{y}\)</span>と定義する。この表記法に従って3層のニューラルネットワークを図示した例を以下に示す（バイアスは省略した）。</p>
-<a class="reference internal image-reference" href="../_images/mlnn-general.svg"><img alt="../_images/mlnn-general.svg" src="../_images/mlnn-general.svg" width="800px" /></a>
+<a class="reference internal image-reference" href="../_images/mlnn-general.svg"><img alt="../_images/mlnn-general.svg" src="../_images/mlnn-general.svg" style="width: 800px;" /></a>
 <p>これまで紹介したニューラルネットワークのように、入力と出力の間にループが存在しないニューラルネットワークを<strong>順伝搬型ニューラルネットワーク</strong>（feedforward neural network）と呼ぶ。</p>
 <section id="xor2">
-<h4><span class="section-number">7.2.2.1. </span>XORを実現する2層のニューラルネットワークの構成例<a class="headerlink" href="#xor2" title="この見出しへのパーマリンク">#</a></h4>
+<h4><span class="section-number">7.2.2.1. </span>XORを実現する2層のニューラルネットワークの構成例<a class="headerlink" href="#xor2" title="Link to this heading">#</a></h4>
 <p>多層ニューラルネットワークの一般的な表現方法を説明したので、XORの入出力を再現する2層のニューラルネットワークを実際に表現してみよう。2つの入力<span class="math notranslate nohighlight">\(\bm{x} = \begin{pmatrix}x_1 &amp; x_2\end{pmatrix} \in \{0, 1\}^2\)</span>を受け取り、中間層<span class="math notranslate nohighlight">\(\bm{h} = \begin{pmatrix}h_1 &amp; h_2\end{pmatrix} \in \{0, 1\}^2\)</span>を介して1つの出力<span class="math notranslate nohighlight">\(y \in \{0, 1\}\)</span>を得る2層のニューラルネットワークは次式で表現できる。</p>
 <div class="math notranslate nohighlight" id="equation-eq-xor-as-2layer-nn">
-<span class="eqno">(7.27)<a class="headerlink" href="#equation-eq-xor-as-2layer-nn" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(7.27)<a class="headerlink" href="#equation-eq-xor-as-2layer-nn" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{align}
 \bm{h} &amp;= {\rm step}(\bm{x}\bm{W}^{(1)} + \bm{b}^{(1)}) \\
 y &amp;= {\rm step}(\bm{h}\bm{W}^{(2)} + b^{(2)}) \\
 \end{align}
 \end{split}\]</div>
 <p><a class="reference internal" href="#sec-tlu"><span class="std std-ref">閾値論理ユニット</span></a>の節では、入力に対してORとNANDを取った出力に対して、ANDを取ることでXORの入出力を実現できることを説明した。<span class="math notranslate nohighlight">\(h_1\)</span>を<span class="math notranslate nohighlight">\(x_1, x_2\)</span>の論理和（OR）、<span class="math notranslate nohighlight">\(h_2\)</span>を<span class="math notranslate nohighlight">\(x_1, x_2\)</span>の否定論理積（NAND）とすると、<span class="math notranslate nohighlight">\(y\)</span>は<span class="math notranslate nohighlight">\(h_1, h_2\)</span>の論理積（AND）とすればよい。これらの論理結合子を実現するパラメータは無数にあるが、ここでは次式で表すことにする。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-de1540d1-0dc1-40c5-8de8-a7c1da940906">
-<span class="eqno">(7.28)<a class="headerlink" href="#equation-de1540d1-0dc1-40c5-8de8-a7c1da940906" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9b149ed4-6394-4a97-99c0-2472d5ca0d66">
+<span class="eqno">(7.28)<a class="headerlink" href="#equation-9b149ed4-6394-4a97-99c0-2472d5ca0d66" title="Permalink to this equation">#</a></span>\[\begin{align}
 h_1 &amp;= x_1 \vee x_2 = {\rm step}(x_1 + x_2 - 0.5) \\
 h_2 &amp;= \lnot (x_1 \wedge x_2) = {\rm step}(-x_1 - x_2 + 1.5) \\
 y &amp;= h_1 \wedge h_2 = {\rm step}(h_1 + h_2 - 1.5)
 \end{align}\]</div>
 <p>ここから、1層目と2層目のニューラルネットワークのパラメータを抽出すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5c5d19d8-21a2-4778-955c-69d8797af83f">
-<span class="eqno">(7.29)<a class="headerlink" href="#equation-5c5d19d8-21a2-4778-955c-69d8797af83f" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ed64ff15-2d13-4136-b0c4-9559920b8510">
+<span class="eqno">(7.29)<a class="headerlink" href="#equation-ed64ff15-2d13-4136-b0c4-9559920b8510" title="Permalink to this equation">#</a></span>\[\begin{align}
 W^{(1)}_{1,1} &amp;= 1 \\
 W^{(1)}_{2,1} &amp;= 1 \\
 b^{(1)}_1 &amp;= -0.5 \\
@@ -1898,8 +1731,8 @@ W^{(2)}_{2,1} &amp;= 1 \\
 b^{(2)} &amp;= -1.5 \\
 \end{align}\]</div>
 <p>ゆえに、式<a class="reference internal" href="#equation-eq-xor-as-2layer-nn">(7.27)</a>のパラメータを次のようにセットすればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-164ed373-9f1d-4d43-8b10-a1a6e2a271e5">
-<span class="eqno">(7.30)<a class="headerlink" href="#equation-164ed373-9f1d-4d43-8b10-a1a6e2a271e5" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-294bbe1f-57f5-4fc7-aa70-66474514cffe">
+<span class="eqno">(7.30)<a class="headerlink" href="#equation-294bbe1f-57f5-4fc7-aa70-66474514cffe" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{W}^{(1)} &amp;= \begin{pmatrix}
 W^{(1)}_{1,1} &amp; W^{(1)}_{1,2} \\
 W^{(1)}_{2,1} &amp; W^{(1)}_{2,2}
@@ -2022,7 +1855,7 @@ b^{(2)} &amp;= -1.5
 </section>
 </section>
 <section id="id18">
-<h2><span class="section-number">7.3. </span>万能近似定理<a class="headerlink" href="#id18" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">7.3. </span>万能近似定理<a class="headerlink" href="#id18" title="Link to this heading">#</a></h2>
 <p><strong>万能近似定理</strong>（Universal Approximation Theorem、普遍性定理とも訳される）は、１層の隠れ層を持つニューラルネットワーク（２層のニューラルネットワーク）は、いかなる連続関数も近似的に表現する能力があることを示した。ここで、<span class="math notranslate nohighlight">\(d\)</span>次元ベクトル<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^d\)</span>を入力として実数を出力する２層のニューラルネットワーク<span class="math notranslate nohighlight">\(F(\bm{x})\)</span>を、正の整数<span class="math notranslate nohighlight">\(M\)</span>、実定数<span class="math notranslate nohighlight">\(v_i, b_i \in \mathbb{R}\)</span>、実ベクトル<span class="math notranslate nohighlight">\(\bm{w}_i \in \mathbb{R}^d\)</span>を用いて、以下の式で表す。</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -2053,7 +1886,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
 </div>
 </div>
 <section id="w">
-<h3><span class="section-number">7.3.1. </span><span class="math notranslate nohighlight">\(w\)</span>を動かす<a class="headerlink" href="#w" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.3.1. </span><span class="math notranslate nohighlight">\(w\)</span>を動かす<a class="headerlink" href="#w" title="Link to this heading">#</a></h3>
 <p>まず、<span class="math notranslate nohighlight">\(M=1, v_1 = 1, b_1 = 0\)</span>とおく。</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -2061,6 +1894,11 @@ F(x) = \sigma(w x) \\
 \end{align*}\]</div>
 <p>である。そして、<span class="math notranslate nohighlight">\(w\)</span>を<span class="math notranslate nohighlight">\(2^{-8} \leq w \leq 2^{8}\)</span>の範囲で動かしたときに<span class="math notranslate nohighlight">\(F(x)\)</span>がどのようになるのか観察する。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">init_graph</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">):</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
@@ -2076,6 +1914,7 @@ F(x) = \sigma(w x) \\
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2334,7 +2173,7 @@ input[type=range].anim-slider {
     var slider_id = "_anim_slider82c7dd57d7074fc9853a13b3d24e2633";
     var loop_select_id = "_anim_loop_select82c7dd57d7074fc9853a13b3d24e2633";
     var frames = new Array(17);
-
+    
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA4QAAAJYCAYAAAA6xSjbAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
 bGliIHZlcnNpb24zLjQuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8rg+JYAAAACXBIWXMAABcS\
 AAAXEgFnn9JSAABIJElEQVR4nO3deZgdZZn38e/dYY8sUVDZJAjKKviCIoKIRF+3IMrihqiRcRdl\
@@ -8593,7 +8432,7 @@ aspAKEmSJEk1ZSCUJEmSpJr6/0BbkhOuYfuiAAAAAElFTkSuQmCC\
 <p>関数の形はシグモイド関数そのものであるが、<span class="math notranslate nohighlight">\(w\)</span>が大きくなるほど、<span class="math notranslate nohighlight">\(x = 0\)</span>における変化が急峻となり、ステップ関数に近づいていくことが分かる。</p>
 </section>
 <section id="b">
-<h3><span class="section-number">7.3.2. </span><span class="math notranslate nohighlight">\(b\)</span>を動かす<a class="headerlink" href="#b" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.3.2. </span><span class="math notranslate nohighlight">\(b\)</span>を動かす<a class="headerlink" href="#b" title="Link to this heading">#</a></h3>
 <p>続いて、<span class="math notranslate nohighlight">\(M=1, v_1 = 1, w_1 = 1\)</span>とおく。すなわち、</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -8858,7 +8697,7 @@ input[type=range].anim-slider {
     var slider_id = "_anim_slider396f9130a7f04173b69e5e69e5553789";
     var loop_select_id = "_anim_loop_select396f9130a7f04173b69e5e69e5553789";
     var frames = new Array(17);
-
+    
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA4QAAAJYCAYAAAA6xSjbAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
 bGliIHZlcnNpb24zLjQuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8rg+JYAAAACXBIWXMAABcS\
 AAAXEgFnn9JSAABnwklEQVR4nO3dd5hdVbn48e87PT30EgKhBgg9SBEQGJGLggXBXi5iV67Y5Scq\
@@ -16984,7 +16823,7 @@ b &amp;= - w x_0
 <p>と求めることができる。</p>
 </section>
 <section id="v">
-<h3><span class="section-number">7.3.3. </span><span class="math notranslate nohighlight">\(v\)</span>を動かす<a class="headerlink" href="#v" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.3.3. </span><span class="math notranslate nohighlight">\(v\)</span>を動かす<a class="headerlink" href="#v" title="Link to this heading">#</a></h3>
 <p>最後に、<span class="math notranslate nohighlight">\(M=1, w_1 = 1, b_1 = 0\)</span>に固定する。すなわち、</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -17252,7 +17091,7 @@ input[type=range].anim-slider {
     var slider_id = "_anim_slider04a83837c2f74120980064b5e9039369";
     var loop_select_id = "_anim_loop_select04a83837c2f74120980064b5e9039369";
     var frames = new Array(16);
-
+    
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA4QAAAJYCAYAAAA6xSjbAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
 bGliIHZlcnNpb24zLjQuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8rg+JYAAAACXBIWXMAABcS\
 AAAXEgFnn9JSAABYn0lEQVR4nO3deZhcVZ3/8fe3es2+kAAhCSRAWMK+7wIBEUVHGQERBCOjIuoP\
@@ -22829,9 +22668,14 @@ IJQkSZKkgjIQSpIkSVJBGQglSZIkqaD+f0Dci1ppTEn5AAAAAElFTkSuQmCC\
 <p>シグモイド関数の出力を<span class="math notranslate nohighlight">\(v\)</span>倍した出力が得られている。</p>
 </section>
 <section id="id20">
-<h3><span class="section-number">7.3.4. </span>矩形の合成<a class="headerlink" href="#id20" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">7.3.4. </span>矩形の合成<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
 <p>さて、<span class="math notranslate nohighlight">\(w = 1000\)</span>に固定して、<span class="math notranslate nohighlight">\(v = 1, b=-1000\)</span>および<span class="math notranslate nohighlight">\(v = -1, b=-2000\)</span>に設定したときの<span class="math notranslate nohighlight">\(F(x)\)</span>の軌跡を描画する。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># v, w, b, ls</span>
@@ -22847,8 +22691,9 @@ IJQkSZKkgjIQSpIkSVJBGQglSZIkqaD+f0Dci1ppTEn5AAAAAElFTkSuQmCC\
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_102_0.png" src="../_images/03nn_102_0.png" />
+<img alt="../_images/40181ea618a3a2000444460f9d4c0746cbed41f8c3f89981ab7bf8d6127c139c.png" src="../_images/40181ea618a3a2000444460f9d4c0746cbed41f8c3f89981ab7bf8d6127c139c.png" />
 </div>
 </div>
 <p>この2つの軌跡に関して、<span class="math notranslate nohighlight">\(y\)</span>軸の値を足し合わせると、<span class="math notranslate nohighlight">\(1 \leq x \leq 2\)</span>の範囲で矩形が現れることが想像される。これは、以下のモデルにおいて、</p>
@@ -22870,7 +22715,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_104_0.png" src="../_images/03nn_104_0.png" />
+<img alt="../_images/e80ef399ad21d51e836ba68feaa38d62695c9711150cc1fa3528560013057c31.png" src="../_images/e80ef399ad21d51e836ba68feaa38d62695c9711150cc1fa3528560013057c31.png" />
 </div>
 </div>
 <p>矩形の幅は<span class="math notranslate nohighlight">\(b_1\)</span>もしくは<span class="math notranslate nohighlight">\(b_2\)</span>を調整することで変更できる。</p>
@@ -22887,7 +22732,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_106_0.png" src="../_images/03nn_106_0.png" />
+<img alt="../_images/f843492803d5d5fbf06a30602b879925d62f59bb1b3d2fe8fe339b53167abbb8.png" src="../_images/f843492803d5d5fbf06a30602b879925d62f59bb1b3d2fe8fe339b53167abbb8.png" />
 </div>
 </div>
 <p>矩形の高さは<span class="math notranslate nohighlight">\(v\)</span>の値を調整することで変更できる（以下の例では<span class="math notranslate nohighlight">\(b_i\)</span>の値も変更してある）。</p>
@@ -22904,7 +22749,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_108_0.png" src="../_images/03nn_108_0.png" />
+<img alt="../_images/9b7740ab7cb8eeefe2f1f69da9b4f6ca7c7b9e10bd5b9bb47188fe35283e69d7.png" src="../_images/9b7740ab7cb8eeefe2f1f69da9b4f6ca7c7b9e10bd5b9bb47188fe35283e69d7.png" />
 </div>
 </div>
 <p>上の2つの矩形を組み合わせることもできる。</p>
@@ -22921,7 +22766,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_110_0.png" src="../_images/03nn_110_0.png" />
+<img alt="../_images/19ad63280542f4be4b9dda50b38b29309327aeff59e892d2e77345d2ba6e974b.png" src="../_images/19ad63280542f4be4b9dda50b38b29309327aeff59e892d2e77345d2ba6e974b.png" />
 </div>
 </div>
 <p>このように、表現したい関数<span class="math notranslate nohighlight">\(f(x)\)</span>を矩形の羅列として表現していくことで、関数<span class="math notranslate nohighlight">\(f(x)\)</span>を近似的に表現できる。</p>
@@ -22929,7 +22774,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
 </section>
 </section>
 <section id="id21">
-<h2><span class="section-number">7.4. </span>確認問題<a class="headerlink" href="#id21" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">7.4. </span>確認問題<a class="headerlink" href="#id21" title="Link to this heading">#</a></h2>
 <p>以下のセルで定義された関数<code class="docutils literal notranslate"><span class="pre">G</span></code>がある。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -22963,7 +22808,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/03nn_116_0.png" src="../_images/03nn_116_0.png" />
+<img alt="../_images/2669d0c646ef1660abdc9d4a8a934aa96fbe492b831a3a477e13d6f1827d118c.png" src="../_images/2669d0c646ef1660abdc9d4a8a934aa96fbe492b831a3a477e13d6f1827d118c.png" />
 </div>
 </div>
 <p>さて、１層の隠れ層を持つニューラルネットワーク</p>
@@ -22987,7 +22832,7 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./classification"
         },
         predefinedOutput: true
@@ -22995,51 +22840,129 @@ F(x) = \sum_{i=1}^M v_i \sigma(w_i x + b_i) \\
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="02multi.html" title="前へ ページ">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">前へ</p>
-            <p class="prev-next-title"><span class="section-number">6. </span>線形多クラス分類</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02multi.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">前へ</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>線形多クラス分類</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="04nntrain.html" title="次へ ページ">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="04nntrain.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">8. </span>ニューラルネットワーク (2)</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目次
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sec-tlu">7.1. 閾値論理ユニット</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">7.1.1. 論理積</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">7.1.2. 論理和</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">7.1.3. 否定</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">7.1.4. 否定論理積</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">7.1.5. 排他的論理和</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">7.1.6. 線形分離可能・不能</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7.1.7. 線形二値分類を多段にする</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">7.1.8. 線形二値分類器の表現力</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">7.2. ニューラルネットワーク</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">7.2.1. 単層ニューラルネットワーク</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">7.2.1.1. 活性化関数</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">7.2.1.2. 人工ニューラルネットワーク</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">7.2.1.3. 単回帰、重回帰、線形二値分類、線形多クラス分類との関連</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">7.2.1.4. 損失関数</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">7.2.2. 多層ニューラルネットワーク</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#xor2">7.2.2.1. XORを実現する2層のニューラルネットワークの構成例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">7.3. 万能近似定理</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#w">7.3.1. <span class="math notranslate nohighlight">\(w\)</span>を動かす</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b">7.3.2. <span class="math notranslate nohighlight">\(b\)</span>を動かす</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#v">7.3.3. <span class="math notranslate nohighlight">\(v\)</span>を動かす</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">7.3.4. 矩形の合成</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">7.4. 確認問題</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    <div class="extra_footer">
-      © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
-
-    </div>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © Copyright 2020-2024 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+
 </div>
+  </div>
+  
+</div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

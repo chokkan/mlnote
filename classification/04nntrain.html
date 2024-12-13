@@ -1,684 +1,514 @@
 
 <!DOCTYPE html>
 
-<html lang="ja">
+
+<html lang="ja" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>8. ニューラルネットワーク (2) &#8212; 機械学習帳</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
-    <script src="../_static/translations.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/translations.js?v=91613774"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classification/04nntrain';</script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/classification/04nntrain.html" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="9. サポートベクトルマシン" href="05svm.html" />
     <link rel="prev" title="7. ニューラルネットワーク (1)" href="03nn.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="ja">
-    
-
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ja"/>
+  <meta name="docsearch:version" content="" />
+  
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@chokkanorg">
     <meta name="twitter:title" content="機械学習帳">
     <meta name="twitter:description" content="機械学習帳は、機械学習を学ぶためのノート（帳）を、デジタル（機械）による新しいカタチの学習帳として実現することを目指しています。">
     <meta name="twitter:image" content="https://chokkan.github.io/mlnote/_static/mlnote.png">
+    </head>
 
-    <!-- Google Analytics -->
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
     
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-5R9M0GR7MW');
-                </script>
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
 
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">機械学習帳</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  回帰
- </span>
-</p>
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習帳</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">検索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">回帰</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/01sra.html">
-   1. 単回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/02mra.html">
-   2. 重回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/03regularization.html">
-   3. モデル選択と正則化
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/04sgd.html">
-   4. 勾配法によるパラメータ推定
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/01sra.html">1. 単回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/02mra.html">2. 重回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/03regularization.html">3. モデル選択と正則化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/04sgd.html">4. 勾配法によるパラメータ推定</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  分類
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01binary.html">
-   5. 線形二値分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02multi.html">
-   6. 線形多クラス分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03nn.html">
-   7. ニューラルネットワーク (1)
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   8. ニューラルネットワーク (2)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05svm.html">
-   9. サポートベクトルマシン
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01binary.html">5. 線形二値分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02multi.html">6. 線形多クラス分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03nn.html">7. ニューラルネットワーク (1)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. ニューラルネットワーク (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05svm.html">9. サポートベクトルマシン</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  教師無し学習
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教師無し学習</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/01kmeans.html">
-   10. 非階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/02hac.html">
-   11. 階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/03pca.html">
-   12. 主成分分析 (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/04pca2.html">
-   13. 主成分分析 (2)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/01kmeans.html">10. 非階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/02hac.html">11. 階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/03pca.html">12. 主成分分析 (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/04pca2.html">13. 主成分分析 (2)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  付録
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">付録</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../notation.html">
-   表記
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../reference.html">
-   参考文献・謝辞
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../notation.html">表記</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考文献・謝辞</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
-
-
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/classification/04nntrain.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
   
-
-<span class="headerbtn__icon-container">
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
   
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
+  <div id="rtd-footer-container"></div>
 
-      </li>
+
+      </div>
       
-      <li>
-        <a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/classification/04nntrain.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/classification/04nntrain.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/classification/04nntrain.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 
-<span class="headerbtn__text-container">Colab</span>
+<span class="btn__text-container">Colab</span>
 </a>
+</li>
 
-      </li>
+<li>
+    <a href="https://studiolab.sagemaker.aws/import/github/chokkan/python/blob/main/classification/04nntrain.ipynb"
+       class="btn btn-sm dropdown-item"
+       title="Launch on SageMaker Studio Lab"
+       data-bs-placement="left" data-bs-toggle="tooltip">
 
-      <li>
-        <a href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/classification/04nntrain.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on SageMaker Studio Lab"
->
-
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fab fa-aws"></i>
 </span>
-<span class="headerbtn__text-container">SageMaker</span>
+<span class="btn__text-container">SageMaker</span>
 
 </a>
-
-      </li>
+</li>
+      
+      
+      
       
       <li>
-        
 <button onclick="initThebeSBT()"
-  class="headerbtn headerbtn-launch-thebe"
-  data-toggle="tooltip"
-data-placement="left"
-title="Launch Thebe"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-play"></i>
   </span>
-<span class="headerbtn__text-container">Live Code</span>
+<span class="btn__text-container">Live Code</span>
 </button>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="ソースリポジトリ"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fclassification/04nntrain.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="問題を報告"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="このページをダウンロード">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/classification/04nntrain.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="ソースファイルをダウンロード"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDFに印刷"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全画面モード"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/chokkan/mlnote"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
 
-      </li>
-      
-      <li>
-        <a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fclassification/04nntrain.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/classification/04nntrain.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
-      </li>
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
       
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
+    </div>
   
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
-    </div>
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   8.1. 計算グラフと自動微分
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     8.1.1. 前向き計算
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     8.1.2. 後ろ向き自動微分
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     8.1.3. 損失関数を自動微分する例
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
-     8.1.4. 自動微分の実装
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#nn">
-   8.2. 単層NNの学習
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     8.2.1. 原始的な実装
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#sequential">
-     8.2.2. Sequentialによる実装
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
-     8.2.3. 最適化アルゴリズムの利用
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
-     8.2.4. NNのクラスを定義・実装する
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
-   8.3. 多層NNの実装
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id11">
-     8.3.1. 単層NN
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id12">
-     8.3.2. 多層NN
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id13">
-   8.4. 確認問題: 自動微分
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id14">
-   8.5. 確認問題: NNの学習
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>ニューラルネットワーク (2)</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   8.1. 計算グラフと自動微分
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     8.1.1. 前向き計算
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     8.1.2. 後ろ向き自動微分
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     8.1.3. 損失関数を自動微分する例
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
-     8.1.4. 自動微分の実装
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#nn">
-   8.2. 単層NNの学習
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     8.2.1. 原始的な実装
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#sequential">
-     8.2.2. Sequentialによる実装
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
-     8.2.3. 最適化アルゴリズムの利用
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
-     8.2.4. NNのクラスを定義・実装する
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
-   8.3. 多層NNの実装
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id11">
-     8.3.1. 単層NN
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id12">
-     8.3.2. 多層NN
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id13">
-   8.4. 確認問題: 自動微分
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id14">
-   8.5. 確認問題: NNの学習
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ニューラルネットワーク (2)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目次 </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">8.1. 計算グラフと自動微分</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">8.1.1. 前向き計算</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">8.1.2. 後ろ向き自動微分</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">8.1.3. 損失関数を自動微分する例</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">8.1.4. 自動微分の実装</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nn">8.2. 単層NNの学習</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">8.2.1. 原始的な実装</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sequential">8.2.2. Sequentialによる実装</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">8.2.3. 最適化アルゴリズムの利用</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">8.2.4. NNのクラスを定義・実装する</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8.3. 多層NNの実装</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">8.3.1. 単層NN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">8.3.2. 多層NN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">8.4. 確認問題: 自動微分</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">8.5. 確認問題: NNの学習</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1><span class="section-number">8. </span>ニューラルネットワーク (2)<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
+<h1><span class="section-number">8. </span>ニューラルネットワーク (2)<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -692,23 +522,28 @@ title="Print to PDF"
 <p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>前章では、多層のニューラルネットワークを一般的に表現する方法を説明した。また、論理和（OR）や論理積（AND）などの論理結合子に対応する単層ニューラルネットワーク（線形分類器）のパラメータを学習で求め、その組み合わせで排他的論理和（XOR）の入出力を再現する多層ニューラルネットワークを構成する例を示した。排他的論理和の例では、入力と出力の組み合わせの数が少ないうえ、入力を出力に対応付ける背景知識（論理）が明確であった。ところが、機械学習が用いられるシナリオは、入力を出力に対応づけるメカニズムが不明な状況において、訓練データのみを用いて入力から出力を計算する写像を獲得することである。単層ニューラルネットワークの学習方法は回帰や線形分類などで説明した通りであるが、多層ニューラルネットワークの学習はどのようにすれば良いのだろうか？</p>
 <p>本章では、ニューラルネットワークのモデルのパラメータを確率的勾配降下法で汎用的に学習する手法として、<strong>計算グラフ</strong>（computation graph）による<strong>自動微分</strong>（automatic differentiation）を紹介する。その後、<a class="reference external" href="https://pytorch.org/">PyTorch</a>による実装を紹介する。</p>
 <p>まず、確率的勾配降下法の更新式を思い出してみたい。モデルに含まれる全てのパラメータを1次元に並べてベクトルとして一般的に表現したものを<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>と書くことにする。例えば、式<a class="reference internal" href="03nn.html#equation-eq-multi-layer-nn-example">(7.24)</a>の例では、行列<span class="math notranslate nohighlight">\(\bm{W}^{(1)}, \bm{W}^{(2)}\)</span>の全ての要素、ベクトル<span class="math notranslate nohighlight">\(\bm{b}^{(1)}\)</span>の全ての要素、スカラー<span class="math notranslate nohighlight">\(b^{(2)}\)</span>を並べたベクトルが<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>である。ある訓練事例<span class="math notranslate nohighlight">\((\bm{x}, \bm{y})\)</span>に対する損失関数を<span class="math notranslate nohighlight">\(\hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}^{(t)})\)</span>と定義する。<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータの値を<span class="math notranslate nohighlight">\(\bm{\theta}^{(t)}\)</span>と書くことにすると、パラメータの更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0106fbcc-baaa-4611-9888-fc23bfef6fca">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-0106fbcc-baaa-4611-9888-fc23bfef6fca" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ddc4c1a4-9be0-470e-8d1d-60a551b0e51a">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-ddc4c1a4-9be0-470e-8d1d-60a551b0e51a" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{\theta}^{(t+1)} = \bm{\theta}^{(t)} - \eta_t \nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}^{(t)})
 \end{align}\]</div>
 <p>パラメータベクトル<span class="math notranslate nohighlight">\(\bm{\theta}\)</span>の要素数を<span class="math notranslate nohighlight">\(K\)</span>とすると、勾配<span class="math notranslate nohighlight">\(\nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c47f97a7-0bbb-4a4c-b82a-9676cab4d766">
-<span class="eqno">(8.2)<a class="headerlink" href="#equation-c47f97a7-0bbb-4a4c-b82a-9676cab4d766" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-103eab13-712e-405d-ae09-f11801515fc8">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-103eab13-712e-405d-ae09-f11801515fc8" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta}) = \begin{pmatrix} \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_1} &amp; \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_2} &amp; \dots &amp; \frac{\partial \hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})}{\partial \theta_K} \end{pmatrix}
 \end{align}\]</div>
 <p>である。ゆえに、損失関数<span class="math notranslate nohighlight">\(\hat{l}_{\bm{x}, \bm{y}}(\bm{\theta})\)</span>に対して、全てのパラメータ<span class="math notranslate nohighlight">\(\theta_k\)</span> (<span class="math notranslate nohighlight">\(k \in \{1, 2, \dots, K\}\)</span>) に関する偏微分を求めることができれば、確率的勾配降下法を適用できる。これまでは、損失関数の定義から合成関数の微分や連鎖律を駆使して偏微分を求め、回帰では式<a class="reference internal" href="../regression/04sgd.html#equation-eq-grad-regression">(4.32)</a>、線形二値分類では式<a class="reference internal" href="01binary.html#equation-eq-grad-logress">(5.31)</a>、線形多値分類では式<a class="reference internal" href="02multi.html#equation-eq-grad-multilogress">(6.33)</a>を得た。しかし、多層ニューラルネットワークになると損失値を計算するまでに関数の合成が何回も繰り返されるため、偏微分を手作業で求めるのは大変である。また、用いるニューラルネットワークの形状や活性化関数によって偏微分を求める式が変わってしまうため、全ての場合に対して手作業で偏微分を求めるのは現実的ではない。そこで、ニューラルネットワークの学習では損失関数を計算グラフとして表現し、自動微分で偏微分を求めるのが定石となっている。これは、ニューラルネットワークの学習方法として考案された<strong>誤差逆伝播法</strong>（backpropagation）と本質的に同じものである。</p>
 <section id="id2">
-<h2><span class="section-number">8.1. </span>計算グラフと自動微分<a class="headerlink" href="#id2" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">8.1. </span>計算グラフと自動微分<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p><strong>計算グラフ</strong>（computation graph）は、計算式の中にある変数や定数を葉ノード、計算を行う順番に沿って演算子を内部ノードとして配置し、ボトムアップに計算を行うことで、全体の計算結果を根ノードで得られるようにした木構造である。このように説明すると難しそうであるが、例を見れば単純明快である。</p>
 <section id="id3">
-<h3><span class="section-number">8.1.1. </span>前向き計算<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.1.1. </span>前向き計算<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <p>以下に<span class="math notranslate nohighlight">\(y=ax+b\)</span>の計算グラフを示した。ここで、<span class="math notranslate nohighlight">\((a, b) = (-2, 4), x = 3\)</span>であるとき、<span class="math notranslate nohighlight">\(y\)</span>を計算するには計算グラフの葉からボトムアップに演算子（内部ノード）を適用し、途中の計算結果を保持しながら根ノード<span class="math notranslate nohighlight">\(y\)</span>まで計算を進めればよい。以下の図では、この計算過程をアニメーションで見ることができる。このアニメーションでは葉が左側、根が右側に配置されているため、左から右に向かって計算が進む。この計算過程を<strong>前向き計算</strong>（forward computation）と呼ぶ。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_renderer</span><span class="p">(</span><span class="n">fig</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="p">,</span> <span class="s2">&quot;get_renderer&quot;</span><span class="p">):</span>
@@ -839,6 +674,7 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output text_html">
 <link rel="stylesheet"
@@ -1074,7 +910,7 @@ input[type=range].anim-slider {
     var slider_id = "_anim_sliderc76548ab4aa346f4af044f8ca06704a1";
     var loop_select_id = "_anim_loop_selectc76548ab4aa346f4af044f8ca06704a1";
     var frames = new Array(4);
-
+    
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAJYCAYAAACadoJwAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
 bGliIHZlcnNpb24zLjQuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8rg+JYAAAACXBIWXMAAB7C\
 AAAewgFu0HU+AAAyB0lEQVR4nO3debxu93wv8M+XxBBVKTHU1KJUDJU64dIa25q1SlEt1RiDaq9y\
@@ -2183,9 +2019,14 @@ SZIkFWMAkSRJklSMAUSSJElSMf8fCV72Rlen0zoAAAAASUVORK5CYII=\
 </div>
 </section>
 <section id="id4">
-<h3><span class="section-number">8.1.2. </span>後ろ向き自動微分<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.1.2. </span>後ろ向き自動微分<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <p>さて、本題はここからである。この計算グラフを使うと、根ノードを任意のノードで偏微分した値を一定の手続きに沿って求めることができる。以下のアニメーションでは、<span class="math notranslate nohighlight">\(y = ax + b\)</span>を<span class="math notranslate nohighlight">\(a, b, x\)</span>に関して偏微分した結果を求めている。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -2207,6 +2048,7 @@ SZIkFWMAkSRJklSMAUSSJElSMf8fCV72Rlen0zoAAAAASUVORK5CYII=\
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output text_html">
 <link rel="stylesheet"
@@ -2442,7 +2284,7 @@ input[type=range].anim-slider {
     var slider_id = "_anim_slider2f63712e5a0f4641a3f5e9fc2b8efd08";
     var loop_select_id = "_anim_loop_select2f63712e5a0f4641a3f5e9fc2b8efd08";
     var frames = new Array(7);
-
+    
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAJYCAYAAACadoJwAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
 bGliIHZlcnNpb24zLjQuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8rg+JYAAAACXBIWXMAAB7C\
 AAAewgFu0HU+AAA2PklEQVR4nO3dd7x1+Xwv8M93GkbEYJRoCUKMEhPPEHL1RCdCEC2MFiW4yo3o\
@@ -4869,8 +4711,8 @@ JEmSJNXm/wNA/smcBO73VQAAAABJRU5ErkJggg==\
 <p>後ろ向き自動微分では、根から葉に向かって偏微分の値を計算していく。このアニメーションでは、葉が左側、根が右側に配置されているので、右から左へと偏微分の計算が行われていく。そのため、この計算過程は<strong>後ろ向き自動微分</strong>（backward automatic differentiation）や<strong>リバースモード自動微分</strong>（reverse-mode automatic differentiation）と呼ばれている。</p>
 <p>後ろ向き自動微分では、根に対応する部分に<span class="math notranslate nohighlight">\(1\)</span>を書くことからスタートする。続けて、計算グラフ上の根（右側）から葉（左側）に向かって偏微分の値を計算していく。計算グラフ中のノードを右から左に通過するたびに、ノードの右側を左側で偏微分した値と、ノードの右側で既に計算されている偏微分値の積を計算し、左側に書き込んでいく。この手続きを再帰的に繰り返していくと、全てのノードに関する偏微分の値を計算できる。</p>
 <p>このアニメーションの各コマで求められた偏微分の計算過程を以下に示す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6702ed7b-5a87-4d1c-a01c-8220709f488f">
-<span class="eqno">(8.3)<a class="headerlink" href="#equation-6702ed7b-5a87-4d1c-a01c-8220709f488f" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4ec1a4de-4231-46de-b553-9d297c88872b">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-4ec1a4de-4231-46de-b553-9d297c88872b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial y}{\partial y} &amp;=  1 \\
 \frac{\partial y}{\partial \alpha} &amp;= \frac{\partial }{\partial \alpha} (\alpha + b) = 1 \\
 \frac{\partial y}{\partial b} &amp;= \frac{\partial }{\partial b} (\alpha + b) = 1 \\
@@ -4880,27 +4722,32 @@ JEmSJNXm/wNA/smcBO73VQAAAABJRU5ErkJggg==\
 <p>ここで注目して欲しいのは、<span class="math notranslate nohighlight">\(\frac{\partial y}{\partial a}\)</span>と<span class="math notranslate nohighlight">\(\frac{\partial y}{\partial x}\)</span>の計算方法（下から1行目と2行目）である。この計算方法では<span class="math notranslate nohighlight">\(y = \alpha + b, \alpha = ax\)</span>の合成関数であると考え、連鎖律を用いて求めている。このとき、<span class="math notranslate nohighlight">\(\frac{\partial y}{\partial \alpha} = 1\)</span>は2行目で求めてあるので、<span class="math notranslate nohighlight">\(\alpha = ax\)</span>の部分だけを考えればよい。<span class="math notranslate nohighlight">\(\frac{\partial \alpha}{\partial a}\)</span>と<span class="math notranslate nohighlight">\(\frac{\partial \alpha}{\partial x}\)</span>を求めたのち、<span class="math notranslate nohighlight">\(\frac{\partial y}{\partial \alpha}\)</span>との積を、それぞれ、計算している。</p>
 </section>
 <section id="id5">
-<h3><span class="section-number">8.1.3. </span>損失関数を自動微分する例<a class="headerlink" href="#id5" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.1.3. </span>損失関数を自動微分する例<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>後ろ向き自動微分の実行過程は明確ではあるが、この単純な例ではその威力が分かりにくいかもしれない。より実践的な例として、単層ニューラルネットワーク（線形二値分類モデル）対して、二値クロスエントロピーで定義された損失関数に基づき、パラメータの勾配を求める例を考えよう。特徴ベクトルの要素数を<span class="math notranslate nohighlight">\(d\)</span>、訓練事例を<span class="math notranslate nohighlight">\((\bm{x}, y) \in \mathbb{R}^d \times \{0, 1\}\)</span>、単層ニューラルネットワークのパラメータを<span class="math notranslate nohighlight">\(\bm{w} \in \mathbb{R}^d\)</span>、活性化関数にシグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>を用いることにすると、損失関数は<span class="math notranslate nohighlight">\(\log \hat{l}_{\bm{x}, y}(\bm{w})\)</span>で表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f608aa7e-5894-4b6f-b635-07013a94e7da">
-<span class="eqno">(8.4)<a class="headerlink" href="#equation-f608aa7e-5894-4b6f-b635-07013a94e7da" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2678cd1b-916a-4aea-a604-365561749e24">
+<span class="eqno">(8.4)<a class="headerlink" href="#equation-2678cd1b-916a-4aea-a604-365561749e24" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{l}_{\bm{x}, y}(\bm{w}) &amp;= -y \log p - (1-y) \log (1-p) \\
 p &amp;= \sigma(\bm{x}^\top \bm{w}) = \frac{1}{1 + e^{-\bm{x}^\top \bm{w}}}
 \end{align}\]</div>
 <p>ここでは、選ばれた訓練事例は正例（<span class="math notranslate nohighlight">\(y = 1\)</span>）とする。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5e53d6a4-e26f-4205-9c5f-c03577343c83">
-<span class="eqno">(8.5)<a class="headerlink" href="#equation-5e53d6a4-e26f-4205-9c5f-c03577343c83" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-86166640-bfe2-45ef-8273-7b8c27275f9f">
+<span class="eqno">(8.5)<a class="headerlink" href="#equation-86166640-bfe2-45ef-8273-7b8c27275f9f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{l}_{\bm{x}, 1}(\bm{w}) = -\log p = -\log \sigma(\bm{x}^\top \bm{w}) = -\log \frac{1}{1 + e^{-\bm{x}^\top \bm{w}}}
 \end{align}\]</div>
 <p>さらに、特徴ベクトルの次元数<span class="math notranslate nohighlight">\(d = 2\)</span>の場合を考えると、損失関数は、</p>
 <div class="math notranslate nohighlight" id="equation-eq-loss-function-for-autograd">
-<span class="eqno">(8.6)<a class="headerlink" href="#equation-eq-loss-function-for-autograd" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(8.6)<a class="headerlink" href="#equation-eq-loss-function-for-autograd" title="Link to this equation">#</a></span>\[
 \begin{align}
 \hat{l}_{x_1, x_2}(w_1, w_2) = -\log \frac{1}{1 + e^{-(w_1 x_1 + w_2 x_2)}}
 \end{align}
 \]</div>
 <p><span class="math notranslate nohighlight">\((x_1, x_2) = (1, -1), (w_1, w_2) = (1, 0.5)\)</span>であるとき、計算グラフを使って損失関数の値を求める過程と、<span class="math notranslate nohighlight">\(w_1, w_2\)</span>に関する偏微分を求める過程をアニメーションで示す。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;variable-font-size&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
@@ -4996,6 +4843,7 @@ p &amp;= \sigma(\bm{x}^\top \bm{w}) = \frac{1}{1 + e^{-\bm{x}^\top \bm{w}}}
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output text_html">
 <link rel="stylesheet"
@@ -5231,7 +5079,7 @@ input[type=range].anim-slider {
     var slider_id = "_anim_sliderd3adef5c93b24ffb903b6c9e2599a193";
     var loop_select_id = "_anim_loop_selectd3adef5c93b24ffb903b6c9e2599a193";
     var frames = new Array(26);
-
+    
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAGQCAYAAABWJQQ0AAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
 bGliIHZlcnNpb24zLjQuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8rg+JYAAAACXBIWXMAAB7C\
 AAAewgFu0HU+AAAv00lEQVR4nO3deZhkZX328e/NjqIZdEwEVBYd4xjRAAZRicsr7jsqBqNxQY0Q\
@@ -14914,7 +14762,7 @@ gg==\
 <p>したがって、損失関数がパラメータに関して微分可能で、その損失関数を計算グラフとして表現することが可能であれば、あらゆるニューラルネットワークのパラメータを自動微分および確率的勾配降下法で学習できる。今回は単純のために単層のニューラルネットワークの例を用いたが、多層のニューラルネットワークでも自動微分および確率的勾配降下法を用いてパラメータを学習できる。</p>
 </section>
 <section id="id6">
-<h3><span class="section-number">8.1.4. </span>自動微分の実装<a class="headerlink" href="#id6" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.1.4. </span>自動微分の実装<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>自動微分はニューラルネットワークを扱うライブラリの要であり、様々なフレームワークで自動微分が実行できるようになっている。ここでは、式<a class="reference internal" href="#equation-eq-loss-function-for-autograd">(8.6)</a>の損失関数をプログラムとして実装し、損失値および<span class="math notranslate nohighlight">\(w_1\)</span>と<span class="math notranslate nohighlight">\(w_2\)</span>に関する偏微分値を求める例を紹介する。</p>
 <p><a class="reference external" href="https://github.com/HIPS/autograd">Autograd</a>では、<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">autograd.numpy</span> <span class="pre">as</span> <span class="pre">np</span></code>とすることで、自動微分したい関数をNumPyのモジュールを呼び出すかのように実装できる。微分したい関数をPythonの関数として実装し、autograd.grad関数を呼び出すことで、勾配を計算する関数が導出される。</p>
 <div class="cell docutils container">
@@ -15029,9 +14877,14 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </section>
 </section>
 <section id="nn">
-<h2><span class="section-number">8.2. </span>単層NNの学習<a class="headerlink" href="#nn" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">8.2. </span>単層NNの学習<a class="headerlink" href="#nn" title="Link to this heading">#</a></h2>
 <p>このセクションでは、PyTorchを用いて単層ニューラルネットワークのモデルを実装・学習する例を紹介する（訓練データを可視化するコードは、以下のセルに隠されている）。</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 
@@ -15077,6 +14930,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>事例数<span class="math notranslate nohighlight">\(N=50\)</span>、入力<span class="math notranslate nohighlight">\(\bm{x}\)</span>の次元数<span class="math notranslate nohighlight">\(d_{\rm in}=2\)</span>の二値分類の訓練データを用意する（このデータは線形分離可能である）。</p>
 <div class="cell docutils container">
@@ -15091,7 +14945,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_23_0.png" src="../_images/04nntrain_23_0.png" />
+<img alt="../_images/a2ea3dfa1c6f7ae79082ecdaf801664f57c8c277ee874a7b5e78822bd3c107b9.png" src="../_images/a2ea3dfa1c6f7ae79082ecdaf801664f57c8c277ee874a7b5e78822bd3c107b9.png" />
 </div>
 </div>
 <p>訓練データをNumPyのオブジェクトからPyTorchのオブジェクトに変換しておく。訓練データは<span class="math notranslate nohighlight">\(50 \times 2\)</span>の行列<code class="docutils literal notranslate"><span class="pre">X</span></code>、<span class="math notranslate nohighlight">\(50 \times 1\)</span>の行列<code class="docutils literal notranslate"><span class="pre">Y</span></code>で表される。</p>
@@ -15138,14 +14992,14 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 <p>以降では、<span class="math notranslate nohighlight">\(2\)</span>次元の入力<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^2\)</span>を受け取り、<span class="math notranslate nohighlight">\(1\)</span>次元の値<span class="math notranslate nohighlight">\(\hat{y}\)</span>を出力する1層のニューラルネットワーク（パラメータ<span class="math notranslate nohighlight">\(\bm{w} \in \mathbb{R}^{2}\)</span>と<span class="math notranslate nohighlight">\(b \in \mathbb{R}\)</span>）</p>
 <div class="math notranslate nohighlight" id="equation-eq-single-layer-nn-example">
-<span class="eqno">(8.7)<a class="headerlink" href="#equation-eq-single-layer-nn-example" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(8.7)<a class="headerlink" href="#equation-eq-single-layer-nn-example" title="Link to this equation">#</a></span>\[
 \begin{align}
 \hat{y} = \sigma(\bm{x} \cdot \bm{w} + b)
 \end{align}
 \]</div>
 <p>を学習するプログラムの実装例を複数紹介する。</p>
 <section id="id7">
-<h3><span class="section-number">8.2.1. </span>原始的な実装<a class="headerlink" href="#id7" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.2.1. </span>原始的な実装<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a data loader with batch size of 4.</span>
@@ -15196,8 +15050,8 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </pre></div>
 </div>
 <p>ミニバッチ処理のため、式<a class="reference internal" href="#equation-eq-single-layer-nn-example">(8.7)</a>の<span class="math notranslate nohighlight">\(\bm{x}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\bm{X}\)</span>を用い、<span class="math notranslate nohighlight">\(\hat{y}\)</span>を縦に4個積んだ行列<span class="math notranslate nohighlight">\(\hat{\bm{y}}\)</span>を計算する。<a class="reference external" href="https://pytorch.org/docs/stable/notes/broadcasting.html">ブロードキャスト</a>により、スカラである<code class="docutils literal notranslate"><span class="pre">b</span></code>はベクトルに拡張され、計算が行われる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-33e92485-278c-47f5-91a5-6056ae60d875">
-<span class="eqno">(8.8)<a class="headerlink" href="#equation-33e92485-278c-47f5-91a5-6056ae60d875" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-07af01dd-57bf-47b6-a9cb-616519cb47c6">
+<span class="eqno">(8.8)<a class="headerlink" href="#equation-07af01dd-57bf-47b6-a9cb-616519cb47c6" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{\bm{y}} &amp;= \sigma(\bm{X}\bm{w} + \bm{b}) \\
 \begin{pmatrix}
 \hat{y}_1 \\
@@ -15228,8 +15082,8 @@ b
 </pre></div>
 </div>
 <p>事例ごとに尤度を計算して、<code class="docutils literal notranslate"><span class="pre">l</span></code>に格納する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2bffc10d-839c-4927-9e54-ee0d1fb4c57f">
-<span class="eqno">(8.9)<a class="headerlink" href="#equation-2bffc10d-839c-4927-9e54-ee0d1fb4c57f" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c40dee72-01b5-4b1e-a0cc-94fa075a3356">
+<span class="eqno">(8.9)<a class="headerlink" href="#equation-c40dee72-01b5-4b1e-a0cc-94fa075a3356" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{l} &amp;= \bm{y} \odot \hat{\bm{y}} + (1 - \bm{y}) \cdot (1 - \hat{\bm{y}}) \\
 \begin{pmatrix}
 l_1 \\
@@ -15287,7 +15141,7 @@ y_4 \hat{y}_4
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_33_0.png" src="../_images/04nntrain_33_0.png" />
+<img alt="../_images/809f53cc4ba7b520eae6c5de812ec9f104ef5f931b4ba12d16d585c5f8d79e31.png" src="../_images/809f53cc4ba7b520eae6c5de812ec9f104ef5f931b4ba12d16d585c5f8d79e31.png" />
 </div>
 </div>
 <p>学習で求められたパラメータの値を確認する。</p>
@@ -15319,12 +15173,12 @@ y_4 \hat{y}_4
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_37_0.png" src="../_images/04nntrain_37_0.png" />
+<img alt="../_images/b4f9981dca8120dec39f2190ba36e10bc129be0f4877be665587b682fd845256.png" src="../_images/b4f9981dca8120dec39f2190ba36e10bc129be0f4877be665587b682fd845256.png" />
 </div>
 </div>
 </section>
 <section id="sequential">
-<h3><span class="section-number">8.2.2. </span>Sequentialによる実装<a class="headerlink" href="#sequential" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.2.2. </span>Sequentialによる実装<a class="headerlink" href="#sequential" title="Link to this heading">#</a></h3>
 <p>以下は<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html">torch.nn.Sequential</a>を用いて、単層のニューラルネットワークを実装する例である。「2次元から1次元への線形変換（バイアス項あり）」といったレベルの記述だけで、ニューラルネットワークのパラメータが定義され、入力に対応した出力の値を計算できる。さらに、二値クロスエントロピー損失関数を自前で実装せずに、<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html">torch.nn.BCEWithLogitsLoss</a>を用いる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15394,12 +15248,12 @@ y_4 \hat{y}_4
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_46_0.png" src="../_images/04nntrain_46_0.png" />
+<img alt="../_images/30ecbcffd05247e91555b0d681f76fe9ef4f8a64855415974d2262a1a580abea.png" src="../_images/30ecbcffd05247e91555b0d681f76fe9ef4f8a64855415974d2262a1a580abea.png" />
 </div>
 </div>
 </section>
 <section id="id8">
-<h3><span class="section-number">8.2.3. </span>最適化アルゴリズムの利用<a class="headerlink" href="#id8" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.2.3. </span>最適化アルゴリズムの利用<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <p>さらに、確率的勾配降下法を自前で実装せずに、<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.optim.SGD.html">torch.optim.SGD</a>を利用する実装例である。プログラムがかなりシンプルになった。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15431,12 +15285,12 @@ y_4 \hat{y}_4
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_49_0.png" src="../_images/04nntrain_49_0.png" />
+<img alt="../_images/e96c4f01c169ff5bca27e99ff1c05d36a341ce8fe693042ecee4f141b7381a16.png" src="../_images/e96c4f01c169ff5bca27e99ff1c05d36a341ce8fe693042ecee4f141b7381a16.png" />
 </div>
 </div>
 </section>
 <section id="id9">
-<h3><span class="section-number">8.2.4. </span>NNのクラスを定義・実装する<a class="headerlink" href="#id9" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.2.4. </span>NNのクラスを定義・実装する<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html">torch.nn.Module</a>クラスを継承してニューラルネットワークのクラスを自前で定義する例である。入力から出力を計算する処理をforwardメソッドに実装する。Sequentialでは定義できないような複雑なニューラルネットワークを実装できる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15474,7 +15328,7 @@ y_4 \hat{y}_4
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_51_0.png" src="../_images/04nntrain_51_0.png" />
+<img alt="../_images/1171bdca4487e2cea73c7555975f952de45339c1a50271cfa924cfe69f3d14f2.png" src="../_images/1171bdca4487e2cea73c7555975f952de45339c1a50271cfa924cfe69f3d14f2.png" />
 </div>
 </div>
 <p>学習で求められたパラメータを確認する。</p>
@@ -15494,7 +15348,7 @@ y_4 \hat{y}_4
 </section>
 </section>
 <section id="id10">
-<h2><span class="section-number">8.3. </span>多層NNの実装<a class="headerlink" href="#id10" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">8.3. </span>多層NNの実装<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
 <p>事例数<span class="math notranslate nohighlight">\(N=100\)</span>、入力<span class="math notranslate nohighlight">\(\bm{x}\)</span>の次元数<span class="math notranslate nohighlight">\(d_{\rm in}=2\)</span>の二値分類の訓練データを用意する（このデータは線形分離不能である）。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15515,11 +15369,11 @@ y_4 \hat{y}_4
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_56_0.png" src="../_images/04nntrain_56_0.png" />
+<img alt="../_images/70480604ed0d64595c187a1d417c9854544851b93dcd165868fad4d85fda5d64.png" src="../_images/70480604ed0d64595c187a1d417c9854544851b93dcd165868fad4d85fda5d64.png" />
 </div>
 </div>
 <section id="id11">
-<h3><span class="section-number">8.3.1. </span>単層NN<a class="headerlink" href="#id11" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.3.1. </span>単層NN<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
 <p>手始めに、Sequentialで単層のニューラルネットワークを学習してみる。正例と負例を分離できる平面を引くことができない。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -15551,12 +15405,12 @@ y_4 \hat{y}_4
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_58_0.png" src="../_images/04nntrain_58_0.png" />
+<img alt="../_images/852dcacdda686e28f5d3bab27d70ea7a8d106bed6a98fb0569ec5f766e64d316.png" src="../_images/852dcacdda686e28f5d3bab27d70ea7a8d106bed6a98fb0569ec5f766e64d316.png" />
 </div>
 </div>
 </section>
 <section id="id12">
-<h3><span class="section-number">8.3.2. </span>多層NN<a class="headerlink" href="#id12" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">8.3.2. </span>多層NN<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
 <p>中間層のユニット数を<span class="math notranslate nohighlight">\(4\)</span>とした2層のニューラルネットワークをSequentialで定義する。先ほどの実装から変更すべき箇所は、以下の部分だけである。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">(),</span>
@@ -15596,13 +15450,13 @@ y_4 \hat{y}_4
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04nntrain_60_0.png" src="../_images/04nntrain_60_0.png" />
+<img alt="../_images/b3a05f6fdad8fbadc8ea29496457df03dc48c98418439d3bea219fbdaeeb40cf.png" src="../_images/b3a05f6fdad8fbadc8ea29496457df03dc48c98418439d3bea219fbdaeeb40cf.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="id13">
-<h2><span class="section-number">8.4. </span>確認問題: 自動微分<a class="headerlink" href="#id13" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">8.4. </span>確認問題: 自動微分<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
 <p>2次元の入力<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^{2}\)</span>を受け取り、2次元の中間層<span class="math notranslate nohighlight">\(\bm{h} \in \mathbb{R}^{2}\)</span>を介して、<span class="math notranslate nohighlight">\(\hat{y} \in \mathbb{R}\)</span>を出力する2層のニューラルネットワークを次式で定義する。</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -15619,7 +15473,7 @@ y_4 \hat{y}_4
 <p>ある学習事例<span class="math notranslate nohighlight">\((\bm{x}, y) = \left(\begin{pmatrix}1 \\ 1 \end{pmatrix}, 0\right)\)</span>に対して、このニューラルネットワークをクロスエントロピー損失関数の値、および損失関数の<span class="math notranslate nohighlight">\(\bm{W}\)</span>, <span class="math notranslate nohighlight">\(\bm{q}\)</span>, <span class="math notranslate nohighlight">\(\bm{b}\)</span>, <span class="math notranslate nohighlight">\(c\)</span>に関する勾配の値を求めよ。</p>
 </section>
 <section id="id14">
-<h2><span class="section-number">8.5. </span>確認問題: NNの学習<a class="headerlink" href="#id14" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">8.5. </span>確認問題: NNの学習<a class="headerlink" href="#id14" title="Link to this heading">#</a></h2>
 <p>深層学習フレームワークを用いて、手書き数字認識を行うニューラルネットワークを学習したい。</p>
 <p><strong>(1) モデルの学習</strong></p>
 <p>MNISTの訓練データを用いて単層のニューラルネットワークを学習せよ。このとき、各エポック毎に以下の評価値を計算し、グラフとして表示せよ。</p>
@@ -15657,7 +15511,7 @@ y_4 \hat{y}_4
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./classification"
         },
         predefinedOutput: true
@@ -15665,51 +15519,117 @@ y_4 \hat{y}_4
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="03nn.html" title="前へ ページ">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">前へ</p>
-            <p class="prev-next-title"><span class="section-number">7. </span>ニューラルネットワーク (1)</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03nn.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">前へ</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>ニューラルネットワーク (1)</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="05svm.html" title="次へ ページ">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="05svm.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">9. </span>サポートベクトルマシン</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目次
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">8.1. 計算グラフと自動微分</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">8.1.1. 前向き計算</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">8.1.2. 後ろ向き自動微分</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">8.1.3. 損失関数を自動微分する例</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">8.1.4. 自動微分の実装</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nn">8.2. 単層NNの学習</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">8.2.1. 原始的な実装</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sequential">8.2.2. Sequentialによる実装</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">8.2.3. 最適化アルゴリズムの利用</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">8.2.4. NNのクラスを定義・実装する</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8.3. 多層NNの実装</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">8.3.1. 単層NN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">8.3.2. 多層NN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">8.4. 確認問題: 自動微分</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">8.5. 確認問題: NNの学習</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    <div class="extra_footer">
-      © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
-
-    </div>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © Copyright 2020-2024 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+
 </div>
+  </div>
+  
+</div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

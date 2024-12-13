@@ -1,732 +1,518 @@
 
 <!DOCTYPE html>
 
-<html lang="ja">
+
+<html lang="ja" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>5. 線形二値分類 &#8212; 機械学習帳</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
-    <script src="../_static/translations.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/translations.js?v=91613774"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-5R9M0GR7MW');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classification/01binary';</script>
     <link rel="canonical" href="https://chokkan.github.io/mlnote/classification/01binary.html" />
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="6. 線形多クラス分類" href="02multi.html" />
     <link rel="prev" title="4. 勾配法によるパラメータ推定" href="../regression/04sgd.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="ja">
-    
-
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ja"/>
+  <meta name="docsearch:version" content="" />
+  
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@chokkanorg">
     <meta name="twitter:title" content="機械学習帳">
     <meta name="twitter:description" content="機械学習帳は、機械学習を学ぶためのノート（帳）を、デジタル（機械）による新しいカタチの学習帳として実現することを目指しています。">
     <meta name="twitter:image" content="https://chokkan.github.io/mlnote/_static/mlnote.png">
+    </head>
 
-    <!-- Google Analytics -->
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
     
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-5R9M0GR7MW');
-                </script>
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
 
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">機械学習帳</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  回帰
- </span>
-</p>
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">機械学習帳</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">検索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">回帰</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/01sra.html">
-   1. 単回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/02mra.html">
-   2. 重回帰
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/03regularization.html">
-   3. モデル選択と正則化
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../regression/04sgd.html">
-   4. 勾配法によるパラメータ推定
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/01sra.html">1. 単回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/02mra.html">2. 重回帰</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/03regularization.html">3. モデル選択と正則化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression/04sgd.html">4. 勾配法によるパラメータ推定</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  分類
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分類</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   5. 線形二値分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02multi.html">
-   6. 線形多クラス分類
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03nn.html">
-   7. ニューラルネットワーク (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="04nntrain.html">
-   8. ニューラルネットワーク (2)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05svm.html">
-   9. サポートベクトルマシン
-  </a>
- </li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. 線形二値分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02multi.html">6. 線形多クラス分類</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03nn.html">7. ニューラルネットワーク (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04nntrain.html">8. ニューラルネットワーク (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05svm.html">9. サポートベクトルマシン</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  教師無し学習
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教師無し学習</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/01kmeans.html">
-   10. 非階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/02hac.html">
-   11. 階層的クラスタリング
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/03pca.html">
-   12. 主成分分析 (1)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../unsupervised/04pca2.html">
-   13. 主成分分析 (2)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/01kmeans.html">10. 非階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/02hac.html">11. 階層的クラスタリング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/03pca.html">12. 主成分分析 (1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unsupervised/04pca2.html">13. 主成分分析 (2)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  付録
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">付録</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../notation.html">
-   表記
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../reference.html">
-   参考文献・謝辞
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../notation.html">表記</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考文献・謝辞</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
-
-
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/classification/01binary.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
   
-
-<span class="headerbtn__icon-container">
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
   
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
+  <div id="rtd-footer-container"></div>
 
-      </li>
+
+      </div>
       
-      <li>
-        <a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/classification/01binary.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/chokkan/mlnote/main?urlpath=lab/tree/classification/01binary.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/chokkan/mlnote/blob/main/classification/01binary.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 
-<span class="headerbtn__text-container">Colab</span>
+<span class="btn__text-container">Colab</span>
 </a>
+</li>
 
-      </li>
+<li>
+    <a href="https://studiolab.sagemaker.aws/import/github/chokkan/python/blob/main/classification/01binary.ipynb"
+       class="btn btn-sm dropdown-item"
+       title="Launch on SageMaker Studio Lab"
+       data-bs-placement="left" data-bs-toggle="tooltip">
 
-      <li>
-        <a href="https://studiolab.sagemaker.aws/import/github/chokkan/mlnote/blob/main/classification/01binary.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on SageMaker Studio Lab"
->
-
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fab fa-aws"></i>
 </span>
-<span class="headerbtn__text-container">SageMaker</span>
+<span class="btn__text-container">SageMaker</span>
 
 </a>
-
-      </li>
+</li>
+      
+      
+      
       
       <li>
-        
 <button onclick="initThebeSBT()"
-  class="headerbtn headerbtn-launch-thebe"
-  data-toggle="tooltip"
-data-placement="left"
-title="Launch Thebe"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-play"></i>
   </span>
-<span class="headerbtn__text-container">Live Code</span>
+<span class="btn__text-container">Live Code</span>
 </button>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="ソースリポジトリ"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fclassification/01binary.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="問題を報告"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="このページをダウンロード">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/classification/01binary.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="ソースファイルをダウンロード"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDFに印刷"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全画面モード"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/chokkan/mlnote"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
 
-      </li>
-      
-      <li>
-        <a href="https://github.com/chokkan/mlnote/issues/new?title=Issue%20on%20page%20%2Fclassification/01binary.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/classification/01binary.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
-      </li>
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="検索" aria-label="検索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
       
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
+    </div>
   
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
-    </div>
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   5.1. 二値分類の例：スパム判定
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   5.2. 線形二値分類
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   5.3. ロジスティック回帰
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     5.3.1. シグモイド関数の実装
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   5.4. データの表現
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
-   5.5. 尤度
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
-   5.6. 最尤推定
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id9">
-   5.7. 確率的勾配降下法
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id10">
-     5.7.1. 確率的勾配降下法の更新式の解釈
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#l-2">
-     5.7.2.
-     <span class="math notranslate nohighlight">
-      \(L_2\)
-     </span>
-     正則化付きロジスティック回帰
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id11">
-   5.8. 評価
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id12">
-   5.9. スパムフィルタの構築
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id13">
-     5.9.1. データのダウンロード
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id14">
-     5.9.2. データの読み込み
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id15">
-     5.9.3. データ形式の変換
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id16">
-     5.9.4. 二値分類モデルの学習
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id17">
-     5.9.5. 分類器の適用・評価
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id18">
-     5.9.6. モデルパラメータの確認
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id19">
-   5.10. 確認問題
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>線形二値分類</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   5.1. 二値分類の例：スパム判定
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   5.2. 線形二値分類
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   5.3. ロジスティック回帰
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     5.3.1. シグモイド関数の実装
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   5.4. データの表現
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
-   5.5. 尤度
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
-   5.6. 最尤推定
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id9">
-   5.7. 確率的勾配降下法
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id10">
-     5.7.1. 確率的勾配降下法の更新式の解釈
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#l-2">
-     5.7.2.
-     <span class="math notranslate nohighlight">
-      \(L_2\)
-     </span>
-     正則化付きロジスティック回帰
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id11">
-   5.8. 評価
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id12">
-   5.9. スパムフィルタの構築
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id13">
-     5.9.1. データのダウンロード
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id14">
-     5.9.2. データの読み込み
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id15">
-     5.9.3. データ形式の変換
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id16">
-     5.9.4. 二値分類モデルの学習
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id17">
-     5.9.5. 分類器の適用・評価
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id18">
-     5.9.6. モデルパラメータの確認
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id19">
-   5.10. 確認問題
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>線形二値分類</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目次 </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">5.1. 二値分類の例：スパム判定</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">5.2. 線形二値分類</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">5.3. ロジスティック回帰</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">5.3.1. シグモイド関数の実装</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5.4. データの表現</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5.5. 尤度</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">5.6. 最尤推定</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">5.7. 確率的勾配降下法</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">5.7.1. 確率的勾配降下法の更新式の解釈</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-2">5.7.2. <span class="math notranslate nohighlight">\(L_2\)</span>正則化付きロジスティック回帰</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">5.8. 評価</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">5.9. スパムフィルタの構築</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">5.9.1. データのダウンロード</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">5.9.2. データの読み込み</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">5.9.3. データ形式の変換</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">5.9.4. 二値分類モデルの学習</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">5.9.5. 分類器の適用・評価</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">5.9.6. モデルパラメータの確認</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">5.10. 確認問題</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1><span class="section-number">5. </span>線形二値分類<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">#</a></h1>
+<h1><span class="section-number">5. </span>線形二値分類<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -736,7 +522,7 @@ title="Print to PDF"
 </div>
 </div>
 <section id="id2">
-<h2><span class="section-number">5.1. </span>二値分類の例：スパム判定<a class="headerlink" href="#id2" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.1. </span>二値分類の例：スパム判定<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>電子メールは誰にでもすぐにメッセージを送ることができるので便利である一方、自分が受け取りたくないスパムメール（迷惑メール）が送られてくることがある。<a class="reference external" href="https://www.soumu.go.jp/main_sosiki/joho_tsusin/d_syohi/m_mail.html">総務省の統計</a>によると、電気通信事業者１０社の全受信メール数に対する<a class="reference external" href="https://www.soumu.go.jp/main_content/000693529.pdf">迷惑メール数の割合は約50%（2020年3月時点）</a>である。そこで、多くのメールサーバやメールクライアントではスパムメールを自動で認識し、利用者の目に触れさせない機能（スパムフィルタ）が搭載されている。スパムフィルタの主なタスクは、与えられたメールがスパムであるか、スパムではないか自動的に判定することである。この判定を行うモジュール、すなわちスパム判定器を構築するのが、今回のお題である。</p>
 <p>では、スパム判定器をどのように構築すればよいか。以下のスパムメールを具体例として考えたい。</p>
 <p><img alt="spam" src="../_images/spam-s.png" /></p>
@@ -785,8 +571,8 @@ title="Print to PDF"
 <p>このようにメールの本文に関して、スパムである条件を記述していくアプローチを<strong>ルール</strong>に基づく手法と呼ぶ。ルールに基づく手法は、訓練データが少ないときは迅速に作ることができる、スパムと判定する条件が明解であるという利点がある。一方で、スパムと判定する条件を詳細化するほどプログラムが複雑になるため、ルールの保守が難しい。また、英語のスパムメールのために作ったルールを、日本語のスパムメールに適用することができないため、特定の言語やジャンルにおけるメールにしか対応できない。</p>
 <p>そこで、教師あり学習を用いてスパム判定器を構築することを考える。より具体的には、メールを<span class="math notranslate nohighlight">\(d\)</span>次元の説明変数<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^d\)</span>で表現し、スパムメールか（<span class="math notranslate nohighlight">\(1\)</span>）スパムメールでないか（<span class="math notranslate nohighlight">\(0\)</span>）を表す目的変数（出力）<span class="math notranslate nohighlight">\(y \in \{0, 1\}\)</span>を考える。説明変数から目的変数を計算する関数<span class="math notranslate nohighlight">\(f: \mathbb{R}^d \longmapsto \{0, 1\}\)</span>を教師データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>から学習することで、スパム判定器を構築できる。説明変数から<span class="math notranslate nohighlight">\(\{0, 1\}\)</span>などの離散値を取る目的変数を求めることを<strong>分類</strong>（classification）もしくは<strong>識別</strong>と呼ぶ。分類において目的変数が取りうる値は、<strong>クラス</strong>や<strong>カテゴリ</strong>などと呼ばれる。特に、説明変数の取りうる値が２つのクラスに限定された分類を、<strong>二値分類</strong>（binary classification）と呼ぶ。</p>
 <p>以下の図は、機械学習によるスパムフィルターの典型的な動作を示している。スパムメールに関する教師データを使い、事前にスパム判定器を学習しておく。そして、与えられたメールに対して、スパム判定器はメールがスパムであるかどうか推定する。スパムと判定されたメールはスパムフォルダーに自動的に仕分けすることで、新着メールとして表示させないようにする。ただ、スパム判定器が間違った判定をしてしまうことがある。例えば、本当はスパムであるメールをスパムではないと判定してしまうと、新着メールとして表示されてしまう。このとき、メールを閲覧したユーザがそのメールにスパムであることの目印（フラグ）を付けたとする（スパムフォルダーに移動させてもよい）。これは、スパムメールの新しい学習事例を作ったことに相当する。そこで、この新しい学習事例を教師データとしてスパム判定器を再学習すると、スパム判定の性能が向上すると期待される。以降では、スパム判定などの二値分類を実現するモデルと、その学習方法や評価方法を説明する。</p>
-<a class="reference internal image-reference" href="../_images/spam-filter.svg"><img alt="スパム判定器" src="../_images/spam-filter.svg" width="480px" /></a>
-<p>なお、スパムの語源はイギリスBBCが1970年頃に制作した『<a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%A9%BA%E9%A3%9B%E3%81%B6%E3%83%A2%E3%83%B3%E3%83%86%E3%82%A3%E3%83%BB%E3%83%91%E3%82%A4%E3%82%BD%E3%83%B3">空飛ぶモンティ・パイソン</a>』のスケッチ「<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%91%E3%83%A0_(%E3%83%A1%E3%83%BC%E3%83%AB)">スパム</a>」から来ていると言われている（以下は2014年に行われた<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%B3%E3%83%86%E3%82%A3%E3%83%BB%E3%83%91%E3%82%A4%E3%82%BD%E3%83%B3_%E5%BE%A9%E6%B4%BB%E3%83%A9%E3%82%A4%E3%83%96%21">復活ライブ</a>の時に使われた
+<a class="reference internal image-reference" href="../_images/spam-filter.svg"><img alt="スパム判定器" src="../_images/spam-filter.svg" style="width: 480px;" /></a>
+<p>なお、スパムの語源はイギリスBBCが1970年頃に制作した『<a class="reference external" href="https://ja.wikipedia.org/wiki/%E7%A9%BA%E9%A3%9B%E3%81%B6%E3%83%A2%E3%83%B3%E3%83%86%E3%82%A3%E3%83%BB%E3%83%91%E3%82%A4%E3%82%BD%E3%83%B3">空飛ぶモンティ・パイソン</a>』のスケッチ「<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%91%E3%83%A0_(%E3%83%A1%E3%83%BC%E3%83%AB)">スパム</a>」から来ていると言われている（以下は2014年に行われた<a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%B3%E3%83%86%E3%82%A3%E3%83%BB%E3%83%91%E3%82%A4%E3%82%BD%E3%83%B3_%E5%BE%A9%E6%B4%BB%E3%83%A9%E3%82%A4%E3%83%96!">復活ライブ</a>の時に使われた
 メニュー）。</p>
 <p><a title="Eduardo Unda-Sanzana from Antofagasta, Chile, CC BY 2.0 &lt;https://creativecommons.org/licenses/by/2.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Monty_Python_Live_02-07-14_13_04_42_(14598710791).jpg"><a class="reference internal" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Monty_Python_Live_02-07-14_13_04_42_%2814598710791%29.jpg/256px-Monty_Python_Live_02-07-14_13_04_42_%2814598710791%29.jpg"><img alt="Monty Python Live 02-07-14 13 04 42 (14598710791)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Monty_Python_Live_02-07-14_13_04_42_%2814598710791%29.jpg/256px-Monty_Python_Live_02-07-14_13_04_42_%2814598710791%29.jpg" style="width: 256px;" /></a></a></p>
 <p>メールのスパム判定以外にも、二値分類には様々な応用例がある。</p>
@@ -797,12 +583,12 @@ title="Print to PDF"
 </ul>
 </section>
 <section id="id3">
-<h2><span class="section-number">5.2. </span>線形二値分類<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.2. </span>線形二値分類<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
 <p><strong>線形二値分類</strong> (linear binary classification) は、<span class="math notranslate nohighlight">\(d\)</span>次元の特徴ベクトルで表現された事例<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^{d}\)</span>が与えられた時、線形モデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w} \in \mathbb{R}^{d}\)</span>との内積を計算し、その正負によってラベル<span class="math notranslate nohighlight">\(\hat{y} \in \{1, 0\}\)</span>を推定する。</p>
 <div class="important admonition">
 <p class="admonition-title">線形二値分類のラベル推定式</p>
 <div class="math notranslate nohighlight" id="equation-eq-binary-classification">
-<span class="eqno">(5.1)<a class="headerlink" href="#equation-eq-binary-classification" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-eq-binary-classification" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{gather}
     \hat{y} = \begin{cases}
         1 &amp; \left(\bm{x}^\top \bm{w} &gt; 0\right) \\
@@ -813,15 +599,15 @@ title="Print to PDF"
 </div>
 <p>スパム判定では、スパムメールを<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>、スパムではないメールを<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>などと定義する。二値分類において、<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>の事例を<strong>正例</strong>（positive example）、<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>の事例を<strong>負例</strong>（negative example）と呼ぶことがある。</p>
 <p>メールがスパムであるか判定するための手がかりは色々考えられるが、ここでは簡単のため、<span class="math notranslate nohighlight">\(d=9\)</span>次元の特徴空間を例として用いる。この特徴空間の<span class="math notranslate nohighlight">\(1\)</span>次元目は、与えられたメールの本文に&quot;attached&quot;という単語が含まれるならば<span class="math notranslate nohighlight">\(1\)</span>、含まれなければ<span class="math notranslate nohighlight">\(0\)</span>とする。同様に、<span class="math notranslate nohighlight">\(2\)</span>次元目から<span class="math notranslate nohighlight">\(8\)</span>次元目まで、メール本文中に、それぞれ&quot;darling&quot;, &quot;file&quot;, &quot;hi&quot;, &quot;kyoto&quot;, &quot;mark&quot;, &quot;my&quot;, &quot;photo&quot;という単語が含まれるかどうかを表現する。<span class="math notranslate nohighlight">\(9\)</span>次元目はメールの内容に関わらず常に<span class="math notranslate nohighlight">\(1\)</span>とする。例えば、スパム判定を行いたいメールの本文が&quot;Hi darling, my photo in attached file&quot;であった場合、事例<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^9\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-db5d7a11-fe12-42a5-b2ec-9a1473ba46b8">
-<span class="eqno">(5.2)<a class="headerlink" href="#equation-db5d7a11-fe12-42a5-b2ec-9a1473ba46b8" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-c1b1c43d-0ba2-4824-b489-70b3c2f7046e">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-c1b1c43d-0ba2-4824-b489-70b3c2f7046e" title="Permalink to this equation">#</a></span>\[\begin{gather}
  \bm{x} = \begin{pmatrix}
 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
 \end{pmatrix}^\top
 \end{gather}\]</div>
 <p>線形二値分類は、事例<span class="math notranslate nohighlight">\(\bm{x}\)</span>とパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の内積、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-aab6fd3c-eafa-430f-9a52-3fc280d15a95">
-<span class="eqno">(5.3)<a class="headerlink" href="#equation-aab6fd3c-eafa-430f-9a52-3fc280d15a95" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-1eac297f-dd4b-484a-89f5-ac9aca082aa4">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-1eac297f-dd4b-484a-89f5-ac9aca082aa4" title="Permalink to this equation">#</a></span>\[\begin{gather}
  \bm{x}^\top \bm{w} = \begin{pmatrix}
 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
 \end{pmatrix} \begin{pmatrix}
@@ -838,8 +624,8 @@ w_9
 \end{gather}\]</div>
 <p>を計算し、その符号が正ならば事例をスパム（<span class="math notranslate nohighlight">\(\hat{y} = 1\)</span>）と判定し、<span class="math notranslate nohighlight">\(0\)</span>以下ならばスパムでない（<span class="math notranslate nohighlight">\(\hat{y} = 0\)</span>）と判定する。つまり、メールに含まれている単語<span class="math notranslate nohighlight">\(j\)</span>に対応する重み<span class="math notranslate nohighlight">\(w_j\)</span>の和でメールのスパムらしさをスコア付けし、そのスコアがしきい値<span class="math notranslate nohighlight">\(0\)</span>を超えたらスパムメールと判定する。</p>
 <p>なお、特徴ベクトルの<span class="math notranslate nohighlight">\(d\)</span>次元目の値が常に<span class="math notranslate nohighlight">\(1\)</span>であることに注意して、正例・負例の判別条件を求めると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-447fbe2c-425d-4a2b-8178-c60b8cf0e2da">
-<span class="eqno">(5.4)<a class="headerlink" href="#equation-447fbe2c-425d-4a2b-8178-c60b8cf0e2da" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-292c5711-8a7c-4173-bf80-465ab4431bac">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-292c5711-8a7c-4173-bf80-465ab4431bac" title="Permalink to this equation">#</a></span>\[\begin{align}
  \bm{x}^\top\bm{w} = \sum_{j=1}^{d} w_j x_j = \sum_{j=1}^{d-1} w_j x_j + w_d &amp;&gt; 0 \\
  \sum_{j=1}^{d-1} w_j x_j &amp;&gt; -w_d
 \end{align}\]</div>
@@ -847,12 +633,12 @@ w_9
 <p>線形モデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>は、学習データによく合致するように（例えば学習データ上においてスパム判定が正しく行えるように）決定する。モデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>を推定する方法は色々あるが、ここではロジスティック回帰に基づく確率的勾配降下法を紹介する。</p>
 </section>
 <section id="id4">
-<h2><span class="section-number">5.3. </span>ロジスティック回帰<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.3. </span>ロジスティック回帰<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p><strong>ロジスティック回帰</strong>（logistic regression）は線形二値分類を実現するモデルの一つで、事例<span class="math notranslate nohighlight">\(\bm{x}\)</span>に対するラベル<span class="math notranslate nohighlight">\(\hat{y} \in \{1, 0\}\)</span>の条件付き確率<span class="math notranslate nohighlight">\(p(y|\bm{x})\)</span>を以下の式で求める。</p>
 <div class="important admonition">
 <p class="admonition-title">ロジスティック回帰</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ff77a66d-8823-41cd-a3f9-90f94af17a8a">
-<span class="eqno">(5.5)<a class="headerlink" href="#equation-ff77a66d-8823-41cd-a3f9-90f94af17a8a" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d1e62e62-190f-4775-a19d-f0c4f937a464">
+<span class="eqno">(5.5)<a class="headerlink" href="#equation-d1e62e62-190f-4775-a19d-f0c4f937a464" title="Permalink to this equation">#</a></span>\[\begin{align}
  P(\hat{y} = 1|\bm{x}) &amp;= \sigma(\bm{x}^\top \bm{w}) = \frac{1}{1 + \exp\left(-\bm{x}^\top \bm{w}\right)} \\
  P(\hat{y} = 0|\bm{x}) &amp;= 1 - P(\hat{y} = 1|\bm{x})
 \end{align}\]</div>
@@ -861,7 +647,7 @@ w_9
 <div class="important admonition">
 <p class="admonition-title">シグモイド関数</p>
 <div class="math notranslate nohighlight" id="equation-eq-sigmoid">
-<span class="eqno">(5.6)<a class="headerlink" href="#equation-eq-sigmoid" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(5.6)<a class="headerlink" href="#equation-eq-sigmoid" title="Link to this equation">#</a></span>\[
 \begin{gather}
 \sigma(a) = \frac{1}{1 + \exp\left(-a\right)}
 \end{gather}
@@ -881,7 +667,7 @@ w_9
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01binary_14_0.png" src="../_images/01binary_14_0.png" />
+<img alt="../_images/7d45bf9deb31edcfb0fe97417a0d03f82d441c001948294754f59ed74825faae.png" src="../_images/7d45bf9deb31edcfb0fe97417a0d03f82d441c001948294754f59ed74825faae.png" />
 </div>
 </div>
 <p>この形状から明らかなように、シグモイド関数は、以下の特徴を持つ。</p>
@@ -893,24 +679,24 @@ w_9
 </ul>
 <p>ゆえに、ロジスティック回帰は線形二値分類モデルの内積値<span class="math notranslate nohighlight">\(\bm{x}^\top\bm{w}\)</span>をシグモイド関数<span class="math notranslate nohighlight">\(\sigma\)</span>で確率値に変換していると理解することができる。また、</p>
 <div class="math notranslate nohighlight" id="equation-eq-sigmoid-negative">
-<span class="eqno">(5.7)<a class="headerlink" href="#equation-eq-sigmoid-negative" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(5.7)<a class="headerlink" href="#equation-eq-sigmoid-negative" title="Link to this equation">#</a></span>\[
 \begin{align}
  1 - \sigma(a) = \frac{\left\{1 + e^{-a}\right\} - 1}{1 + e^{-a}} = \frac{e^{-a}}{1 + e^{-a}} = \frac{e^a e^{-a}}{e^a(1 + e^{-a})} = \frac{1}{1 + e^a} = \sigma(-a)
 \end{align}
 \]</div>
 <p>であるから、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-869a2e18-64ab-4851-8e3e-6df13f30f0ac">
-<span class="eqno">(5.8)<a class="headerlink" href="#equation-869a2e18-64ab-4851-8e3e-6df13f30f0ac" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f73625be-e125-4790-ad20-4bc1358cc082">
+<span class="eqno">(5.8)<a class="headerlink" href="#equation-f73625be-e125-4790-ad20-4bc1358cc082" title="Permalink to this equation">#</a></span>\[\begin{align}
  P(\hat{y} = 1|\bm{x}) &amp;= \sigma(\bm{x}^\top \bm{w}) \\
  P(\hat{y} = 0|\bm{x}) &amp;= 1 - P(\hat{y} = 1|\bm{x}) = 1 - \sigma(\bm{x}^\top \bm{w}) = \sigma(-\bm{x}^\top \bm{w})
 \end{align}\]</div>
 <p>なお、事例<span class="math notranslate nohighlight">\(\bm{x}\)</span>を<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測する確率が<span class="math notranslate nohighlight">\(0.5\)</span>を上回る条件を求めると、線形二値分類の判別式<a class="reference internal" href="#equation-eq-binary-classification">(5.1)</a>と整合することが確認できる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b46fb4b7-b350-4236-a08a-2d825789a722">
-<span class="eqno">(5.9)<a class="headerlink" href="#equation-b46fb4b7-b350-4236-a08a-2d825789a722" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1e242d6d-40f5-4289-889b-b5516ee11d29">
+<span class="eqno">(5.9)<a class="headerlink" href="#equation-1e242d6d-40f5-4289-889b-b5516ee11d29" title="Permalink to this equation">#</a></span>\[\begin{align}
  P(\hat{y} = 1|\bm{x}) &gt; 0.5 \Leftrightarrow \frac{1}{1 + \exp\left(-\bm{x}^\top \bm{w}\right)} &gt; \frac{1}{2} \Leftrightarrow 2 &gt; 1 + \exp\left(-\bm{x}^\top \bm{w}\right) \Leftrightarrow \bm{x}^\top \bm{w} &gt; 0
 \end{align}\]</div>
 <section id="id5">
-<h3><span class="section-number">5.3.1. </span>シグモイド関数の実装<a class="headerlink" href="#id5" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.3.1. </span>シグモイド関数の実装<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>シグモイド関数<span class="math notranslate nohighlight">\(\sigma(a)\)</span>を素直に実装すると、以下のようなプログラムになるであろう。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -988,15 +774,15 @@ w_9
 </section>
 </section>
 <section id="id6">
-<h2><span class="section-number">5.4. </span>データの表現<a class="headerlink" href="#id6" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.4. </span>データの表現<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
 <p>分類問題のデータの表現方法は回帰と同様である。説明変数と目的変数の一つの組を学習事例として表現する。<span class="math notranslate nohighlight">\(1\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\bm{x}_1, y_1)\)</span>、<span class="math notranslate nohighlight">\(2\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\bm{x}_2, y_2)\)</span>、<span class="math notranslate nohighlight">\(i\)</span>番目の学習事例を<span class="math notranslate nohighlight">\((\bm{x}_i, y_i)\)</span>と表すことにすると、<span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は次のように表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-10c96be0-af61-440f-976e-55a1c96e9db6">
-<span class="eqno">(5.10)<a class="headerlink" href="#equation-10c96be0-af61-440f-976e-55a1c96e9db6" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2998bf64-2f6c-4c5a-8bcf-684e5bc731a1">
+<span class="eqno">(5.10)<a class="headerlink" href="#equation-2998bf64-2f6c-4c5a-8bcf-684e5bc731a1" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \left\{(\bm{x}_1, y_1), (\bm{x}_2, y_2), \dots, (\bm{x}_N, y_N)\right\} = \left\{(\bm{x}_i, y_i)\right\}_{i=1}^{N}
 \end{align}\]</div>
 <p>以降では、2個の学習事例（<span class="math notranslate nohighlight">\(N=2\)</span>）からなる単純なデータ<span class="math notranslate nohighlight">\(\mathcal{D}_{s}\)</span>を例として用いる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-65ee5458-867a-43b1-8986-c1df72e84aad">
-<span class="eqno">(5.11)<a class="headerlink" href="#equation-65ee5458-867a-43b1-8986-c1df72e84aad" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2aa9377a-e75a-4aaa-873f-ac2b8c0b74dd">
+<span class="eqno">(5.11)<a class="headerlink" href="#equation-2aa9377a-e75a-4aaa-873f-ac2b8c0b74dd" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D}_s &amp;= \left\{(\bm{x}_i, y_i)\right\}_{i=1}^{2} = \left\{(\bm{x}_1, y_1), (\bm{x}_2, y_2)\right\} \\
  (\bm{x}_1, y_1) &amp;= \left(\begin{pmatrix}
 1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 1
@@ -1013,17 +799,17 @@ w_9
 <p>なお、分類モデルは特徴ベクトル（説明変数）を通してのみ、メールなどの入力を観測できる。したがって、分類が成功しやすくなるような特徴空間を定義することは、分類器の性能を向上させるために極めて重要である。</p>
 </section>
 <section id="id7">
-<h2><span class="section-number">5.5. </span>尤度<a class="headerlink" href="#id7" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.5. </span>尤度<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
 <p>さて、何らかの方法でモデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>を以下のように決定したとしよう。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f6f7e5e5-98a0-4ff5-a341-656d591c9458">
-<span class="eqno">(5.12)<a class="headerlink" href="#equation-f6f7e5e5-98a0-4ff5-a341-656d591c9458" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e3bba16e-a756-4760-97fe-46245f3ec70a">
+<span class="eqno">(5.12)<a class="headerlink" href="#equation-e3bba16e-a756-4760-97fe-46245f3ec70a" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w} = \begin{pmatrix}
 1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 1 &amp; -2
 \end{pmatrix}^\top
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>中の事例<span class="math notranslate nohighlight">\(\bm{x}_1\)</span>に対してロジスティック回帰モデルを適用する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bb8080ff-4143-4a5d-8e1e-f1d1b7c80c80">
-<span class="eqno">(5.13)<a class="headerlink" href="#equation-bb8080ff-4143-4a5d-8e1e-f1d1b7c80c80" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-736d777b-a270-4753-8dbb-58f114de0a32">
+<span class="eqno">(5.13)<a class="headerlink" href="#equation-736d777b-a270-4753-8dbb-58f114de0a32" title="Permalink to this equation">#</a></span>\[\begin{gather}
  \bm{x}_1^\top \bm{w} = \begin{pmatrix}
 1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 1
 \end{pmatrix} \begin{pmatrix}
@@ -1033,20 +819,20 @@ P(\hat{y} = 1|\bm{x}_1) = \sigma(\bm{x}_1^\top \bm{w}) = \sigma(-1) \approx 0.26
 \end{gather}\]</div>
 <p>ゆえに、<span class="math notranslate nohighlight">\(P(\hat{y} = 1|\bm{x}_1) = 0.269\)</span>であるから、このモデルは与えられたメールがスパムである確率を<span class="math notranslate nohighlight">\(0.269\)</span>と予測し、その確率が<span class="math notranslate nohighlight">\(0.5\)</span>を超えないことから、<span class="math notranslate nohighlight">\(\bm{x}_1\)</span>はスパムメールではないと判定している。</p>
 <p>これまでの流れは、事例<span class="math notranslate nohighlight">\(\bm{x}_1\)</span>とモデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>が与えられた時、予測結果<span class="math notranslate nohighlight">\(P(\hat{y} = 1|\bm{x}_1) = 0.269\)</span>を計算するものであった。ここで、学習事例<span class="math notranslate nohighlight">\((\bm{x}_1, y_1)\)</span>は不変（&quot;Hi Mark, Kyoto photo in attached file&quot;というメールがスパムではないのは事実）であると考える。そして、確率に対する見方を変えて、このモデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>が与えられた学習事例を正しく判定できる確率、すなわちモデルパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の学習事例<span class="math notranslate nohighlight">\((\bm{x}, y)\)</span>に対する<strong>尤度</strong><span class="math notranslate nohighlight">\(\hat{l}_{\bm{x}, y}(\bm{w})\)</span>を次式で定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cc97877a-6400-477a-8346-cc6bfa2cd25c">
-<span class="eqno">(5.14)<a class="headerlink" href="#equation-cc97877a-6400-477a-8346-cc6bfa2cd25c" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-8bf8d575-d058-4c54-95c9-caa5b1ead9ff">
+<span class="eqno">(5.14)<a class="headerlink" href="#equation-8bf8d575-d058-4c54-95c9-caa5b1ead9ff" title="Permalink to this equation">#</a></span>\[\begin{gather}
 \hat{l}_{\bm{x}, y}(\bm{w}) = P(\hat{y} = y | \bm{x})
 \end{gather}\]</div>
 <p>この学習事例に対する尤度は、モデルのパラメータが「どのくらい学習事例を正しく再現できるか」を定量化した指標と見なすことができる。尤度が<span class="math notranslate nohighlight">\(1\)</span>に近いほど学習事例を正しく再現できていること、<span class="math notranslate nohighlight">\(0\)</span>に近づくほど学習事例を間違って（例えば<span class="math notranslate nohighlight">\(y=0\)</span>なのに<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測して）再現していることを意味する。</p>
 <p>例えば、学習事例<span class="math notranslate nohighlight">\((\bm{x}_1, y_1)\)</span>は<span class="math notranslate nohighlight">\(y_1 = 0\)</span>であるから、この学習事例に対するモデルパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の尤度は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6626718b-c36e-4dcd-b49a-4caf9314575c">
-<span class="eqno">(5.15)<a class="headerlink" href="#equation-6626718b-c36e-4dcd-b49a-4caf9314575c" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-6345e2d4-a5e1-4ca2-bd80-f36ca5a154e8">
+<span class="eqno">(5.15)<a class="headerlink" href="#equation-6345e2d4-a5e1-4ca2-bd80-f36ca5a154e8" title="Permalink to this equation">#</a></span>\[\begin{gather}
 \hat{l}_{\bm{x}_1, y_1}(\bm{w}) = P(\hat{y} = 0|\bm{x}_1) = 1 - P(\hat{y} = 1|\bm{x}_1) = 1 - 0.269 = 0.731
 \end{gather}\]</div>
 <p>これは、モデルパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>が学習事例<span class="math notranslate nohighlight">\((\bm{x}_1, y_1)\)</span>を<span class="math notranslate nohighlight">\(0.731\)</span>の確率で正しく分類できることを表している。</p>
 <p>続いて、<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>中の事例<span class="math notranslate nohighlight">\(\bm{x}_2\)</span>に対してロジスティック回帰モデルを適用する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c3275e8e-eb4b-4de3-8295-898de7f104f7">
-<span class="eqno">(5.16)<a class="headerlink" href="#equation-c3275e8e-eb4b-4de3-8295-898de7f104f7" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-38fc971a-094f-40d2-8529-40e5c99d3ea1">
+<span class="eqno">(5.16)<a class="headerlink" href="#equation-38fc971a-094f-40d2-8529-40e5c99d3ea1" title="Permalink to this equation">#</a></span>\[\begin{gather}
  \bm{x}_2^\top \bm{w} = \begin{pmatrix}
 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1
 \end{pmatrix} \begin{pmatrix}
@@ -1055,8 +841,8 @@ P(\hat{y} = 1|\bm{x}_1) = \sigma(\bm{x}_1^\top \bm{w}) = \sigma(-1) \approx 0.26
 P(\hat{y} = 1|\bm{x}_2) = \sigma(\bm{x}_2^\top \bm{w}) = \sigma(3) \approx 0.953
 \end{gather}\]</div>
 <p>ゆえに、このモデルは与えられたメールがスパムである確率を<span class="math notranslate nohighlight">\(0.953\)</span>と推定し、その確率が<span class="math notranslate nohighlight">\(0.5\)</span>を超えていることから、<span class="math notranslate nohighlight">\(\bm{x}_2\)</span>はスパムメールである可能性が高いと判定している。また、モデルパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の学習事例<span class="math notranslate nohighlight">\((\bm{x}_2, y_2)\)</span>に対する尤度<span class="math notranslate nohighlight">\(\hat{l}_{\bm{x}_2, y_2}(\bm{w})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-522897c3-fb32-4931-9f28-a4c13e2fe6cf">
-<span class="eqno">(5.17)<a class="headerlink" href="#equation-522897c3-fb32-4931-9f28-a4c13e2fe6cf" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-4ccea92a-066a-47f5-bac2-199d627d65a5">
+<span class="eqno">(5.17)<a class="headerlink" href="#equation-4ccea92a-066a-47f5-bac2-199d627d65a5" title="Permalink to this equation">#</a></span>\[\begin{gather}
 \hat{l}_{\bm{x}_2, y_2}(\bm{w}) = P(\hat{y} = 1|\bm{x}_2) = 0.953
 \end{gather}\]</div>
 <p>これは、モデルパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>が学習事例<span class="math notranslate nohighlight">\((\bm{x}_2, y_2)\)</span>を<span class="math notranslate nohighlight">\(0.953\)</span>の確率で正しく分類できることを表している。</p>
@@ -1064,7 +850,7 @@ P(\hat{y} = 1|\bm{x}_2) = \sigma(\bm{x}_2^\top \bm{w}) = \sigma(3) \approx 0.953
 <div class="important admonition">
 <p class="admonition-title">事例ごとの尤度</p>
 <div class="math notranslate nohighlight" id="equation-eq-instance-likelihood">
-<span class="eqno">(5.18)<a class="headerlink" href="#equation-eq-instance-likelihood" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(5.18)<a class="headerlink" href="#equation-eq-instance-likelihood" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{gather}
 \hat{l}_{\bm{x}, y}(\bm{w}) = P(\hat{y} = y | \bm{x}) = \begin{cases}
 P(\hat{y} = 1 | \bm{x}) &amp; (y = 1\mbox{のとき}) \\
@@ -1076,7 +862,7 @@ P(\hat{y} = 0 | \bm{x}) &amp; (y = 0\mbox{のとき}) \\
 </div>
 <p>ここで、</p>
 <div class="math notranslate nohighlight" id="equation-eq-definition-of-p">
-<span class="eqno">(5.19)<a class="headerlink" href="#equation-eq-definition-of-p" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(5.19)<a class="headerlink" href="#equation-eq-definition-of-p" title="Link to this equation">#</a></span>\[
 \begin{align}
 p = P(\hat{y} = 1 | \bm{x}) = \sigma(\bm{x}^\top \bm{w})
 \end{align}
@@ -1084,49 +870,49 @@ p = P(\hat{y} = 1 | \bm{x}) = \sigma(\bm{x}^\top \bm{w})
 <p>とおいた。</p>
 </section>
 <section id="id8">
-<h2><span class="section-number">5.6. </span>最尤推定<a class="headerlink" href="#id8" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.6. </span>最尤推定<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
 <p>先ほどの例では、モデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>を合理的な値に（手で）調整しておいたので、すべての学習事例を正しく分類できた。しかし、パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の値によっては、正しく分類できない学習事例が出てくる。また、両方の学習事例の尤度は学習事例を完全に再現できる値（<span class="math notranslate nohighlight">\(1\)</span>）を下回っている。パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>を調整することで、すべての学習事例の尤度を<span class="math notranslate nohighlight">\(1\)</span>に引き上げ、未知の事例に対する予測性能を向上させることができるかもしれない。先ほどの学習データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の例では、<span class="math notranslate nohighlight">\(\bm{w}\)</span>をうまく調整することで、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7cad7c2a-5429-4683-b7cb-495cfdfc4a52">
-<span class="eqno">(5.20)<a class="headerlink" href="#equation-7cad7c2a-5429-4683-b7cb-495cfdfc4a52" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-38e628c3-cb8a-4885-9005-b9b5eb7e57d1">
+<span class="eqno">(5.20)<a class="headerlink" href="#equation-38e628c3-cb8a-4885-9005-b9b5eb7e57d1" title="Permalink to this equation">#</a></span>\[\begin{gather}
 \hat{l}_{\bm{x}_1, y_1}(\bm{w}) &amp;= 0.731 \rightsquigarrow 1 \\
 \hat{l}_{\bm{x}_2, y_2}(\bm{w}) &amp;= 0.953 \rightsquigarrow 1
 \end{gather}\]</div>
 <p>を実現できるかもしれない。</p>
 <p>そこで、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>全体における尤度を定義し、モデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>がどのくらい学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>をうまく反映しているのか、定量的に示したい。ここで、学習データのすべての事例は<strong>独立同分布</strong>（i.i.d: independent and identically distributed）である仮定し、学習データ全体の尤度<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\bm{w})\)</span>を各学習事例の尤度の結合確率として定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-168b11cc-553e-4df1-9caf-c35ad5289bb6">
-<span class="eqno">(5.21)<a class="headerlink" href="#equation-168b11cc-553e-4df1-9caf-c35ad5289bb6" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bd6cab7b-438b-4f0c-a400-6c91148525b2">
+<span class="eqno">(5.21)<a class="headerlink" href="#equation-bd6cab7b-438b-4f0c-a400-6c91148525b2" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(\bm{w}) = \prod_{i=1}^N \hat{l}_{\bm{x}_i, y_i}(\bm{w})
 \end{align}\]</div>
 <p>学習データ全体の尤度も<span class="math notranslate nohighlight">\(0\)</span>から<span class="math notranslate nohighlight">\(1\)</span>までの値をとり、尤度が<span class="math notranslate nohighlight">\(1\)</span>に近いほど学習事例を正しく再現できていることを表す。ゆえに、<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\bm{w})\)</span>を目的関数とみなし、この目的関数の値を最大化するような<span class="math notranslate nohighlight">\(\bm{w}^*\)</span>を求めることで、学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>によく合致するモデルパラメータを求めることができる。尤度が最大になるパラメータを求めることを<strong>最尤推定</strong>（MLE: Maximum Likelihood Estimation）と呼ぶ。</p>
 <p>ところで、学習データ全体の尤度は事例の尤度の積であるから、学習事例の数が多くなると<span class="math notranslate nohighlight">\([0, 1]\)</span>の範囲の積を繰り返すことになる。これは、コンピュータ上で学習データ上の尤度を計算するとき、アンダーフローの問題（小さい値を精度良く表現できない問題）を引き起こす。そこで、尤度を最大化する代わりに、尤度の対数をとった<strong>対数尤度</strong>を最大化する。対数尤度は、学習事例の尤度の対数<span class="math notranslate nohighlight">\(\log \hat{l}_{(\bm{x}_i, y_i)}(\bm{w})\)</span>の和として表現できる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b6308508-67a1-43ca-8d22-9e4b83b5e453">
-<span class="eqno">(5.22)<a class="headerlink" href="#equation-b6308508-67a1-43ca-8d22-9e4b83b5e453" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8ad3a7ac-8f2a-4746-9eeb-dc6d3cd904c5">
+<span class="eqno">(5.22)<a class="headerlink" href="#equation-8ad3a7ac-8f2a-4746-9eeb-dc6d3cd904c5" title="Permalink to this equation">#</a></span>\[\begin{align}
 \log \hat{L}_{\mathcal{D}}(\bm{w}) &amp;= \log \prod_{i=1}^N \hat{l}_{\bm{x}_i, y_i}(\bm{w})
 = \sum_{i=1}^N \log \hat{l}_{\bm{x}_i, y_i}(\bm{w})
 \end{align}\]</div>
 <p>なお、回帰では目的関数を最小にするパラメータを求めた。二値分類でも目的関数の最小化の問題に書き換えるため、負の対数尤度を目的関数として用いる。最終的に、ロジスティック回帰モデルの学習で最小化する目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\bm{w})\)</span>は次式で表される。</p>
 <div class="important admonition">
 <p class="admonition-title">最尤推定による目的関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c7e1c473-eed7-4590-89e5-af1102dd1070">
-<span class="eqno">(5.23)<a class="headerlink" href="#equation-c7e1c473-eed7-4590-89e5-af1102dd1070" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-eca0a02f-4399-428d-a586-049b24cad31a">
+<span class="eqno">(5.23)<a class="headerlink" href="#equation-eca0a02f-4399-428d-a586-049b24cad31a" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\bm{w}) = -\log \hat{L}_{\mathcal{D}}(\bm{w})
 = -\sum_{i=1}^N \log \hat{l}_{\bm{x}_i, y_i}(\bm{w})
 \end{align}\]</div>
 </div>
 <p>また、学習時に<span class="math notranslate nohighlight">\(L_2\)</span>正則化を導入する場合、目的関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bf9759fb-58e8-4b94-969e-cb475ababac3">
-<span class="eqno">(5.24)<a class="headerlink" href="#equation-bf9759fb-58e8-4b94-969e-cb475ababac3" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c6785246-9acf-4b8f-9764-23b1566f10e7">
+<span class="eqno">(5.24)<a class="headerlink" href="#equation-c6785246-9acf-4b8f-9764-23b1566f10e7" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MAP}(\bm{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\bm{w}) + \alpha \|\bm{w}\|^2
 = -\sum_{i=1}^N \log \hat{l}_{\bm{x}_i, y_i}(\bm{w}) + \alpha \|\bm{w}\|^2
 \end{align}\]</div>
 <p>となる。ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> (<span class="math notranslate nohighlight">\(\alpha&gt;0\)</span>) は<span class="math notranslate nohighlight">\(L_2\)</span>正則化の係数である。</p>
 </section>
 <section id="id9">
-<h2><span class="section-number">5.7. </span>確率的勾配降下法<a class="headerlink" href="#id9" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.7. </span>確率的勾配降下法<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
 <p>これまでの議論により、ロジスティック回帰モデルの学習は、目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\bm{w})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\bm{w}^*\)</span>を求める問題に帰着した。回帰の場合は目的関数を最小にする解析解（閉じた解）を求めることができたが、ロジスティック回帰モデルの目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\bm{w})\)</span>は、パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>に関して偏微分はできるが、その偏微分の値を<span class="math notranslate nohighlight">\(\bm{0}\)</span>とする解析解を求めることができない。そこで、確率的勾配降下法で目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\bm{w})\)</span>を最小にするパラメータ<span class="math notranslate nohighlight">\(\bm{w}^*\)</span>を求めることにする。</p>
 <p>ここで、最尤推定の目的関数<span class="math notranslate nohighlight">\(\hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\bm{w})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9b4ff715-afd3-4c0b-830d-697c6d4fe254">
-<span class="eqno">(5.25)<a class="headerlink" href="#equation-9b4ff715-afd3-4c0b-830d-697c6d4fe254" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fbf0a795-729e-46dc-a94b-2e7446cb617c">
+<span class="eqno">(5.25)<a class="headerlink" href="#equation-fbf0a795-729e-46dc-a94b-2e7446cb617c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MLE}(\bm{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\bm{w})
 = \sum_{i=1}^N - \log \hat{l}_{\bm{x}_i, y_i}(\bm{w})
 \end{align}\]</div>
@@ -1137,7 +923,7 @@ p = P(\hat{y} = 1 | \bm{x}) = \sigma(\bm{x}^\top \bm{w})
 </aside>
 <p>確率的勾配降下法がランダムに訓練事例<span class="math notranslate nohighlight">\((\bm{x}, y) \in \mathcal{D}\)</span>を選んだとき、その勾配は<span class="math notranslate nohighlight">\(- \nabla \log \hat{l}_{\bm{x}, y}(\bm{w})\)</span>であるから、確率的勾配降下法によるパラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の更新式は、</p>
 <div class="math notranslate nohighlight" id="equation-eq-sgd-gradient-update">
-<span class="eqno">(5.26)<a class="headerlink" href="#equation-eq-sgd-gradient-update" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(5.26)<a class="headerlink" href="#equation-eq-sgd-gradient-update" title="Link to this equation">#</a></span>\[
 \begin{align}
 \bm{w}^{(t+1)} = \bm{w}^{(t)} + \eta_t \nabla \log \hat{l}_{\bm{x}, y}(\bm{w}^{(t)})
 \end{align}
@@ -1145,21 +931,21 @@ p = P(\hat{y} = 1 | \bm{x}) = \sigma(\bm{x}^\top \bm{w})
 <p>となる。確率的勾配降下法でロジスティック回帰モデルのパラメータ推定を行うためには、訓練事例の勾配<span class="math notranslate nohighlight">\(\nabla \log \hat{l}_{\bm{x}, y}(\bm{w})\)</span>、すなわち訓練事例の対数尤度<span class="math notranslate nohighlight">\(\log \hat{l}_{\bm{x}, y}(\bm{w})\)</span>の<span class="math notranslate nohighlight">\(\bm{w}\)</span>に関する偏微分を求めればよい。</p>
 <p>学習事例の対数尤度は、式<a class="reference internal" href="#equation-eq-instance-likelihood">(5.18)</a>より、</p>
 <div class="math notranslate nohighlight" id="equation-eq-loss-binary-classification">
-<span class="eqno">(5.27)<a class="headerlink" href="#equation-eq-loss-binary-classification" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(5.27)<a class="headerlink" href="#equation-eq-loss-binary-classification" title="Link to this equation">#</a></span>\[
 \begin{align}
 \log \hat{l}_{\bm{x}, y}(\bm{w}) &amp;= \log \left(p^{y} (1-p)^{(1 - y)}\right)
 = y \log p + (1-y)\log(1-p)
 \end{align}
 \]</div>
 <p>と整理できる。ただし、式<a class="reference internal" href="#equation-eq-sigmoid">(5.6)</a>と<a class="reference internal" href="#equation-eq-definition-of-p">(5.19)</a>で表現されているように、<span class="math notranslate nohighlight">\(p\)</span>は<span class="math notranslate nohighlight">\(\bm{w}\)</span>と<span class="math notranslate nohighlight">\(\bm{x}\)</span>に依存していることに注意が必要である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-483802f3-e8a3-47a4-8419-785bde2aa2d4">
-<span class="eqno">(5.28)<a class="headerlink" href="#equation-483802f3-e8a3-47a4-8419-785bde2aa2d4" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cf364538-cb10-4ade-a638-391f910bda73">
+<span class="eqno">(5.28)<a class="headerlink" href="#equation-cf364538-cb10-4ade-a638-391f910bda73" title="Permalink to this equation">#</a></span>\[\begin{align}
 p &amp;= \sigma(a) = \frac{1}{1 + e^{-a}} \\
 a &amp;= \bm{x}^\top \bm{w}
 \end{align}\]</div>
 <p>合成関数の微分より、</p>
 <div class="math notranslate nohighlight" id="equation-eq-logress-gradient">
-<span class="eqno">(5.29)<a class="headerlink" href="#equation-eq-logress-gradient" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(5.29)<a class="headerlink" href="#equation-eq-logress-gradient" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{align}
 \nabla \log \hat{l}_{\bm{x}, y}(\bm{w})
 = \frac{\partial \left(\log \hat{l}_{\bm{x}, y}(\bm{w})\right)}{\partial \bm{w}}
@@ -1172,8 +958,8 @@ a &amp;= \bm{x}^\top \bm{w}
 \end{align}
 \end{split}\]</div>
 <p><span class="math notranslate nohighlight">\(\frac{\partial p}{\partial a}\)</span>はシグモイド関数<span class="math notranslate nohighlight">\(\sigma(a)\)</span>の微分である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-80a53f03-7bdf-4707-8648-2ae443fa9740">
-<span class="eqno">(5.30)<a class="headerlink" href="#equation-80a53f03-7bdf-4707-8648-2ae443fa9740" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-00bd1bcf-92af-4c69-960a-1809c8368a95">
+<span class="eqno">(5.30)<a class="headerlink" href="#equation-00bd1bcf-92af-4c69-960a-1809c8368a95" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial p}{\partial a} = \sigma'(a) &amp;= \frac{\partial}{\partial a}\left(\frac{1}{1 + e^{-a}}\right) \\
 &amp;= (-1) \cdot \frac{1}{\left(1 + e^{-a}\right)^2} \cdot \frac{\partial}{\partial a} \left(1 + e^{-a}\right) \\
 &amp;= - \frac{1}{\left(1 + e^{-a}\right)^2} \cdot e^{-a} \cdot (-1) \\
@@ -1183,7 +969,7 @@ a &amp;= \bm{x}^\top \bm{w}
 \end{align}\]</div>
 <p>また、<span class="math notranslate nohighlight">\(\frac{\partial a}{\partial \bm{w}}=\bm{x}\)</span>であるから、式<a class="reference internal" href="#equation-eq-logress-gradient">(5.29)</a>は、</p>
 <div class="math notranslate nohighlight" id="equation-eq-grad-logress">
-<span class="eqno">(5.31)<a class="headerlink" href="#equation-eq-grad-logress" title="この数式へのパーマリンク">#</a></span>\[\begin{split}
+<span class="eqno">(5.31)<a class="headerlink" href="#equation-eq-grad-logress" title="Link to this equation">#</a></span>\[\begin{split}
 \begin{align}
 \nabla \log \hat{l}_{\bm{x}, y}(\bm{w})
 &amp;= \frac{y - p}{p(1 - p)} \cdot \frac{\partial p}{\partial a} \cdot \frac{\partial a}{\partial \bm{w}} \\
@@ -1195,68 +981,68 @@ a &amp;= \bm{x}^\top \bm{w}
 <div class="important admonition">
 <p class="admonition-title">確率的勾配降下法によるロジスティック回帰モデルのパラメータ更新式</p>
 <div class="math notranslate nohighlight" id="equation-eq-logress-sgd-update">
-<span class="eqno">(5.32)<a class="headerlink" href="#equation-eq-logress-sgd-update" title="この数式へのパーマリンク">#</a></span>\[
+<span class="eqno">(5.32)<a class="headerlink" href="#equation-eq-logress-sgd-update" title="Link to this equation">#</a></span>\[
 \begin{align}
 \bm{w}^{(t+1)} =  \bm{w}^{(t)} + \eta_t (y - p^{(t)}) \bm{x}
 \end{align}
 \]</div>
 </div>
 <p>ただし、<span class="math notranslate nohighlight">\(p^{(t)}\)</span>は<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>で事例<span class="math notranslate nohighlight">\(\bm{x}\)</span>を分類したとき、その事例が正例<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>と予測される確率である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-72456c08-5f69-4e7b-bbbd-8da93bad8563">
-<span class="eqno">(5.33)<a class="headerlink" href="#equation-72456c08-5f69-4e7b-bbbd-8da93bad8563" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cd3f30a8-1b96-4870-9bd9-7b73197b01f0">
+<span class="eqno">(5.33)<a class="headerlink" href="#equation-cd3f30a8-1b96-4870-9bd9-7b73197b01f0" title="Permalink to this equation">#</a></span>\[\begin{align}
 p^{(t)} = \sigma(\bm{x}^\top \bm{w}^{(t)})
 \end{align}\]</div>
 <p>確率的勾配降下法で回帰モデルのパラメータを求めるための反復式<a class="reference internal" href="../regression/04sgd.html#equation-eq-mra-sgd">(4.33)</a>と同様に、ある訓練事例における目的変数の真の値<span class="math notranslate nohighlight">\(y\)</span>とその確率推定値<span class="math notranslate nohighlight">\(p\)</span>の差を係数として、その事例の特徴ベクトル<span class="math notranslate nohighlight">\(\bm{x}\)</span>をパラメータベクトルに足し込む形になっているのが興味深い。</p>
 <section id="id10">
-<h3><span class="section-number">5.7.1. </span>確率的勾配降下法の更新式の解釈<a class="headerlink" href="#id10" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.7.1. </span>確率的勾配降下法の更新式の解釈<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
 <p>式<a class="reference internal" href="#equation-eq-logress-sgd-update">(5.32)</a>の反復式の振る舞いを、学習事例が正例（<span class="math notranslate nohighlight">\(y=1\)</span>）のときと、負例（<span class="math notranslate nohighlight">\(y = 0\)</span>）に分けて考える。もし、学習事例が正例（<span class="math notranslate nohighlight">\(y=1\)</span>）のとき、パラメータの更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-83e9a68b-1b5c-4f08-b17d-720705f3af31">
-<span class="eqno">(5.34)<a class="headerlink" href="#equation-83e9a68b-1b5c-4f08-b17d-720705f3af31" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e666cdc4-740f-4917-a302-5b86a6d54118">
+<span class="eqno">(5.34)<a class="headerlink" href="#equation-e666cdc4-740f-4917-a302-5b86a6d54118" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^{(t+1)} &amp;= \bm{w}^{(t)} + \eta_t (1 - p^{(t)}) \bm{x}
 \end{align}\]</div>
 <p>である。この更新後のパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t+1)}\)</span>で同じ事例<span class="math notranslate nohighlight">\(\bm{x}\)</span>との内積を計算すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-06b37658-6165-4530-882a-0a3800b7868f">
-<span class="eqno">(5.35)<a class="headerlink" href="#equation-06b37658-6165-4530-882a-0a3800b7868f" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0c8b252e-0834-4946-a3ab-1f4825808f92">
+<span class="eqno">(5.35)<a class="headerlink" href="#equation-0c8b252e-0834-4946-a3ab-1f4825808f92" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{x}^\top\bm{w}^{(t+1)} &amp;= \bm{x}^\top\bm{w}^{(t)} + \eta_t (1 - p^{(t)}) \underbrace{\bm{x}^\top\bm{x}}_{\geq 0} \geq \bm{x}^\top\bm{w}^{(t)}
 \end{align}\]</div>
 <p>であるから、更新後のパラメータの内積<span class="math notranslate nohighlight">\(\bm{x}^\top\bm{w}^{(t+1)}\)</span>は、更新前のパラメータの内積値<span class="math notranslate nohighlight">\(\bm{x}^\top\bm{w}^{(t)}\)</span>以上にとなり、その変化量は<span class="math notranslate nohighlight">\(\eta_t (1 - p^{(t)}) \bm{x}^\top\bm{x}\)</span>である。ここで、学習率<span class="math notranslate nohighlight">\(\eta_t\)</span>は学習事例に依存しない。また、<span class="math notranslate nohighlight">\(\bm{x}^\top\bm{x}\)</span>もパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>の値によらない定数と見なすと、内積の変化量は<span class="math notranslate nohighlight">\((1-p^{(t)})\)</span>に比例することが分かる。いま、学習事例は正例（<span class="math notranslate nohighlight">\(y=1\)</span>）であるので、<span class="math notranslate nohighlight">\((1-p^{(t)})\)</span>はこの事例に対して予測すべき確率<span class="math notranslate nohighlight">\(1\)</span>と、実際に計算された確率<span class="math notranslate nohighlight">\(p^{(t)}\)</span>との差を表している。したがって、モデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>が学習事例が正例であることをよく予測できている（<span class="math notranslate nohighlight">\(p^{(t)} \approx 1\)</span>）ならば内積の変化量は小さくなる。逆に、モデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>が学習事例が正例であることを予測できていない場合（<span class="math notranslate nohighlight">\(p^{(t)} \approx 0\)</span>）ならば、内積の変化量が大きくなるようにパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>が更新される。</p>
 <p>続いて、学習事例が負例（<span class="math notranslate nohighlight">\(y=0\)</span>）のとき、パラメータの更新式は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-40320929-92b2-4364-9cc5-d2303bd0379e">
-<span class="eqno">(5.36)<a class="headerlink" href="#equation-40320929-92b2-4364-9cc5-d2303bd0379e" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2f3d23b2-3526-4cd6-a350-a39e159e425c">
+<span class="eqno">(5.36)<a class="headerlink" href="#equation-2f3d23b2-3526-4cd6-a350-a39e159e425c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^{(t+1)} = \bm{w}^{(t)} + \eta_t (0 - p^{(t)}) \bm{x} = \bm{w}^{(t)} - \eta_t p^{(t)} \bm{x}
 \end{align}\]</div>
 <p>である。この更新後のパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t+1)}\)</span>で同じ事例<span class="math notranslate nohighlight">\(\bm{x}\)</span>との内積を計算すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b629711e-269b-471f-8bc5-defc25c99041">
-<span class="eqno">(5.37)<a class="headerlink" href="#equation-b629711e-269b-471f-8bc5-defc25c99041" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e5de4138-7fad-482f-99fc-d47fb41d0072">
+<span class="eqno">(5.37)<a class="headerlink" href="#equation-e5de4138-7fad-482f-99fc-d47fb41d0072" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{x}^\top\bm{w}^{(t+1)} &amp;= \bm{x}^\top\bm{w}^{(t)} - \eta_t p^{(t)} \underbrace{\bm{x}^\top\bm{x}}_{\geq 0} \leq \bm{x}^\top\bm{w}^{(t)}
 \end{align}\]</div>
 <p>であるから、更新後のパラメータの内積<span class="math notranslate nohighlight">\(\bm{x}^\top\bm{w}^{(t+1)}\)</span>は、更新前のパラメータの内積値<span class="math notranslate nohighlight">\(\bm{x}^\top\bm{w}^{(t)}\)</span>以下にとなり、その変化量は<span class="math notranslate nohighlight">\(\eta_t p^{(t)} \bm{x}^\top\bm{x}\)</span>である。先ほどの正例の議論と同様に、内積の変化量は<span class="math notranslate nohighlight">\(p^{(t)}\)</span>に比例することが分かる。いま、学習事例は負例（<span class="math notranslate nohighlight">\(y=0\)</span>）であるので、<span class="math notranslate nohighlight">\(p^{(t)}\)</span>はこの事例に対して予測すべき確率<span class="math notranslate nohighlight">\(0\)</span>と、実際に計算された確率<span class="math notranslate nohighlight">\(p^{(t)}\)</span>との差を表している。したがって、学習事例が負例であることをモデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>がよく予測できている（<span class="math notranslate nohighlight">\(p^{(t)} \approx 0\)</span>）ならば内積の変化量は小さくなる。逆に、学習事例が負例であることをモデルのパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>があまり予測できていない場合（<span class="math notranslate nohighlight">\(p^{(t)} \approx 1\)</span>）、内積の変化量が大きくなるようにパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>が更新される。</p>
 </section>
 <section id="l-2">
-<h3><span class="section-number">5.7.2. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化付きロジスティック回帰<a class="headerlink" href="#l-2" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.7.2. </span><span class="math notranslate nohighlight">\(L_2\)</span>正則化付きロジスティック回帰<a class="headerlink" href="#l-2" title="Link to this heading">#</a></h3>
 <p>学習時に<span class="math notranslate nohighlight">\(L_2\)</span>正則化を導入する場合、目的関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ebff9bae-8ae9-4817-ae14-074fcd6e7f8c">
-<span class="eqno">(5.38)<a class="headerlink" href="#equation-ebff9bae-8ae9-4817-ae14-074fcd6e7f8c" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2e154e27-b4d7-4288-bfb2-e2d01aafeaed">
+<span class="eqno">(5.38)<a class="headerlink" href="#equation-2e154e27-b4d7-4288-bfb2-e2d01aafeaed" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{\mathcal{L}}_{\mathcal{D}}^{\rm MAP}(\bm{w}) &amp;= -\log \hat{L}_{\mathcal{D}}(\bm{w}) + \alpha \|\bm{w}\|^2 \\
 &amp;= -\sum_{i=1}^N \log \hat{l}_{\bm{x}_i, y_i}(\bm{w}) + \alpha \|\bm{w}\|^2 \\
 &amp;= \sum_{i=1}^N \left(-\log \hat{l}_{\bm{x}_i, y_i}(\bm{w}) + \frac{\alpha}{N} \|\bm{w}\|^2 \right)\\
 \end{align}\]</div>
 <p>と整理できるので、確率的勾配降下法を適用できる。確率的勾配降下法がランダムに選んだ学習事例を<span class="math notranslate nohighlight">\((\bm{x}, y)\)</span>とすると、その損失<span class="math notranslate nohighlight">\(l_{\bm{x}, y}(\bm{w})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-411a1987-1446-418c-b0e0-fcf96d40410d">
-<span class="eqno">(5.39)<a class="headerlink" href="#equation-411a1987-1446-418c-b0e0-fcf96d40410d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3dcfc1d0-b7db-4108-8fe1-099394545e2a">
+<span class="eqno">(5.39)<a class="headerlink" href="#equation-3dcfc1d0-b7db-4108-8fe1-099394545e2a" title="Permalink to this equation">#</a></span>\[\begin{align}
 l_{\bm{x}, y}(\bm{w}) = -\log \hat{l}_{\bm{x}, y}(\bm{w}) + \frac{\alpha}{N} \|\bm{w}\|^2
 \end{align}\]</div>
 <p>である。この勾配<span class="math notranslate nohighlight">\(\nabla l_{\bm{x}, y}(\bm{w})\)</span>を求めるために、<span class="math notranslate nohighlight">\(\bm{w}\)</span>で偏微分すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a36867d5-fed7-4348-93c7-0828ad0a2947">
-<span class="eqno">(5.40)<a class="headerlink" href="#equation-a36867d5-fed7-4348-93c7-0828ad0a2947" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-27f49e55-6769-44ad-bcac-cea703146883">
+<span class="eqno">(5.40)<a class="headerlink" href="#equation-27f49e55-6769-44ad-bcac-cea703146883" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla l_{\bm{x}, y}(\bm{w}) = \frac{\partial l_{\bm{x}, y}(\bm{w})}{\partial \bm{w}}
 &amp;= \frac{\partial }{\partial \bm{w}}\left(-\log \hat{l}_{\bm{x}, y}(\bm{w}) + \frac{\alpha}{N} \|\bm{w}\|^2\right) \\
 &amp;= - \frac{\partial \left(\log \hat{l}_{\bm{x}, y}(\bm{w})\right)}{\partial \bm{w}} + \frac{\partial}{\partial \bm{w}} \left(\frac{\alpha}{N} \|\bm{w}\|^2\right)\\
 &amp;= - (y-p) \bm{x} + \frac{2\alpha}{N} \bm{w}
 \end{align}\]</div>
 <p>これを、確率的勾配降下法の反復式に代入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b3d7bdfa-0c25-4e01-840c-ab962b184b18">
-<span class="eqno">(5.41)<a class="headerlink" href="#equation-b3d7bdfa-0c25-4e01-840c-ab962b184b18" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8f3b303c-b417-48e5-baeb-515fcce75817">
+<span class="eqno">(5.41)<a class="headerlink" href="#equation-8f3b303c-b417-48e5-baeb-515fcce75817" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^{(t+1)} &amp;= \bm{w}^{(t)} - \eta_t \left.\frac{\partial l_{\bm{x}, y}(\bm{w})}{\partial \bm{w}}\right|_{\bm{w} = \bm{w}^{(t)}} \\
 &amp;= \bm{w}^{(t)} + \eta_t \left\{(y - p) \bm{x} - \frac{2\alpha}{N} \bm{w}^{(t)}\right\} \\
 &amp;= \left(1 - \frac{2\alpha\eta_t}{N}\right) \bm{w}^{(t)} + \eta_t (y - p) \bm{x}
@@ -1265,27 +1051,27 @@ l_{\bm{x}, y}(\bm{w}) = -\log \hat{l}_{\bm{x}, y}(\bm{w}) + \frac{\alpha}{N} \|\
 </section>
 </section>
 <section id="id11">
-<h2><span class="section-number">5.8. </span>評価<a class="headerlink" href="#id11" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.8. </span>評価<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
 <p>さて、学習によって獲得した二値分類モデルの性能（分類の正しさ）をどのように評価すればよいか。回帰のときは、学習で用いた目的関数、すなわち平均二乗残差を使って検証データやテストデータ上の性能を測定した。ロジスティック回帰モデルを最尤推定で学習する場合、尤度（もしくは対数尤度）を最大化していたので、検証データやテストデータ上で尤度を測定すればよい（実際に尤度が評価に用いられることもある）。ところが、尤度は人間にとって分かりやすい指標ではないため、二値分類ではもう少し分かりやすい評価尺度が用いられる。ここでは、二値分類モデルの評価尺度として、正解率、適合率、再現率、F1スコアを紹介する。</p>
 <p>これらの尺度を説明する前に、<strong>真陽性</strong>（TP: true positive）、<strong>偽陽性</strong>（FP: false positive）、<strong>偽陰性</strong>（FN: false negative）、<strong>真陰性</strong>（TN: true negative）の概念を理解する必要がある。モデルが正例と予測（<span class="math notranslate nohighlight">\(\hat{y}=1\)</span>）した事例のうち、実際に正例（<span class="math notranslate nohighlight">\(y=1\)</span>）である事例を真陽性、実際には負例（<span class="math notranslate nohighlight">\(y=0\)</span>）である事例を疑陽性と呼ぶ。一方、モデルが負例と予測（<span class="math notranslate nohighlight">\(\hat{y}=0\)</span>）した事例のうち、実際に負例（<span class="math notranslate nohighlight">\(y=0\)</span>）である事例を真陰性、実際には正例（<span class="math notranslate nohighlight">\(y=1\)</span>）である事例を偽陰性と呼ぶ。これらの概念を表に表すと、以下のようになる。</p>
-<a class="reference internal image-reference" href="../_images/tpfpfntn.svg"><img alt="混同行列" src="../_images/tpfpfntn.svg" width="480px" /></a>
+<a class="reference internal image-reference" href="../_images/tpfpfntn.svg"><img alt="混同行列" src="../_images/tpfpfntn.svg" style="width: 480px;" /></a>
 <p>ここで、真陽性、偽陽性、偽陰性、真陰性の事例数をそれぞれ、<span class="math notranslate nohighlight">\({\rm TP}\)</span>, <span class="math notranslate nohighlight">\({\rm FP}\)</span>, <span class="math notranslate nohighlight">\({\rm FN}\)</span>, <span class="math notranslate nohighlight">\({\rm TN}\)</span>と書くことにすると、正解率<span class="math notranslate nohighlight">\(A\)</span>、適合率<span class="math notranslate nohighlight">\(P\)</span>、再現率<span class="math notranslate nohighlight">\(R\)</span>、F1スコア<span class="math notranslate nohighlight">\(F_1\)</span>は、</p>
 <div class="admonition important">
 <p class="admonition-title">重要</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9556ee22-efec-4508-b061-720adae0fd1d">
-<span class="eqno">(5.42)<a class="headerlink" href="#equation-9556ee22-efec-4508-b061-720adae0fd1d" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-12930650-c93e-4491-ba62-25d55402dfc0">
+<span class="eqno">(5.42)<a class="headerlink" href="#equation-12930650-c93e-4491-ba62-25d55402dfc0" title="Permalink to this equation">#</a></span>\[\begin{gather}
 A = \frac{\mbox{システムの正しい予測事例数}}{\mbox{評価した全事例数}} = \frac{{\rm TP} + {\rm TN}}{{\rm TP} + {\rm TN} + {\rm FP} + {\rm FN}}
 \end{gather}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-4a97001a-0df7-48ff-b703-78ba9b903964">
-<span class="eqno">(5.43)<a class="headerlink" href="#equation-4a97001a-0df7-48ff-b703-78ba9b903964" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-0fbeb338-09a8-49ef-8b30-f25e7d55b8df">
+<span class="eqno">(5.43)<a class="headerlink" href="#equation-0fbeb338-09a8-49ef-8b30-f25e7d55b8df" title="Permalink to this equation">#</a></span>\[\begin{gather}
 P = \frac{\mbox{システムが正しく正例と予測した事例数}}{\mbox{システムが正例と予測した事例数}} = \frac{{\rm TP}}{{\rm TP} + {\rm FP}}
 \end{gather}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-a1fb821b-16a3-41e5-80c3-086567ef5753">
-<span class="eqno">(5.44)<a class="headerlink" href="#equation-a1fb821b-16a3-41e5-80c3-086567ef5753" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-d2490520-6de7-46d0-8259-162a74b21305">
+<span class="eqno">(5.44)<a class="headerlink" href="#equation-d2490520-6de7-46d0-8259-162a74b21305" title="Permalink to this equation">#</a></span>\[\begin{gather}
 R = \frac{\mbox{システムが正しく正例と予測した事例数}}{\mbox{評価データ中の正例の事例数}} = \frac{{\rm TP}}{{\rm TP} + {\rm FN}}
 \end{gather}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-6890c248-b680-4343-90f4-70972afc9275">
-<span class="eqno">(5.45)<a class="headerlink" href="#equation-6890c248-b680-4343-90f4-70972afc9275" title="この数式へのパーマリンク">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-a79ab621-b34a-4d9d-b25a-fdcc2e9b2dbf">
+<span class="eqno">(5.45)<a class="headerlink" href="#equation-a79ab621-b34a-4d9d-b25a-fdcc2e9b2dbf" title="Permalink to this equation">#</a></span>\[\begin{gather}
 F_1 = \frac{P \times R}{\frac{1}{2}(P + R)} = \frac{2PR}{P + R}
 \end{gather}\]</div>
 </div>
@@ -1294,19 +1080,19 @@ F_1 = \frac{P \times R}{\frac{1}{2}(P + R)} = \frac{2PR}{P + R}
 <p>一般に、適合率と再現率はトレードオフの関係にある。スパムメールの判定の適合率を高めるには、自信を持ってスパムメールと判定できるものだけスパムと判定し、あまり自信がない事例についてはスパムではないと判定すればよい。ところが、このようにして適合率を高めると、スパムメールと判定することに消極的となり、再現率が低下する。一方、再現率を高めるには、スパムメールと認定する基準を下げ、より多くのメールをスパムとして判定できるように調整すればよい。ところが、メールをスパムとして積極的に判定しすぎると、適合率が低下する。従って、モデルの性能を評価するときは、適合率と再現率の両方を測定することが望ましい。スパムメール判定では、スパムフォルダに自動的に仕分けされてしまったメールは読まれないことになってしまうため、再現率よりも適合率を重視すべきである。</p>
 <p>このように、適合率と再現率はトレードオフの関係にあるため、分類器の性能を測定するときにはこの両方の尺度の数値を見る必要がある。この適合率と再現率の調和平均をとったものが<strong>F1スコア</strong>である。F1スコアは異なるモデル間の性能を一つの評価尺度で比較できるので便利である。</p>
 <p>なお、病気などの検査では感度（sensitivity）と特異度（specificity）もよく用いられる。感度は再現率と同じ定義であり、実際に陽性となるべき事例をどの程度陽性として検出できたかを表す。特異度は負例に関する再現率であり、実際に陰性となるべき事例をどの程度陰性として検出できたかを表す。特異度（<span class="math notranslate nohighlight">\(S\)</span>）の定義は次式の通りである。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b8e1758a-23b0-4c62-8615-e53e3ae19f9d">
-<span class="eqno">(5.46)<a class="headerlink" href="#equation-b8e1758a-23b0-4c62-8615-e53e3ae19f9d" title="この数式へのパーマリンク">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2cbd1920-1c1d-4201-8e4a-57e6a09ad733">
+<span class="eqno">(5.46)<a class="headerlink" href="#equation-2cbd1920-1c1d-4201-8e4a-57e6a09ad733" title="Permalink to this equation">#</a></span>\[\begin{align}
 S &amp;= \frac{\mbox{システムが正しく負例と予測した事例数}}{\mbox{評価データ中の負例の事例数}} = \frac{{\rm TN}}{{\rm TN} + {\rm FP}}
 \end{align}\]</div>
 </section>
 <section id="id12">
-<h2><span class="section-number">5.9. </span>スパムフィルタの構築<a class="headerlink" href="#id12" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.9. </span>スパムフィルタの構築<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
 <section id="id13">
-<h3><span class="section-number">5.9.1. </span>データのダウンロード<a class="headerlink" href="#id13" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.9.1. </span>データのダウンロード<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/sms+spam+collection">SMS Spam Collection Data Set</a>を用いて、英語のスパムフィルタを学習する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>wget https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>wget<span class="w"> </span>https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip
 </pre></div>
 </div>
 </div>
@@ -1328,7 +1114,7 @@ smsspamcollection.z 100%[===================&gt;] 198.65K   249KB/s    in 0.8s
 <p>ダウンロードしたファイルを解凍する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>unzip smsspamcollection.zip
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>unzip<span class="w"> </span>smsspamcollection.zip
 </pre></div>
 </div>
 </div>
@@ -1343,7 +1129,7 @@ smsspamcollection.z 100%[===================&gt;] 198.65K   249KB/s    in 0.8s
 <p>データのファイル（SMSSpamCollection）は、１行１事例で書かれており、各事例はラベルとテキストのタブ区切り形式である。スパムではないメッセージは&quot;ham&quot;、スパムメッセージは&quot;spam&quot;としてラベル付けされている。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>head SMSSpamCollection
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>head<span class="w"> </span>SMSSpamCollection
 </pre></div>
 </div>
 </div>
@@ -1392,7 +1178,7 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
 </div>
 </section>
 <section id="id14">
-<h3><span class="section-number">5.9.2. </span>データの読み込み<a class="headerlink" href="#id14" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.9.2. </span>データの読み込み<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
 <p>このファイルから事例を読み込み、リストオブジェクト<code class="docutils literal notranslate"><span class="pre">D</span></code>に格納する。</p>
 <div class="note dropdown admonition">
 <p class="admonition-title">Windows版Pythonで文字化けが発生する場合</p>
@@ -1485,7 +1271,7 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
 </div>
 </section>
 <section id="id15">
-<h3><span class="section-number">5.9.3. </span>データ形式の変換<a class="headerlink" href="#id15" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.9.3. </span>データ形式の変換<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.DictVectorizer.html">sklearn.feature_extraction.DictVectorizer</a>と<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html">sklearn.preprocessing.LabelEncoder</a>を用いて、訓練データと評価データをscikit-learnが扱える行列形式に変換する。</p>
 <p>DictVectorizerは、特徴をキー、値をバリューとする辞書オブジェクトから特徴ベクトルに変換する。このとき、各特徴に<span class="math notranslate nohighlight">\(0\)</span>から始まるID番号を割り振っていくことで、文字列などで表現される特徴をベクトルの要素番号に対応づける。なお、テキストを単語を特徴とするベクトルで表現する場合、ベクトルの要素数はデータ中のすべての単語となるが、各事例のテキストは少数の単語で構成されるため、特徴ベクトルの多くの要素はゼロで、テキストに含まれている単語に対応する要素だけ非ゼロとなる。このように、要素の多くはゼロで、少数の要素が非ゼロであるベクトルは疎ベクトルと呼ばれる。DictVectorizerのデフォルトの動作では、辞書オブジェクトを<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/sparse.html">scipy.sparse</a>の疎ベクトル形式に変換する。</p>
 <p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.DictVectorizer.html#sklearn.feature_extraction.DictVectorizer.fit_transform">fit_transform</a>関数は、
@@ -1606,7 +1392,7 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
 </div>
 </section>
 <section id="id16">
-<h3><span class="section-number">5.9.4. </span>二値分類モデルの学習<a class="headerlink" href="#id16" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.9.4. </span>二値分類モデルの学習<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn.linear_model.SGDClassifier</a>は線形分類モデルを確率的勾配降下法で学習する。ロジスティック回帰モデルを学習するには、SGDClassifierの引数に<code class="docutils literal notranslate"><span class="pre">loss='log'</span></code>を指定する。<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html#sklearn.linear_model.SGDClassifier.fit">fit</a>関数に訓練データを渡すことで、モデルのパラメータが学習される。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1625,7 +1411,7 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
 </div>
 </section>
 <section id="id17">
-<h3><span class="section-number">5.9.5. </span>分類器の適用・評価<a class="headerlink" href="#id17" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.9.5. </span>分類器の適用・評価<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
 <p>学習した分類器のモデルを用い、評価データの先頭の事例を分類する。予測されたラベルのID番号は<span class="math notranslate nohighlight">\(0\)</span>なので、このメッセージは&quot;ham&quot;（スパムではない）と予測された。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1681,7 +1467,7 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
 </div>
 </section>
 <section id="id18">
-<h3><span class="section-number">5.9.6. </span>モデルパラメータの確認<a class="headerlink" href="#id18" title="この見出しへのパーマリンク">#</a></h3>
+<h3><span class="section-number">5.9.6. </span>モデルパラメータの確認<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
 <p>学習で求められたモデルのパラメータ（重み）は<code class="docutils literal notranslate"><span class="pre">coef_</span></code>メンバ変数で確認できる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1771,7 +1557,7 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
 </section>
 </section>
 <section id="id19">
-<h2><span class="section-number">5.10. </span>確認問題<a class="headerlink" href="#id19" title="この見出しへのパーマリンク">#</a></h2>
+<h2><span class="section-number">5.10. </span>確認問題<a class="headerlink" href="#id19" title="Link to this heading">#</a></h2>
 <p><strong>(1) 確率的勾配降下法によるロジスティック回帰モデルの学習</strong></p>
 <p>確率的勾配降下法でロジスティック回帰モデルを学習するアルゴリズムを自前で実装せよ。学習データや評価データは自由に選んでよい（難しければ、前節で用いた<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/sms+spam+collection">SMS Spam Collection Data Set</a>を用いよ）。</p>
 <p><strong>(2) 評価データ上での正解率</strong></p>
@@ -1793,7 +1579,7 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./classification"
         },
         predefinedOutput: true
@@ -1801,51 +1587,121 @@ spam	Had your mobile 11 months or more? U R entitled to Update to the latest col
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../regression/04sgd.html" title="前へ ページ">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">前へ</p>
-            <p class="prev-next-title"><span class="section-number">4. </span>勾配法によるパラメータ推定</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../regression/04sgd.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">前へ</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>勾配法によるパラメータ推定</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="02multi.html" title="次へ ページ">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="02multi.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">6. </span>線形多クラス分類</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目次
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">5.1. 二値分類の例：スパム判定</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">5.2. 線形二値分類</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">5.3. ロジスティック回帰</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">5.3.1. シグモイド関数の実装</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5.4. データの表現</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5.5. 尤度</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">5.6. 最尤推定</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">5.7. 確率的勾配降下法</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">5.7.1. 確率的勾配降下法の更新式の解釈</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-2">5.7.2. <span class="math notranslate nohighlight">\(L_2\)</span>正則化付きロジスティック回帰</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">5.8. 評価</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">5.9. スパムフィルタの構築</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">5.9.1. データのダウンロード</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">5.9.2. データの読み込み</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">5.9.3. データ形式の変換</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">5.9.4. 二値分類モデルの学習</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">5.9.5. 分類器の適用・評価</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">5.9.6. モデルパラメータの確認</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">5.10. 確認問題</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    <div class="extra_footer">
-      © Copyright 2020-2022 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
-
-    </div>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © Copyright 2020-2024 by 岡崎 直観 (Naoaki Okazaki). この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>　ただし、作品中のコードセル部分は<a rel="license" href="https://opensource.org/licenses/MIT">MITライセンス</a>の下に提供されています。
+
 </div>
+  </div>
+  
+</div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

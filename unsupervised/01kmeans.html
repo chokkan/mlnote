@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,23 +27,23 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -57,7 +57,7 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../_static/translations.js?v=91613774"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
     <script>
                 window.dataLayer = window.dataLayer || [];
@@ -101,12 +101,12 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">本文へスキップ</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>トップに戻る</button>
 
   
   <dialog id="pst-search-dialog">
@@ -129,7 +129,7 @@
   </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="バージョン警告"></aside>
 </div>
 
   
@@ -214,9 +214,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -443,8 +448,8 @@
 
 
 <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="ライト"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="ダーク"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
@@ -630,26 +635,26 @@
 <section id="k-means">
 <h2><span class="section-number">10.2. </span>K-meansクラスタリング<a class="headerlink" href="#k-means" title="Link to this heading">#</a></h2>
 <p><span class="math notranslate nohighlight">\(d\)</span>次元のベクトル<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^d\)</span>で表された事例を<span class="math notranslate nohighlight">\(N\)</span>件集めたデータがある。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9c2e2506-e1b1-4183-a32e-23cdce40258f">
-<span class="eqno">(10.1)<a class="headerlink" href="#equation-9c2e2506-e1b1-4183-a32e-23cdce40258f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3c7189a9-47fa-48a9-88e9-8283f540fd36">
+<span class="eqno">(10.1)<a class="headerlink" href="#equation-3c7189a9-47fa-48a9-88e9-8283f540fd36" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \{\bm{x}_1, \bm{x}_2, \dots, \bm{x}_N\} = \{\bm{x}_i\}_{i=1}^N
 \end{align}\]</div>
 <p>このデータ中の事例を<span class="math notranslate nohighlight">\(K\)</span>個のクラスタに分割したい。なお、実際にクラスタリングを行うときは、クラスタの数<span class="math notranslate nohighlight">\(K\)</span>をどのように決定するかが重要な問題となるが、当面は<span class="math notranslate nohighlight">\(K\)</span>を事前に決定してあるものとする。</p>
 <p>ここで、<span class="math notranslate nohighlight">\(1\)</span>から<span class="math notranslate nohighlight">\(N\)</span>までの自然数の集合を<span class="math notranslate nohighlight">\(\mathbb{N}_N\)</span>と書くことにする。各クラスタに所属する事例を集合<span class="math notranslate nohighlight">\(C_1, C_2, \dots, C_K\)</span>で表す。<span class="math notranslate nohighlight">\(k\)</span>番目のクラスタを表す集合<span class="math notranslate nohighlight">\(C_k\)</span>は、そのクラスタに属する事例のインデックス番号を集めたものであると定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ed58def6-ce57-4d4e-abdf-5ef909910bea">
-<span class="eqno">(10.2)<a class="headerlink" href="#equation-ed58def6-ce57-4d4e-abdf-5ef909910bea" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0a4e1e88-3ea3-4d0b-a213-e8b96e455c8a">
+<span class="eqno">(10.2)<a class="headerlink" href="#equation-0a4e1e88-3ea3-4d0b-a213-e8b96e455c8a" title="Permalink to this equation">#</a></span>\[\begin{align}
 C_k = \{i \in \mathbb{N}_N \mid \text{事例$\bm{x}_i$が$k$番目のクラスタに属する}\}
 \end{align}\]</div>
 <p>各事例は<span class="math notranslate nohighlight">\(C_1\)</span>から<span class="math notranslate nohighlight">\(C_K\)</span>までのいずれかのクラスタに必ず属することとする。すなわち、任意の異なる<span class="math notranslate nohighlight">\(k, k' \in \mathbb{N}_K\)</span>に対して、<span class="math notranslate nohighlight">\(C_k \cap C_{k'} = \emptyset\)</span>を満たし、かつ<span class="math notranslate nohighlight">\(\bigcup\limits_{k = 1}^K C_k = \mathbb{N}_N\)</span>である。あるいは、集合族<span class="math notranslate nohighlight">\(\{C_1, C_2, \dots, C_K\}\)</span>は<span class="math notranslate nohighlight">\(\mathbb{N}_N\)</span>の分割と説明することもできる。</p>
 <p>例えば、事例数が<span class="math notranslate nohighlight">\(4\)</span>（<span class="math notranslate nohighlight">\(N=4\)</span>）のデータを<span class="math notranslate nohighlight">\(2\)</span>個のクラスタ（<span class="math notranslate nohighlight">\(K=2\)</span>）に分割するとき、<span class="math notranslate nohighlight">\(\bm{x}_1, \bm{x}_2, \bm{x}_4\)</span>が<span class="math notranslate nohighlight">\(1\)</span>番目のクラスタに属し、<span class="math notranslate nohighlight">\(\bm{x}_3\)</span>が<span class="math notranslate nohighlight">\(2\)</span>番目のクラスタに属する状況を、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8a66e644-dc47-4af8-b02a-4e5ea0cd8e7e">
-<span class="eqno">(10.3)<a class="headerlink" href="#equation-8a66e644-dc47-4af8-b02a-4e5ea0cd8e7e" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dbfed813-7562-4270-ac32-56ff50bec6d9">
+<span class="eqno">(10.3)<a class="headerlink" href="#equation-dbfed813-7562-4270-ac32-56ff50bec6d9" title="Permalink to this equation">#</a></span>\[\begin{align}
 C_1 = \{1, 2, 4\}, C_2 = \{3\}
 \end{align}\]</div>
 <p>として表す。</p>
 <p>さて、クラスタリングの基本的な考え方は、同じクラスタ内に属する事例間の距離が近く、異なるクラスタ間に属する事例間の距離が遠くなるように、クラスタの割り当てを決定することである。あるクラスタ割り当てが与えられたとき、<strong>K-meansクラスタリング</strong>（K平均クラスタリング）では、各クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>を中心ベクトル<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>で代表させる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4fc79f6e-20bb-4dd8-adea-5269038ccc2f">
-<span class="eqno">(10.4)<a class="headerlink" href="#equation-4fc79f6e-20bb-4dd8-adea-5269038ccc2f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-921eaf60-2a72-4a52-a2bc-08007ea78d95">
+<span class="eqno">(10.4)<a class="headerlink" href="#equation-921eaf60-2a72-4a52-a2bc-08007ea78d95" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{\mu}_k = \frac{1}{|C_k|} \sum_{i \in C_k} \bm{x}_i
 \end{align}\]</div>
 <p>例えば、以下の8個の点が同じクラスタに属する場合、そのクラスタを中心ベクトル（×印）で代表させる。</p>
@@ -678,8 +683,8 @@ C_1 = \{1, 2, 4\}, C_2 = \{3\}
 </div>
 </div>
 <p>そして、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>のまとまり具合を計測する尺度として、そのクラスタに属する事例ベクトルと中心ベクトルとの二乗距離の和を用いる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-72e29b84-f91d-43c0-a3e5-18e5e8d13cc0">
-<span class="eqno">(10.5)<a class="headerlink" href="#equation-72e29b84-f91d-43c0-a3e5-18e5e8d13cc0" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3f293f06-d53e-48d8-8f2e-50aa7d6b78c5">
+<span class="eqno">(10.5)<a class="headerlink" href="#equation-3f293f06-d53e-48d8-8f2e-50aa7d6b78c5" title="Permalink to this equation">#</a></span>\[\begin{align}
 \sum_{i \in C_k} \|\bm{x}_i - \bm{\mu}_k\|^2
 \end{align}\]</div>
 <p>これは、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>に属する事例の分散の<span class="math notranslate nohighlight">\(|C_k|\)</span>倍であるから、クラスタ<span class="math notranslate nohighlight">\(C_k\)</span>内のデータのばらつきを表していると解釈できる。先ほどの例を用いると、各事例（点）と中心ベクトル（×印）とのユークリッド距離（下図点線）の二乗和である。</p>
@@ -4162,20 +4167,20 @@ CwAAwGEULAAAAIdRsAAAABz2/wDkiPD20fcgIQAAAABJRU5ErkJggg==\
 <h2><span class="section-number">10.4. </span>K-meansの目的関数の最小化<a class="headerlink" href="#id14" title="Link to this heading">#</a></h2>
 <p>Lloydのアルゴリズムがジャーナル論文として出版されたのは1982年であるが、Lloydのアルゴリズムそのものは1950年代後半から知られるようになっていた。K-meansという名前が使われるようになったのは、<span id="id15">MacQueen [<a class="reference internal" href="../reference.html#id11" title="James B. MacQueen. Some methods for classification and analysis of multivariate observations. In Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability, volume 1, 281–297. 1967.">1967</a>]</span> の論文によると言われている。そこで、K-meansの目的関数<span class="math notranslate nohighlight">\(J\)</span>とLloydのアルゴリズムがそのように関係するのか説明しておく。</p>
 <p>クラスタの割り当てを決める際、学習データ<span class="math notranslate nohighlight">\(\mathcal{D} = \{\bm{x}_i\}_{i=1}^N\)</span>は不変であるので、K-meansクラスタリングの目的関数（式<a class="reference internal" href="#equation-eq-kmeans-objective">(10.6)</a>）は<span class="math notranslate nohighlight">\(C_1, \dots, C_K, \bm{\mu}_1, \dots, \bm{\mu}_K\)</span>の関数である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-695d1a9e-15a6-48ff-b917-83ea399ab4b8">
-<span class="eqno">(10.9)<a class="headerlink" href="#equation-695d1a9e-15a6-48ff-b917-83ea399ab4b8" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9d2081bf-55c3-4920-94b7-bb036e00c32c">
+<span class="eqno">(10.9)<a class="headerlink" href="#equation-9d2081bf-55c3-4920-94b7-bb036e00c32c" title="Permalink to this equation">#</a></span>\[\begin{align}
 J = \sum_{k=1}^{K} \sum_{i \in C_k} \|\bm{x}_i - \bm{\mu}_k\|^2
 \end{align}\]</div>
 <p>この目的関数を最小化するため、<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>と<span class="math notranslate nohighlight">\(\bm{\mu}_1, \dots, \bm{\mu}_K\)</span>を交互に更新していくことを考える。</p>
 <p>まず、<span class="math notranslate nohighlight">\(\bm{\mu}_1, \dots, \bm{\mu}_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小化するクラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を求めることを考える。全ての事例はいずれかのクラスタに属しなければならないが、<span class="math notranslate nohighlight">\(\bm{\mu}_1, \dots, \bm{\mu}_K\)</span>が固定されている状況では、ある事例のクラスタ割り当てが別の事例のクラスタ割り当てに影響を及ぼしたり、目的関数<span class="math notranslate nohighlight">\(J\)</span>の値を変化させてしまうことはない。したがって、事例<span class="math notranslate nohighlight">\(\bm{x}_i\)</span>ごとに距離が最小となる中心<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>を選べばよい。すなわち、事例<span class="math notranslate nohighlight">\(\bm{x}_i\)</span>を次式で求まる番号のクラスタに所属させればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e37a6235-760d-467d-b2b5-cb765dc75147">
-<span class="eqno">(10.10)<a class="headerlink" href="#equation-e37a6235-760d-467d-b2b5-cb765dc75147" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8f484e9c-e1c0-4c17-9f72-67402ff374b9">
+<span class="eqno">(10.10)<a class="headerlink" href="#equation-8f484e9c-e1c0-4c17-9f72-67402ff374b9" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathop{\rm argmin}\limits_{k \in \{1, \dots, K\}} \|\bm{x}_i - \bm{\mu}_k\|^2
 \end{align}\]</div>
 <p>これにより、Lloydのアルゴリズムの式<a class="reference internal" href="#equation-eq-kmeans-cluster-assignment">(10.7)</a>を導出できた。</p>
 <p>次に、クラスタ割り当て<span class="math notranslate nohighlight">\(C_1, \dots, C_K\)</span>を固定して、目的関数<span class="math notranslate nohighlight">\(J\)</span>を最小にする<span class="math notranslate nohighlight">\(\bm{\mu}_1, \dots, \bm{\mu}_K\)</span>を求める。目的関数<span class="math notranslate nohighlight">\(J\)</span>の計算において、各<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>の間に依存関係はないので、全ての<span class="math notranslate nohighlight">\(k \in \mathbb{N}_K\)</span>に対して、目的関数を最小とする<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>を求めればよい。そこで、目的関数<span class="math notranslate nohighlight">\(J\)</span>を<span class="math notranslate nohighlight">\(\bm{\mu}_k\)</span>で偏微分して<span class="math notranslate nohighlight">\(0\)</span>とおく。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b339a86c-422d-4d9d-8e15-19f8989e8e37">
-<span class="eqno">(10.11)<a class="headerlink" href="#equation-b339a86c-422d-4d9d-8e15-19f8989e8e37" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fe21f16f-8a41-4e98-a795-76d8eda40faf">
+<span class="eqno">(10.11)<a class="headerlink" href="#equation-fe21f16f-8a41-4e98-a795-76d8eda40faf" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial J}{\partial \bm{\mu}_k} = \frac{\partial}{\partial \bm{\mu}_k} \left(\sum_{i \in C_k} \|\bm{x}_i - \bm{\mu}_k\|^2\right) = 2 \sum_{i \in C_k} (\bm{x}_i - \bm{\mu}_k) &amp;= 0 \\
 \sum_{i \in C_k} \bm{x}_i - \sum_{i \in C_k} \bm{\mu}_k &amp;= 0 \\
 \sum_{i \in C_k} \bm{x}_i - |C_k| \bm{\mu}_k &amp;= 0 \\
@@ -4759,7 +4764,7 @@ V(\bm{\mu}_k) = \{\bm{x} \in \mathbb{R}^d \mid \|\bm{x} - \bm{\mu}_k\|^2 \leq \|
 <div class="prev-next-area">
     <a class="left-prev"
        href="../classification/05svm.html"
-       title="previous page">
+       title="前のページ">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">前へ</p>
@@ -4768,7 +4773,7 @@ V(\bm{\mu}_k) = \{\bm{x} \in \mathbb{R}^d \mid \|\bm{x} - \bm{\mu}_k\|^2 \leq \|
     </a>
     <a class="right-next"
        href="02hac.html"
-       title="next page">
+       title="次ページ">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">11. </span>階層的クラスタリング</p>
@@ -4843,8 +4848,8 @@ V(\bm{\mu}_k) = \{\bm{x} \in \mathbb{R}^d \mid \|\bm{x} - \bm{\mu}_k\|^2 \leq \|
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

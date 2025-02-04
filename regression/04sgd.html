@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,23 +27,23 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -57,7 +57,7 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../_static/translations.js?v=91613774"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
     <script>
                 window.dataLayer = window.dataLayer || [];
@@ -101,12 +101,12 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">本文へスキップ</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>トップに戻る</button>
 
   
   <dialog id="pst-search-dialog">
@@ -129,7 +129,7 @@
   </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="バージョン警告"></aside>
 </div>
 
   
@@ -214,9 +214,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -443,8 +448,8 @@
 
 
 <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="ライト"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="ダーク"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
@@ -530,13 +535,13 @@
 <section id="id2">
 <h2><span class="section-number">4.1. </span>パラメータ推定の閉じた式<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p><span class="math notranslate nohighlight">\(\def\bm{\boldsymbol}\)</span>まず、閉じた式（解析解）に基づく回帰問題のパラメータ推定法を復習する。<span class="math notranslate nohighlight">\(N\)</span>件の事例からなる訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>があり、各事例は<span class="math notranslate nohighlight">\(d\)</span>個の説明変数と<span class="math notranslate nohighlight">\(1\)</span>個の目的変数で表現されているとする。<span class="math notranslate nohighlight">\(d\)</span>個の説明変数をベクトル<span class="math notranslate nohighlight">\(\bm{x} = (x_1, x_2, \dots, x_d)^\top \in \mathbb{R}^{d}\)</span>、目的変数を<span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span>で表すことにすると、訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は次式で表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eaab233d-53d0-4cd1-873d-8c27400a2a9c">
-<span class="eqno">(4.1)<a class="headerlink" href="#equation-eaab233d-53d0-4cd1-873d-8c27400a2a9c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3bfff5c4-d9f4-4c4b-84d6-08dfc3483b2b">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-3bfff5c4-d9f4-4c4b-84d6-08dfc3483b2b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \{(\bm{x}_i, y_i)\}_{i=1}^{N}
 \end{align}\]</div>
 <p>説明変数を行ベクトルとして<span class="math notranslate nohighlight">\(N\)</span>個縦に並べた計画行列<span class="math notranslate nohighlight">\(\bm{X} \in \mathbb{R}^{N \times d}\)</span>を導入する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3f0bb0f6-7e9a-4106-93c9-a4074af1fa84">
-<span class="eqno">(4.2)<a class="headerlink" href="#equation-3f0bb0f6-7e9a-4106-93c9-a4074af1fa84" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-57874d05-cfe1-436e-a126-107f63b2c024">
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-57874d05-cfe1-436e-a126-107f63b2c024" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{X}
 = \begin{pmatrix}
 \bm{x}_1^\top \\
@@ -552,8 +557,8 @@ X_{N,1} &amp; X_{N,2} &amp; \dots &amp; X_{N,d} \\
 \end{pmatrix}
 \end{align}\]</div>
 <p>また、目的変数<span class="math notranslate nohighlight">\(y_i\)</span>を<span class="math notranslate nohighlight">\(N\)</span>個縦に並べたベクトル<span class="math notranslate nohighlight">\(\bm{y} \in \mathbb{R}^{N}\)</span>を導入する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-57cd8ece-2420-4ade-9520-ee368f5c6af7">
-<span class="eqno">(4.3)<a class="headerlink" href="#equation-57cd8ece-2420-4ade-9520-ee368f5c6af7" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6a042957-c0c2-4198-b8fd-29f7e0f8b737">
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-6a042957-c0c2-4198-b8fd-29f7e0f8b737" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{y}
 = \begin{pmatrix}
 y_1 \\
@@ -563,8 +568,8 @@ y_N \\
 \end{pmatrix}
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(d\)</span>個の説明変数に対応する重み（パラメータ）を<span class="math notranslate nohighlight">\(d\)</span>次元のベクトル<span class="math notranslate nohighlight">\(\bm{w} \in \mathbb{R}^{d}\)</span>で表現する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8b809c23-6046-4589-be4c-5ccf4adc624c">
-<span class="eqno">(4.4)<a class="headerlink" href="#equation-8b809c23-6046-4589-be4c-5ccf4adc624c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-047a89ef-bd90-4233-9c5c-734c615627f2">
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-047a89ef-bd90-4233-9c5c-734c615627f2" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}
 = \begin{pmatrix}
 w_1 \\
@@ -574,8 +579,8 @@ w_d \\
 \end{pmatrix}
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(N\)</span>個の目的変数の予測値は次のように計算される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a9f3edb6-aee1-4d22-82cc-3457cef99646">
-<span class="eqno">(4.5)<a class="headerlink" href="#equation-a9f3edb6-aee1-4d22-82cc-3457cef99646" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-787f44e2-cf02-4f0d-bd25-79c04008345a">
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-787f44e2-cf02-4f0d-bd25-79c04008345a" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{\hat{y}} = \bm{X} \bm{w} = \begin{pmatrix}
 X_{1,1} &amp; X_{1,2} &amp; \dots &amp; X_{1,d} \\
 X_{2,1} &amp; X_{2,2} &amp; \dots &amp; X_{2,d} \\
@@ -596,33 +601,33 @@ X_{N,1} w_1 + X_{N,2} w_2 + \dots + X_{N,d} w_d \\
 \end{pmatrix}
 \end{align}\]</div>
 <p>正則化を行わない場合、目的関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e90703a4-6141-4bb1-b488-c9a766482ae2">
-<span class="eqno">(4.6)<a class="headerlink" href="#equation-e90703a4-6141-4bb1-b488-c9a766482ae2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cd91c58f-54f9-40a2-a95f-3c7773e3b7c6">
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-cd91c58f-54f9-40a2-a95f-3c7773e3b7c6" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(\bm{w}) = \|\bm{y} - \bm{\hat{y}}\|^2 = \|\bm{y} - \bm{X}\bm{w}\|^2
 \end{align}\]</div>
 <p>目的関数を<span class="math notranslate nohighlight">\(\bm{w}\)</span>に関して偏微分して整理すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-64fdf407-4256-4d43-878e-dc9cd5b29378">
-<span class="eqno">(4.7)<a class="headerlink" href="#equation-64fdf407-4256-4d43-878e-dc9cd5b29378" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8bc0b650-3575-4b07-99ba-b4b8eb5cf2a5">
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-8bc0b650-3575-4b07-99ba-b4b8eb5cf2a5" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla \hat{L}_{\mathcal{D}}(\bm{w}) = \frac{\partial \hat{L}_{\mathcal{D}}(\bm{w})}{\partial \bm{w}} &amp;= 2\bm{X}^\top (\bm{\hat{y}} - \bm{y}) = 2\bm{X}^\top (\bm{X}\bm{w} - \bm{y})
 \end{align}\]</div>
 <p>目的関数を最小にするパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{*}\)</span>は、この偏微分を<span class="math notranslate nohighlight">\(0\)</span>とおいた解として、次式で求まる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cda68362-994a-4388-ba90-6ec6cc623f95">
-<span class="eqno">(4.8)<a class="headerlink" href="#equation-cda68362-994a-4388-ba90-6ec6cc623f95" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1f8301dd-a3c7-4ef3-bc7e-af72cd8a1864">
+<span class="eqno">(4.8)<a class="headerlink" href="#equation-1f8301dd-a3c7-4ef3-bc7e-af72cd8a1864" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^{*} &amp;= (\bm{X}^\top \bm{X})^{-1}\bm{X}^\top \bm{y}
 \end{align}\]</div>
 <p>リッジ回帰（<span class="math notranslate nohighlight">\(L_2\)</span>正則化付き回帰）の場合、目的関数は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7300361e-d24c-46ff-b524-239ad6f13e7d">
-<span class="eqno">(4.9)<a class="headerlink" href="#equation-7300361e-d24c-46ff-b524-239ad6f13e7d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-252d6994-e4aa-453a-aa11-86fc23240f09">
+<span class="eqno">(4.9)<a class="headerlink" href="#equation-252d6994-e4aa-453a-aa11-86fc23240f09" title="Permalink to this equation">#</a></span>\[\begin{align}
 J_{\mathcal{D}}(\bm{w}) &amp;= \|\bm{y} - \bm{\hat{y}}\|^2 + \alpha \|\bm{w}\|^2 = \|\bm{y} - \bm{X}\bm{w}\|^2 + \alpha \|\bm{w}\|^2
 \end{align}\]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(\alpha\)</span> <span class="math notranslate nohighlight">\((\geq 0)\)</span>は正則化の効果を指定するハイパーパラメータである。目的関数を<span class="math notranslate nohighlight">\(\bm{w}\)</span>に関して偏微分して整理すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e334cfab-f8b8-4860-97be-cdf39f7aa198">
-<span class="eqno">(4.10)<a class="headerlink" href="#equation-e334cfab-f8b8-4860-97be-cdf39f7aa198" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d175248c-df0d-4ddf-99cc-29d008ed47ce">
+<span class="eqno">(4.10)<a class="headerlink" href="#equation-d175248c-df0d-4ddf-99cc-29d008ed47ce" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla J_{\mathcal{D}}(\bm{w}) = \frac{\partial J_{\mathcal{D}}(\bm{w})}{\partial \bm{w}} &amp;= 2\bm{X}^\top (\bm{\hat{y}} - \bm{y}) + 2 \alpha \bm{w} = 2\bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + 2 \alpha \bm{w} \\
 \end{align}\]</div>
 <p>目的関数を最小にするパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{*}\)</span>は、この偏微分を<span class="math notranslate nohighlight">\(0\)</span>とおいた解として、次式で求まる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cf0488c3-fca0-4da9-a1ce-be76944d669f">
-<span class="eqno">(4.11)<a class="headerlink" href="#equation-cf0488c3-fca0-4da9-a1ce-be76944d669f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3bcbc19a-103f-4fcd-bae9-a63e59307f2f">
+<span class="eqno">(4.11)<a class="headerlink" href="#equation-3bcbc19a-103f-4fcd-bae9-a63e59307f2f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^{*} &amp;= (\bm{X}^\top \bm{X} + \alpha \bm{I})^{-1}\bm{X}^\top \bm{y}
 \end{align}\]</div>
 </section>
@@ -648,8 +653,8 @@ J_{\mathcal{D}}(\bm{w}) &amp;= \|\bm{y} - \bm{\hat{y}}\|^2 + \alpha \|\bm{w}\|^2
 \end{align}
 \]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(t = 1, 2, \dots\)</span>は反復の回数を表す変数、<span class="math notranslate nohighlight">\(\eta_t\)</span>は<span class="math notranslate nohighlight">\(t\)</span>回目の反復における<strong>更新幅</strong>（ステップサイズ、機械学習では<strong>学習率</strong>とも呼ばれる）である。極小値<span class="math notranslate nohighlight">\(\bm{x}^{*}\)</span>が求まったところで反復を終了するが、その終了判定として以下の条件式などが用いられる（ただし、<span class="math notranslate nohighlight">\(\epsilon\)</span>は十分に小さい正の定数）。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a1bdf7a1-12e9-411e-89ca-fa567fd38f0c">
-<span class="eqno">(4.13)<a class="headerlink" href="#equation-a1bdf7a1-12e9-411e-89ca-fa567fd38f0c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fc200e67-0bf1-4117-938d-20b8588238c8">
+<span class="eqno">(4.13)<a class="headerlink" href="#equation-fc200e67-0bf1-4117-938d-20b8588238c8" title="Permalink to this equation">#</a></span>\[\begin{align}
 \left|\nabla f(\bm{x})\right| &lt; \epsilon
 \end{align}\]</div>
 <p>なお、関数<span class="math notranslate nohighlight">\(f(\bm{x})\)</span>が凸関数である場合は、初期値の選び方によらず大域的な最小値を与える<span class="math notranslate nohighlight">\(\bm{x}^{*}\)</span>を求めることができる。</p>
@@ -658,8 +663,8 @@ J_{\mathcal{D}}(\bm{w}) &amp;= \|\bm{y} - \bm{\hat{y}}\|^2 + \alpha \|\bm{w}\|^2
 <section id="id6">
 <h3><span class="section-number">4.3.2. </span>最急降下法の実行例<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>最も単純な例として、<span class="math notranslate nohighlight">\(x\)</span>を1次元とし、<span class="math notranslate nohighlight">\(xy\)</span>平面上で<span class="math notranslate nohighlight">\(y\)</span>の値が最小となる<span class="math notranslate nohighlight">\(x\)</span>を最急降下法で求める過程を説明する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8b9a1ddb-d442-46bc-bb11-9d4125d28326">
-<span class="eqno">(4.14)<a class="headerlink" href="#equation-8b9a1ddb-d442-46bc-bb11-9d4125d28326" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e291281b-a9bf-4bd9-ae40-a105f8141bfc">
+<span class="eqno">(4.14)<a class="headerlink" href="#equation-e291281b-a9bf-4bd9-ae40-a105f8141bfc" title="Permalink to this equation">#</a></span>\[\begin{align}
 f(x) &amp;= 0.5 x^2 - 5x + 13.5 = \frac{1}{2}\left\{(x - 5)^2 + 2\right\} \\
 f'(x) &amp;= \frac{\partial f(x)}{\partial x} = x - 5
 \end{align}\]</div>
@@ -8315,8 +8320,8 @@ VDvPSwAAAABJRU5ErkJggg==\
 </div></div>
 </div>
 <p><span class="math notranslate nohighlight">\(x^{(1)} = 9\)</span>のとき、<span class="math notranslate nohighlight">\(f'(x^{(1)}) = (9 - 5) = 4\)</span>であるから、次式で<span class="math notranslate nohighlight">\(x^{(2)}\)</span>が計算される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3f18ed5f-6f69-4b94-9827-61a2ca228a80">
-<span class="eqno">(4.15)<a class="headerlink" href="#equation-3f18ed5f-6f69-4b94-9827-61a2ca228a80" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4a7f206a-7ab4-48d8-880e-f919a40fd218">
+<span class="eqno">(4.15)<a class="headerlink" href="#equation-4a7f206a-7ab4-48d8-880e-f919a40fd218" title="Permalink to this equation">#</a></span>\[\begin{align}
 x^{(2)} = x^{(1)} - \eta_1 f'(x^{(1)}) = 9 - 0.5 \times 4 = 9 - 2 = 7
 \end{align}\]</div>
 <p>上の可視化では、現在の<span class="math notranslate nohighlight">\(x^{(t)}\)</span>に関して、勾配<span class="math notranslate nohighlight">\(f'(x^{(t)})\)</span>を接線で、<span class="math notranslate nohighlight">\(x^{(t)}\)</span>が受ける変化量を横線で示している。反復を繰り返すことで、<span class="math notranslate nohighlight">\(f(x^{(t)})\)</span>の値が最小値に近づくとともに、<span class="math notranslate nohighlight">\(f'(x^{(t)})\)</span>の値が<span class="math notranslate nohighlight">\(0\)</span>に近づき、<span class="math notranslate nohighlight">\(x^{(t)}\)</span>が受ける変化量が小さくなっていくことが確認できる。</p>
@@ -8329,20 +8334,20 @@ x^{(2)} = x^{(1)} - \eta_1 f'(x^{(1)}) = 9 - 0.5 \times 4 = 9 - 2 = 7
 <li><p>傾き<span class="math notranslate nohighlight">\(f'(x^{(t)})\)</span>が急（絶対値が大きい）ならば<span class="math notranslate nohighlight">\(x^{(t)}\)</span>が受ける変化量は大きくなり、傾きが緩やか（絶対値が小さい）ならば<span class="math notranslate nohighlight">\(x^{(t)}\)</span>が受ける変化量は小さくなる</p></li>
 </ul>
 <p><span class="math notranslate nohighlight">\(\bm{x}\)</span>が多次元のときの振る舞いは、関数<span class="math notranslate nohighlight">\(f(\bm{x})\)</span>のテーラー展開を考えるとよい。関数<span class="math notranslate nohighlight">\(f(\bm{x})\)</span>の<span class="math notranslate nohighlight">\(\bm{x}\)</span>のまわりの１次のテーラー展開（１次近似）は、<span class="math notranslate nohighlight">\(\bm{x}\)</span>に対する微小な変化ベクトルを<span class="math notranslate nohighlight">\(\bm{\delta}\)</span>とすると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d8678148-2b8e-497d-a548-09c10f85f258">
-<span class="eqno">(4.16)<a class="headerlink" href="#equation-d8678148-2b8e-497d-a548-09c10f85f258" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d269249a-4f28-4b57-92a5-98f4a4b6f9cc">
+<span class="eqno">(4.16)<a class="headerlink" href="#equation-d269249a-4f28-4b57-92a5-98f4a4b6f9cc" title="Permalink to this equation">#</a></span>\[\begin{align}
 f(\bm{x} + \bm{\delta}) \approx f(\bm{x}) + f'(\bm{x})^\top \bm{\delta}
 \end{align}\]</div>
 <p>変化ベクトル<span class="math notranslate nohighlight">\(\bm{\delta} = -\eta_t f'(\bm{x}^{(t)})\)</span>として１次のテーラー展開を導入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a9de40ae-6e88-4e6d-8b22-0075d76df1ec">
-<span class="eqno">(4.17)<a class="headerlink" href="#equation-a9de40ae-6e88-4e6d-8b22-0075d76df1ec" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fb2bc658-8b9f-4ac7-9bf7-71a112fdb6a4">
+<span class="eqno">(4.17)<a class="headerlink" href="#equation-fb2bc658-8b9f-4ac7-9bf7-71a112fdb6a4" title="Permalink to this equation">#</a></span>\[\begin{align}
 f\left(\bm{x}^{(t)} - \eta_t f'(\bm{x}^{(t)})\right)
 &amp;\approx f(\bm{x}^{(t)}) + f'(\bm{x}^{(t)})^\top  \left( -\eta_t f'(\bm{x}^{(t)}) \right) \\
 &amp;= f(\bm{x}^{(t)}) - \eta_t \underbrace{f'(\bm{x}^{(t)})^\top f'(\bm{x}^{(t)})}_{\geq 0} \leq f(\bm{x}^{(t)})
 \end{align}\]</div>
 <p>最急降下法の更新式<a class="reference internal" href="#equation-eq-update-formula">(4.12)</a>より、上式の左辺は<span class="math notranslate nohighlight">\(f(\bm{x}^{(t+1)})\)</span>であるから、以下の不等式が成り立つ。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f3051098-9e98-4cf5-951e-54b52118f773">
-<span class="eqno">(4.18)<a class="headerlink" href="#equation-f3051098-9e98-4cf5-951e-54b52118f773" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6e30299d-5e98-48a0-95f9-8da47c977f2a">
+<span class="eqno">(4.18)<a class="headerlink" href="#equation-6e30299d-5e98-48a0-95f9-8da47c977f2a" title="Permalink to this equation">#</a></span>\[\begin{align}
 f(\bm{x}^{(t+1)}) \leq f(\bm{x}^{(t)})
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(f(\bm{x}^{(t)})\)</span>が極小値に到達していない間は<span class="math notranslate nohighlight">\(f'(\bm{x}^{(t)})^\top f'(\bm{x}^{(t)}) &gt; 0\)</span>、更新幅は<span class="math notranslate nohighlight">\(\eta_t &gt; 0\)</span>であるから、反復が進むにつれて<span class="math notranslate nohighlight">\(f(\bm{x}^{(t)})\)</span>の値が小さくなることが確認できる。ただし、テーラー展開による近似が成立するには、変化ベクトル<span class="math notranslate nohighlight">\(\bm{\delta} = -\eta_t f'(\bm{x}^{(t)})\)</span>が十分に小さくなければならない。最急降下法では変化ベクトル<span class="math notranslate nohighlight">\(\bm{\delta}\)</span>の変化量を更新幅<span class="math notranslate nohighlight">\(\eta_t\)</span>で調整しているので、この値を十分に小さくしておけばよい。ところが、<span class="math notranslate nohighlight">\(\eta_t\)</span>が小さすぎると１回の更新で<span class="math notranslate nohighlight">\(\bm{x}\)</span>が動く距離が減るため、解に到達するまでの反復の回数が多くなる。一方で、<span class="math notranslate nohighlight">\(\eta_t\)</span>が大きすぎると１次近似からの乖離が大きくなるため、更新後の<span class="math notranslate nohighlight">\(f(\bm{x}^{(t+1)})\)</span>の値が元の値<span class="math notranslate nohighlight">\(f(\bm{x}^{(t)})\)</span>よりも大きくなるかもしれない。</p>
@@ -8411,8 +8416,8 @@ f(\bm{x}^{(t+1)}) \leq f(\bm{x}^{(t)})
 <h2><span class="section-number">4.4. </span>最急降下法によるパラメータ推定<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
 <p>最急降下法を使って回帰のパラメータを求める。最急降下法の説明では「目的関数の値<span class="math notranslate nohighlight">\(f(\bm{x})\)</span>を最小にする<span class="math notranslate nohighlight">\(\bm{x}\)</span>を求める」という問題設定であった、回帰では「目的関数<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\bm{w})\)</span>の値を最小にする<span class="math notranslate nohighlight">\(\bm{w}\)</span>を求める」という問題設定であることに注意が必要である（つまり、変数を<span class="math notranslate nohighlight">\(\bm{x} \to \bm{w}\)</span>と置換、目的関数を<span class="math notranslate nohighlight">\(f(\bm{x}) \to \hat{L}_{\mathcal{D}}(\bm{w})\)</span>して考えることになる）。</p>
 <p>目的関数<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\bm{w})\)</span>の勾配は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a0552868-31c5-4b7b-ac16-fc769a7c248e">
-<span class="eqno">(4.19)<a class="headerlink" href="#equation-a0552868-31c5-4b7b-ac16-fc769a7c248e" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7e3150e2-fdd7-4fcf-8868-11a860839673">
+<span class="eqno">(4.19)<a class="headerlink" href="#equation-7e3150e2-fdd7-4fcf-8868-11a860839673" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla \hat{L}_{\mathcal{D}}(\bm{w}) &amp;= 2\bm{X}^\top (\bm{\hat{y}} - \bm{y})
 \end{align}\]</div>
 <p>これを最急降下法の更新式<a class="reference internal" href="#equation-eq-update-formula">(4.12)</a>に代入すると、</p>
@@ -8425,16 +8430,16 @@ f(\bm{x}^{(t+1)}) \leq f(\bm{x}^{(t)})
 \end{align}
 \end{split}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\bm{\hat{y}}^{(t)}\)</span>は<span class="math notranslate nohighlight">\(t\)</span>回目の反復時のパラメータ<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>を用いて<span class="math notranslate nohighlight">\(N\)</span>個の目的変数を推定したベクトル、<span class="math notranslate nohighlight">\(\hat{y}_i^{(t)}\)</span>はその<span class="math notranslate nohighlight">\(i\)</span>番目の要素（<span class="math notranslate nohighlight">\(i\)</span>番目の事例の目的変数の推定値を<span class="math notranslate nohighlight">\(\bm{w}^{(t)}\)</span>を用いて計算したもの）である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-384c1e20-d344-42ce-83be-c953a465b530">
-<span class="eqno">(4.21)<a class="headerlink" href="#equation-384c1e20-d344-42ce-83be-c953a465b530" title="Permalink to this equation">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-42c8fc79-a95d-4ec3-a380-94fbdcf623b5">
+<span class="eqno">(4.21)<a class="headerlink" href="#equation-42c8fc79-a95d-4ec3-a380-94fbdcf623b5" title="Permalink to this equation">#</a></span>\[\begin{gather}
 \bm{\hat{y}}^{(t)} = \bm{X} \bm{w}^{(t)} \\
 \hat{y}_i^{(t)} = \bm{x}_i^\top \bm{w}^{(t)}
 \end{gather}\]</div>
 <section id="id9">
 <h3><span class="section-number">4.4.1. </span>最急降下法の実装<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <p>これで最急降下法の実装に必要な説明を終えたので、さっそく単純な訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>を一次関数<span class="math notranslate nohighlight">\(ax + b\)</span>にフィッティングするプログラムを実装してみる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7665b1b4-81b5-4843-b207-fdcc9a04e9fd">
-<span class="eqno">(4.22)<a class="headerlink" href="#equation-7665b1b4-81b5-4843-b207-fdcc9a04e9fd" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-99ccb73e-8665-414e-951d-c69e04a4e0f6">
+<span class="eqno">(4.22)<a class="headerlink" href="#equation-99ccb73e-8665-414e-951d-c69e04a4e0f6" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D}_s = \left\{(x_i, y_i)\right\}_{i=1}^{4} = \left\{(1, 3), (3, 6), (6, 5), (8, 7)\right\}
 \end{align}\]</div>
 <div class="cell docutils container">
@@ -8505,19 +8510,19 @@ f(\bm{x}) = \sum_{i=1}^{N} f_i(\bm{x})
 \end{align}
 \]</div>
 <p>最急降下法と同様に、初期値<span class="math notranslate nohighlight">\(\bm{x}^{(1)}\)</span>を出発点とし、以下の反復式を用いて初期値の近くの極小値の解<span class="math notranslate nohighlight">\(\bm{x}^{(t)}\)</span>を更新していく。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b7ce29bf-9c13-427d-af04-54fab1f33022">
-<span class="eqno">(4.24)<a class="headerlink" href="#equation-b7ce29bf-9c13-427d-af04-54fab1f33022" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3a791758-828f-43b7-80c3-6c9f333273e8">
+<span class="eqno">(4.24)<a class="headerlink" href="#equation-3a791758-828f-43b7-80c3-6c9f333273e8" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{x}^{(t+1)} = \bm{x}^{(t)} - \eta_t \nabla f_i(\bm{x}^{(t)})
 \end{align}\]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(f_i\)</span>は反復のたびに<span class="math notranslate nohighlight">\(\{f_1, f_2, \dots, f_N\}\)</span>の中から<strong>ランダムに選ぶ</strong>。ここが確率的勾配降下法と最急降下法の本質的な違いである。</p>
 <p>確率的勾配降下法と最急降下法の違いを理解するために、目的関数の勾配<span class="math notranslate nohighlight">\(\nabla f(\bm{x})\)</span>に着目すると、式<a class="reference internal" href="#equation-eq-objective-as-sum">(4.23)</a>より、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-17a1a6f8-5b38-4e9b-8288-7edac6f36239">
-<span class="eqno">(4.25)<a class="headerlink" href="#equation-17a1a6f8-5b38-4e9b-8288-7edac6f36239" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-34d30d43-7c24-4d91-b18c-3c3fa001183a">
+<span class="eqno">(4.25)<a class="headerlink" href="#equation-34d30d43-7c24-4d91-b18c-3c3fa001183a" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla f(\bm{x}) = \sum_{i=1}^N \nabla f_i(\bm{x})
 \end{align}\]</div>
 <p>最急降下法の反復式<a class="reference internal" href="#equation-eq-update-formula">(4.12)</a>と比較すると、勾配<span class="math notranslate nohighlight">\(\nabla f(\bm{x})\)</span>の計算をランダムに選んだ<span class="math notranslate nohighlight">\(f_i\)</span>の勾配で近似していることが分かる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a052788f-0cb8-4c68-a461-98c4b3d41fbb">
-<span class="eqno">(4.26)<a class="headerlink" href="#equation-a052788f-0cb8-4c68-a461-98c4b3d41fbb" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ae7fa287-ba00-47fc-be99-25454d11589f">
+<span class="eqno">(4.26)<a class="headerlink" href="#equation-ae7fa287-ba00-47fc-be99-25454d11589f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla f(\bm{x}) \approx \nabla f_i(\bm{x})
 \end{align}\]</div>
 </section>
@@ -8541,16 +8546,16 @@ f(\bm{x}) = \sum_{i=1}^{N} f_i(\bm{x})
 \]</div>
 </div>
 <p>最急降下法の更新式<a class="reference internal" href="#equation-eq-update-formula-gd">(4.20)</a>は、勾配の計算に訓練データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>のすべての事例を用い、更新式を適用する。これに対し、確率的勾配降下法の更新式<a class="reference internal" href="#equation-eq-update-formula-sgd">(4.28)</a>では、ランダムに選んだ事例<span class="math notranslate nohighlight">\((\bm{x}, y) \in \mathcal{D}\)</span>だけから求めた勾配で更新式を適用する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4ae2efe9-c826-4cbd-84bd-7757fc98cfb7">
-<span class="eqno">(4.29)<a class="headerlink" href="#equation-4ae2efe9-c826-4cbd-84bd-7757fc98cfb7" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4c3219fe-59df-447b-a5d6-fe36a9623ba9">
+<span class="eqno">(4.29)<a class="headerlink" href="#equation-4c3219fe-59df-447b-a5d6-fe36a9623ba9" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla \hat{L}_{\mathcal{D}}(\bm{w}) \approx \nabla \hat{l}_{\bm{x}, y}(\bm{w})
 \end{align}\]</div>
 <p>確率的勾配降下法を利用するとき、学習率（更新幅）<span class="math notranslate nohighlight">\(\eta_t\)</span>の設定に悩むことがある。凸関数の最小化によく用いられるのは、学習率の初期値を<span class="math notranslate nohighlight">\(\eta_0\)</span> (<span class="math notranslate nohighlight">\(&gt; 0\)</span>) として<span class="math notranslate nohighlight">\(\eta_t = \frac{\eta_0}{t}\)</span>や<span class="math notranslate nohighlight">\(\eta_t = \frac{\eta_0}{\sqrt{t}}\)</span>などに設定することである。<span class="math notranslate nohighlight">\(\eta_0\)</span>を設定する必要があるが、目的関数が凸関数である場合は、いくつかの<span class="math notranslate nohighlight">\(\eta_0\)</span>の値で反復を（少ない回数で）試行し、目的関数の値を最も下げることができた<span class="math notranslate nohighlight">\(\eta_0\)</span>を選ぶ、などの方針で決定できる。一方、目的関数が凸関数ではない場合、例えば多層ニューラルネットワークの学習では、学習率の設定そのものがハイパーパラメータとなり、検証データなどを用いながら学習率を調整することもある。</p>
 <section id="id12">
 <h3><span class="section-number">4.6.1. </span>確率的勾配降下法による回帰モデルの学習<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
 <p>回帰の目的関数に対して確率的勾配降下法が適用できることを確認する。回帰の目的関数<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(\bm{w})\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-249a08e2-eb52-4bad-97a1-e5c70afc2d20">
-<span class="eqno">(4.30)<a class="headerlink" href="#equation-249a08e2-eb52-4bad-97a1-e5c70afc2d20" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1a8202bb-bb8b-4a58-b8d0-bce92017a49d">
+<span class="eqno">(4.30)<a class="headerlink" href="#equation-1a8202bb-bb8b-4a58-b8d0-bce92017a49d" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(\bm{w}) &amp;= \|\bm{y} - \bm{\hat{y}}\|^2 \\
 &amp;= \sum_{i=1}^{N} (y_i - \hat{y}_i)^2 \\
 &amp;= \sum_{i=1}^{N} (y_i - \bm{x}_i^\top \bm{w})^2 \\
@@ -8651,18 +8656,18 @@ f(\bm{x}) = \sum_{i=1}^{N} f_i(\bm{x})
 <section id="id14">
 <h3><span class="section-number">4.6.3. </span>最急降下法と確率的勾配降下法の比較<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
 <p>最急降下法と確率的勾配降下法の更新式は次式にまとめることができる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-22e76c13-01e6-42b2-adc3-f256b367d696">
-<span class="eqno">(4.35)<a class="headerlink" href="#equation-22e76c13-01e6-42b2-adc3-f256b367d696" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7c1b0ef0-4114-4948-a79f-82264e05a7cf">
+<span class="eqno">(4.35)<a class="headerlink" href="#equation-7c1b0ef0-4114-4948-a79f-82264e05a7cf" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^{(t+1)} = \bm{w}^{(t)} - \eta \bm{\delta}^{(t)}
 \end{align}\]</div>
 <p>確率的勾配降下法で回帰モデルを学習するとき、ランダムに選んだ事例の番号を<span class="math notranslate nohighlight">\(i \in \{1, \dots, N\}\)</span>とすると、<span class="math notranslate nohighlight">\(\bm{\delta}^{(t)}\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c98f8ac5-7c22-48a9-9f49-b3271556a54b">
-<span class="eqno">(4.36)<a class="headerlink" href="#equation-c98f8ac5-7c22-48a9-9f49-b3271556a54b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cd532561-2e0f-4529-8177-d39e2b93935f">
+<span class="eqno">(4.36)<a class="headerlink" href="#equation-cd532561-2e0f-4529-8177-d39e2b93935f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{\delta}^{(t)}_{\rm SGD} = 2 (\hat{y}_i^{(t)} - y_i) \bm{x}_i
 \end{align}\]</div>
 <p>である（最急降下法の<span class="math notranslate nohighlight">\(\bm{\delta}^{(t)}\)</span>と区別するため、添字<span class="math notranslate nohighlight">\({\rm SGD}\)</span>を付けてある）。これに対し、最急降下法では、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c77b7615-b65c-4126-9ef1-5fb1bce26bdc">
-<span class="eqno">(4.37)<a class="headerlink" href="#equation-c77b7615-b65c-4126-9ef1-5fb1bce26bdc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cc947cb1-ec3c-466c-88ac-633bb67fff80">
+<span class="eqno">(4.37)<a class="headerlink" href="#equation-cc947cb1-ec3c-466c-88ac-633bb67fff80" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{\delta}^{(t)}_{\rm GD} = \sum_{i=1}^N 2 (\hat{y}_i^{(t)} - y_i) \bm{x}_i
 \end{align}\]</div>
 <p>である。
@@ -8722,8 +8727,8 @@ f(\bm{x}) = \sum_{i=1}^{N} f_i(\bm{x})
 <p>ただ、以降で最急降下法と確率的勾配降下法が最小解に近づく速さを比較するとき、同じ学習率を用いて両者の挙動を揃えたいので、損失値を事例数で割る。最急降下法において損失値を事例数<span class="math notranslate nohighlight">\(N\)</span>で割らない場合、確率的勾配降下法において学習率が<span class="math notranslate nohighlight">\(N\)</span>倍されている状況に相当する。</p>
 </aside>
 <p>パラメータ<span class="math notranslate nohighlight">\(a, b \in \mathbb{R}\)</span>を持つ一次関数<span class="math notranslate nohighlight">\(y = ax + b\)</span>に学習データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>をフィッティングするには、以下の目的関数（平均二乗残差）を最小にする<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>を求めればよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7d1ef9e5-ed29-403c-9cda-614a76d09723">
-<span class="eqno">(4.38)<a class="headerlink" href="#equation-7d1ef9e5-ed29-403c-9cda-614a76d09723" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-084c3020-3138-43db-a0dc-58670aa7e03b">
+<span class="eqno">(4.38)<a class="headerlink" href="#equation-084c3020-3138-43db-a0dc-58670aa7e03b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{L}_{\mathcal{D}}(a,b) = \frac{1}{|\mathcal{D}|} \sum_{x, y \in \mathcal{D}} \left\{y - (ax + b)\right\}^2
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(a\)</span>を横軸、<span class="math notranslate nohighlight">\(b\)</span>を縦軸として<span class="math notranslate nohighlight">\(\hat{L}_\mathcal{D}(a, b)\)</span>の値を<span class="math notranslate nohighlight">\(ab\)</span>平面上にヒートマップで描画した。<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(a,b)\)</span>の最小解<span class="math notranslate nohighlight">\((a^*,b^*)\)</span>を式<a class="reference internal" href="01sra.html#equation-eq-hat-a">(1.24)</a>と<a class="reference internal" href="01sra.html#equation-eq-hat-b">(1.25)</a>で求め、×印で示してある。</p>
@@ -220373,8 +220378,8 @@ EARBEARBEBoNESCCIAiCIAiCIDQaIkAEQRAEQRAEQWg0/h+1TshVdSsMSgAAAABJRU5ErkJggg==\
 </div></div>
 </div>
 <p>では、なぜ確率的勾配降下法で勾配の計算を端折っても最小解に素早く近づくことができたのか？　その謎を解き明かすために、事例ごとに二乗残差を<span class="math notranslate nohighlight">\(ab\)</span>平面上に可視化する。一次関数<span class="math notranslate nohighlight">\(y = ax+b\)</span>へのフィッティングにおいて、ある事例<span class="math notranslate nohighlight">\((x, y)\)</span>が与えられたとき、その事例の二乗残差<span class="math notranslate nohighlight">\(\hat{l}_{x,y}(a,b)\)</span>は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e5cfd86d-a1b6-40b8-93b6-ffac9c2753ab">
-<span class="eqno">(4.39)<a class="headerlink" href="#equation-e5cfd86d-a1b6-40b8-93b6-ffac9c2753ab" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-db18318b-c51c-4334-8afb-2fe43bccc27b">
+<span class="eqno">(4.39)<a class="headerlink" href="#equation-db18318b-c51c-4334-8afb-2fe43bccc27b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{l}_{x,y}(a,b) = \left\{y - (ax + b)\right\}^2
 \end{align}\]</div>
 <p>以下の可視化において、×印は全訓練事例を用いた時の最小解の位置、＋印は反復を開始する前の<span class="math notranslate nohighlight">\((a,b)\)</span>の初期位置を表す。なお、<span class="math notranslate nohighlight">\((x, y)\)</span>の１点を通る回帰直線を無数に引くことができるため、二乗残差を最小（<span class="math notranslate nohighlight">\(0\)</span>）にする<span class="math notranslate nohighlight">\((a, b)\)</span>の組み合わせも無数に存在する。そのため、海溝のようなヒートマップとなる。</p>
@@ -220407,8 +220412,8 @@ EARBEARBEBoNESCCIAiCIAiCIDQaIkAEQRAEQRAEQWg0/h+1TshVdSsMSgAAAABJRU5ErkJggg==\
 <p>ここで、<span class="math notranslate nohighlight">\((a,b)\)</span>の初期位置（＋印）の周辺に着目して欲しい。確率的勾配降下法がどの事例を選んだとしても、その勾配で最小解に近づくことができる。今回の実装では、学習率を<span class="math notranslate nohighlight">\(\eta = \frac{0.03}{\sqrt{1 + t}}\)</span>としている（<span class="math notranslate nohighlight">\(t\)</span>は反復の回数）ので、反復の初期段階では＋印の近くをゆっくり移動することになる。したがって、確率的勾配法の反復の初期段階では、一つの事例だけで勾配を計算したとしても、最適解に近づくことになる。ところが、解の位置が真の最小解に近づくと、各事例の勾配の向きと、全事例から計算した勾配の向きが揃わなくなり、解の動きが振動しやすくなる。確率的勾配降下法において、反復の初期段階では振動せずに最小解に向かうが、途中から振動を始めるのは、このような背景がある。</p>
 <p>都合のよい訓練データと初期点を選んだからこのようになったと考える読者もいるかもしれない。しかし、解空間全体から見ると、ひとつの事例の勾配と全事例の勾配の向きがほぼ一致している領域は非常に広い。上で可視化した範囲でも、<span class="math notranslate nohighlight">\(a \leq 0\)</span>や<span class="math notranslate nohighlight">\(5 \leq a\)</span>の領域では、一つの事例と全事例の勾配の向きが同じ方向を向いている。</p>
 <p>このことをより詳細に調べるため、<span class="math notranslate nohighlight">\(b\)</span>を<span class="math notranslate nohighlight">\(0\)</span>に固定し、横軸に<span class="math notranslate nohighlight">\(a\)</span>、縦軸に各事例の二乗残差、および全事例の平均二乗残差をプロットした。式<a class="reference internal" href="01sra.html#equation-eq-loss-as-function-of-a-and-b">(1.9)</a>で示した通り、各事例の二乗残差は<span class="math notranslate nohighlight">\(a\)</span>の二次関数となるため、下に凸の形をしている。念のため、式<a class="reference internal" href="01sra.html#equation-eq-loss-as-function-of-a-and-b">(1.9)</a>に<span class="math notranslate nohighlight">\(b=0\)</span>を代入した式を示す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d88db5da-91c1-447b-9089-1b780275c412">
-<span class="eqno">(4.40)<a class="headerlink" href="#equation-d88db5da-91c1-447b-9089-1b780275c412" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8a086fb5-d96f-4e91-909a-2642eb7a2319">
+<span class="eqno">(4.40)<a class="headerlink" href="#equation-8a086fb5-d96f-4e91-909a-2642eb7a2319" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{L}_{x,y}(a) = x^2a^2 - 2xya + y^2
 \end{align}\]</div>
 <p>ゆえに、各事例<span class="math notranslate nohighlight">\((x, y)\)</span>に対して、二乗残差を最小にする<span class="math notranslate nohighlight">\(a\)</span>の値は<span class="math notranslate nohighlight">\(\frac{y}{x}\)</span>である（原点と点<span class="math notranslate nohighlight">\((x, y)\)</span>を通る直線を引くので、当然の結果と言える）。各事例および全事例に関して、最小解に対応する場所に、縦の点線を入れた。</p>
@@ -220516,8 +220521,8 @@ EARBEARBEBoNESCCIAiCIAiCIDQaIkAEQRAEQRAEQWg0/h+1TshVdSsMSgAAAABJRU5ErkJggg==\
 <h2><span class="section-number">4.8. </span>オンライン学習とバッチ学習<a class="headerlink" href="#id19" title="Link to this heading">#</a></h2>
 <p>最急降下法のように、すべての学習事例を処理してからパラメータを更新する方式を<strong>バッチ学習</strong>と呼ぶ。これに対し、小数の学習事例を処理してパラメータを更新する方式を<strong>オンライン学習</strong>と呼ぶ。</p>
 <p>確率的勾配降下法の勾配の近似の精度を改善するには、ランダムに<span class="math notranslate nohighlight">\(1\)</span>個の事例を選ぶのではなく、事例をいくつか選んで勾配を計算すればよい。例えば、勾配計算に用いる事例数（<strong>バッチサイズ</strong>）をハイパーパラメータ<span class="math notranslate nohighlight">\(B\)</span>（<span class="math notranslate nohighlight">\(1 \leq B \leq N\)</span>）とし、<span class="math notranslate nohighlight">\(S(N, B)\)</span>を集合<span class="math notranslate nohighlight">\(\{1, 2, \dots, N\}\)</span>から<span class="math notranslate nohighlight">\(B\)</span>個の要素をランダムに選んだ集合を返す関数とすると、次式で勾配<span class="math notranslate nohighlight">\(\bm{\delta}^{(t)}\)</span>を近似してもよい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-446ec26a-906d-4295-8bee-51c0c9a4424c">
-<span class="eqno">(4.41)<a class="headerlink" href="#equation-446ec26a-906d-4295-8bee-51c0c9a4424c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-26bbf787-24f7-407e-87ea-4e4ffcdb53d8">
+<span class="eqno">(4.41)<a class="headerlink" href="#equation-26bbf787-24f7-407e-87ea-4e4ffcdb53d8" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{\delta}^{(t)}_{\rm MBSGD} = \sum_{i \in S(N, B)} 2 (\hat{y}_i^{(t)} - y_i) \bm{x}_i
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(B=N\)</span>のときはバッチ学習、<span class="math notranslate nohighlight">\(B=1\)</span>のときはオンライン学習となる。この両者の間、すなわち<span class="math notranslate nohighlight">\(1 &lt; B &lt; N\)</span>に設定してパラメータを更新する方式を<strong>ミニバッチ学習</strong>と呼ぶ。ミニバッチ学習は勾配の近似精度を改善する目的以外にも、並列計算で学習を高速化するときによく用いられるテクニックである。</p>
@@ -220573,7 +220578,7 @@ EARBEARBEBoNESCCIAiCIAiCIDQaIkAEQRAEQRAEQWg0/h+1TshVdSsMSgAAAABJRU5ErkJggg==\
 <div class="prev-next-area">
     <a class="left-prev"
        href="03regularization.html"
-       title="previous page">
+       title="前のページ">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">前へ</p>
@@ -220582,7 +220587,7 @@ EARBEARBEBoNESCCIAiCIAiCIDQaIkAEQRAEQRAEQWg0/h+1TshVdSsMSgAAAABJRU5ErkJggg==\
     </a>
     <a class="right-next"
        href="../classification/01binary.html"
-       title="next page">
+       title="次ページ">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">5. </span>線形二値分類</p>
@@ -220673,8 +220678,8 @@ EARBEARBEBoNESCCIAiCIAiCIDQaIkAEQRAEQRAEQWg0/h+1TshVdSsMSgAAAABJRU5ErkJggg==\
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

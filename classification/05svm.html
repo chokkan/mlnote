@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,23 +27,23 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -57,7 +57,7 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../_static/translations.js?v=91613774"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
     <script>
                 window.dataLayer = window.dataLayer || [];
@@ -101,12 +101,12 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">本文へスキップ</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>トップに戻る</button>
 
   
   <dialog id="pst-search-dialog">
@@ -129,7 +129,7 @@
   </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="バージョン警告"></aside>
 </div>
 
   
@@ -214,9 +214,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -443,8 +448,8 @@
 
 
 <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="ライト"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="ダーク"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
@@ -605,8 +610,8 @@
 <p>まず、線形モデルによる二値分類を説明する。<span class="math notranslate nohighlight">\(d\)</span>次元ベクトルで表される事例<span class="math notranslate nohighlight">\(\bm{x} \in \mathbb{R}^d\)</span>に対して、二値のクラス<span class="math notranslate nohighlight">\(\hat{y} \in \{+1, -1\}\)</span>を次式で予測する。</p>
 <div class="important admonition">
 <p class="admonition-title">線形モデルのラベル推定式</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8b8944c7-b2c6-41f2-8c44-a439a9fdb446">
-<span class="eqno">(9.1)<a class="headerlink" href="#equation-8b8944c7-b2c6-41f2-8c44-a439a9fdb446" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e3f912b6-6102-42a0-9033-731914c9b18a">
+<span class="eqno">(9.1)<a class="headerlink" href="#equation-e3f912b6-6102-42a0-9033-731914c9b18a" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{y} = \begin{cases}
 +1 &amp; (\bm{w}^\top\bm{x} + b &gt; 0) \\
 -1 &amp; (\bm{w}^\top\bm{x} + b \leq 0)
@@ -711,8 +716,8 @@
 \|\bm{a}\| |\cos \theta| = \|\bm{a}\| \frac{|\bm{a} \cdot \bm{b}|}{\|\bm{a}\| \|\bm{b}\|} = \frac{|\bm{a} \cdot \bm{b}|}{\|\bm{b}\|}
 \end{align*}\]</div>
 </aside>
-<div class="amsmath math notranslate nohighlight" id="equation-ef5eea53-7c47-4fea-b530-1959e4160470">
-<span class="eqno">(9.2)<a class="headerlink" href="#equation-ef5eea53-7c47-4fea-b530-1959e4160470" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bce08813-39b9-4e22-ab07-3c32b8832b4b">
+<span class="eqno">(9.2)<a class="headerlink" href="#equation-bce08813-39b9-4e22-ab07-3c32b8832b4b" title="Permalink to this equation">#</a></span>\[\begin{align}
 2h &amp;= \frac{|(\bm{x}_{+} - \bm{x}_{-})^\top \bm{w}|}{\|\bm{w}\|} \\
 h &amp;= \frac{|(\bm{x}_{+} - \bm{x}_{-})^\top \bm{w}|}{2\|\bm{w}\|}
 \end{align}\]</div>
@@ -766,8 +771,8 @@ h &amp;= \frac{|(\bm{x}_{+} - \bm{x}_{-})^\top \bm{w}|}{2\|\bm{w}\|}
 </div>
 </div>
 <p>したがって、この<span class="math notranslate nohighlight">\(h\)</span>を最大にする<span class="math notranslate nohighlight">\(\bm{w}\)</span>や<span class="math notranslate nohighlight">\(b\)</span>を求めればよい。ところが、マージン<span class="math notranslate nohighlight">\(h\)</span>を求める式は、<span class="math notranslate nohighlight">\(\bm{w}\)</span>を定数倍しても値が変わらない。すなわち、<span class="math notranslate nohighlight">\(\bm{w}\)</span>を<span class="math notranslate nohighlight">\(\gamma\)</span>倍してからマージンを求めても、分子と分母で<span class="math notranslate nohighlight">\(\gamma\)</span>が打ち消されるだけである。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-83a5f085-3983-4fa3-8279-457880e81c9a">
-<span class="eqno">(9.3)<a class="headerlink" href="#equation-83a5f085-3983-4fa3-8279-457880e81c9a" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0e722dd4-f5e6-4e79-9bb1-01ac3a93913f">
+<span class="eqno">(9.3)<a class="headerlink" href="#equation-0e722dd4-f5e6-4e79-9bb1-01ac3a93913f" title="Permalink to this equation">#</a></span>\[\begin{align}
 h &amp;= \frac{|(\bm{x}_{+} - \bm{x}_{-})^\top (\gamma\bm{w})|}{2\|\gamma\bm{w}\|} = \frac{\gamma|(\bm{x}_{+} - \bm{x}_{-})^\top (\bm{w})|}{2\gamma\|\bm{w}\|} = \frac{|(\bm{x}_{+} - \bm{x}_{-})^\top \bm{w}|}{2\|\bm{w}\|}
 \end{align}\]</div>
 <p>言い換えれば、現状のマージン最大化の定式化では、求まる<span class="math notranslate nohighlight">\(\bm{w}\)</span>や<span class="math notranslate nohighlight">\(b\)</span>に関して任意性が残っている。そこで、サポートベクトルに対応する事例<span class="math notranslate nohighlight">\(\bm{x}_{+}, \bm{x}_{-}\)</span>に対して、以下の式が成り立つこととし、<span class="math notranslate nohighlight">\(\bm{w}\)</span>と<span class="math notranslate nohighlight">\(b\)</span>の任意性を除去する。</p>
@@ -780,23 +785,23 @@ h &amp;= \frac{|(\bm{x}_{+} - \bm{x}_{-})^\top (\gamma\bm{w})|}{2\|\gamma\bm{w}\
 \end{split}\]</div>
 <p>この<span class="math notranslate nohighlight">\(\bm{w}^\top\bm{x} + b - 1 = 0\)</span>の直線を赤の破線で、<span class="math notranslate nohighlight">\(\bm{w}^\top\bm{x} + b + 1 = 0\)</span>の直線を青の破線で示した。</p>
 <p>以上の取り決めを導入したことにより、<span class="math notranslate nohighlight">\(y_i = +1\)</span>である学習事例は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-245dd861-9027-4977-887c-b30b1c81f0a6">
-<span class="eqno">(9.5)<a class="headerlink" href="#equation-245dd861-9027-4977-887c-b30b1c81f0a6" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-9241731a-15dc-4ac7-b241-30e76fe1d285">
+<span class="eqno">(9.5)<a class="headerlink" href="#equation-9241731a-15dc-4ac7-b241-30e76fe1d285" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^\top\bm{x}_i + b \geq 1
 \end{align}\]</div>
 <p>を満たし、<span class="math notranslate nohighlight">\(y_i = -1\)</span>である学習事例は</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b3693835-5c9b-49e0-a884-923c0860e440">
-<span class="eqno">(9.6)<a class="headerlink" href="#equation-b3693835-5c9b-49e0-a884-923c0860e440" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ea1231b7-bad5-4385-a963-830002eadbd8">
+<span class="eqno">(9.6)<a class="headerlink" href="#equation-ea1231b7-bad5-4385-a963-830002eadbd8" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^\top\bm{x}_i + b \leq -1
 \end{align}\]</div>
 <p>を満たす必要がある。なお、この２つの条件式は、<span class="math notranslate nohighlight">\(y_i\)</span>を使って次のようにまとめることができる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9b9a311b-ad51-417e-ac88-d41f3a28d979">
-<span class="eqno">(9.7)<a class="headerlink" href="#equation-9b9a311b-ad51-417e-ac88-d41f3a28d979" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-90f68f9c-a394-4f56-bab6-0abea854f35c">
+<span class="eqno">(9.7)<a class="headerlink" href="#equation-90f68f9c-a394-4f56-bab6-0abea854f35c" title="Permalink to this equation">#</a></span>\[\begin{align}
 y_i (\bm{w}^\top\bm{x}_i + b) \geq 1
 \end{align}\]</div>
 <p>さて、マージンを求める式にサポートベクトルが満たすべき条件（式<a class="reference internal" href="#equation-eq-condition-support-vectors">(9.4)</a>）を代入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-73bb8203-695c-477c-a60d-b9c04b3050dd">
-<span class="eqno">(9.8)<a class="headerlink" href="#equation-73bb8203-695c-477c-a60d-b9c04b3050dd" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-14752664-91c4-4949-bc85-5e7e484ba36d">
+<span class="eqno">(9.8)<a class="headerlink" href="#equation-14752664-91c4-4949-bc85-5e7e484ba36d" title="Permalink to this equation">#</a></span>\[\begin{align}
 h &amp;= \frac{|(\bm{x}_{+} - \bm{x}_{-})^\top \bm{w}|}{2\|\bm{w}\|} \\
 &amp;= \frac{|\bm{x}_{+}^\top \bm{w} - \bm{x}_{-}^\top \bm{w}|}{2\|\bm{w}\|} \\
 &amp;= \frac{|(1-b) - (-1-b)|}{2\|\bm{w}\|} \\
@@ -804,16 +809,16 @@ h &amp;= \frac{|(\bm{x}_{+} - \bm{x}_{-})^\top \bm{w}|}{2\|\bm{w}\|} \\
 &amp;= \frac{1}{\|\bm{w}\|} \\
 \end{align}\]</div>
 <p>ゆえに、サポートベクトルマシンの学習は以下の制約付き最適化問題でパラメータ<span class="math notranslate nohighlight">\(\bm{w}^*, b^*\)</span>を求める問題に帰着する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-aba3170f-fe2c-4239-bd95-e6cdac9fd2b6">
-<span class="eqno">(9.9)<a class="headerlink" href="#equation-aba3170f-fe2c-4239-bd95-e6cdac9fd2b6" title="Permalink to this equation">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-87767f2f-5530-4be2-af9d-289d2269da31">
+<span class="eqno">(9.9)<a class="headerlink" href="#equation-87767f2f-5530-4be2-af9d-289d2269da31" title="Permalink to this equation">#</a></span>\[\begin{gather}
 \bm{w}^*, b^* = \mathop{\rm argmax}\limits_{\bm{w}, b} \frac{1}{\|\bm{w}\|} \\
 \text{subject to } \forall i \in \{1, \dots N\}: y_i (\bm{w}^\top\bm{x}_i + b) - 1 \geq 0
 \end{gather}\]</div>
 <p>最大化問題を最小化問題に変更し、数学的な取り扱いの都合で目的関数に<span class="math notranslate nohighlight">\(\frac{1}{2}\)</span>を付けると、サポートベクトルマシンの学習のための最小化問題は次式で表される。</p>
 <div class="important admonition">
 <p class="admonition-title">サポートベクトルマシンの主問題</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0d5cefde-fbdc-4e82-92c0-96cc2f931b64">
-<span class="eqno">(9.10)<a class="headerlink" href="#equation-0d5cefde-fbdc-4e82-92c0-96cc2f931b64" title="Permalink to this equation">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-60719c5c-0541-4320-9926-b81aa3e36b8d">
+<span class="eqno">(9.10)<a class="headerlink" href="#equation-60719c5c-0541-4320-9926-b81aa3e36b8d" title="Permalink to this equation">#</a></span>\[\begin{gather}
 \bm{w}^*, b^* = \mathop{\rm argmin}\limits_{\bm{w}, b} \frac{1}{2}\|\bm{w}\|^2 \\
 \text{subject to } \forall i \in \{1, \dots N\}: y_i (\bm{w}^\top\bm{x}_i + b) - 1 \geq 0
 \end{gather}\]</div>
@@ -831,8 +836,8 @@ L(\bm{w}, b, \bm{a}) = \frac{1}{2}\|\bm{w}\|^2 - \sum_{i=1}^{N} \alpha_i \left\{
 \end{align}
 \]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\alpha_1, \dots, \alpha_N \geq 0\)</span>はラグランジュ乗数であり、これらをまとめてベクトル<span class="math notranslate nohighlight">\(\bm{a}\)</span>で表す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-230f4e01-f556-412c-a03b-d5f9624e2361">
-<span class="eqno">(9.12)<a class="headerlink" href="#equation-230f4e01-f556-412c-a03b-d5f9624e2361" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f11a1e3a-0b71-4120-abd0-cd6d385a5966">
+<span class="eqno">(9.12)<a class="headerlink" href="#equation-f11a1e3a-0b71-4120-abd0-cd6d385a5966" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{a} = \begin{pmatrix}a_1 &amp; \dots &amp; a_N\end{pmatrix}^\top
 \end{align}\]</div>
 <p>ラグランジュ関数<span class="math notranslate nohighlight">\(L(\bm{w}, b, \bm{a})\)</span>を最小化するため、<span class="math notranslate nohighlight">\(\bm{w}\)</span>で偏微分して<span class="math notranslate nohighlight">\(0\)</span>とおくと、</p>
@@ -852,8 +857,8 @@ L(\bm{w}, b, \bm{a}) = \frac{1}{2}\|\bm{w}\|^2 - \sum_{i=1}^{N} \alpha_i \left\{
 \end{align}
 \end{split}\]</div>
 <p>式<a class="reference internal" href="#equation-eq-svm-objective-lagrange">(9.11)</a>（元のラグランジュ関数）に式<a class="reference internal" href="#equation-eq-svm-objective-lagrange-w">(9.13)</a>を代入し、さらに式<a class="reference internal" href="#equation-eq-svm-objective-lagrange-alpha">(9.14)</a>を使って整理すると、<span class="math notranslate nohighlight">\(\bm{a}\)</span>に関する最小化問題が得られる。この目的関数は元の目的関数の<strong>双対問題</strong>（dual problem）と呼ばれる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-caa1412c-93fc-46ad-a8fb-ca2f0adb4f70">
-<span class="eqno">(9.15)<a class="headerlink" href="#equation-caa1412c-93fc-46ad-a8fb-ca2f0adb4f70" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-82d26c47-8c7e-41c5-9d6c-0c772fef26ca">
+<span class="eqno">(9.15)<a class="headerlink" href="#equation-82d26c47-8c7e-41c5-9d6c-0c772fef26ca" title="Permalink to this equation">#</a></span>\[\begin{align}
 L(\bm{a}) &amp;= \frac{1}{2}\left(\sum_{i=1}^{N} \alpha_i y_i \bm{x}_i\right) \cdot \left(\sum_{j=1}^{N} \alpha_j y_j \bm{x}_j\right)  - \sum_{i=1}^{N} \alpha_i \left[y_i \left\{\left(\sum_{j=1}^{N} \alpha_j y_j \bm{x}_j\right) \cdot \bm{x}_i + b\right\} - 1\right] \\
 &amp;= \frac{1}{2}\left(\sum_{i=1}^{N} \alpha_i y_i \bm{x}_i\right) \cdot \left(\sum_{j=1}^{N} \alpha_j y_j \bm{x}_j\right)  - \left(\sum_{i=1}^{N} \alpha_i y_i \bm{x}_i\right) \cdot \left(\sum_{j=1}^{N} \alpha_j y_j \bm{x}_j\right) - b\underbrace{\sum_{i=1}^{N} \alpha_i y_i}_{=0} + \sum_{i=1}^{N} \alpha_i \\
 &amp;= \sum_{i=1}^{N} \alpha_i - \frac{1}{2}\left(\sum_{i=1}^{N} \alpha_i y_i \bm{x}_i\right) \cdot \left(\sum_{j=1}^{N} \alpha_j y_j \bm{x}_j\right) \\
@@ -880,22 +885,22 @@ L(\bm{a}) &amp;= \frac{1}{2}\left(\sum_{i=1}^{N} \alpha_i y_i \bm{x}_i\right) \c
 \end{align}
 \]</div>
 <p>なお、ラグランジュの未定乗数法におけるKarush-Kuhn-Tucker (KKT) 条件により、以下の条件が成り立つ。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-31943612-c213-418d-b622-2576b4f09aed">
-<span class="eqno">(9.18)<a class="headerlink" href="#equation-31943612-c213-418d-b622-2576b4f09aed" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-668e93e6-23a3-4f37-9f31-c15fa9657ab8">
+<span class="eqno">(9.18)<a class="headerlink" href="#equation-668e93e6-23a3-4f37-9f31-c15fa9657ab8" title="Permalink to this equation">#</a></span>\[\begin{align}
 y_i (\bm{w}^\top\bm{x}_i + b) - 1 \geq 0 \\
 \alpha_i \geq 0 \\
 \alpha_i \left\{y_i (\bm{w}^\top\bm{x}_i + b) - 1\right\} = 0 \\
 \end{align}\]</div>
 <p>この3番目の条件から、<span class="math notranslate nohighlight">\(y_i (\bm{w}^\top\bm{x}_i + b) &gt; 1\)</span>が成り立つ事例<span class="math notranslate nohighlight">\(\bm{x}_i, y_i\)</span>、すなわちサポートベクトルではない事例に対しては、<span class="math notranslate nohighlight">\(a_i = 0\)</span>が必ず成立することが分かる。ゆえに、<span class="math notranslate nohighlight">\(\bm{w}^*\)</span>を求める式は、学習データ中の少数のサポートベクトルの重み付き和で表現され、サポートベクトル以外の事例は<span class="math notranslate nohighlight">\(\bm{w}^*\)</span>の計算に影響を与えない。</p>
 <p>求めたサポートベクトルのいずれかに対して、式<a class="reference internal" href="#equation-eq-condition-support-vectors">(9.4)</a>を利用することで、<span class="math notranslate nohighlight">\(b^*\)</span>を求めることができる。例えば、<span class="math notranslate nohighlight">\(\bm{x}_{-}\)</span>を用いる場合は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-de266c50-d7a6-4dfd-acef-11ed41fffacd">
-<span class="eqno">(9.19)<a class="headerlink" href="#equation-de266c50-d7a6-4dfd-acef-11ed41fffacd" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-77594f7a-46b8-465f-a488-753a88eb1c3b">
+<span class="eqno">(9.19)<a class="headerlink" href="#equation-77594f7a-46b8-465f-a488-753a88eb1c3b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^* \cdot \bm{x}_{-} + b^* &amp;= -1 \\
 b^* &amp;= -\bm{w}^* \cdot \bm{x}_{-} -1
 \end{align}\]</div>
 <p>となる。一般に、サポートベクトルとなった事例のインデックスを<span class="math notranslate nohighlight">\(s\)</span>として、その事例の特徴ベクトルとラベルをそれぞれ、<span class="math notranslate nohighlight">\(\bm{x}_s\)</span>と<span class="math notranslate nohighlight">\(y_s\)</span>と書くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ca01b568-08bf-4432-8910-c01d062a7282">
-<span class="eqno">(9.20)<a class="headerlink" href="#equation-ca01b568-08bf-4432-8910-c01d062a7282" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-97011146-9597-4d11-92ce-977227eacdb2">
+<span class="eqno">(9.20)<a class="headerlink" href="#equation-97011146-9597-4d11-92ce-977227eacdb2" title="Permalink to this equation">#</a></span>\[\begin{align}
 b^* &amp;= y_s -\bm{w}^* \cdot \bm{x}_{s}
 \end{align}\]</div>
 <p>である。</p>
@@ -1040,15 +1045,15 @@ b^* &amp;= y_s -\bm{w}^* \cdot \bm{x}_{s}
 \end{align}
 \end{split}\]</div>
 <p>このモデルは、事例の特徴ベクトル<span class="math notranslate nohighlight">\(\bm{x}\)</span>を<span class="math notranslate nohighlight">\(\bm{\phi}(\bm{x})\)</span>に置き換えただけであるから、サポートベクトルマシンの学習の双対問題は、式<a class="reference internal" href="#equation-eq-svm-objective-dual">(9.16)</a>より、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-193cd39e-0e75-4215-8c7d-e9cf432718c8">
-<span class="eqno">(9.22)<a class="headerlink" href="#equation-193cd39e-0e75-4215-8c7d-e9cf432718c8" title="Permalink to this equation">#</a></span>\[\begin{gather}
+<div class="amsmath math notranslate nohighlight" id="equation-6a9c000b-e0e1-440e-ae91-f6ba83a43378">
+<span class="eqno">(9.22)<a class="headerlink" href="#equation-6a9c000b-e0e1-440e-ae91-f6ba83a43378" title="Permalink to this equation">#</a></span>\[\begin{gather}
 \bm{a}^* = \mathop{\rm argmin}\limits_{\bm{a}} \sum_{i=1}^{N} \alpha_i - \frac{1}{2}\sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_i \alpha_j y_i y_j \bm{\phi}(\bm{x}_i)^\top \bm{\phi}(\bm{x}_j) \\
 \text{subject to } \forall i \in \{1, \dots N\}: a_i \geq 0 \\
 \sum_{i=1}^{N} \alpha_i y_i = 0
 \end{gather}\]</div>
 <p>ここで、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a4dc61f6-f4da-4f8e-9a7e-c93faaa70afe">
-<span class="eqno">(9.23)<a class="headerlink" href="#equation-a4dc61f6-f4da-4f8e-9a7e-c93faaa70afe" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e4252c26-5fd5-48bb-a339-cb2a71b64652">
+<span class="eqno">(9.23)<a class="headerlink" href="#equation-e4252c26-5fd5-48bb-a339-cb2a71b64652" title="Permalink to this equation">#</a></span>\[\begin{align}
 K(\bm{x}_i, \bm{x}_j) = \bm{\phi}(\bm{x}_i)^\top \bm{\phi}(\bm{x}_j)
 \end{align}\]</div>
 <p>とおくと、先ほどの問題を以下の式で表現できる。</p>
@@ -1067,21 +1072,21 @@ K(\bm{x}_i, \bm{x}_j) = \bm{\phi}(\bm{x}_i)^\top \bm{\phi}(\bm{x}_j)
 <p>ここでは、よく用いられるカーネル関数を紹介する。</p>
 <section id="id7">
 <h3><span class="section-number">9.4.1. </span>線形カーネル<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
-<div class="amsmath math notranslate nohighlight" id="equation-1ca119a7-8569-4086-bf72-c9d70aa89153">
-<span class="eqno">(9.25)<a class="headerlink" href="#equation-1ca119a7-8569-4086-bf72-c9d70aa89153" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cddbc9f4-3f9a-40e8-98b6-664bdca125b2">
+<span class="eqno">(9.25)<a class="headerlink" href="#equation-cddbc9f4-3f9a-40e8-98b6-664bdca125b2" title="Permalink to this equation">#</a></span>\[\begin{align}
 K(\bm{u}, \bm{v}) = \bm{u}^\top\bm{v}
 \end{align}\]</div>
 <p>このカーネルに対応する変換は<span class="math notranslate nohighlight">\(\bm{\phi}(\bm{x}) = \bm{x}\)</span>である（つまり、これまでに導出した線形SVMそのものである）。</p>
 </section>
 <section id="id8">
 <h3><span class="section-number">9.4.2. </span>多項式カーネル<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
-<div class="amsmath math notranslate nohighlight" id="equation-54a5ea74-1d53-47d6-9084-18925d1bd5f5">
-<span class="eqno">(9.26)<a class="headerlink" href="#equation-54a5ea74-1d53-47d6-9084-18925d1bd5f5" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cc8cc892-69e3-4a55-b9e4-11e19fc93a31">
+<span class="eqno">(9.26)<a class="headerlink" href="#equation-cc8cc892-69e3-4a55-b9e4-11e19fc93a31" title="Permalink to this equation">#</a></span>\[\begin{align}
 K(\bm{u}, \bm{v}) = (\bm{u}^\top\bm{v} + c)^m
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(m=2\)</span>の場合、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fa28eb0e-827a-40cc-bd73-935b6cbcc82f">
-<span class="eqno">(9.27)<a class="headerlink" href="#equation-fa28eb0e-827a-40cc-bd73-935b6cbcc82f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7f50fc39-9d2e-4a2a-9250-83521efa57e3">
+<span class="eqno">(9.27)<a class="headerlink" href="#equation-7f50fc39-9d2e-4a2a-9250-83521efa57e3" title="Permalink to this equation">#</a></span>\[\begin{align}
 K(\bm{u}, \bm{v}) &amp;= (\bm{u}^\top\bm{v} + c)^2 \\
 &amp;= (\bm{u}^\top\bm{v})^2 + 2 c (\bm{u}^\top\bm{v}) + c^2 \\
 &amp;= (u_1 v_1 + u_2 v_2 + \dots u_d v_d)^2 + 2 c (u_1 v_1 + u_2 v_2 + \dots u_d v_d) + c^2 \\
@@ -1089,16 +1094,16 @@ K(\bm{u}, \bm{v}) &amp;= (\bm{u}^\top\bm{v} + c)^2 \\
 &amp;= \sum_{i=1}^d (u_i^2) (v_i^2) + \sum_{i=1}^d \sum_{j=i+1}^d (\sqrt{2} u_i u_j) (\sqrt{2} v_i v_j) + \sum_{i=1}^d (\sqrt{2 c} u_i) (\sqrt{2c} v_i) + c^2 \\
 \end{align}\]</div>
 <p>であるから、このカーネルに対応する変換は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9dc543ca-0625-4706-9029-e5a61c6e21c5">
-<span class="eqno">(9.28)<a class="headerlink" href="#equation-9dc543ca-0625-4706-9029-e5a61c6e21c5" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8ef2ce80-55f6-4ee9-998e-6c0be9deab8f">
+<span class="eqno">(9.28)<a class="headerlink" href="#equation-8ef2ce80-55f6-4ee9-998e-6c0be9deab8f" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{\phi}(\bm{x}) = \begin{pmatrix} x_1^2 &amp; \dots &amp; x_d^2 &amp; \sqrt{2} x_1 x_2 &amp; \dots &amp; \sqrt{2} x_{d-1} x_d &amp; \sqrt{2 c} x_1 &amp; \dots &amp; \sqrt{2 c} x_d &amp; c\end{pmatrix}
 \end{align}\]</div>
 <p>すなわち、２次の多項式カーネル<span class="math notranslate nohighlight">\(K(\bm{u}, \bm{v}) = (\bm{u}^\top\bm{v} + c)^2\)</span>を用いることは、<span class="math notranslate nohighlight">\(d\)</span>次元の特徴ベクトル<span class="math notranslate nohighlight">\(\bm{x}\)</span>から、各要素の二乗、２つの要素同士の積、各要素を<span class="math notranslate nohighlight">\(\bm{\phi}(\bm{x})\)</span>で取り出すことに相当する。</p>
 </section>
 <section id="radial-basis-function-rbf">
 <h3><span class="section-number">9.4.3. </span>Radial Basis Function (RBF)<a class="headerlink" href="#radial-basis-function-rbf" title="Link to this heading">#</a></h3>
-<div class="amsmath math notranslate nohighlight" id="equation-d796295f-c306-4c8b-a227-935c62f331bd">
-<span class="eqno">(9.29)<a class="headerlink" href="#equation-d796295f-c306-4c8b-a227-935c62f331bd" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-75bb9bd2-eef1-41fd-b618-127662daeaf3">
+<span class="eqno">(9.29)<a class="headerlink" href="#equation-75bb9bd2-eef1-41fd-b618-127662daeaf3" title="Permalink to this equation">#</a></span>\[\begin{align}
 K(\bm{u}, \bm{v}) = \exp\left(-\gamma|\bm{u}-\bm{v}|^2\right)
 \end{align}\]</div>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Radial_basis_function_kernel">RBFカーネル</a>に対応する変換は無限次元になり得る。</p>
@@ -1109,8 +1114,8 @@ K(\bm{u}, \bm{v}) = \exp\left(-\gamma|\bm{u}-\bm{v}|^2\right)
 ただ、与えられた事例<span class="math notranslate nohighlight">\(\bm{x}\)</span>を式<a class="reference internal" href="#equation-eq-svm-kernel-decision">(9.21)</a>で分類するときには、<span class="math notranslate nohighlight">\(\bm{\phi}(\bm{x})\)</span>の計算が必要のように思える。
 ところが、事例を分類するときも、カーネル関数を用いて<span class="math notranslate nohighlight">\(\bm{\phi}(\bm{x})\)</span>の計算を回避できる。</p>
 <p><span class="math notranslate nohighlight">\(\bm{\phi}(\bm{x})\)</span>に対する最適な重み<span class="math notranslate nohighlight">\(\bm{w}^*\)</span>は、式<a class="reference internal" href="#equation-eq-svm-w-star">(9.17)</a>を用いて次のように表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f6031730-f4aa-48a2-9d74-d101e67cd574">
-<span class="eqno">(9.30)<a class="headerlink" href="#equation-f6031730-f4aa-48a2-9d74-d101e67cd574" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-796101b4-dfdb-4181-811e-e59f20d2441b">
+<span class="eqno">(9.30)<a class="headerlink" href="#equation-796101b4-dfdb-4181-811e-e59f20d2441b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{w}^* &amp;= \sum_{i=1}^{N} \alpha^*_i y_i \bm{x}_i
 \end{align}\]</div>
 <p>これを、式<a class="reference internal" href="#equation-eq-svm-kernel-decision">(9.21)</a>の判別式に代入すると、次のように整理できる（<span class="math notranslate nohighlight">\(b^*\)</span>はバイアス項の最適値である）。</p>
@@ -1123,8 +1128,8 @@ K(\bm{u}, \bm{v}) = \exp\left(-\gamma|\bm{u}-\bm{v}|^2\right)
 \end{align}
 \end{split}\]</div>
 <p>すなわち、<span class="math notranslate nohighlight">\(\bm{\phi}(\bm{x})\)</span>を陽に計算することなく、カーネル関数の値さえ計算できれば、事例を分類できる。バイアス項の最適値<span class="math notranslate nohighlight">\(b^*\)</span>は、サポートベクトルとなった事例を用いて調整すればよい。例えば、ある正例のサポートベクトル<span class="math notranslate nohighlight">\(\bm{x}_{+}\)</span>（<span class="math notranslate nohighlight">\(y=+1\)</span>）を用いる場合、次のように求める。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c327c104-16ec-4d00-818f-ecc940c0de8d">
-<span class="eqno">(9.32)<a class="headerlink" href="#equation-c327c104-16ec-4d00-818f-ecc940c0de8d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c8ccfbea-6711-4ab2-a1aa-bd85fca3eaeb">
+<span class="eqno">(9.32)<a class="headerlink" href="#equation-c8ccfbea-6711-4ab2-a1aa-bd85fca3eaeb" title="Permalink to this equation">#</a></span>\[\begin{align}
 \sum_{i=1}^{N} \alpha^*_i y_i K(\bm{x}_i, \bm{x}_{-}) + b^* &amp;= 1 \\
 b^* &amp;= 1 - \sum_{i=1}^{N} \alpha^*_i y_i K(\bm{x}_i, \bm{x}_{-}) \\
 \end{align}\]</div>
@@ -76685,7 +76690,7 @@ AAEAAABgDAEEAAAAgDH/H3efi6QYsaA7AAAAAElFTkSuQmCC\
 <div class="prev-next-area">
     <a class="left-prev"
        href="04nntrain.html"
-       title="previous page">
+       title="前のページ">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">前へ</p>
@@ -76694,7 +76699,7 @@ AAEAAABgDAEEAAAAgDH/H3efi6QYsaA7AAAAAElFTkSuQmCC\
     </a>
     <a class="right-next"
        href="../unsupervised/01kmeans.html"
-       title="next page">
+       title="次ページ">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">10. </span>非階層的クラスタリング</p>
@@ -76773,8 +76778,8 @@ AAEAAABgDAEEAAAAgDH/H3efi6QYsaA7AAAAAElFTkSuQmCC\
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

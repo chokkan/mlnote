@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,23 +27,23 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -57,7 +57,7 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../_static/translations.js?v=91613774"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
     <script>
                 window.dataLayer = window.dataLayer || [];
@@ -101,12 +101,12 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">本文へスキップ</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>トップに戻る</button>
 
   
   <dialog id="pst-search-dialog">
@@ -129,7 +129,7 @@
   </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="バージョン警告"></aside>
 </div>
 
   
@@ -214,9 +214,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -443,8 +448,8 @@
 
 
 <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="ライト"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="ダーク"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
@@ -740,13 +745,13 @@ y = f_{a,b}(x) = ax + b
 </div>
 <p>ここでは、説明変数と目的変数の一つの組を<strong>事例</strong>（instance）として表現する。１個以上の事例をまとめたものを<strong>データ</strong>（data）と呼ぶ。
 <span class="math notranslate nohighlight">\(1\)</span>番目の事例を<span class="math notranslate nohighlight">\((x_1, y_1)\)</span>、<span class="math notranslate nohighlight">\(2\)</span>番目の事例を<span class="math notranslate nohighlight">\((x_2, y_2)\)</span>、<span class="math notranslate nohighlight">\(i\)</span>番目の事例を<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>と表すことにすると、<span class="math notranslate nohighlight">\(N\)</span>個の事例からなるデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>は次のように表される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e2c4ac7b-92e3-425a-8aac-f3ee8b7870bb">
-<span class="eqno">(1.2)<a class="headerlink" href="#equation-e2c4ac7b-92e3-425a-8aac-f3ee8b7870bb" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f4aaebe8-7999-4a4d-baaf-033f4dea0c3d">
+<span class="eqno">(1.2)<a class="headerlink" href="#equation-f4aaebe8-7999-4a4d-baaf-033f4dea0c3d" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D} = \left\{(x_1, y_1), (x_2, y_2), \dots, (x_N, y_N)\right\} = \left\{(x_i, y_i)\right\}_{i=1}^{N}
 \end{align}\]</div>
 <p>先ほどのグラフの例（<span class="math notranslate nohighlight">\(N=4\)</span>）のデータ<span class="math notranslate nohighlight">\(\mathcal{D}_{s}\)</span>は次のように表現される。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7c9e2ca2-694f-45a4-bdc0-0e2d29b86b59">
-<span class="eqno">(1.3)<a class="headerlink" href="#equation-7c9e2ca2-694f-45a4-bdc0-0e2d29b86b59" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-12cf190a-2ab2-4500-a56a-323f41463cb9">
+<span class="eqno">(1.3)<a class="headerlink" href="#equation-12cf190a-2ab2-4500-a56a-323f41463cb9" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D}_s = \left\{(x_i, y_i)\right\}_{i=1}^{4} = \left\{(1, 3), (3, 6), (6, 5), (8, 7)\right\}
 \end{align}\]</div>
 <p>データの説明変数<span class="math notranslate nohighlight">\(x\)</span>と目的変数<span class="math notranslate nohighlight">\(y\)</span>を対応付ける関数<span class="math notranslate nohighlight">\(y=f(x)\)</span>を回帰で求めることは、<strong>教師データ</strong>（supervision data）（もしくは<strong>学習データ</strong>や<strong>訓練データ</strong>（training data）とも呼ばれる）を用いて、関数<span class="math notranslate nohighlight">\(y = f(x)\)</span>を<strong>教師あり学習</strong>（supervised learning）で求めると見なすことができる。関数を学習することで、説明変数と目的変数を対応付けるメカニズムの理解が深まるとともに、訓練データには無かった新しい事例（説明変数の値）に対し、その出力（目的変数の値）を予測することに役立つ。</p>
@@ -754,8 +759,8 @@ y = f_{a,b}(x) = ax + b
 <section id="id4">
 <h2><span class="section-number">1.3. </span>残差<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p>1次関数のモデル<span class="math notranslate nohighlight">\(f_{a,b}(x) = ax + b\)</span>において、傾き<span class="math notranslate nohighlight">\(a\)</span>と切片<span class="math notranslate nohighlight">\(b\)</span>に何らかの値を設定した状況を考える。与えられた<span class="math notranslate nohighlight">\(x\)</span>に1次関数を適用して計算された値を<span class="math notranslate nohighlight">\(\hat{y} \in \mathbb{R}\)</span>と書くことにする。説明変数<span class="math notranslate nohighlight">\(x_i\)</span>に対して、目的変数の実測値（観測値）<span class="math notranslate nohighlight">\(y_i\)</span>と、1次関数<span class="math notranslate nohighlight">\(f_{a,b}(x_i)\)</span>（モデル）から計算された予測値<span class="math notranslate nohighlight">\(\hat{y}_i\)</span>をハット（^）の有無で区別していることに注意されたい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8eb7f050-658a-4e57-850f-ae0cf4720204">
-<span class="eqno">(1.4)<a class="headerlink" href="#equation-8eb7f050-658a-4e57-850f-ae0cf4720204" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4340e4fe-1893-4be1-9f85-1e3cb2e2d7f1">
+<span class="eqno">(1.4)<a class="headerlink" href="#equation-4340e4fe-1893-4be1-9f85-1e3cb2e2d7f1" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{y} = f_{a,b}(x) = ax + b
 \end{align}\]</div>
 <p>例えば、<span class="math notranslate nohighlight">\(a = 1, b = 1\)</span>に設定して<span class="math notranslate nohighlight">\(y=x+1\)</span>の回帰直線を考える。データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の各点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>と、回帰で計算された点<span class="math notranslate nohighlight">\((x_i, \hat{y}_i)\)</span>をプロットすると、以下のようになる。</p>
@@ -799,13 +804,13 @@ y = f_{a,b}(x) = ax + b
 </div>
 </div>
 <p>さて、設定した<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>がどのくらいデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>をうまく反映しているのか測定したい。そこで、データ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>中に含まれる各点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>に関して、1次関数<span class="math notranslate nohighlight">\(\hat{y}_i = f_{a,b}(x_i) = ax_i + b\)</span>で近似した場合の実測値からのずれ、すなわち<strong>残差</strong>（residual）<span class="math notranslate nohighlight">\(\epsilon_i \in \mathbb{R}\)</span>を次のように定義する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4fc7b1f8-b00c-40d7-9784-bafeae0d7482">
-<span class="eqno">(1.5)<a class="headerlink" href="#equation-4fc7b1f8-b00c-40d7-9784-bafeae0d7482" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b303fc69-1833-4ae1-921e-db030c6b1b99">
+<span class="eqno">(1.5)<a class="headerlink" href="#equation-b303fc69-1833-4ae1-921e-db030c6b1b99" title="Permalink to this equation">#</a></span>\[\begin{align}
 \epsilon_i = y_i - \hat{y}_i = y_i - (ax_i + b)
 \end{align}\]</div>
 <p>この残差<span class="math notranslate nohighlight">\(\epsilon_i\)</span>は、プロットされた点から回帰直線まで、<span class="math notranslate nohighlight">\(y\)</span>軸方向に差を取ったものである。例えば、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>に対して<span class="math notranslate nohighlight">\(a = 1, b = 1\)</span>としたとき、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a0a99b3c-c6cf-4e94-bb09-a17cec94aeb0">
-<span class="eqno">(1.6)<a class="headerlink" href="#equation-a0a99b3c-c6cf-4e94-bb09-a17cec94aeb0" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-75929b62-6e61-4ee6-b4f9-e601733bf4b6">
+<span class="eqno">(1.6)<a class="headerlink" href="#equation-75929b62-6e61-4ee6-b4f9-e601733bf4b6" title="Permalink to this equation">#</a></span>\[\begin{align}
 \epsilon_1 &amp;= 3 - (1 \times 1 + 1) = 1 \\
 \epsilon_2 &amp;= 6 - (1 \times 3 + 1) = 2 \\
 \epsilon_3 &amp;= 5 - (1 \times 6 + 1) = -2 \\
@@ -856,8 +861,8 @@ y = f_{a,b}(x) = ax + b
 \end{align}
 \]</div>
 <p>ちなみに、先ほどのデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>に対する１次関数<span class="math notranslate nohighlight">\(y = x + 1\)</span>の平均二乗残差は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f7e9e38e-b4ae-44e3-9ecc-c29976cf250c">
-<span class="eqno">(1.8)<a class="headerlink" href="#equation-f7e9e38e-b4ae-44e3-9ecc-c29976cf250c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-38bafd97-02e3-4aa1-b38c-7bc0d268b2e1">
+<span class="eqno">(1.8)<a class="headerlink" href="#equation-38bafd97-02e3-4aa1-b38c-7bc0d268b2e1" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{L} = \frac{1}{4} \sum_{i=1}^{4} \epsilon_i^2 = \frac{1}{4} \left\{1^2 + 2^2 + (-2)^2 + (-2)^2\right\} = \frac{13}{4}
 \end{align}\]</div>
 <aside class="margin sidebar">
@@ -71994,8 +71999,8 @@ AACO/X9IlRZj7HcqiQAAAABJRU5ErkJggg==\
 <p>一般的に、任意の２変数関数<span class="math notranslate nohighlight">\(f(a, b)\)</span>に対して、<span class="math notranslate nohighlight">\(\frac{\partial f(a^*, b^*)}{\partial a} = \frac{\partial f(a^*, b^*)}{\partial b} = 0\)</span>となる停留点<span class="math notranslate nohighlight">\((a^*, b^*)\)</span>を求めただけでは、その停留点が鞍点（極大でも極小でもない点）である可能性もある。ところが、次章で証明するように目的関数<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(a,b)\)</span>は凸関数であるため、求まる停留点は極小点であり、かつ大域的最小解である。</p>
 </aside>
 <p>この目的関数<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(a,b)\)</span>の値が最小となる点を<span class="math notranslate nohighlight">\((a^*, b^*)\)</span>と書くことにすると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-01dd1055-9c21-489d-bcc4-42bf094adda8">
-<span class="eqno">(1.12)<a class="headerlink" href="#equation-01dd1055-9c21-489d-bcc4-42bf094adda8" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-58ba93f8-0035-4f07-93e5-58771ca5d6d7">
+<span class="eqno">(1.12)<a class="headerlink" href="#equation-58ba93f8-0035-4f07-93e5-58771ca5d6d7" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial \hat{L}_{\mathcal{D}}(a^*, b^*)}{\partial a} = \frac{\partial \hat{L}_{\mathcal{D}}(a^*, b^*)}{\partial b} = 0
 \end{align}\]</div>
 <p>が成り立つ。そこで、以降ではこの条件を満たす<span class="math notranslate nohighlight">\(a^*, b^*\)</span>を求める。ただし、表記を簡単にするため、導出においてはアスタリスク（*）を付けず、<span class="math notranslate nohighlight">\(a, b\)</span>のまま説明する。</p>
@@ -72020,8 +72025,8 @@ AACO/X9IlRZj7HcqiQAAAABJRU5ErkJggg==\
 \frac{1}{N}\sum_{i=1}^N (y_i - ax_i - b) = 0
 \]</div>
 <p>なお、以降の式展開において都合がよいので、<span class="math notranslate nohighlight">\(\frac{1}{N}\)</span>を残している。<span class="math notranslate nohighlight">\(b\)</span>を求めるために式変形を続けると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-72b5a281-defe-44ff-a68a-f8c192ff8ae0">
-<span class="eqno">(1.16)<a class="headerlink" href="#equation-72b5a281-defe-44ff-a68a-f8c192ff8ae0" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0e5bf410-99cf-4fd9-a636-f7c4b418a27c">
+<span class="eqno">(1.16)<a class="headerlink" href="#equation-0e5bf410-99cf-4fd9-a636-f7c4b418a27c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{1}{N}\sum_{i=1}^N (y_i - ax_i - b) &amp;= 0　\\
 \frac{1}{N}\sum_{i=1}^N y_i - a\cdot\frac{1}{N}\sum_{i=1}^N x_i - \frac{1}{N}\sum_{i=1}^N b &amp;= 0 \\
 b &amp;= \frac{1}{N}\sum_{i=1}^N y_i - a\cdot\frac{1}{N}\sum_{i=1}^N x_i
@@ -72037,27 +72042,27 @@ b = \overline{y} - a\overline{x}
 \frac{1}{N}\sum_{i=1}^N x_i (y_i - ax_i - b) = 0
 \]</div>
 <p>以降の式展開において都合がよいので、今回も<span class="math notranslate nohighlight">\(\frac{1}{N}\)</span>を残している。<span class="math notranslate nohighlight">\(a\)</span>を求めるために式変形を続けると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ffdfe0e7-5d2e-4567-8209-3dee825b48e2">
-<span class="eqno">(1.19)<a class="headerlink" href="#equation-ffdfe0e7-5d2e-4567-8209-3dee825b48e2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c4395644-d2b5-4289-899b-e4b881cf7145">
+<span class="eqno">(1.19)<a class="headerlink" href="#equation-c4395644-d2b5-4289-899b-e4b881cf7145" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{1}{N}\sum_{i=1}^N x_i (y_i - ax_i - b) &amp;= 0 \\
 \frac{1}{N}\sum_{i=1}^N (x_i y_i - ax_i^2 - bx_i) &amp;= 0 \\
 \frac{1}{N}\sum_{i=1}^N x_i y_i -a \cdot \frac{1}{N}\sum_{i=1}^N x_i^2 -b \cdot \frac{1}{N}\sum_{i=1}^N x_i &amp;= 0
 \end{align}\]</div>
 <p>ここで、式<a class="reference internal" href="#equation-eq-means">(1.10)</a>で定義した平均の記法を導入すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2e4b0824-475f-4412-b967-5c5ec78e6bed">
-<span class="eqno">(1.20)<a class="headerlink" href="#equation-2e4b0824-475f-4412-b967-5c5ec78e6bed" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-146a4e2f-fe6a-4252-bd69-d6e25021cd21">
+<span class="eqno">(1.20)<a class="headerlink" href="#equation-146a4e2f-fe6a-4252-bd69-d6e25021cd21" title="Permalink to this equation">#</a></span>\[\begin{align}
 \overline{xy} -a\overline{x^2} -b\overline{x} = 0
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(b\)</span>に式<a class="reference internal" href="#equation-eq-hat-b-first">(1.17)</a>を代入し、<span class="math notranslate nohighlight">\(a\)</span>について解くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3422a517-f332-4abd-abf5-62fe2a2a8220">
-<span class="eqno">(1.21)<a class="headerlink" href="#equation-3422a517-f332-4abd-abf5-62fe2a2a8220" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5266c2d5-28ac-4086-b22d-6f7286138bbc">
+<span class="eqno">(1.21)<a class="headerlink" href="#equation-5266c2d5-28ac-4086-b22d-6f7286138bbc" title="Permalink to this equation">#</a></span>\[\begin{align}
 \overline{xy} -a\overline{x^2} -(\overline{y} - a\overline{x})\overline{x} &amp;= 0 \\
 \overline{xy} -a\overline{x^2} -(\overline{x})(\overline{y}) + a(\overline{x})^2 &amp;= 0 \\
 a &amp;= \frac{(\overline{x})(\overline{y}) - \overline{xy}}{(\overline{x})^2 - \overline{x^2}} = \frac{\overline{xy} - (\overline{x})(\overline{y})}{\overline{x^2} - (\overline{x})^2}
 \end{align}\]</div>
 <p>ところで、確率変数<span class="math notranslate nohighlight">\(\mathcal{X}\)</span>と<span class="math notranslate nohighlight">\(\mathcal{Y}\)</span>の共分散は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a2f3f82f-afad-4260-aaf7-da233b0d5301">
-<span class="eqno">(1.22)<a class="headerlink" href="#equation-a2f3f82f-afad-4260-aaf7-da233b0d5301" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a08ec9d0-1fdf-4ff0-80cb-7b0a377876d0">
+<span class="eqno">(1.22)<a class="headerlink" href="#equation-a08ec9d0-1fdf-4ff0-80cb-7b0a377876d0" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathrm{Cov}[\mathcal{X},\mathcal{Y}] &amp;= \mathbb{E}\left[(\mathcal{X} - \mathbb{E}[\mathcal{X}])(\mathcal{Y} - \mathbb{E}[\mathcal{Y}])\right] \\
 &amp;= \mathbb{E}\left[(\mathcal{XY} - \mathcal{X}\mathbb{E}[\mathcal{Y}] - \mathbb{E}[\mathcal{X}]\mathcal{Y} + \mathbb{E}[\mathcal{X}]\mathbb{E}[\mathcal{Y}])\right] \\
 &amp;= \mathbb{E}[\mathcal{XY}] - \mathbb{E}[\mathcal{X}]\mathbb{E}[\mathcal{Y}] - \mathbb{E}[\mathcal{X}]\mathbb{E}[\mathcal{Y}] + \mathbb{E}[\mathcal{X}]\mathbb{E}[\mathcal{Y}] \\
@@ -72065,8 +72070,8 @@ a &amp;= \frac{(\overline{x})(\overline{y}) - \overline{xy}}{(\overline{x})^2 - 
 &amp;= \overline{xy} - (\overline{x})(\overline{y})
 \end{align}\]</div>
 <p>また、確率変数<span class="math notranslate nohighlight">\(\mathcal{X}\)</span>の分散は、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eb07ede8-952f-4939-9dc1-b3bfdeb18d71">
-<span class="eqno">(1.23)<a class="headerlink" href="#equation-eb07ede8-952f-4939-9dc1-b3bfdeb18d71" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d30caaa9-7fe2-4328-b0ac-ac3772cf248c">
+<span class="eqno">(1.23)<a class="headerlink" href="#equation-d30caaa9-7fe2-4328-b0ac-ac3772cf248c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathrm{Var}[\mathcal{X}] = \mathrm{Cov}[\mathcal{X},\mathcal{X}] = \overline{xx} - (\overline{x})(\overline{x}) = \overline{x^2} - (\overline{x})^2
 \end{align}\]</div>
 <p>まとめると、目的関数<span class="math notranslate nohighlight">\(\hat{L}_{\mathcal{D}}(a,b)\)</span>の値を最小にするパラメータは次式で求めればよい。</p>
@@ -72084,8 +72089,8 @@ b = \overline{y} - a\overline{x}
 <section id="ab">
 <h3><span class="section-number">1.5.1. </span>実際に<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>を求めてみる<a class="headerlink" href="#ab" title="Link to this heading">#</a></h3>
 <p>さて、例として用いているデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span></p>
-<div class="amsmath math notranslate nohighlight" id="equation-96f01ffe-de16-479c-be28-b3ffd72b2435">
-<span class="eqno">(1.26)<a class="headerlink" href="#equation-96f01ffe-de16-479c-be28-b3ffd72b2435" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c352736b-5413-455c-9a8a-582a6d793fdb">
+<span class="eqno">(1.26)<a class="headerlink" href="#equation-c352736b-5413-455c-9a8a-582a6d793fdb" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathcal{D}_s = \left\{(x_i, y_i)\right\}_{i=1}^{4} = \left\{(1, 3), (3, 6), (6, 5), (8, 7)\right\}
 \end{align}\]</div>
 <p>に対して、<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>を求める。まず、データ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>に対して必要な統計量を求める。</p>
@@ -72109,8 +72114,8 @@ b = \overline{y} - a\overline{x}
 =&amp; 3.125
 \end{align*}\]</div>
 <p>この計算結果から、最小二乗法による回帰直線の傾きと切片の推定値<span class="math notranslate nohighlight">\(a\)</span>と<span class="math notranslate nohighlight">\(b\)</span>は、次のように求めることができる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-65e2190b-4912-4ef8-af1b-2555e210b651">
-<span class="eqno">(1.27)<a class="headerlink" href="#equation-65e2190b-4912-4ef8-af1b-2555e210b651" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5e37c173-35bf-46a3-bf78-2c45ffb86714">
+<span class="eqno">(1.27)<a class="headerlink" href="#equation-5e37c173-35bf-46a3-bf78-2c45ffb86714" title="Permalink to this equation">#</a></span>\[\begin{align}
 a &amp;= \mathrm{Cov}[\mathcal{X},\mathcal{Y}] / \mathrm{Var}[\mathcal{X}] = 3.125 / 7.25 \fallingdotseq 0.431 \\
 b &amp;= \overline{y} - a \overline{x} = 5.25 - 0.431 \times 4.5 \fallingdotseq 3.310
 \end{align}\]</div>
@@ -72148,8 +72153,8 @@ b &amp;= \overline{y} - a \overline{x} = 5.25 - 0.431 \times 4.5 \fallingdotseq 
 <section id="id7">
 <h3><span class="section-number">1.6.1. </span>回帰直線の傾き<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>さて、最小二乗法で推定された回帰直線の傾き<span class="math notranslate nohighlight">\(a\)</span>はどのような値なのか。まず、<span class="math notranslate nohighlight">\(a\)</span>の分子である<span class="math notranslate nohighlight">\(\mathrm{Cov}[\mathcal{X},\mathcal{Y}]\)</span>について見ていきたい。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f8dc8f00-f170-4f9c-81fd-faab0bc542f0">
-<span class="eqno">(1.28)<a class="headerlink" href="#equation-f8dc8f00-f170-4f9c-81fd-faab0bc542f0" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7bf41bdc-8f1c-4274-8e46-aca21c2f5d1e">
+<span class="eqno">(1.28)<a class="headerlink" href="#equation-7bf41bdc-8f1c-4274-8e46-aca21c2f5d1e" title="Permalink to this equation">#</a></span>\[\begin{align}
  \mathrm{Cov}[\mathcal{X},\mathcal{Y}] = \mathbb{E}\left[(\mathcal{X} - \mathbb{E}[\mathcal{X}])(\mathcal{Y} - \mathbb{E}[\mathcal{Y}])\right] = \frac{1}{N} \sum_{i=1}^N (x_i - \overline{x})(y_i - \overline{y})
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\((x_i - \overline{x})\)</span>はデータ中の点の<span class="math notranslate nohighlight">\(x\)</span>軸の値の平均からのずれを表している。同様に、<span class="math notranslate nohighlight">\((y_i - \overline{y})\)</span>はデータ中の点の<span class="math notranslate nohighlight">\(y\)</span>軸の値の平均からのずれを表している。ゆえに、データ中の点が以下の性質を持つとき、<span class="math notranslate nohighlight">\(\mathrm{Cov}[\mathcal{X},\mathcal{Y}]\)</span>は正に大きくなりやすい。</p>
@@ -72204,15 +72209,15 @@ b &amp;= \overline{y} - a \overline{x} = 5.25 - 0.431 \times 4.5 \fallingdotseq 
 <p>この状況をデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>に関して図示したのが上のグラフである。このデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>では<span class="math notranslate nohighlight">\(x\)</span>軸の平均値<span class="math notranslate nohighlight">\(\overline{x} = 4.5\)</span>を縦の点線で、<span class="math notranslate nohighlight">\(y\)</span>軸の平均値<span class="math notranslate nohighlight">\(\overline{y} = 5.25\)</span>を横の点線で示した。この２つの点線が交わる点<span class="math notranslate nohighlight">\((4.5, 5.25)\)</span>をデータ<span class="math notranslate nohighlight">\(\mathcal{D}_s\)</span>の重心と呼ぶ。
 さらに、<span class="math notranslate nohighlight">\(\mathrm{Cov}[\mathcal{X},\mathcal{Y}]\)</span>が正になりやすい領域を赤で、負になりやすい領域を青で示した。データ中の点が赤の領域に多く入り、かつそれらの点が重心から遠いほど、<span class="math notranslate nohighlight">\(\mathrm{Cov}[\mathcal{X},\mathcal{Y}]\)</span>の値が正になりやすい。逆に、データ中の点が青の領域に多く入り、かつそれらの点が重心から遠いほど、<span class="math notranslate nohighlight">\(\mathrm{Cov}[\mathcal{X},\mathcal{Y}]\)</span>の値が負になりやすい。このことから、データに<span class="math notranslate nohighlight">\(x\)</span>が増加すると<span class="math notranslate nohighlight">\(y\)</span>も増加する傾向があるならば共分散<span class="math notranslate nohighlight">\(\mathrm{Cov}[\mathcal{X},\mathcal{Y}]\)</span>が正になりやすく、傾き<span class="math notranslate nohighlight">\(a\)</span>の値が正となる。逆に、<span class="math notranslate nohighlight">\(x\)</span>が増加すると<span class="math notranslate nohighlight">\(y\)</span>は減少する傾向があるならば、データの共分散<span class="math notranslate nohighlight">\(\mathrm{Cov}[\mathcal{X},\mathcal{Y}]\)</span>が負になりやすく、傾き<span class="math notranslate nohighlight">\(a\)</span>の値が負になる。</p>
 <p>このイメージをより具体的に説明したい。まず、共分散の定義を再掲する。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-be4e8c19-70bf-4ec5-91f9-ca7365790e43">
-<span class="eqno">(1.29)<a class="headerlink" href="#equation-be4e8c19-70bf-4ec5-91f9-ca7365790e43" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-12aaf946-01a3-437b-9e85-3099ebe7136e">
+<span class="eqno">(1.29)<a class="headerlink" href="#equation-12aaf946-01a3-437b-9e85-3099ebe7136e" title="Permalink to this equation">#</a></span>\[\begin{align}
  \mathrm{Cov}[\mathcal{X},\mathcal{Y}] = \mathbb{E}\left[(\mathcal{X} - \mathbb{E}[\mathcal{X}])(\mathcal{Y} - \mathbb{E}[\mathcal{Y}])\right] = \frac{1}{N} \sum_{i=1}^N (x_i - \overline{x})(y_i - \overline{y})
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\sum\)</span>の中身はデータ中の各点における<span class="math notranslate nohighlight">\((x_i - \overline{x})(y_i - \overline{y})\)</span>である。これは、データ中の各点<span class="math notranslate nohighlight">\((x_i, y_i)\)</span>と重心を頂点とする長方形を考え、その面積を計算したものである。ただし、データ中の点が重心の左上もしくは右下にあるときは、面積は負の値をとると考える。このようにして計算した面積の平均を計算するのが<span class="math notranslate nohighlight">\(x\)</span>と<span class="math notranslate nohighlight">\(y\)</span>の共分散<span class="math notranslate nohighlight">\(\mathrm{Cov}[\mathcal{X},\mathcal{Y}]\)</span>である。</p>
 <p><img alt="covariance" src="../_images/cov-annotated.png" /></p>
 <p>続いて<span class="math notranslate nohighlight">\(a\)</span>の分母を説明する。これは、<span class="math notranslate nohighlight">\(x\)</span>の分散<span class="math notranslate nohighlight">\(\mathrm{Var}[\mathcal{X}]\)</span>である。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ad2160f0-79ae-41e7-99a1-783a20f24c7c">
-<span class="eqno">(1.30)<a class="headerlink" href="#equation-ad2160f0-79ae-41e7-99a1-783a20f24c7c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bcedc141-d8f3-44aa-af81-053e9651e25a">
+<span class="eqno">(1.30)<a class="headerlink" href="#equation-bcedc141-d8f3-44aa-af81-053e9651e25a" title="Permalink to this equation">#</a></span>\[\begin{align}
  \mathrm{Var}[\mathcal{X}] = \mathrm{Cov}[\mathcal{X}, \mathcal{X}] = \mathbb{E}\left[(\mathcal{X} - \mathbb{E}[\mathcal{X}])(\mathcal{X} - \mathbb{E}[\mathcal{X}])\right] = \frac{1}{N} \sum_{i=1}^N (x_i - \overline{x})^2
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\sum\)</span>の中身はデータ中の各点における<span class="math notranslate nohighlight">\((x_i - \overline{x})^2\)</span>である。これは、データ中の各点に対して、重点を頂点として一辺の長さが<span class="math notranslate nohighlight">\(|x_i - \overline{x}|\)</span>の正方形を考え、その面積を計算したものである。このようにして計算した各点の面積の平均を計算するのが<span class="math notranslate nohighlight">\(x\)</span>の分散<span class="math notranslate nohighlight">\(\mathrm{Var}[\mathcal{X}]\)</span>である。</p>
@@ -72223,8 +72228,8 @@ b &amp;= \overline{y} - a \overline{x} = 5.25 - 0.431 \times 4.5 \fallingdotseq 
 <section id="hat-y-y">
 <h3><span class="section-number">1.6.2. </span>目的変数の推定値<span class="math notranslate nohighlight">\(\hat{y}\)</span>の平均値は観測値<span class="math notranslate nohighlight">\(y\)</span>の平均に等しい<a class="headerlink" href="#hat-y-y" title="Link to this heading">#</a></h3>
 <p>式<a class="reference internal" href="#equation-eq-hat-b">(1.25)</a>は何を表しているのだろうか。この式を目的変数の平均値<span class="math notranslate nohighlight">\(\overline{y}\)</span>を表す式に書き直して整理すると、目的変数の推定値の平均値<span class="math notranslate nohighlight">\(\overline{\hat{y}}\)</span>と等しくなることが分かる。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-86c2c013-c955-481b-9867-41c68ee6fa36">
-<span class="eqno">(1.31)<a class="headerlink" href="#equation-86c2c013-c955-481b-9867-41c68ee6fa36" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-52cfc5ae-ae41-4ce3-8299-9a91c7dddab3">
+<span class="eqno">(1.31)<a class="headerlink" href="#equation-52cfc5ae-ae41-4ce3-8299-9a91c7dddab3" title="Permalink to this equation">#</a></span>\[\begin{align}
 \overline{y} &amp;= a \overline{x} + b \\
 &amp;= a \frac{1}{N} \sum_{i=1}^N x_i + b \\
 &amp;= \frac{1}{N} \sum_{i=1}^N a x_i + \frac{1}{N} \sum_{i=1}^N b \\
@@ -72237,8 +72242,8 @@ b &amp;= \overline{y} - a \overline{x} = 5.25 - 0.431 \times 4.5 \fallingdotseq 
 <section id="id8">
 <h3><span class="section-number">1.6.3. </span>回帰直線は観測データの重心を通る<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <p>これまでの議論の中で、回帰直線はデータ<span class="math notranslate nohighlight">\(\mathcal{D}\)</span>の重心を「中心」と考えて<span class="math notranslate nohighlight">\(x\)</span>と<span class="math notranslate nohighlight">\(y\)</span>の対応付けを考えていることが分かる。実際、<span class="math notranslate nohighlight">\(x = \overline{x}\)</span>として目的変数の推定値<span class="math notranslate nohighlight">\(\hat{y}\)</span>を求めると、式<a class="reference internal" href="#equation-eq-hat-b">(1.25)</a>より、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-63ddd532-1198-461f-846d-e384f19c3de2">
-<span class="eqno">(1.32)<a class="headerlink" href="#equation-63ddd532-1198-461f-846d-e384f19c3de2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-944b6719-2e0a-4bfb-92b6-043a21549314">
+<span class="eqno">(1.32)<a class="headerlink" href="#equation-944b6719-2e0a-4bfb-92b6-043a21549314" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{y} = a\overline{x} + b = a\overline{x} + (\overline{y} - a\overline{x}) = \overline{y}
 \end{align}\]</div>
 <p>となることから、回帰直線は重心<span class="math notranslate nohighlight">\((\overline{x}, \overline{y})\)</span>を通ることが確認できる。</p>
@@ -72292,8 +72297,8 @@ b &amp;= \overline{y} - a \overline{x} = 5.25 - 0.431 \times 4.5 \fallingdotseq 
 <section id="id10">
 <h3><span class="section-number">1.6.5. </span>説明変数と残差には相関がない<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
 <p>説明変数と残差の共分散を計算してみる。残差の和および平均は<span class="math notranslate nohighlight">\(0\)</span>であることに注意すると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-da80061a-add3-402d-b967-3070bb79caf0">
-<span class="eqno">(1.34)<a class="headerlink" href="#equation-da80061a-add3-402d-b967-3070bb79caf0" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-acab50ea-a37f-4fc0-9247-fd58d427fd16">
+<span class="eqno">(1.34)<a class="headerlink" href="#equation-acab50ea-a37f-4fc0-9247-fd58d427fd16" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathrm{Cov}[\mathcal{X},\mathcal{E}] &amp;= \frac{1}{N}\sum_{i=1}^N (x_i - \overline{x}) (\epsilon_i - \overline{\epsilon}) \\
 &amp;= \frac{1}{N}\sum_{i=1}^N (x_i - \overline{x}) \epsilon_i \\
 &amp;= \frac{1}{N}\sum_{i=1}^N x_i  \epsilon_i - \frac{1}{N}\sum_{i=1}^N  \overline{x} \epsilon_i \\
@@ -72331,8 +72336,8 @@ b &amp;= \overline{y} - a \overline{x} = 5.25 - 0.431 \times 4.5 \fallingdotseq 
 <section id="id11">
 <h2><span class="section-number">1.7. </span>決定係数<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
 <p>目的変数の観測値の分散<span class="math notranslate nohighlight">\(\mathrm{Var}[\mathcal{Y}]\)</span>は目的変数の推定値の分散<span class="math notranslate nohighlight">\(\mathrm{Var}[\hat{\mathcal{Y}}]\)</span>と残差の分散<span class="math notranslate nohighlight">\(\mathrm{Var}[\mathcal{E}]\)</span>の和で表されることを示す。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-add21b00-8944-45dd-ac6f-a7d4b021133d">
-<span class="eqno">(1.37)<a class="headerlink" href="#equation-add21b00-8944-45dd-ac6f-a7d4b021133d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a2f89524-453a-4a93-9e35-b84b7d38a5b2">
+<span class="eqno">(1.37)<a class="headerlink" href="#equation-a2f89524-453a-4a93-9e35-b84b7d38a5b2" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathrm{Var}[\mathcal{Y}] &amp;= \frac{1}{N} \sum_{i=1}^N (y_i - \overline{y})^2 \\
 &amp;= \frac{1}{N} \sum_{i=1}^N \{(\hat{y}_i + \epsilon_i) - \overline{y}\}^2 \\
 &amp;= \frac{1}{N} \sum_{i=1}^N \{(\hat{y}_i  - \overline{y}) + \epsilon_i\}^2 \\
@@ -72351,8 +72356,8 @@ b &amp;= \overline{y} - a \overline{x} = 5.25 - 0.431 \times 4.5 \fallingdotseq 
 <p>データの全変動のうち、回帰によって表現できた回帰変動の割合を<strong>決定係数</strong>とよび、次式で定義する。</p>
 <div class="important admonition">
 <p class="admonition-title">決定係数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f08f14b6-b801-40c8-afac-3810102c9398">
-<span class="eqno">(1.38)<a class="headerlink" href="#equation-f08f14b6-b801-40c8-afac-3810102c9398" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d1720795-ab0f-4125-821a-bb8558c02e69">
+<span class="eqno">(1.38)<a class="headerlink" href="#equation-d1720795-ab0f-4125-821a-bb8558c02e69" title="Permalink to this equation">#</a></span>\[\begin{align}
 R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{\mathrm{Var}[\mathcal{Y}] - \mathrm{Var}[\mathcal{E}]}{\mathrm{Var}[\mathcal{Y}]} = 1 - \frac{\mathrm{Var}[\mathcal{E}]}{\mathrm{Var}[\mathcal{Y}]}
 \end{align}\]</div>
 </div>
@@ -72607,7 +72612,7 @@ R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{
 <div class="prev-next-area">
     <a class="left-prev"
        href="../index.html"
-       title="previous page">
+       title="前のページ">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">前へ</p>
@@ -72616,7 +72621,7 @@ R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{
     </a>
     <a class="right-next"
        href="02mra.html"
-       title="next page">
+       title="次ページ">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">2. </span>重回帰</p>
@@ -72705,8 +72710,8 @@ R^2 = \frac{\mathrm{Var}[\hat{\mathcal{Y}}]}{\mathrm{Var}[\mathcal{Y}]} = \frac{
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

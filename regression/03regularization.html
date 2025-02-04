@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,23 +27,23 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=912feb69" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=1cf7f4d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -57,7 +57,7 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../_static/translations.js?v=91613774"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-5R9M0GR7MW"></script>
     <script>
                 window.dataLayer = window.dataLayer || [];
@@ -101,12 +101,12 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">本文へスキップ</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>トップに戻る</button>
 
   
   <dialog id="pst-search-dialog">
@@ -129,7 +129,7 @@
   </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="バージョン警告"></aside>
 </div>
 
   
@@ -214,9 +214,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -443,8 +448,8 @@
 
 
 <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="ライト"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="ダーク"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button>
 
@@ -787,14 +792,14 @@ d = 9: [-6.0e-02  2.2e+02 -4.3e+03  3.6e+04 -1.6e+05  4.3e+05 -7.0e+05  6.7e+05 
 <p>次元数<span class="math notranslate nohighlight">\(d\)</span>が増加するにつれて、多項式の係数の値が急激に増加し、極端な曲線でデータをフィッティングしようとしている傾向が見受けられる。そこで、パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の「複雑さ」を何らかの関数<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>で測定すれば、過学習の検出に役立つ。また、学習の過程において、複雑すぎるパラメータ対してペナルティ（罰則）を与えながら、パラメータの学習を行うことができれば、過学習の抑制につながる。パラメータの訓練データへの適合度合いとパラメータの複雑さのバランスを取りながら学習する方法は、<strong>正則化</strong>（regularization）と呼ばれる。</p>
 <p>具体的には、訓練データの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\bm{w})\)</span>に加えて、パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の複雑さを表現する関数<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>
 に関するペナルティ項を追加した目的関数<span class="math notranslate nohighlight">\(\hat{J}(\bm{w})\)</span>を採用することで、両者のバランスを自動的に保ちながらパラメータを求めることを考える。</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d58e1901-a285-4c59-8cf7-7963be5ae332">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-d58e1901-a285-4c59-8cf7-7963be5ae332" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7cd3b1b6-1af2-4d94-8574-8795d4974a0b">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-7cd3b1b6-1af2-4d94-8574-8795d4974a0b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{J}(\bm{w}) = \hat{L}(\bm{w}) + \alpha R(\bm{w})
 \end{align}\]</div>
 <p>ここで、<span class="math notranslate nohighlight">\(\alpha\)</span> <span class="math notranslate nohighlight">\((\geq 0)\)</span>は正則化の効果を指定するハイパーパラメータである。<span class="math notranslate nohighlight">\(\alpha\)</span>を大きく設定すると、パラメータの複雑さ<span class="math notranslate nohighlight">\(R(\bm{w})\)</span>が目的関数に与える影響が大きくなるので、過学習が抑制される。ただし、<span class="math notranslate nohighlight">\(\alpha\)</span>を大きくしすぎるとモデルのデータへの適合度合い<span class="math notranslate nohighlight">\(\hat{L}(\bm{w})\)</span>を軽視することになるため、<strong>過少適合</strong>（アンダーフィッティング）となる。逆に<span class="math notranslate nohighlight">\(\alpha\)</span>を小さく設定すると、モデルへのデータへの適合度合いを重視することになるが、過学習を抑制する効果が薄れる。このように、<span class="math notranslate nohighlight">\(\alpha\)</span>の設定はモデルのデータへの適合度合いと複雑さのトレードオフの関係にある。モデル選択の時と同様に、正則化の重み係数<span class="math notranslate nohighlight">\(\alpha\)</span>はハイパーパラメータとして検証データ上でチューニングする。</p>
 <p>パラメータ<span class="math notranslate nohighlight">\(\bm{w}\)</span>の複雑さを定量化する方法はいくつかある。ここでは、最も取り扱いが簡単なパラメータベクトルの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムの二乗を用いる。すなわち、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-50b37e94-a1e1-4823-9278-35989c3f4106">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-50b37e94-a1e1-4823-9278-35989c3f4106" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-50256313-68d5-40c2-9cb2-af033dcf123e">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-50256313-68d5-40c2-9cb2-af033dcf123e" title="Permalink to this equation">#</a></span>\[\begin{align}
 R(\bm{w}) = \|\bm{w}\|^2
 \end{align}\]</div>
 <p>とする。</p>
@@ -825,22 +830,22 @@ d = 9: |W|_2^2 = 1291698590072.5356
 <p>目的関数の正則化項としてパラメータの<span class="math notranslate nohighlight">\(L_2\)</span>ノルムを用いる回帰を、<strong>リッジ回帰</strong>（<span class="math notranslate nohighlight">\(L_2\)</span>正則化付き回帰）と呼ぶ。リッジ回帰の目的関数は、通常の回帰の目的関数にモデルの複雑さを表すペナルティ項を付与したもので、次式で表される。</p>
 <div class="important admonition">
 <p class="admonition-title">リッジ回帰の目的関数</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a81d9bf2-7ec1-49ec-8659-3a2b15777738">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-a81d9bf2-7ec1-49ec-8659-3a2b15777738" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-24bf5595-c253-4db2-a357-9d9c5f4f423a">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-24bf5595-c253-4db2-a357-9d9c5f4f423a" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{J}(\bm{w}) &amp;= \hat{L}(\bm{w}) + \alpha R(\bm{w}) \\
 &amp;= \|\bm{y} - \bm{X}\bm{w}\|^2 + \alpha \|\bm{w}\|^2
 \end{align}\]</div>
 </div>
 <p>リッジ回帰のパラメータ推定は通常の回帰と同様である。目的関数<span class="math notranslate nohighlight">\(J(\bm{w})\)</span>を最小化する<span class="math notranslate nohighlight">\(\bm{w}\)</span>を求めるために、その勾配<span class="math notranslate nohighlight">\(\nabla \hat{J}(\bm{w})\)</span>を求める。重回帰の時に求めた偏微分の結果を用いると、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-93d93d5b-b084-4097-8351-b966bb3a789c">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-93d93d5b-b084-4097-8351-b966bb3a789c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-90903315-6ac1-4ed1-aac1-71cec5ce97cf">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-90903315-6ac1-4ed1-aac1-71cec5ce97cf" title="Permalink to this equation">#</a></span>\[\begin{align}
 \nabla \hat{J}(\bm{w}) &amp;= \frac{\partial}{\partial \bm{w}} \left(\hat{L}(\bm{w}) + \alpha R(\bm{w})\right) \\
   &amp;= 2\bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + \frac{\partial}{\partial \bm{w}} \left(\alpha \|\bm{w}\|^2\right) \\
   &amp;= 2\bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + 2 \alpha \bm{w} \\
 \end{align}\]</div>
 <p>これを<span class="math notranslate nohighlight">\(0\)</span>とおき、<span class="math notranslate nohighlight">\(\bm{w}\)</span>について解くと、</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1e4bbb76-7e69-4a5d-902c-824669d9b52c">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-1e4bbb76-7e69-4a5d-902c-824669d9b52c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-235b6b17-602b-47b1-8c76-ee2ed1ca7900">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-235b6b17-602b-47b1-8c76-ee2ed1ca7900" title="Permalink to this equation">#</a></span>\[\begin{align}
 \bm{X}^\top (\bm{X}\bm{w} - \bm{y}) + \alpha \bm{w} &amp;= 0 \\
 \bm{X}^\top \bm{X}\bm{w} - \bm{X}^\top \bm{y} + \alpha \bm{w} &amp;= 0 \\
 (\bm{X}^\top \bm{X} + \alpha \bm{I})\bm{w} &amp;= \bm{X}^\top \bm{y} \\
@@ -910,7 +915,7 @@ d = 9: |W|_2^2 = 1291698590072.5356
 <div class="prev-next-area">
     <a class="left-prev"
        href="02mra.html"
-       title="previous page">
+       title="前のページ">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">前へ</p>
@@ -919,7 +924,7 @@ d = 9: |W|_2^2 = 1291698590072.5356
     </a>
     <a class="right-next"
        href="04sgd.html"
-       title="next page">
+       title="次ページ">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">次へ</p>
         <p class="prev-next-title"><span class="section-number">4. </span>勾配法によるパラメータ推定</p>
@@ -988,8 +993,8 @@ d = 9: |W|_2^2 = 1291698590072.5356
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
